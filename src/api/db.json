@@ -3,155 +3,416 @@
     "celulares": [
         {
           "name": "Samsung Galaxy S21",
-          "author": "Samsung",
+          "brand": "Samsung",
           "year": "2021",
           "description": "The Samsung Galaxy S21 is a flagship smartphone with a stunning display and powerful performance.",
-          "image": "https://example.com/s21.jpg",
-          "characteristics": "6.2-inch Dynamic AMOLED display, Exynos 2100 processor, 8GB RAM, 128GB storage, 4000mAh battery"
+          "image": {
+            "img": "https://http2.mlstatic.com/D_NQ_NP_908886-MLA53734668410_022023-O.webp",
+            "imgFront": "https://http2.mlstatic.com/D_NQ_NP_931265-MLA53734633580_022023-O.webp",
+            "imgBack": "https://http2.mlstatic.com/D_NQ_NP_720601-MLA53734633575_022023-O.webp"
+          },
+          "characteristics": "6.2-inch Dynamic AMOLED display, Exynos 2100 processor, 8GB RAM, 128GB storage, 4000mAh battery",
+          "SKU": "celsamS21-001",
+          "price": 759000.00
         },
         {
           "name": "iPhone 12",
-          "author": "Apple",
+          "brand": "Apple",
           "year": "2020",
           "description": "The iPhone 12 is a high-end smartphone that offers a seamless user experience and impressive camera capabilities.",
-          "image": "https://example.com/iphone12.jpg",
-          "characteristics": "6.1-inch Super Retina XDR display, A14 Bionic chip, 4GB RAM, 64GB storage, 2815mAh battery"
+          "image": {
+            "img": "https://http2.mlstatic.com/D_NQ_NP_864889-MLA45729915884_042021-O.webp",
+            "imgFront": "https://http2.mlstatic.com/D_NQ_NP_740855-MLA45719698644_042021-O.webp"
+          },
+          "characteristics": "6.1-inch Super Retina XDR display, A14 Bionic chip, 4GB RAM, 64GB storage, 2815mAh battery",
+          "SKU": "celipho12-001",
+          "price": 500000.00
         },
         {
           "name": "Google Pixel 5",
-          "author": "Google",
+          "brand": "Google",
           "year": "2020",
           "description": "The Google Pixel 5 is a premium Android smartphone known for its exceptional camera performance and clean software experience.",
-          "image": "https://example.com/pixel5.jpg",
-          "characteristics": "6.0-inch OLED display, Snapdragon 765G processor, 8GB RAM, 128GB storage, 4080mAh battery"
+          "image": {
+            "img": "https://http2.mlstatic.com/D_NQ_NP_966068-MLA50145216014_052022-O.webp",
+            "imgPerfil": "https://http2.mlstatic.com/D_NQ_NP_672703-MLU75321472723_032024-O.webp"
+          },
+          "characteristics": "6.0-inch OLED display, Snapdragon 765G processor, 8GB RAM, 128GB storage, 4080mAh battery",
+          "SKU": "celgoopix5-001",
+          "price": 1000000
         },
         {
           "name": "OnePlus 9 Pro",
-          "author": "OnePlus",
+          "brand": "OnePlus",
           "year": "2021",
           "description": "The OnePlus 9 Pro is a flagship smartphone that offers a smooth and fast user experience with its high-refresh-rate display and powerful processor.",
-          "image": "https://example.com/oneplus9pro.jpg",
-          "characteristics": "6.7-inch Fluid AMOLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4500mAh battery"
+          "image": {
+            "img": "https://http2.mlstatic.com/D_NQ_NP_955388-MLA75663727189_042024-O.webp"
+          },
+          "characteristics": "6.7-inch Fluid AMOLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4500mAh battery",
+          "SKU": "celon9pl-001",
+          "price": 2000000.00
         },
         {
           "name": "Xiaomi Mi 11",
-          "author": "Xiaomi",
+          "brand": "Xiaomi",
           "year": "2021",
           "description": "The Xiaomi Mi 11 is a feature-packed smartphone with a powerful camera system and a beautiful display.",
-          "image": "https://example.com/mi11.jpg",
-          "characteristics": "6.81-inch AMOLED display, Snapdragon 888 processor, 8GB RAM, 128GB storage, 4600mAh battery"
+          "image": {
+          "img": "https://http2.mlstatic.com/D_NQ_NP_860255-MLA48698173457_122021-O.webp",
+          "imgFront": "https://http2.mlstatic.com/D_NQ_NP_843356-MLA74780656533_022024-O.webp",
+          "imgBack": "https://http2.mlstatic.com/D_NQ_NP_889015-MLA74651937508_022024-O.webp"
+          },
+          "characteristics": "6.81-inch AMOLED display, Snapdragon 888 processor, 8GB RAM, 128GB storage, 4600mAh battery",
+          "SKU": "celxia11-001",
+          "price": 2500000.00
         },
         {
           "name": "Sony Xperia 1 III",
-          "author": "Sony",
+          "brand": "Sony",
           "year": "2021",
           "description": "The Sony Xperia 1 III is a premium smartphone that offers a 4K OLED display and professional camera features.",
-          "image": "https://example.com/xperia1iii.jpg",
-          "characteristics": "6.5-inch 4K HDR OLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4500mAh battery"
-        },
-        {
-          "name": "LG Wing",
-          "author": "LG",
-          "year": "2020",
-          "description": "The LG Wing is a unique smartphone with a swiveling display that allows for new and creative use cases.",
-          "image": "https://example.com/lgwing.jpg",
-          "characteristics": "6.8-inch P-OLED display, Snapdragon 765G processor, 8GB RAM, 128GB storage, 4000mAh battery"
+          "image": {
+            "img": "https://http2.mlstatic.com/D_NQ_NP_987188-MLA74776688756_032024-O.webp",
+            "imgFront": "https://http2.mlstatic.com/D_NQ_NP_697874-MLA74776532184_032024-O.webp",
+            "imgBack": "https://http2.mlstatic.com/D_NQ_NP_852486-MLA74776541900_032024-O.webp"
+          },
+          "characteristics": "6.5-inch 4K HDR OLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4500mAh battery",
+          "SKU": "celsonx-001",
+          "price" : 800000.00
         },
         {
           "name": "Motorola Edge+",
-          "author": "Motorola",
+          "brand": "Motorola",
           "year": "2020",
           "description": "The Motorola Edge+ is a flagship smartphone with a curved display and a large battery for all-day usage.",
-          "image": "https://example.com/edgeplus.jpg",
-          "characteristics": "6.7-inch OLED display, Snapdragon 865 processor, 12GB RAM, 256GB storage, 5000mAh battery"
+          "image": {
+            "img": "https://http2.mlstatic.com/D_NQ_NP_850045-MLA43752372061_102020-O.webp"
+          },
+          "characteristics": "6.7-inch OLED display, Snapdragon 865 processor, 12GB RAM, 256GB storage, 5000mAh battery",
+          "SKU": "celmotEd-001",
+          "price": 256000.00
         },
         {
           "name": "Nokia 8.3 5G",
-          "author": "Nokia",
+          "brand": "Nokia",
           "year": "2020",
           "description": "The Nokia 8.3 5G is a mid-range smartphone that offers 5G connectivity and a large display for multimedia consumption.",
-          "image": "https://example.com/nokia8.3.jpg",
-          "characteristics": "6.81-inch IPS LCD display, Snapdragon 765G processor, 8GB RAM, 128GB storage, 4500mAh battery"
+          "image": {
+            "img": "https://http2.mlstatic.com/D_NQ_NP_753477-MLA52349105729_112022-O.webp",
+            "imgBack": "https://http2.mlstatic.com/D_NQ_NP_671852-MLA52349231102_112022-O.webp"
+          },
+          "characteristics": "6.81-inch IPS LCD display, Snapdragon 765G processor, 8GB RAM, 128GB storage, 4500mAh battery",
+          "SKU": "celno85g-001",
+          "price": 876000.00
         },
         {
           "name": "ASUS ROG Phone 5",
-          "author": "ASUS",
+          "brand": "ASUS",
           "year": "2021",
           "description": "The ASUS ROG Phone 5 is a gaming smartphone with a high-refresh-rate display and powerful hardware for smooth gaming performance.",
-          "image": "https://example.com/rogphone5.jpg",
-          "characteristics": "6.78-inch AMOLED display, Snapdragon 888 processor, 16GB RAM, 256GB storage, 6000mAh battery"
+          "image": {
+            "img": "https://http2.mlstatic.com/D_NQ_NP_806269-MLA53981317263_022023-O.webp"
+          },
+          "characteristics": "6.78-inch AMOLED display, Snapdragon 888 processor, 16GB RAM, 256GB storage, 6000mAh battery",
+          "SKU": "celasurogpho5-001",
+          "price": 3000000.00
         },
         {
           "name": "Oppo Find X3 Pro",
-          "author": "Oppo",
+          "brand": "Oppo",
           "year": "2021",
           "description": "The Oppo Find X3 Pro is a flagship smartphone with a versatile camera system and a beautiful display.",
-          "image": "https://example.com/findx3pro.jpg",
-          "characteristics": "6.7-inch AMOLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4500mAh battery"
+          "image": {
+            "img": "https://http2.mlstatic.com/D_NQ_NP_796396-MLA75608767367_042024-O.webp"
+          },
+          "characteristics": "6.7-inch AMOLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4500mAh battery",
+          "SKU": "celskufinx3p-001",
+          "price": 1500000.00
         },
         {
           "name": "Realme GT",
-          "author": "Realme",
+          "brand": "Realme",
           "year": "2021",
           "description": "The Realme GT is a high-performance smartphone with a flagship processor and a high-refresh-rate display.",
-          "image": "https://example.com/realme-gt.jpg",
-          "characteristics": "6.43-inch Super AMOLED display, Snapdragon 888 processor, 8GB RAM, 128GB storage, 4500mAh battery"
+          "image": {
+            "img": "https://http2.mlstatic.com/D_NQ_NP_631688-MLA73828165428_012024-O.webp",
+            "imgFront": "https://http2.mlstatic.com/D_NQ_NP_918232-MLU75330733001_032024-O.webp",
+            "imgBack": "https://http2.mlstatic.com/D_NQ_NP_766182-MLA74676486298_022024-O.webp"
+          },
+          "characteristics": "6.43-inch Super AMOLED display, Snapdragon 888 processor, 8GB RAM, 128GB storage, 4500mAh battery",
+          "SKU": "celreagt-001",
+          "price": 712000.00
         },
         {
           "name": "Vivo X60 Pro+",
-          "author": "Vivo",
+          "brand": "Vivo",
           "year": "2021",
           "description": "The Vivo X60 Pro+ is a camera-centric smartphone with a professional-grade camera system and a beautiful design.",
-          "image": "https://example.com/vivox60pro.jpg",
-          "characteristics": "6.56-inch AMOLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4200mAh battery"
+          "image": {
+            "img": "https://i.blogs.es/26af7f/vivo-x60-pro-/1366_2000.webp"
+          },
+          "characteristics": "6.56-inch AMOLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4200mAh battery",
+          "SKU": "celvivx60P-001",
+          "price": 1200000.00
         },
         {
           "name": "BlackBerry Key2",
-          "author": "BlackBerry",
+          "brand": "BlackBerry",
           "year": "2018",
           "description": "The BlackBerry Key2 is a unique smartphone with a physical keyboard and a focus on productivity and security.",
-          "image": "https://example.com/key2.jpg",
-          "characteristics": "4.5-inch IPS LCD display, Snapdragon 660 processor, 6GB RAM, 64GB storage, 3500mAh battery"
+          "image": {
+            "img": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcS8JWpOBIMUJEtHVlGs4w545vUoldC7ZdhLq9bI5uYZr2p9_FUS49YM7lo9_jDjt1EB6NUZo3cE2TDAbGGB7t-pkvZv-bBYnQ",
+            "imgFront": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTfrZkQWrbUQrq1DiYwcFtm_9yhccYDAz5Xk6VEHDGdNt0NLrus",
+            "imgBack": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQ12TehCSQgDzkIW566Nj5h9qS9a9oFPHL-99o-4Vh2bFYJVVnd"
+          },
+          "characteristics": "4.5-inch IPS LCD display, Snapdragon 660 processor, 6GB RAM, 64GB storage, 3500mAh battery",
+          "SKU": "celblak2-001",
+          "price": 648000.00
         },
         {
           "name": "Huawei P40 Pro",
-          "author": "Huawei",
+          "brand": "Huawei",
           "year": "2020",
           "description": "The Huawei P40 Pro is a flagship smartphone with a versatile camera system and a beautiful curved display.",
-          "image": "https://example.com/p40pro.jpg",
-          "characteristics": "6.58-inch OLED display, Kirin 990 5G processor, 8GB RAM, 256GB storage, 4200mAh battery"
+          "image": {
+            "img": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTZ9I-ojVWBxnWcDdrOuakMJDAzDajxqsalnzlAZYF_IXQFGEoHLahIzxcJhEw60qUwlnSCkGxoiA6zkWN2aaM2UhIUOHxFMg",
+            "imgBack": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSLPT-yl3FMxfZhetdz4h_fPGWsQLOD1JyIaD-6aODMH9EQhIbKT8YBe6cQzmeEk3dZdhU1xjwO0XSKP968vcT4Tn4elz9s4Q"
+          },
+          "characteristics": "6.58-inch OLED display, Kirin 990 5G processor, 8GB RAM, 256GB storage, 4200mAh battery",
+          "SKU": "celhuap40-001",
+          "price": 898000.00
         },
         {
           "name": "ZTE Axon 30 Ultra",
-          "author": "ZTE",
+          "brand": "ZTE",
           "year": "2021",
           "description": "The ZTE Axon 30 Ultra is a flagship smartphone with a high-refresh-rate display and a powerful camera system.",
-          "image": "https://example.com/axon30ultra.jpg",
+          "image": {
+            "img": "https://i.blogs.es/33ef87/41zd8-jk2-s/450_1000.jpeg"
+          },
           "characteristics": "6.67-inch AMOLED display, Snapdragon 888 processor, 8GB RAM, 128GB storage, 4600mAh battery"
         },
         {
           "name": "Lenovo Legion Phone Duel",
-          "author": "Lenovo",
+          "brand": "Lenovo",
           "year": "2020",
           "description": "The Lenovo Legion Phone Duel is a gaming smartphone with a unique side-mounted pop-up camera and a high-refresh-rate display.",
-          "image": "https://example.com/legionphone.jpg",
-          "characteristics": "6.65-inch AMOLED display, Snapdragon 865+ processor, 12GB RAM, 256GB storage, 5000mAh battery"
+          "image": {
+            "img": "https://p1-ofp.static.pub/fes/cms/2023/01/19/9ze48952q8e5wre5bvi8a39u2urxfn063590.jpg",
+            "imgBack": "https://i.blogs.es/1636fe/1/450_1000.jpeg"
+          },
+          "characteristics": "6.65-inch AMOLED display, Snapdragon 865+ processor, 12GB RAM, 256GB storage, 5000mAh battery",
+          "SKU": "cellenleg-001",
+          "price": 2300000.00
         },
         {
           "name": "Redmi Note 10 Pro",
-          "author": "Redmi",
+          "brand": "Redmi",
           "year": "2021",
           "description": "The Redmi Note 10 Pro is a mid-range smartphone with a high-resolution display and a large battery for extended usage.",
-          "image": "https://example.com/note10pro.jpg",
-          "characteristics": "6.67-inch Super AMOLED display, Snapdragon 732G processor, 6GB RAM, 128GB storage, 5020mAh battery"
+          "image": {
+            "img": "https://http2.mlstatic.com/D_NQ_NP_660768-MLA74988011796_032024-O.webp"
+          },
+          "characteristics": "6.67-inch Super AMOLED display, Snapdragon 732G processor, 6GB RAM, 128GB storage, 5020mAh battery",
+          "SKU": "celredn10-001",
+          "price": 1320000.00
         },
         {
           "name": "Infinix Zero 8",
-          "author": "Infinix",
+          "brand": "Infinix",
           "year": "2020",
           "description": "The Infinix Zero 8 is a budget-friendly smartphone with a high-refresh-rate display and a capable camera system.",
-          "image": "https://example.com/zero8.jpg",
-          "characteristics": "6.85-inch IPS LCD display, MediaTek Helio G90T processor, 8GB RAM, 128GB storage, 4500mAh battery"
+          "image": {
+            "img": "https://fdn2.gsmarena.com/vv/pics/infinix/infinix-zero8-3.jpg",
+            "imgBack": "https://fdn2.gsmarena.com/vv/pics/infinix/infinix-zero8-2.jpg"
+          },
+          "characteristics": "6.85-inch IPS LCD display, MediaTek Helio G90T processor, 8GB RAM, 128GB storage, 4500mAh battery",
+          "SKU": "celinfz8-001",
+          "price": 740000.00
         }
-      ]
-}
+    ],
+
+    "laptops": [
+      {
+        "name": "Dell XPS 13",
+        "brand": "Dell",
+        "year": "2022",
+        "description": "The Dell XPS 13 is a premium laptop with a stunning display and powerful performance.",
+        "image": {
+          "img": "https://http2.mlstatic.com/D_NQ_NP_948090-MLA54586548191_032023-O.webp"
+        },
+        "characteristics": "13.4-inch 4K UHD display, Intel Core i7 processor, 16GB RAM, 1TB SSD, Intel Iris Xe Graphics, 52Wh battery",
+        "SKU": "lapdellxps13-001",
+        "price": 2490000.00
+      },
+      {
+        "name": "Apple MacBook Pro 14",
+        "brand": "Apple",
+        "year": "2021",
+        "description": "The MacBook Pro 14 is a powerful laptop with Apple's M1 Pro chip and a stunning Liquid Retina XDR display.",
+        "image": {
+          "img": "https://http2.mlstatic.com/D_NQ_NP_732996-MLA74328205367_012024-O.webp"
+        },
+        "characteristics": "14.2-inch Liquid Retina XDR display, Apple M1 Pro chip, 16GB RAM, 1TB SSD, 70Wh battery",
+        "SKU": "lapappmacp140-001",
+        "price": 4000000.00
+      },
+      {
+        "name": "HP Spectre x360",
+        "brand": "HP",
+        "year": "2022",
+        "description": "The HP Spectre x360 is a versatile convertible laptop with a sleek design and impressive performance.",
+        "image": {
+          "img": "https://http2.mlstatic.com/D_NQ_NP_935665-MLA72396574169_102023-O.webp",
+          "imgBack": "https://http2.mlstatic.com/D_NQ_NP_963733-MLA72331056482_102023-O.webp"
+        },
+        "characteristics": "13.5-inch OLED display, Intel Core i7 processor, 16GB RAM, 1TB SSD, Intel Iris Xe Graphics, 66Wh battery",
+        "SKU": "laphpSpex360-001",
+        "price": 3000000.00
+      },
+      {
+        "name": "Lenovo ThinkPad X1 Carbon",
+        "brand": "Lenovo",
+        "year": "2022",
+        "description": "The Lenovo ThinkPad X1 Carbon is a lightweight and durable business laptop with impressive performance.",
+        "image": {
+          "img": "https://http2.mlstatic.com/D_NQ_NP_609888-MLA74323981531_012024-O.webp",
+          "imgBack": "https://http2.mlstatic.com/D_NQ_NP_686834-MLA74312428097_012024-O.webp"
+        },
+        "characteristics": "14-inch 4K UHD display, Intel Core i7 processor, 16GB RAM, 1TB SSD, Intel Iris Xe Graphics, 57Wh battery",
+        "SKU": "laplenthix1car-001",
+        "price": 5000000
+      },
+      {
+        "name": "Asus ROG Zephyrus G14",
+        "brand": "Asus",
+        "year": "2021",
+        "description": "The Asus ROG Zephyrus G14 is a powerful gaming laptop with a compact design and high-performance hardware.",
+        "image": {
+          "img": "https://http2.mlstatic.com/D_NQ_NP_927362-MLA52990553670_122022-O.webp",
+          "imgBack": "https://http2.mlstatic.com/D_NQ_NP_966320-MLA52990553692_122022-O.webp"
+        },
+        "characteristics": "14-inch QHD display, AMD Ryzen 9 processor, 16GB RAM, 1TB SSD, NVIDIA GeForce RTX 3060, 76Wh battery",
+        "SKU": "lapasurogzepg14-001",
+        "price": 2740000.00
+      },
+      {
+        "name": "Microsoft Surface Laptop 4",
+        "brand": "Microsoft",
+        "year": "2021",
+        "description": "The Microsoft Surface Laptop 4 is a sleek and powerful laptop with a premium design and smooth performance.",
+        "image": {
+          "img": "https://http2.mlstatic.com/D_NQ_NP_955681-MLA54985741718_052023-O.webp",
+          "imgBack": "https://http2.mlstatic.com/D_NQ_NP_982468-MLA69190415605_052023-O.webp"
+        },
+        "characteristics": "13.5-inch PixelSense display, Intel Core i7 processor, 16GB RAM, 512GB SSD, Intel Iris Xe Graphics, 49Wh battery",
+        "SKU": "lapmicsurlap4-001",
+        "price": 1700000.00
+      },
+      {
+        "name": "Acer Swift 5",
+        "brand": "Acer",
+        "year": "2022",
+        "description": "The Acer Swift 5 is an ultra-lightweight laptop with a sleek design and long-lasting battery life.",
+        "image": {
+          "img": "https://http2.mlstatic.com/D_NQ_NP_969653-MLA71828485655_092023-O.webp"
+        },
+        "characteristics": "14-inch Full HD display, Intel Core i7 processor, 16GB RAM, 1TB SSD, Intel Iris Xe Graphics, 56Wh battery",
+        "SKU": "lapaceswi5-001",
+        "price": 3210000.00
+      },
+      {
+        "name": "Razer Blade 15",
+        "brand": "Razer",
+        "year": "2022",
+        "description": "The Razer Blade 15 is a high-performance gaming laptop with a sleek design and powerful hardware.",
+        "image": {
+          "img": "https://http2.mlstatic.com/D_NQ_NP_935883-MLA70179141807_062023-O.webp"
+          
+        },
+        "characteristics": "15.6-inch QHD display, Intel Core i7 processor, 16GB RAM, 1TB SSD, NVIDIA GeForce RTX 3080, 80Wh battery",
+        "SKU": "laprazbla15-001",
+        "price": 4200000.00
+      },
+      {
+        "name": "Alienware m15 R6",
+        "brand": "Alienware",
+        "year": "2022",
+        "description": "The Alienware m15 R6 is a powerful gaming laptop with a futuristic design and top-notch performance.",
+        "image": {
+          "img": "https://example.com/alienware_m15_r6.jpg",
+          "imgFrontal": "https://example.com/alienware_m15_r6_front.jpg",
+          "imgDorso": "https://example.com/alienware_m15_r6_back.jpg"
+        },
+        "characteristics": "15.6-inch Full HD display, Intel Core i7 processor, 16GB RAM, 1TB SSD, NVIDIA GeForce RTX 3070, 86Wh battery",
+        "SKU": "lapalin15r6-001",
+        "price": 3760000.00
+      },
+      {
+        "name": "MSI Prestige 14 Evo",
+        "brand": "MSI",
+        "year": "2022",
+        "description": "The MSI Prestige 14 Evo is a sleek and powerful laptop with a focus on productivity and performance.",
+        "image": {
+          "img": "https://http2.mlstatic.com/D_NQ_NP_692191-MLA46517834216_062021-O.webp",
+          "imgBack": "https://http2.mlstatic.com/D_NQ_NP_687795-MLA46517844263_062021-O.webp"
+        },
+        "characteristics": "14-inch Full HD display, Intel Core i7 processor, 16GB RAM, 512GB SSD, Intel Iris Xe Graphics, 52Wh battery",
+        "SKU": "lapmsipres14-001",
+        "price": 4540000.00
+      },
+      {
+        "name": "LG Gram 17",
+        "brand": "LG",
+        "year": "2022",
+        "description": "The LG Gram 17 is an ultra-lightweight and portable laptop with a large display and impressive battery life.",
+        "image": {
+          "img": "https://http2.mlstatic.com/D_NQ_NP_656631-MLA75128733761_032024-O.webp"
+        },
+        "characteristics": "17-inch WQXGA display, Intel Core i7 processor, 16GB RAM, 1TB SSD, Intel Iris Xe Graphics, 80Wh battery",
+        "SKU": "laplggram17-001",
+        "price": 1200000
+      },
+      {
+        "name": "Lenovo Yoga 9i",
+        "brand": "Lenovo",
+        "year": "2022",
+        "description": "The Lenovo Yoga 9i is a versatile 2-in-1 laptop with a premium design and powerful performance.",
+        "image": {
+          "img": "https://http2.mlstatic.com/D_NQ_NP_662478-MLU72561914070_112023-O.webp",
+          "imgBack": "https://http2.mlstatic.com/D_NQ_NP_2X_719485-MLU72561914074_112023-F.webp"
+        },
+        "characteristics": "14-inch 4K UHD display, Intel Core i7 processor, 16GB RAM, 1TB SSD, Intel Iris Xe Graphics, 60Wh battery",
+        "SKU": "laplenyog9i-001",
+        "price": 5000000.00
+      },
+      {
+        "name": "Samsung Galaxy Book Pro 360",
+        "brand": "Samsung",
+        "year": "2022",
+        "description": "The Samsung Galaxy Book Pro 360 is a convertible laptop with a stunning AMOLED display and long-lasting battery.",
+        "image": {
+          "img": "https://http2.mlstatic.com/D_NQ_NP_2X_669720-MLU73980600476_012024-F.webp",
+          "imgBack": "https://http2.mlstatic.com/D_NQ_NP_771849-MLU73613263944_122023-O.webp"
+        },
+        "characteristics": "13.3-inch AMOLED display, Intel Core i7 processor, 16GB RAM, 1TB SSD, Intel Iris Xe Graphics, 63Wh battery",
+        "SKU": "lapsamgalboop360-001",
+        "price": 3450000.00
+      },
+      {
+        "name": "Acer Predator Helios 300",
+        "brand": "Acer",
+        "year": "2021",
+        "description": "The Acer Predator Helios 300 is a powerful gaming laptop with a high-refresh-rate display and advanced cooling system.",
+        "image": {
+          "img": "https://http2.mlstatic.com/D_NQ_NP_887095-MLA49933868752_052022-O.webp",
+          "imgBack": "https://http2.mlstatic.com/D_NQ_NP_846185-MLA49933876449_052022-O.webp"
+        },
+        "characteristics": "15.6-inch Full HD display (144Hz), Intel Core i7 processor, 16GB RAM, 512GB SSD, NVIDIA GeForce RTX 3060, 59Wh battery",
+        "SKU": "lapaceprehel3000-001"
+      }
+    ]
+      }
+      
+ 
