@@ -36,7 +36,7 @@ module.exports = (sequelize) => {
         idCategory: {
             type: DataTypes.INTEGER
         },
-        idCharacteristicsProduct: {
+        idCharacteristicsProducts: {
             type: DataTypes.STRING
         },
         IdDiscount: {

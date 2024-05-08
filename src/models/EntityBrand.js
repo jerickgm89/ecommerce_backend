@@ -3,7 +3,7 @@ const {DataTypes} = require('sequelize')
 module.exports = (sequelize) => {
     sequelize.define('entityBrand', {
         idBrand : {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             primaryKey: true,
             allowNull: false
         },

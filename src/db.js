@@ -8,7 +8,7 @@ const path = require('path');
 
 const {DB_USER, DB_PASSWORD, DB_HOST } = process.env;
 
-const entityProductsModels = require('./models/EntityProducts')
+
 
     const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/ecommerce`, {
         logging: false,
@@ -33,9 +33,22 @@ const entityProductsModels = require('./models/EntityProducts')
 
 
 
-  // const {productsModels} = sequelize.models
+  const {EntityProducts, EntityCategory, EntityBrand, CharacteristicsProducts} = sequelize.models
 
 //Aqui van las relaciones: ->
+
+/*Relacion Products - Category*/
+EntityProducts.belongsTo(EntityCategory, {foreignKey: 'idCategory'});
+EntityCategory.hasMany(EntityProducts, {foreignKey: 'idCategory'});
+
+/*Relacion products - CharacteristicsProducts*/
+EntityProducts.belongsTo(CharacteristicsProducts, {foreignKey: 'idCharacteristicsProducts'});
+CharacteristicsProducts.hasMany(EntityProducts, {foreignKey: 'idCharacteristicsProducts'});
+
+/*relacion CharacteristicsProducts - entityBrand*/
+CharacteristicsProducts.hasOne(EntityBrand, {foreignKey: 'idBrand'});
+EntityBrand.belongsTo(CharacteristicsProducts, {foreignKey: 'idBrand'});
+
 
   module.exports = {
     ...sequelize.models, 
