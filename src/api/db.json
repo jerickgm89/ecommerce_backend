@@ -11,7 +11,13 @@
             "imgFront": "https://http2.mlstatic.com/D_NQ_NP_931265-MLA53734633580_022023-O.webp",
             "imgBack": "https://http2.mlstatic.com/D_NQ_NP_720601-MLA53734633575_022023-O.webp"
           },
-          "characteristics": "6.2-inch Dynamic AMOLED display, Exynos 2100 processor, 8GB RAM, 128GB storage, 4000mAh battery",
+          "characteristics": {
+            "display": "6.2-inch Dynamic AMOLED display",
+            "processor": "Exynos 2100 processor",
+            "memory": "8GB RAM",
+            "storage": "128GB storage",
+            "battery": "4000mAh battery"
+          },
           "SKU": "celsamS21-001",
           "price": 759000.00
         },
@@ -24,7 +30,13 @@
             "img": "https://http2.mlstatic.com/D_NQ_NP_864889-MLA45729915884_042021-O.webp",
             "imgFront": "https://http2.mlstatic.com/D_NQ_NP_740855-MLA45719698644_042021-O.webp"
           },
-          "characteristics": "6.1-inch Super Retina XDR display, A14 Bionic chip, 4GB RAM, 64GB storage, 2815mAh battery",
+          "characteristics": {
+            "display": "6.1-inch Super Retina XDR display",
+            "processor": "A14 Bionic chip",
+            "memory": "4GB RAM",
+            "storage": "64GB storage",
+            "battery": "2815mAh battery"
+           },
           "SKU": "celipho12-001",
           "price": 500000.00
         },
@@ -37,7 +49,13 @@
             "img": "https://http2.mlstatic.com/D_NQ_NP_966068-MLA50145216014_052022-O.webp",
             "imgPerfil": "https://http2.mlstatic.com/D_NQ_NP_672703-MLU75321472723_032024-O.webp"
           },
-          "characteristics": "6.0-inch OLED display, Snapdragon 765G processor, 8GB RAM, 128GB storage, 4080mAh battery",
+          "characteristics": {
+            "display": "6.0-inch OLED display",
+            "processor": "Snapdragon 765G processor",
+            "memory": "8GB RAM",
+            "storage": "128GB storage",
+            "battery": "4080mAh battery"
+          },
           "SKU": "celgoopix5-001",
           "price": 1000000
         },
@@ -49,7 +67,13 @@
           "image": {
             "img": "https://http2.mlstatic.com/D_NQ_NP_955388-MLA75663727189_042024-O.webp"
           },
-          "characteristics": "6.7-inch Fluid AMOLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4500mAh battery",
+          "characteristics": {
+            "display": "6.7-inch Fluid AMOLED display",
+            "processor": "Snapdragon 888 processor",
+            "memory": "12GB RAM",
+            "storage": "256GB storage",
+            "battery": "4500mAh battery"
+          },
           "SKU": "celon9pl-001",
           "price": 2000000.00
         },
@@ -63,7 +87,13 @@
           "imgFront": "https://http2.mlstatic.com/D_NQ_NP_843356-MLA74780656533_022024-O.webp",
           "imgBack": "https://http2.mlstatic.com/D_NQ_NP_889015-MLA74651937508_022024-O.webp"
           },
-          "characteristics": "6.81-inch AMOLED display, Snapdragon 888 processor, 8GB RAM, 128GB storage, 4600mAh battery",
+          "characteristics": {
+            "display": "6.81-inch AMOLED display",
+            "processor": "Snapdragon 888 processor",
+            "memory": "8GB RAM",
+            "storage": "128GB storage",
+            "battery": "4600mAh battery"
+          },
           "SKU": "celxia11-001",
           "price": 2500000.00
         },
@@ -77,7 +107,13 @@
             "imgFront": "https://http2.mlstatic.com/D_NQ_NP_697874-MLA74776532184_032024-O.webp",
             "imgBack": "https://http2.mlstatic.com/D_NQ_NP_852486-MLA74776541900_032024-O.webp"
           },
-          "characteristics": "6.5-inch 4K HDR OLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4500mAh battery",
+          "characteristics": {
+            "display": "6.5-inch 4K HDR OLED display",
+            "processor": "Snapdragon 888 processor",
+            "memory": "12GB RAM",
+            "storage": "256GB storage",
+            "battery": "4500mAh battery"
+          },
           "SKU": "celsonx-001",
           "price" : 800000.00
         },
@@ -89,7 +125,13 @@
           "image": {
             "img": "https://http2.mlstatic.com/D_NQ_NP_850045-MLA43752372061_102020-O.webp"
           },
-          "characteristics": "6.7-inch OLED display, Snapdragon 865 processor, 12GB RAM, 256GB storage, 5000mAh battery",
+          "characteristics":  {
+            "display": "6.7-inch OLED display",
+            "processor": "Snapdragon 865 processor",
+            "memory": "12GB RAM",
+            "storage": "256GB storage",
+            "battery": "5000mAh battery"
+          },
           "SKU": "celmotEd-001",
           "price": 256000.00
         },
@@ -102,7 +144,13 @@
             "img": "https://http2.mlstatic.com/D_NQ_NP_753477-MLA52349105729_112022-O.webp",
             "imgBack": "https://http2.mlstatic.com/D_NQ_NP_671852-MLA52349231102_112022-O.webp"
           },
-          "characteristics": "6.81-inch IPS LCD display, Snapdragon 765G processor, 8GB RAM, 128GB storage, 4500mAh battery",
+          "characteristics": {
+            "display": "6.81-inch IPS LCD display",
+            "processor": "Snapdragon 765G processor",
+            "memory": "8GB RAM",
+            "storage": "128GB storage",
+            "battery": "4500mAh battery"
+          },
           "SKU": "celno85g-001",
           "price": 876000.00
         },
@@ -114,7 +162,13 @@
           "image": {
             "img": "https://http2.mlstatic.com/D_NQ_NP_806269-MLA53981317263_022023-O.webp"
           },
-          "characteristics": "6.78-inch AMOLED display, Snapdragon 888 processor, 16GB RAM, 256GB storage, 6000mAh battery",
+          "characteristics": {
+            "display": "6.78-inch AMOLED display",
+            "processor": "Snapdragon 888 processor",
+            "memory": "16GB RAM",
+            "storage": "256GB storage",
+            "battery": "6000mAh battery"
+          },
           "SKU": "celasurogpho5-001",
           "price": 3000000.00
         },
@@ -126,7 +180,13 @@
           "image": {
             "img": "https://http2.mlstatic.com/D_NQ_NP_796396-MLA75608767367_042024-O.webp"
           },
-          "characteristics": "6.7-inch AMOLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4500mAh battery",
+          "characteristics": {
+            "display": "6.7-inch AMOLED display",
+            "processor": "Snapdragon 888 processor",
+            "memory": "12GB RAM",
+            "storage": "256GB storage",
+            "battery": "4500mAh battery"
+          },
           "SKU": "celskufinx3p-001",
           "price": 1500000.00
         },
@@ -140,7 +200,13 @@
             "imgFront": "https://http2.mlstatic.com/D_NQ_NP_918232-MLU75330733001_032024-O.webp",
             "imgBack": "https://http2.mlstatic.com/D_NQ_NP_766182-MLA74676486298_022024-O.webp"
           },
-          "characteristics": "6.43-inch Super AMOLED display, Snapdragon 888 processor, 8GB RAM, 128GB storage, 4500mAh battery",
+          "characteristics":  {
+            "display": "6.43-inch Super AMOLED display",
+            "processor": "Snapdragon 883 processor",
+            "memory": "8GB RAM",
+            "storage": "128GB storage",
+            "battery": "4500mAh battery"
+          },
           "SKU": "celreagt-001",
           "price": 712000.00
         },
@@ -152,7 +218,13 @@
           "image": {
             "img": "https://i.blogs.es/26af7f/vivo-x60-pro-/1366_2000.webp"
           },
-          "characteristics": "6.56-inch AMOLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4200mAh battery",
+          "characteristics": {
+            "display": "6.56-inch AMOLED display",
+            "processor": "Snapdragon 888 processor",
+            "memory": "12GB RAM",
+            "storage": "256GB storage",
+            "battery": "4200mAh battery"
+          },
           "SKU": "celvivx60P-001",
           "price": 1200000.00
         },
@@ -166,7 +238,13 @@
             "imgFront": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTfrZkQWrbUQrq1DiYwcFtm_9yhccYDAz5Xk6VEHDGdNt0NLrus",
             "imgBack": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQ12TehCSQgDzkIW566Nj5h9qS9a9oFPHL-99o-4Vh2bFYJVVnd"
           },
-          "characteristics": "4.5-inch IPS LCD display, Snapdragon 660 processor, 6GB RAM, 64GB storage, 3500mAh battery",
+          "characteristics": {
+            "display": "4.5-inch IPS LCD display",
+            "processor": "Snapdragon 660 processor",
+            "memory": "6GB RAM",
+            "storage": "64GB storage",
+            "battery": "3500mAh battery"
+          },
           "SKU": "celblak2-001",
           "price": 648000.00
         },
@@ -179,7 +257,13 @@
             "img": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTZ9I-ojVWBxnWcDdrOuakMJDAzDajxqsalnzlAZYF_IXQFGEoHLahIzxcJhEw60qUwlnSCkGxoiA6zkWN2aaM2UhIUOHxFMg",
             "imgBack": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSLPT-yl3FMxfZhetdz4h_fPGWsQLOD1JyIaD-6aODMH9EQhIbKT8YBe6cQzmeEk3dZdhU1xjwO0XSKP968vcT4Tn4elz9s4Q"
           },
-          "characteristics": "6.58-inch OLED display, Kirin 990 5G processor, 8GB RAM, 256GB storage, 4200mAh battery",
+          "characteristics": {
+            "display": "6.58-inch OLED display",
+            "processor": "Kirin 990 5G processor",
+            "memory": "8GB RAM",
+            "storage": "256GB storage",
+            "battery": "4200mAh battery"
+          } ,
           "SKU": "celhuap40-001",
           "price": 898000.00
         },
@@ -191,7 +275,15 @@
           "image": {
             "img": "https://i.blogs.es/33ef87/41zd8-jk2-s/450_1000.jpeg"
           },
-          "characteristics": "6.67-inch AMOLED display, Snapdragon 888 processor, 8GB RAM, 128GB storage, 4600mAh battery"
+          "characteristics": {
+            "display": "6.67-inch AMOLED display",
+            "processor": "Snapdragon 888 processor",
+            "memory": "8GB RAM",
+            "storage": "128GB storage",
+            "battery": "4600mAh battery"
+          },
+          "SKU": "celztepaxo-001",
+          "price": 898000.00
         },
         {
           "name": "Lenovo Legion Phone Duel",
@@ -202,7 +294,13 @@
             "img": "https://p1-ofp.static.pub/fes/cms/2023/01/19/9ze48952q8e5wre5bvi8a39u2urxfn063590.jpg",
             "imgBack": "https://i.blogs.es/1636fe/1/450_1000.jpeg"
           },
-          "characteristics": "6.65-inch AMOLED display, Snapdragon 865+ processor, 12GB RAM, 256GB storage, 5000mAh battery",
+          "characteristics": {
+            "display": "6.65-inch AMOLED display",
+            "processor": "Snapdragon 865+ processor",
+            "memory": "12GB RAM",
+            "storage": "256GB storage",
+            "battery": "5000mAh battery"
+          } ,
           "SKU": "cellenleg-001",
           "price": 2300000.00
         },
@@ -214,7 +312,13 @@
           "image": {
             "img": "https://http2.mlstatic.com/D_NQ_NP_660768-MLA74988011796_032024-O.webp"
           },
-          "characteristics": "6.67-inch Super AMOLED display, Snapdragon 732G processor, 6GB RAM, 128GB storage, 5020mAh battery",
+          "characteristics": {
+            "display": "6.67-inch Super AMOLED display",
+            "processor": "Snapdragon 732G processor",
+            "memory": "6GB RAM",
+            "storage": "128GB storage",
+            "battery": "5020mAh battery"
+          },
           "SKU": "celredn10-001",
           "price": 1320000.00
         },
@@ -227,7 +331,13 @@
             "img": "https://fdn2.gsmarena.com/vv/pics/infinix/infinix-zero8-3.jpg",
             "imgBack": "https://fdn2.gsmarena.com/vv/pics/infinix/infinix-zero8-2.jpg"
           },
-          "characteristics": "6.85-inch IPS LCD display, MediaTek Helio G90T processor, 8GB RAM, 128GB storage, 4500mAh battery",
+          "characteristics": {
+            "display": "6.85-inch IPS LCD display",
+            "processor": "MediaTek Helio G90T processor",
+            "memory": "8GB RAM",
+            "storage": "128GB storage",
+            "battery": "4500mAh battery"
+          },
           "SKU": "celinfz8-001",
           "price": 740000.00
         }
@@ -242,7 +352,14 @@
         "image": {
           "img": "https://http2.mlstatic.com/D_NQ_NP_948090-MLA54586548191_032023-O.webp"
         },
-        "characteristics": "13.4-inch 4K UHD display, Intel Core i7 processor, 16GB RAM, 1TB SSD, Intel Iris Xe Graphics, 52Wh battery",
+        "characteristics": {
+          "display": "13.4-inch 4K UHD display",
+          "processor": "Intel Core i7 processor",
+          "memory": "16GB RAM",
+          "graphics": "Intel Iris Xe Graphics",
+          "storage": "1TB SSD",
+          "battery": "52Wh battery"
+        },
         "SKU": "lapdellxps13-001",
         "price": 2490000.00
       },
@@ -254,7 +371,14 @@
         "image": {
           "img": "https://http2.mlstatic.com/D_NQ_NP_732996-MLA74328205367_012024-O.webp"
         },
-        "characteristics": "14.2-inch Liquid Retina XDR display, Apple M1 Pro chip, 16GB RAM, 1TB SSD, 70Wh battery",
+        "characteristics": {
+          "display": "14.2-inch Liquid Retina XDR display",
+          "processor": "Apple M1 Pro chip",
+          "memory": "16GB RAM",
+          "graphics": "",
+          "storage": "1TB SSD",
+          "battery": "70Wh battery"
+        },
         "SKU": "lapappmacp140-001",
         "price": 4000000.00
       },
@@ -267,7 +391,14 @@
           "img": "https://http2.mlstatic.com/D_NQ_NP_935665-MLA72396574169_102023-O.webp",
           "imgBack": "https://http2.mlstatic.com/D_NQ_NP_963733-MLA72331056482_102023-O.webp"
         },
-        "characteristics": "13.5-inch OLED display, Intel Core i7 processor, 16GB RAM, 1TB SSD, Intel Iris Xe Graphics, 66Wh battery",
+        "characteristics": {
+          "display": "13.5-inch OLED display",
+          "processor": "Intel Core i7 processor",
+          "memory": "16GB RAM",
+          "graphics": "Intel Iris Xe Graphics",
+          "storage": "1TB SSD",
+          "battery": "66Wh battery"
+        } ,
         "SKU": "laphpSpex360-001",
         "price": 3000000.00
       },
@@ -280,7 +411,14 @@
           "img": "https://http2.mlstatic.com/D_NQ_NP_609888-MLA74323981531_012024-O.webp",
           "imgBack": "https://http2.mlstatic.com/D_NQ_NP_686834-MLA74312428097_012024-O.webp"
         },
-        "characteristics": "14-inch 4K UHD display, Intel Core i7 processor, 16GB RAM, 1TB SSD, Intel Iris Xe Graphics, 57Wh battery",
+        "characteristics": {
+          "display": "14-inch 4K UHD display",
+          "processor": "Intel Core i7 processor",
+          "memory": "16GB RAM",
+          "graphics": "Intel Iris Xe Graphics",
+          "storage": "1TB SSD",
+          "battery": "57Wh battery"
+        },
         "SKU": "laplenthix1car-001",
         "price": 5000000
       },
@@ -293,7 +431,14 @@
           "img": "https://http2.mlstatic.com/D_NQ_NP_927362-MLA52990553670_122022-O.webp",
           "imgBack": "https://http2.mlstatic.com/D_NQ_NP_966320-MLA52990553692_122022-O.webp"
         },
-        "characteristics": "14-inch QHD display, AMD Ryzen 9 processor, 16GB RAM, 1TB SSD, NVIDIA GeForce RTX 3060, 76Wh battery",
+        "characteristics": {
+          "display": "14-inch QHD display",
+          "processor": "AMD Ryzen 9 processor",
+          "memory": "16GB RAM",
+          "graphics": "NVIDIA GeForce RTX 3060",
+          "storage": "1TB SSD",
+          "battery": "76Wh battery"
+        },
         "SKU": "lapasurogzepg14-001",
         "price": 2740000.00
       },
@@ -306,7 +451,14 @@
           "img": "https://http2.mlstatic.com/D_NQ_NP_955681-MLA54985741718_052023-O.webp",
           "imgBack": "https://http2.mlstatic.com/D_NQ_NP_982468-MLA69190415605_052023-O.webp"
         },
-        "characteristics": "13.5-inch PixelSense display, Intel Core i7 processor, 16GB RAM, 512GB SSD, Intel Iris Xe Graphics, 49Wh battery",
+        "characteristics": {
+          "display": "13.5-inch PixelSense display",
+          "processor": "Intel Core i7 processor",
+          "memory": "16GB RAM",
+          "graphics": "Intel Iris Xe Graphics",
+          "storage": "512GB SSD",
+          "battery": "49Wh battery"
+        },
         "SKU": "lapmicsurlap4-001",
         "price": 1700000.00
       },
@@ -318,7 +470,14 @@
         "image": {
           "img": "https://http2.mlstatic.com/D_NQ_NP_969653-MLA71828485655_092023-O.webp"
         },
-        "characteristics": "14-inch Full HD display, Intel Core i7 processor, 16GB RAM, 1TB SSD, Intel Iris Xe Graphics, 56Wh battery",
+        "characteristics": {
+          "display": "14-inch Full HD display",
+          "processor": "Intel Core i7 processor",
+          "memory": "16GB RAM",
+          "graphics": "Intel Iris Xe Graphics",
+          "storage": "1TB SSD",
+          "battery": "56Wh battery"
+        },
         "SKU": "lapaceswi5-001",
         "price": 3210000.00
       },
@@ -331,7 +490,14 @@
           "img": "https://http2.mlstatic.com/D_NQ_NP_935883-MLA70179141807_062023-O.webp"
           
         },
-        "characteristics": "15.6-inch QHD display, Intel Core i7 processor, 16GB RAM, 1TB SSD, NVIDIA GeForce RTX 3080, 80Wh battery",
+        "characteristics": {
+          "display": "15.6-inch QHD display",
+          "processor": "Intel Core i7 processor",
+          "memory": "16GB RAM",
+          "graphics": "NVIDIA GeForce RTX 3080",
+          "storage": "1TB SSD",
+          "battery": "80Wh battery"
+        },
         "SKU": "laprazbla15-001",
         "price": 4200000.00
       },
@@ -345,7 +511,14 @@
           "imgFrontal": "https://example.com/alienware_m15_r6_front.jpg",
           "imgDorso": "https://example.com/alienware_m15_r6_back.jpg"
         },
-        "characteristics": "15.6-inch Full HD display, Intel Core i7 processor, 16GB RAM, 1TB SSD, NVIDIA GeForce RTX 3070, 86Wh battery",
+        "characteristics": {
+          "display": "15.6-inch Full HD display",
+          "processor": "Intel Core i7 processor",
+          "memory": "16GB RAM",
+          "graphics": "NVIDIA GeForce RTX 3070",
+          "storage": "1TB SSD",
+          "battery": "86Wh battery"
+        },
         "SKU": "lapalin15r6-001",
         "price": 3760000.00
       },
@@ -358,7 +531,14 @@
           "img": "https://http2.mlstatic.com/D_NQ_NP_692191-MLA46517834216_062021-O.webp",
           "imgBack": "https://http2.mlstatic.com/D_NQ_NP_687795-MLA46517844263_062021-O.webp"
         },
-        "characteristics": "14-inch Full HD display, Intel Core i7 processor, 16GB RAM, 512GB SSD, Intel Iris Xe Graphics, 52Wh battery",
+        "characteristics": {
+          "display": "14-inch Full HD display",
+          "processor": "Intel Core i7 processor",
+          "memory": "16GB RAM",
+          "graphics": "Intel Iris Xe Graphics",
+          "storage": "512GB SSD",
+          "battery": "52Wh battery"
+        },
         "SKU": "lapmsipres14-001",
         "price": 4540000.00
       },
@@ -370,7 +550,14 @@
         "image": {
           "img": "https://http2.mlstatic.com/D_NQ_NP_656631-MLA75128733761_032024-O.webp"
         },
-        "characteristics": "17-inch WQXGA display, Intel Core i7 processor, 16GB RAM, 1TB SSD, Intel Iris Xe Graphics, 80Wh battery",
+        "characteristics": {
+          "display": "17-inch WQXGA display",
+          "processor": "Intel Core i7 processor",
+          "memory": "16GB RAM",
+          "graphics": "Intel Iris Xe Graphics",
+          "storage": "1TB SSD",
+          "battery": "80Wh battery"
+        },
         "SKU": "laplggram17-001",
         "price": 1200000
       },
@@ -383,7 +570,14 @@
           "img": "https://http2.mlstatic.com/D_NQ_NP_662478-MLU72561914070_112023-O.webp",
           "imgBack": "https://http2.mlstatic.com/D_NQ_NP_2X_719485-MLU72561914074_112023-F.webp"
         },
-        "characteristics": "14-inch 4K UHD display, Intel Core i7 processor, 16GB RAM, 1TB SSD, Intel Iris Xe Graphics, 60Wh battery",
+        "characteristics": {
+          "display": "14-inch 4K UHD display",
+          "processor": "Intel Core i7 processor",
+          "memory": "16GB RAM",
+          "graphics": "Intel Iris Xe Graphics",
+          "storage": "1TB SSD",
+          "battery": "60Wh battery"
+        },
         "SKU": "laplenyog9i-001",
         "price": 5000000.00
       },
@@ -396,7 +590,14 @@
           "img": "https://http2.mlstatic.com/D_NQ_NP_2X_669720-MLU73980600476_012024-F.webp",
           "imgBack": "https://http2.mlstatic.com/D_NQ_NP_771849-MLU73613263944_122023-O.webp"
         },
-        "characteristics": "13.3-inch AMOLED display, Intel Core i7 processor, 16GB RAM, 1TB SSD, Intel Iris Xe Graphics, 63Wh battery",
+        "characteristics": {
+          "display": "13.3-inch AMOLED display",
+          "processor": "Intel Core i7 processor",
+          "memory": "16GB RAM",
+          "graphics": "Intel Iris Xe Graphics",
+          "storage": "1TB SSD",
+          "battery": "63Wh battery"
+        },
         "SKU": "lapsamgalboop360-001",
         "price": 3450000.00
       },
@@ -409,7 +610,14 @@
           "img": "https://http2.mlstatic.com/D_NQ_NP_887095-MLA49933868752_052022-O.webp",
           "imgBack": "https://http2.mlstatic.com/D_NQ_NP_846185-MLA49933876449_052022-O.webp"
         },
-        "characteristics": "15.6-inch Full HD display (144Hz), Intel Core i7 processor, 16GB RAM, 512GB SSD, NVIDIA GeForce RTX 3060, 59Wh battery",
+        "characteristics": {
+          "display": "15.6-inch Full HD display (144Hz)",
+          "processor": "Intel Core i7 processor",
+          "memory": "16GB RAM",
+          "graphics": "NVIDIA GeForce RTX 3060",
+          "storage": "512GB SSD",
+          "battery": "59Wh battery"
+        },
         "SKU": "lapaceprehel3000-001"
       }
     ]

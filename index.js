@@ -9,8 +9,6 @@ try {
       await conn.sync({ force: true });
       console.log('Database connected');
   
-  
-  
     });
   } catch ( error ) {
     console.log(error);
