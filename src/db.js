@@ -8,7 +8,8 @@ const path = require('path');
 
 const {DB_USER, DB_PASSWORD, DB_HOST } = process.env;
 
-
+const entityProductsModels = require('./models/EntityProducts.js')
+const entityUsersModels = require('./models/EntityUsers.js')
 
     const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/ecommerce`, {
         logging: false,
@@ -18,6 +19,8 @@ const {DB_USER, DB_PASSWORD, DB_HOST } = process.env;
     const basename = path.basename(__filename);
 
     const modelDefiners = [];
+    entityProductsModels(sequelize)
+    entityUsersModels(sequelize)
 
     fs.readdirSync(path.join(__dirname, '/models'))
   .filter((file) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
@@ -33,7 +36,8 @@ const {DB_USER, DB_PASSWORD, DB_HOST } = process.env;
 
 
 
-  const {EntityProducts, EntityCategory, EntityBrand, CharacteristicsProducts} = sequelize.models
+  // const {productsModels} = sequelize.models
+  const {EntityUsers} = sequelize.models
 
 //Aqui van las relaciones: ->
 
