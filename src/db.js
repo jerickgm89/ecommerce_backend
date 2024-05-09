@@ -1,14 +1,13 @@
 require("dotenv").config();
-
 const {Sequelize} = require('sequelize');
-
 const fs = require('fs');
-
 const path = require('path');
-
 const {DB_USER, DB_PASSWORD, DB_HOST } = process.env;
 
 const entityProductsModels = require('./models/EntityProducts.js')
+const entityCategoryModels = require('./models/EntityCategory.js')
+const CharacteristicsProductsModels = require('./models/CharacteristicsProducts.js')
+const entityBrandModels = require('./models/EntityBrand.js')
 const entityUsersModels = require('./models/EntityUsers.js')
 
     const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/ecommerce`, {
@@ -20,6 +19,9 @@ const entityUsersModels = require('./models/EntityUsers.js')
 
     const modelDefiners = [];
     entityProductsModels(sequelize)
+    entityCategoryModels(sequelize)
+    CharacteristicsProductsModels(sequelize)
+    entityBrandModels(sequelize)
     entityUsersModels(sequelize)
 
     fs.readdirSync(path.join(__dirname, '/models'))
@@ -34,10 +36,7 @@ const entityUsersModels = require('./models/EntityUsers.js')
   let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
   sequelize.models = Object.fromEntries(capsEntries);
 
-
-
-  // const {productsModels} = sequelize.models
-  const {EntityUsers} = sequelize.models
+  const {EntityProducts, EntityCategory, CharacteristicsProducts, EntityBrand, EntityUsers,} = sequelize.models
 
 //Aqui van las relaciones: ->
 
