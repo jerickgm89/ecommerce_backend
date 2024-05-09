@@ -7,9 +7,9 @@ const {
 } = require('../repositories/usersRepository.js')
 
 //convertir a numero el dni
-const registerUserServices = async ({ dni, name, lastName, email, password }) => {
+const registerUserServices = async ({ name, lastName, email, password }) => {
     const userInfo = {
-        DNI: Number(dni),
+        // DNI: Number(dni),
         nameUser: name,
         lastNameUser: lastName,
         emailUser: email,

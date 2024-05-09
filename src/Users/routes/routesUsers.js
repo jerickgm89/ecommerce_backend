@@ -8,10 +8,10 @@ const {
 
 const routesUsers = require("express").Router()
 
-routesUsers.post("/", controllerRegisterUser);//ruta para crear usuarios
-routesUsers.get("/", controllerGetAllUsers); // obtiene todos los Users
-routesUsers.get("/:id", controllerGetUserById); // busca user por id user pasando el id
-routesUsers.put("/:id", controllerModifyUser); // modifica user pasando el id
-routesUsers.delete("/:id", controllerDeleteUser); // borrar user pasando el id
+routesUsers.post("/", controllerRegisterUser);        //ruta para crear usuarios
+routesUsers.get("/", controllerGetAllUsers);          // obtiene todos los Users
+routesUsers.get("/:id", controllerGetUserById);       // busca User por idUser
+routesUsers.put("/:id", controllerModifyUser);        // modifica user pasando el id
+routesUsers.delete("/:id", controllerDeleteUser);     // borrar user pasando el id
 
 module.exports = routesUsers;

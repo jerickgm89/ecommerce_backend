@@ -5,10 +5,15 @@ const registerUserInDB = async (newUserInfo) => {
     // console.log(newUser)
     return newUser;
 }
+
+// nombre completo, correo, telefono 
 const getAllUsers = async () =>{
     const listAllUsers = await EntityUsers.findAll();
-    return listAllUsers;
-}
+    
+    const {nameUser, LastNameUser, emailUser} = listAllUsers
+    return {nameUser, LastNameUser, emailUser};
+};
+
 const getUserById = async (idUser) =>{
     const userToFind = await EntityUsers.findOne({
         where: {
@@ -25,7 +30,8 @@ const modifyUser = async (idUser, infoToEdit) =>{
         },
     )
     return editedUser[0]
-}
+};
+
 const deleteUser = async (idUser) =>{
     const deletedUser = await EntityUsers.destroy({
         where: {

@@ -8,9 +8,9 @@ const {
 
 const controllerRegisterUser = async (request, response) => {
     try {
-        const { dni, name, lastName, email, password } = request.body
+        const { name, lastName, email, password } = request.body
         
-        if( !dni, !name || !lastName || !email || !password ){
+        if( !name || !lastName || !email || !password ){
             return response
             .status(400)
             .json({message: "Todos los campos son requeridos"})
@@ -18,7 +18,7 @@ const controllerRegisterUser = async (request, response) => {
         // return response.json()
         
         const newUser = await registerUserServices({
-            dni, name, lastName, email, password
+            name, lastName, email, password
         })
         return response
         .status(201)
