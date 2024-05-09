@@ -54,8 +54,7 @@ module.exports = (sequelize) => {
       
     },
     //Paranoid true se utiliza para el borrado lógico.
-    {paraonoid: true}
-)
+    {paranoid: true});
 //INFO ADICIONAL: paranoid: true se utiliza para implementar el borrado lógico o suave (soft deletion) en Sequelize. Cuando esta opción está habilitada en un modelo, Sequelize no elimina físicamente las filas de la base de datos cuando se llama al método destroy(), en su lugar, establece un valor en una columna especial (generalmente llamada deletedAt) para indicar que la fila ha sido "eliminada". Esto permite mantener un historial de las acciones de eliminación y facilita la recuperación de datos eliminados accidentalmente.
 
 
