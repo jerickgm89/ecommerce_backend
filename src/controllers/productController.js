@@ -72,7 +72,6 @@ const createProductAndCharacteristics = async (req, res) => {
 // }
 
 
-
 const updateProductAndCharacteristics = async (req, res) => {
     const { id } = req.params;
     const {
