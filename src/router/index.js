@@ -1,12 +1,14 @@
 const { Router } = require('express')
-
 const routesUsers = require('./../Users/routes/routesUsers.js')
-const routesAuth = require('./../Auth/routes/routesAuth.js')
 
 const router = () => {
     const routers = Router()
     // Agregar aquí la ruta a users
     routers.use('/users', routesUsers)
+    router.use('/brands', brandRoutes);
+    router.use('/products', productRoutes);
+    router.use('/category', categoryRoutes);
+    // router.use('/characters', characteristicsRoutes);
     return routers
 }
 
@@ -15,6 +17,8 @@ const auth_router = () => {
     routers.use('/authentication', routesAuth)
     return routers
 }
+
+
 
 module.exports = {
     router: router(), // Llamar a la función y exportar el resultado

@@ -21,8 +21,18 @@ const config = {
 const server = express();
 
 //esta expresión permite  al servidor Express entender y procesar datos enviados en formato JSON en las solicitudes entrantes
-server.use(express.json());
+server.get('/favicon.ico', (req, res) => res.status(204).end());
 
+// Configuración para excluir `favicon.ico` en los logs
+server.use(
+  morgan('dev', {
+    skip: function (req) {
+      return req.url === '/favicon.ico';
+    }
+  })
+);
+
+server.use(express.json());
 server.use(morgan('dev'));
 server.use(cors());
 

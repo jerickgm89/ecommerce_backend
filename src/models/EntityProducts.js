@@ -1,14 +1,11 @@
-
-const {DataTypes} = require('sequelize')
+const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    
-    sequelize.define('entityProducts', {
-        
+    return sequelize.define('entityProducts', {
         idProduct: { 
             type: DataTypes.INTEGER,
+            autoIncrement: true,
             primaryKey: true,
-            autoIncrement: true
         },
         nameProduct: {
             type: DataTypes.STRING,
@@ -34,30 +31,16 @@ module.exports = (sequelize) => {
             type: DataTypes.INTEGER,
         },
         idCategory: {
-            type: DataTypes.INTEGER
-        },
-        idCharacteristicsProducts: {
-            type: DataTypes.STRING
+            type: DataTypes.INTEGER,
+            allowNull: true
         },
         IdDiscount: {
             type: DataTypes.INTEGER
         },
-        createPro_at: {
-            type: DataTypes.DATE
-        },
-        modifiedPro_at: {
-            type: DataTypes.DATE
-        },
-        deletePro_at: {
-            type: DataTypes.DATE
-        },
-      
-    },
-    //Paranoid true se utiliza para el borrado lógico.
-    {paraonoid: true}
-)
-//INFO ADICIONAL: paranoid: true se utiliza para implementar el borrado lógico o suave (soft deletion) en Sequelize. Cuando esta opción está habilitada en un modelo, Sequelize no elimina físicamente las filas de la base de datos cuando se llama al método destroy(), en su lugar, establece un valor en una columna especial (generalmente llamada deletedAt) para indicar que la fila ha sido "eliminada". Esto permite mantener un historial de las acciones de eliminación y facilita la recuperación de datos eliminados accidentalmente.
-
-
-    
+    },    {
+        paranoid: true,
+        createdAt: 'createdProd_at',
+        updatedAt: 'modifiedProd_at',
+        deletedAt: 'deletedProd_at'
+    });
 };
