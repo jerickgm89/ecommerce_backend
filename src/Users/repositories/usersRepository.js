@@ -2,7 +2,6 @@ const  { EntityUsers } = require('../../db.js');
 
 const registerUserInDB = async (newUserInfo) => {
     const newUser = await EntityUsers.create(newUserInfo);
-    // console.log(newUser)
     return newUser;
 }
 
@@ -10,8 +9,8 @@ const registerUserInDB = async (newUserInfo) => {
 const getAllUsers = async () =>{
     const listAllUsers = await EntityUsers.findAll();
     
-    const {nameUser, LastNameUser, emailUser} = listAllUsers
-    return {nameUser, LastNameUser, emailUser};
+    // const {nameUser, LastNameUser, emailUser} = listAllUsers
+    return listAllUsers;
 };
 
 const getUserById = async (idUser) =>{

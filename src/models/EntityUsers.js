@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
         },
         DNI: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            // allowNull: false,
             validate: {
                 isInt: true,
                 max: 100000000

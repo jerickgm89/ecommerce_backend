@@ -1,9 +1,12 @@
 require("dotenv").config();
 const express = require('express');
-const { router, auth_router } = require('./router/index.js');
+const { auth } = require('express-openid-connect');
+const { 
+    router,
+    auth_router
+} = require('./router/index.js');
 const cors = require('cors');
 const morgan = require('morgan');
-const { auth } = require('express-openid-connect');
 const { SECRET, BASEURL, CLIENTID, ISSUER } = process.env;
 
 const config = {
@@ -24,6 +27,7 @@ server.use(morgan('dev'));
 server.use(cors());
 
 server.use(auth(config));
+
 server.use(router);
 server.use(auth_router);
 

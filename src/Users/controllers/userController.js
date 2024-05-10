@@ -15,7 +15,7 @@ const controllerRegisterUser = async (request, response) => {
             .status(400)
             .json({message: "Todos los campos son requeridos"})
         }
-        // return response.json()
+        // return response.json("hola")
         
         const newUser = await registerUserServices({
             name, lastName, email, password
@@ -27,7 +27,8 @@ const controllerRegisterUser = async (request, response) => {
     } catch (error) {
         response
         .status(500)
-        .json({message: "No fue posible crear el usuario"})
+        .json({error: error})
+        // .json({message: "No fue posible crear el usuario"})
         
     }
 };
@@ -35,7 +36,9 @@ const controllerRegisterUser = async (request, response) => {
 const controllerGetAllUsers = async (request, response) => {
     try {
         const allUsersList = await getAllUsersServices();
-        return response.status(200).json(allUsersList)
+        return response
+        .status(200)
+        .json( allUsersList )
 
     } catch (error) {
         response
