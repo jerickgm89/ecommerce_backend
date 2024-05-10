@@ -1,5 +1,44 @@
 const { EntityBrand } = require('../db');
 
+const createBrand = async (req, res) => {
+    const { nameBrand } = req.body;
+    try {
+        const newBrand = await EntityBrand.create({ nameBrand });
+        res.status(201).json(newBrand);
+    } catch (error) {
+        console.error('Error creating brand:', error);
+        res.status(500).json({ error: 'Error creating brand', details: error.message });
+    }
+};
+
+// Peticion Create :
+// {
+//     "nameBrand": "Adidas"
+// }
+
+
+const updateBrand = async (req, res) => {
+    const { id } = req.params;
+    const { nameBrand } = req.body;
+    try {
+        const brand = await EntityBrand.findByPk(id);
+        if (brand) {
+            brand.nameBrand = nameBrand;
+            await brand.save();
+            res.json(brand);
+        } else {
+            res.status(404).json({ error: 'Brand not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error updating brand' });
+    }
+};
+
+// Peticion Update :
+// {
+//     "nameBrand": "Ediatar Nombre "
+// }
+
 const getAllBrands = async (req, res) => {
     try {
         const brands = await EntityBrand.findAll();
@@ -20,34 +59,6 @@ const getBrandByName = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ error: 'Error fetching brand' });
-    }
-};
-
-const createBrand = async (req, res) => {
-    const { nameBrand } = req.body;
-    try {
-        const newBrand = await EntityBrand.create({ nameBrand });
-        res.status(201).json(newBrand);
-    } catch (error) {
-        console.error('Error creating brand:', error);
-        res.status(500).json({ error: 'Error creating brand', details: error.message });
-    }
-};
-
-const updateBrand = async (req, res) => {
-    const { id } = req.params;
-    const { nameBrand } = req.body;
-    try {
-        const brand = await EntityBrand.findByPk(id);
-        if (brand) {
-            brand.nameBrand = nameBrand;
-            await brand.save();
-            res.json(brand);
-        } else {
-            res.status(404).json({ error: 'Brand not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ error: 'Error updating brand' });
     }
 };
 

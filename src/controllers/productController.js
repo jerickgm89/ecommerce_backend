@@ -48,6 +48,31 @@ const createProductAndCharacteristics = async (req, res) => {
     }
 };
 
+// ############### Peticion para crear Un Producto con sus Detalles o Caracteristicas ########### 
+
+// {
+//     "Products": {
+//         "nameProduct": "Nombre",
+//         "priceProduct": 99.99,
+//         "imageProducts": "image.jpg",
+//         "SKU": "B0CFNX3PTT",
+//         "stockProduct": 10,
+//         "idReview": null,
+//         "idCategory": 1,
+//         "IdDiscount": null
+//     },
+//     "Variants": {
+//         "modelProduct": "Model A",
+//         "characteristics": {
+//             "color": "red",
+//             "size": "L"
+//         },
+//         "idBrand": 1
+//     }
+// }
+
+
+
 const updateProductAndCharacteristics = async (req, res) => {
     const { id } = req.params;
     const {
@@ -112,6 +137,30 @@ const updateProductAndCharacteristics = async (req, res) => {
         res.status(500).json({ error: 'Error updating product and characteristics', details: error.message });
     }
 };
+
+// ####### Peticion para Editar por metodo Patch #######
+// recordar que por el metodo patch no es obligatoriuo pasar todo el json yal cual si no tambien se puede pasar solo la key y el valor actualizado
+
+// {
+//     "Products": {
+//         "nameProduct": "Nuenvo Nombre ",
+//         "priceProduct": 199.99,
+//         "imageProducts": "image.jpg, url",
+//         "SKU": "B07F22VLWY",
+//         "stockProduct": 25,
+//         "idReview": null,
+//         "idCategory": 2,
+//         "IdDiscount": null
+//     },
+//     "Variants": {
+//         "modelProduct": "Updated Model B",
+//         "characteristics": {
+//             "color": "blue",
+//             "size": "M"
+//         },
+//         "idBrand": 1
+//     }
+// }
 
 const getAllProducts = async (req, res) => {
     try {
