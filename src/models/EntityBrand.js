@@ -1,24 +1,20 @@
-const {DataTypes} = require('sequelize')
+const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    sequelize.define('entityBrand', {
-        idBrand : {
-            type: DataTypes.STRING,
+    return sequelize.define('entityBrand', {
+        idBrand: {
+            type: DataTypes.INTEGER,
             primaryKey: true,
-            allowNull: false
+            autoIncrement: true, 
         },
         nameBrand: {
             type: DataTypes.STRING,
             allowNull: false
-        },
-        createBrand_at : {
-            type: DataTypes.DATE,
-        },
-        modifiedBrand_at: {
-            type: DataTypes.DATE
-        },
-        deleteBrand_at: {
-            type: DataTypes.DATE
         }
-    })
-}
+    }, {
+        paranoid: true,
+        createdAt: 'createBrand_at',
+        updatedAt: 'modifiedBrand_at',
+        deletedAt: 'deleteBrand_at'
+    });
+};
