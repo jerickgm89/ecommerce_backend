@@ -1,16 +1,21 @@
 
 const server = require('./src/server');
 const {conn} = require('./src/db.js')
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
-try {
-    server.listen(PORT, async () => {
+(async () => {
+  try {
+    await conn.authenticate();
+    console.log('Database connected');
+    
+    await conn.sync({ force: false });
+    console.log('Models synchronized successfully!');
+
+    server.listen(PORT, () => {
       console.log(`Server listening on port ${PORT}`);
-      await conn.sync({ force: true });
-      console.log('Database connected');
-  
     });
-  } catch ( error ) {
-    console.log(error);
-  
+
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
   }
+})();
