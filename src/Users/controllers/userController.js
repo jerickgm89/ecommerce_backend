@@ -32,16 +32,50 @@ const controllerRegisterUser = async (request, response) => {
     }
 };
 
+// const controllerGetAllUsers = async (request, response) => {
+//     try {
+//         const allUsersList = await getAllUsersServices();
+//         return response.status(200).json(allUsersList)
+
+//     } catch (error) {
+//         response
+//         .status(500)
+//         .json({message: "Usuarios no fueron encontrados"})
+        
+//     }
+// };
 const controllerGetAllUsers = async (request, response) => {
     try {
-        const allUsersList = await getAllUsersServices();
-        return response.status(200).json(allUsersList)
+        let allUsersList = await getAllUsersServices();
 
+        // Filtrado por nombre, apellido o correo electrónico
+        const { name, lastName, email } = request.query;
+        if (name) {
+            allUsersList = allUsersList.filter(user => user.nameUser.toLowerCase() === name.toLowerCase());
+        }
+        if (lastName) {
+            allUsersList = allUsersList.filter(user => user.lastNameUser.toLowerCase() === lastName.toLowerCase());
+        }
+        if (email) {
+            allUsersList = allUsersList.filter(user => user.emailUser.toLowerCase() === email.toLowerCase());
+        }
+
+        // Paginado
+        if (request.query.page && request.query.pageSize) {     //Verifico parametros
+            const { page, pageSize } = request.query;           //Pagina actual y tamaño
+            const startIndex = (page - 1) * pageSize;           //INdice de inicio y fin
+            const endIndex = page * pageSize;
+            allUsersList = allUsersList.slice(startIndex, endIndex); //Extraigo usuarios
+        }
+
+        // Verificar si se encontraron usuarios después del filtrado
+        if (allUsersList.length === 0) {
+            return response.status(404).json({ message: "No se encontraron usuarios con los criterios proporcionados" });
+        }
+
+        return response.status(200).json(allUsersList);
     } catch (error) {
-        response
-        .status(500)
-        .json({message: "Usuarios no fueron encontrados"})
-        
+        response.status(500).json({ message: "Usuarios no fueron encontrados" });
     }
 };
 
