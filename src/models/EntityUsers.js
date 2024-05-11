@@ -16,16 +16,20 @@ module.exports = (sequelize) => {
                 max: 100000000
             }
         },
+        // sub: {
+        //     type: DataTypes.STRING,
+        //     allowNull: false
+        // },
         nameUser: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                isAlpha: true
-            }
+            // allowNull: false,
+            // validate: {
+            //     isAlpha: true
+            // }
         },
         lastNameUser: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         emailUser: {
             type: DataTypes.STRING,
@@ -34,17 +38,29 @@ module.exports = (sequelize) => {
                 isEmail: true
             }
         },
+        pictureUser: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         numberMobileUser: {
             type: DataTypes.STRING,
             allowNull: true
         },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false,
+        email_verified: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
+        },
+        userRole: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true
+        },
+        // password: {
+        //     type: DataTypes.STRING,
+        //     allowNull: true,
             // validate: {
             //     isAlphanumeric: true
             // }
-        },
+        // },
         activeUser: {
             type: DataTypes.BOOLEAN,
             defaultValue: true

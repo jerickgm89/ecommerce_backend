@@ -7,16 +7,7 @@ const {
 } = require('./router/index.js');
 const cors = require('cors');
 const morgan = require('morgan');
-const { SECRET, BASEURL, CLIENTID, ISSUER } = process.env;
 
-const config = {
-    authRequired: false,
-    auth0Logout: true,
-    secret: SECRET,
-    baseURL: BASEURL,
-    clientID: CLIENTID,
-    issuerBaseURL: ISSUER
-};
 
 const server = express();
 
@@ -35,8 +26,6 @@ server.use(
 server.use(express.json());
 server.use(morgan('dev'));
 server.use(cors());
-
-server.use(auth(config));
 
 server.use(router);
 server.use(auth_router);

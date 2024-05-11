@@ -1,4 +1,3 @@
-
 {
     "celulares": [
         {
@@ -36,7 +35,7 @@
             "memory": "4GB RAM",
             "storage": "64GB storage",
             "battery": "2815mAh battery"
-           },
+          },
           "SKU": "celipho12-001",
           "price": 500000.00
         },

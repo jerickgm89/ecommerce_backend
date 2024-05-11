@@ -8,6 +8,8 @@ const createProductAndCharacteristics = async (req, res) => {
             imageProducts,
             SKU,
             stockProduct,
+            yearProduct,
+            descriptionProduct,
             idReview,
             idCategory,
             IdDiscount
@@ -24,10 +26,12 @@ const createProductAndCharacteristics = async (req, res) => {
     try {
         const newProduct = await EntityProducts.create({
             nameProduct,
-            priceProduct,
+            priceProduct: price,
             imageProducts,
             SKU,
             stockProduct,
+            yearProduct,
+            descriptionProduct,
             idReview,
             idCategory,
             IdDiscount

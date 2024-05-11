@@ -1,7 +1,6 @@
 const { EntityCategory } = require('../db');
 
 
-
 const createCategory = async (req, res) => {
     const { nameCategory, descriptionCategory } = req.body;
     try {
