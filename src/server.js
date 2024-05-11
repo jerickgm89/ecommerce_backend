@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require('express');
-const { auth } = require('express-openid-connect');
 const { 
     router,
     auth_router

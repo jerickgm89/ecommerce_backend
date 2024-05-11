@@ -6,7 +6,7 @@ const {
   getProductById,
   getProductByName,
   deleteProductAndCharacteristics
-} = require('../../../controllers/productController');
+} = require('../../controllers/product/productController.js');
 
 const router = express.Router();
 

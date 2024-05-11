@@ -1,4 +1,4 @@
-const { EntityBrand } = require('../db');
+const { EntityBrand } = require('../../../db.js');
 
 const createBrand = async (req, res) => {
     const { nameBrand } = req.body;

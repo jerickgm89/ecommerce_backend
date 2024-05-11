@@ -1,4 +1,4 @@
-const { EntityProducts, CharacteristicsProducts } = require('../db');
+const { EntityProducts, CharacteristicsProducts } = require('../../../db.js');
 
 const createProductAndCharacteristics = async (req, res) => {
     const {
