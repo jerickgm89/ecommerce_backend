@@ -17,9 +17,6 @@ const createCategory = async (req, res) => {
 // {
 //     "nameCategory": "Electronics",
 //     "descriptionCategory": "Breve descripcion de la categoria",
-//     "createdCat_at": "2024-05-10T10:00:00.000Z",
-//     "modifiedCat_at": "2024-05-10T10:00:00.000Z",
-//     "deletedCat_at": null
 // }
 
 const updateCategory = async (req, res) => {
