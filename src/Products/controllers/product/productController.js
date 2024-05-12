@@ -7,8 +7,8 @@ const createProductAndCharacteristics = async (req, res) => {
             priceProduct,
             imageProducts,
             SKU,
-            stockProduct,
             yearProduct,
+            stockProduct,
             descriptionProduct,
             idReview,
             idCategory,
@@ -29,6 +29,8 @@ const createProductAndCharacteristics = async (req, res) => {
             priceProduct: price,
             imageProducts,
             SKU,
+            descriptionProduct,
+            yearProduct,
             stockProduct,
             yearProduct,
             descriptionProduct,
@@ -84,6 +86,8 @@ const updateProductAndCharacteristics = async (req, res) => {
             priceProduct,
             imageProducts,
             SKU,
+            descriptionProduct,
+            yearProduct,
             stockProduct,
             idReview,
             idCategory,
@@ -109,6 +113,7 @@ const updateProductAndCharacteristics = async (req, res) => {
         product.priceProduct = priceProduct || product.priceProduct;
         product.imageProducts = imageProducts || product.imageProducts;
         product.SKU = SKU || product.SKU;
+        product.descriptionProduct = descriptionProduct || product.descriptionProduct
         product.stockProduct = stockProduct || product.stockProduct;
         product.idReview = idReview || product.idReview;
         product.idCategory = idCategory || product.idCategory;
@@ -169,6 +174,7 @@ const getAllProducts = async (req, res) => {
     try {
         const products = await EntityProducts.findAll();
         res.json(products);
+        
     } catch (error) {
         res.status(500).json({ error: 'Error fetching products', details: error.message });
     }
