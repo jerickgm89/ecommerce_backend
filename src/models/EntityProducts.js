@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+const CharacteristicsProducts = require('./CharacteristicsProducts');
 
 module.exports = (sequelize) => {
     return sequelize.define('entityProducts', {
@@ -15,17 +16,17 @@ module.exports = (sequelize) => {
             type: DataTypes.DECIMAL(10,2),
             allowNull: false
         },
-        imageProducts: {
-            type: DataTypes.STRING,
-            allowNull: false
+        yearProduct: {
+            type: DataTypes.INTEGER,
+            // allowNull: false
         },
-        yearProducts: {
-            type: DataTypes.STRING,
+        imageProducts: {
+            type: DataTypes.JSONB,
             allowNull: false
         },
         descriptionProduct: {
             type: DataTypes.STRING,
-            // allowNull: false
+            allowNull: false
         },
         SKU: {
             type: DataTypes.STRING,
@@ -33,7 +34,7 @@ module.exports = (sequelize) => {
         },
         stockProduct: {
             type: DataTypes.INTEGER,
-            allowNull: false
+          
         },
         idReview: {
             type: DataTypes.INTEGER,

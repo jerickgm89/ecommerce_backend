@@ -24,6 +24,10 @@ module.exports = (sequelize) => {
             type: DataTypes.INTEGER,
             allowNull: false,
         }
-
-    })
-}
+    }, {
+        paranoid: true,
+        createdAt: 'createCharacteristic_at',
+        updatedAt: 'modifiedCharacteristic_at',
+        deletedAt: 'deleteCharacteristic_at'
+    });
+};
