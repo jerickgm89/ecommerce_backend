@@ -20,8 +20,8 @@ module.exports = (sequelize) => {
         },
     }, {
         paranoid: true,
-        createdAt: 'createCat_at',
-        updatedAt: 'modifiedCat_at',
-        deletedAt: 'deleteCat_at'
+        createdAt: 'createdCategory_at',
+        updatedAt: 'modifiedCategory_at',
+        deletedAt: 'deletedCategory_at'
     });
 }

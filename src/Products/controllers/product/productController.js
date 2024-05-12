@@ -26,7 +26,7 @@ const createProductAndCharacteristics = async (req, res) => {
     try {
         const newProduct = await EntityProducts.create({
             nameProduct,
-            priceProduct: price,
+            priceProduct,
             imageProducts,
             SKU,
             descriptionProduct,
@@ -47,6 +47,7 @@ const createProductAndCharacteristics = async (req, res) => {
         }, { transaction });
 
         await transaction.commit();
+        // console.log(newCharacteristics)
         res.status(201).json({ newProduct, newCharacteristics });
     } catch (error) {
         await transaction.rollback();
@@ -61,6 +62,8 @@ const createProductAndCharacteristics = async (req, res) => {
 //         "nameProduct": "Nombre",
 //         "priceProduct": 99.99,
 //         "imageProducts": "image.jpg",
+//         "yearProduct": "1990",
+//         "descriptionProduct": "Descripción muy importante sobre el producto",
 //         "SKU": "B0CFNX3PTT",
 //         "stockProduct": 10,
 //         "idReview": null,
@@ -151,9 +154,11 @@ const updateProductAndCharacteristics = async (req, res) => {
 
 // {
 //     "Products": {
-//         "nameProduct": "Nuenvo Nombre ",
+//         "nameProduct": "Nuevo Nombre",
 //         "priceProduct": 199.99,
 //         "imageProducts": "image.jpg, url",
+//         "yearProduct": "1990",
+//         "descriptionProduct": "Descripción muy importante sobre el producto",
 //         "SKU": "B07F22VLWY",
 //         "stockProduct": 25,
 //         "idReview": null,
@@ -172,7 +177,12 @@ const updateProductAndCharacteristics = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
     try {
-        const products = await EntityProducts.findAll();
+        const products = await EntityProducts.findAll({
+            include:[{
+                model: CharacteristicsProducts,
+                attributes: ['modelProduct', 'characteristics','idBrand']
+            }]
+        });
         res.json(products);
         
     } catch (error) {

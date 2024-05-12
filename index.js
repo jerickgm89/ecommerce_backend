@@ -1,13 +1,12 @@
 const server = require('./src/server');
 const {conn} = require('./src/db.js');
-const {EntityProducts, EntityCategory, EntityBrand} = require('./src/db.js');
 const PORT = process.env.PORT || 3001;
 const { initializeData } = require('./src/config/databaseInit')
 
 conn.sync({ force: true }).then(async () => {
   try {
-      await initializeData(); // aqui se llama a la funcion initializeData que AUTOMATICAMENTE CARGUE PRODUCTOS AL LEVANTAR EL SERVER 
-      console.log('Initial data loaded successfully');
+    await initializeData(); // aqui se llama a la funcion initializeData que AUTOMATICAMENTE CARGUE PRODUCTOS AL LEVANTAR EL SERVER 
+    console.log('Initial data loaded successfully');
 
     server.listen(PORT, () => {
       console.log(`Server listening on port ${PORT}`);
