@@ -73,6 +73,7 @@ const controllerGetAllUsers = async (request, response) => {
         if (email) {
             allUsersList = allUsersList.filter(user => user.emailUser.toLowerCase() === email.toLowerCase());
         }
+        
 
         // Paginado
         if (request.query.page && request.query.pageSize) {     //Verifico parametros
@@ -92,6 +93,8 @@ const controllerGetAllUsers = async (request, response) => {
         response.status(500).json({ message: "Usuarios no fueron encontrados" });
     }
 };
+
+
 
 
 const controllerGetUserById = async (request, response) =>{
