@@ -1,14 +1,16 @@
 const  { EntityUsers } = require('../../db.js');
 
-const registerUserInDB = async (newUserInfo) => {
-    const newUser = await EntityUsers.create(newUserInfo);
-    // console.log(newUser)
-    return newUser;
+const loginUser = async (newUserInfo) => {
+    const [user, created] = await EntityUsers.findOrCreate({where: newUserInfo});
+    return user;
 }
+
 const getAllUsers = async () =>{
     const listAllUsers = await EntityUsers.findAll();
+    
     return listAllUsers;
-}
+};
+
 const getUserById = async (idUser) =>{
     const userToFind = await EntityUsers.findOne({
         where: {
@@ -25,7 +27,8 @@ const modifyUser = async (idUser, infoToEdit) =>{
         },
     )
     return editedUser[0]
-}
+};
+
 const deleteUser = async (idUser) =>{
     const deletedUser = await EntityUsers.destroy({
         where: {
@@ -35,14 +38,9 @@ const deleteUser = async (idUser) =>{
     return !!deletedUser
 }
 module.exports = {
-    registerUserInDB,
+    loginUser,
     getAllUsers,
     getUserById,
     modifyUser,
     deleteUser
 }
-
-// Solo este utiliza sequelize e importa los modelos (desde la db)
-
-// const { Op } = require('sequelize');
-// const { Driver, Teams } = require('../../src/db');

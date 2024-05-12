@@ -1,5 +1,4 @@
-const { EntityCategory } = require('../db');
-
+const { EntityCategory } = require('../../../db.js');
 
 
 const createCategory = async (req, res) => {

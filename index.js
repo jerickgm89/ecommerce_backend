@@ -1,15 +1,13 @@
-
 const server = require('./src/server');
-const {conn} = require('./src/db.js')
+const {conn} = require('./src/db.js');
+const {EntityProducts, EntityCategory, EntityBrand} = require('./src/db.js');
 const PORT = process.env.PORT || 3001;
+const { initializeData } = require('./src/config/databaseInit')
 
-(async () => {
+conn.sync({ force: true }).then(async () => {
   try {
-    await conn.authenticate();
-    console.log('Database connected');
-    
-    await conn.sync({ force: false });
-    console.log('Models synchronized successfully!');
+      await initializeData(); // aqui se llama a la funcion initializeData que AUTOMATICAMENTE CARGUE PRODUCTOS AL LEVANTAR EL SERVER 
+      console.log('Initial data loaded successfully');
 
     server.listen(PORT, () => {
       console.log(`Server listening on port ${PORT}`);
@@ -18,4 +16,4 @@ const PORT = process.env.PORT || 3001;
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
-})();
+});

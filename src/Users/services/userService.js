@@ -1,5 +1,5 @@
 const {
-    registerUserInDB,
+    loginUser,
     getAllUsers,
     getUserById,
     modifyUser,
@@ -7,19 +7,19 @@ const {
 } = require('../repositories/usersRepository.js')
 
 //convertir a numero el dni
-const registerUserServices = async ({ dni, name, lastName, email, password }) => {
+const logInUserServices = async ({ given_name, family_name, email, picture, email_verified, userRole }) => {
     const userInfo = {
-        DNI: Number(dni),
-        nameUser: name,
-        lastNameUser: lastName,
+        // DNI: Number(dni),
+        nameUser: given_name,
+        lastNameUser: family_name,
         emailUser: email,
-        password: password
+        pictureUser: picture,
+        email_verified
     }
-    const newUser = await registerUserInDB(userInfo);
+    const newUser = await loginUser(userInfo);
     return newUser
 }
 
-// listar todos los usuarios nombre correo, telefono
 const getAllUsersServices = async () => {
     const allUsersList = await getAllUsers();
     return allUsersList
@@ -50,29 +50,9 @@ const deleteUserServices = async (idUser) => {
 }
 
 module.exports = {
-    registerUserServices,
+    logInUserServices,
     getAllUsersServices,
     getUserByIdServices,
     modifyUserServices,
     deleteUserServices
 }
-// Servicio para obtener todos los drivers
-// Busca los drivers en la API y en la base de datos
-// Retorna los drivers encontrados en la API y en la base de datos debidamente formateados
-
-// const { getAllTeams, createTeam } = require('../repositories/teamRepository');
-// const { fetchApi } = require('../utils/fetchApi')
-
-
-// importa desde repositories
-
-
-
-
-
-
-// y en utils fetchApi.js ejecuta axios O formatSendResponse (// Desc: Formatea la respuesta de los drivers para enviarla al cliente)
-// const axios = require('axios');
-// const API = 'http://localhost:5000/drivers';
-
-

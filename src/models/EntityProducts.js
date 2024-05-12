@@ -19,6 +19,14 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        yearProducts: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        descriptionProduct: {
+            type: DataTypes.STRING,
+            // allowNull: false
+        },
         SKU: {
             type: DataTypes.STRING,
             allowNull: false
@@ -37,7 +45,7 @@ module.exports = (sequelize) => {
         IdDiscount: {
             type: DataTypes.INTEGER
         },
-    },    {
+    },{
         paranoid: true,
         createdAt: 'createdProd_at',
         updatedAt: 'modifiedProd_at',

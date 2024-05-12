@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
         },
         descriptionCategory: {
             type: DataTypes.STRING,
-            allowNull: false
+            // allowNull: false
 
         },
     }, {
