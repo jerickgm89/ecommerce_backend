@@ -1,5 +1,5 @@
 const {
-    registerUserServices,
+    logInUserServices,
     getAllUsersServices,
     getUserByIdServices,
     modifyUserServices,
@@ -8,18 +8,31 @@ const {
 
 const controllerRegisterUser = async (request, response) => {
     try {
-        const { dni, name, lastName, email, password } = request.body
+        const { 
+            given_name,
+            family_name,
+            email,
+            picture,
+            email_verified,
+            userRole,
+        } = request.body
         
-        if( !dni, !name || !lastName || !email || !password ){
+        if( !given_name || !family_name || !email || !picture || !email_verified ){
             return response
             .status(400)
             .json({message: "Todos los campos son requeridos"})
         }
-        // return response.json()
+
         
-        const newUser = await registerUserServices({
-            dni, name, lastName, email, password
+        const newUser = await logInUserServices({
+            given_name,
+            family_name,
+            email,
+            picture,
+            email_verified,
+            userRole,
         })
+
         return response
         .status(201)
         .json( newUser )
@@ -27,6 +40,7 @@ const controllerRegisterUser = async (request, response) => {
     } catch (error) {
         response
         .status(500)
+        // .json({error: error})
         .json({message: "No fue posible crear el usuario"})
         
     }
@@ -35,7 +49,9 @@ const controllerRegisterUser = async (request, response) => {
 const controllerGetAllUsers = async (request, response) => {
     try {
         const allUsersList = await getAllUsersServices();
-        return response.status(200).json(allUsersList)
+        return response
+        .status(200)
+        .json( allUsersList )
 
     } catch (error) {
         response

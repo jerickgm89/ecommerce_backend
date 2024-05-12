@@ -5,7 +5,7 @@ const {
     createBrand,
     updateBrand,
     deleteBrand
-} = require('../controllers/brandController');
+} = require('../../controllers/brand/brandController.js');
 
 const router = express.Router();
 

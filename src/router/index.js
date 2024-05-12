@@ -1,21 +1,48 @@
-
-const {Router} = require('express')
+const { Router } = require('express')
 const routesUsers = require('./../Users/routes/routesUsers.js')
-const brandRoutes = require('./brandRoutes');
-const categoryRoutes = require('./categoryRoutes.js');
-const productRoutes = require('./productRoutes.js');
-// const characteristicsRoutes = require('./characterProducts'); // Importamos las rutas de las características de los productos
+const routesProducts = require('./../Products/routes')
+
+const router = () => {
+    const routers = Router()
+    // Agregar aquí la ruta a users
+
+    routers.use('/products', routesProducts)
+    return routers
+}
+
+const auth_router = () => {
+    const routers = Router()
+    routers.use('/users', routesUsers)
+    return routers
+}
+
+module.exports = {
+    router: router(), // Llamar a la función y exportar el resultado
+    auth_router: auth_router() // Llamar a la función y exportar el resultado
+};
 
 
 
-const router = Router()
-
-router.use('/users', routesUsers)
-router.use('/brands', brandRoutes);
-router.use('/products', productRoutes);
-router.use('/category', categoryRoutes);
-// router.use('/characters', characteristicsRoutes);
 
 
 
-module.exports = router;
+
+
+
+
+// const {Router} = require('express')
+
+// const routesUsers = require('./../Users/routes/routesUsers.js')
+// const routesAuth = require('./../Auth/routes/routesAuth.js')
+
+// const router = Router()
+
+// router.use('/users', routesUsers)
+
+
+// router.use('/authentication', routesAuth)
+
+
+
+
+// module.exports = {router}
