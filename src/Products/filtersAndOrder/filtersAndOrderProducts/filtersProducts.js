@@ -1,13 +1,15 @@
-const { EntityProducts, EntityBrand, EntityCategory } = require('../../../db');
+const { EntityProducts } = require('../../../db');
 const { Op } = require('sequelize');
 
 const filtersProducts = async (req, res) => {
-    const { name, price, year, orderBy, orderDirection } = req.query;
-    const { page = 1, limit = 10 } = req.query;
+    const { name, price, year, orderBy, orderDirection, priceMin, priceMax } = req.query;
+    // const { priceMin, priceMax } = req.query;
+    const { page = 1, limit = 9} = req.query;
     const offset = (page - 1) * limit;   // Calcula el inicio del paginado.
     const where = {};
 
     try {
+        // Construye las condiciones de filtrado basadas en los parámetros de consulta.
         if (name) {
             where.nameProduct = { [Op.iLike]: `%${name}%` };
         }
@@ -17,6 +19,15 @@ const filtersProducts = async (req, res) => {
         if (year) {
             where.yearProduct = year;
         }
+        if ( priceMin || priceMax ) {
+            if (priceMin) {
+                where.priceProduct = {[ Op.gte ] : priceMin}; // Mayor o igual que priceMin
+            }
+            if (priceMax) {
+                where.priceProduct= {[ Op.lte ] : priceMax}; // Menor o igual que priceMax
+            }
+        }
+
 
         const order = [];
         if (orderBy && orderDirection) {
@@ -26,7 +37,7 @@ const filtersProducts = async (req, res) => {
             if  (orderBy === 'priceProduct' || orderBy === 'yearProduct' || orderBy === 'nameProduct') {
                 selectedOrderBy = orderBy;
             }
-             {
+            {
                 selectedOrderBy = orderBy;
             }
 
@@ -38,7 +49,6 @@ const filtersProducts = async (req, res) => {
                 order.push([selectedOrderBy, selectedOrderDirection.toUpperCase()]);
             }
         }
-console.log(order);
         const resultFilters = await EntityProducts.findAndCountAll({
             where: { ...where },
             limit,

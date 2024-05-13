@@ -1,12 +1,12 @@
 const { EntityBrand } = require('../../../db.js');
 
-const { createBrandService } = require('../../services/brand/brandServices.js')
+// const { createBrandService } = require('../../services/brand/brandServices.js')
 
 const createBrand = async (req, res) => {
     const { nameBrand } = req.body;
     try {
-        const newBrand = await createBrandService({nameBrand})
-        // const newBrand = await EntityBrand.create({ nameBrand });
+        // const newBrand = await createBrandService({nameBrand})
+        const newBrand = await EntityBrand.create({ nameBrand });
         res.status(201).json(newBrand);
     } catch (error) {
         console.error('Error creating brand:', error);

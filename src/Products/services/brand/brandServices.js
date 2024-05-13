@@ -1,13 +1,12 @@
-const { createBrandRepository } = require('../../repositories/brand/brandRepositories.js')
+// const { createBrandRepository } = require('../../repositories/brand/brandRepositories.js')
 
-const createBrandService = async ({nameBrand}) => {
+// const createBrandService = async ({nameBrand}) => {
     
-    const newBrand = await createBrandRepository({nameBrand});
-    // const newBrand = await EntityBrand.create({ nameBrand });
-    return newBrand;
-}
+//     const newBrand = await createBrandRepository({nameBrand});
+//     return newBrand;
+// }
 
 
-module.exports = {
-    createBrandService
-}
+// module.exports = {
+//     createBrandService
+// }
