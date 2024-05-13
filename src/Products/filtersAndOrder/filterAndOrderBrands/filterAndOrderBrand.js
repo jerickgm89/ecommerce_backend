@@ -3,7 +3,7 @@ const {Op} = require('sequelize')
 
 const filterAndOrderBrand = async (req, res) => {
     const { nameBrand, orderBy, orderDirection } = req.query;
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 9 } = req.query;
     const offset = (page - 1) * limit;
     const where = {};
 
