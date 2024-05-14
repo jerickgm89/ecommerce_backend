@@ -180,7 +180,7 @@ const updateProductAndCharacteristics = async (req, res) => {
 const getAllProducts = async (req, res) => {
     let { page, limit } = req.query;
     let offset;
-    if(page|| limit){
+    if( page|| limit ){
         page = parseInt(page);
         limit = parseInt(limit);
         offset = (page - 1) * limit;
