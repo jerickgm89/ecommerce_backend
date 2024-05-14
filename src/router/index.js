@@ -3,9 +3,11 @@ const { Router } = require('express')
 const routesUsers = require('./../Users/routes/routesUsers.js')
 const routesProducts = require('./../Products/routes')
 
-const routesFiltersProducts = require('../products/routes/routesFiltersProducts/routesFiltersProducts.js')
-const routesFiltersBrand = require('../products/routes/routesFiltersBrand/routesFilterBrand.js')
-const routesFiltersCategory = require('../products/routes/routesFiltersCategory/routesFiltersCategory.js')
+// const routesFiltersProducts = require('../products/routes/routesFiltersProducts/routesFiltersProducts.js');
+const routesFiltersProducts = require('../Products/routes/routesFiltersProducts/routesFiltersProducts.js')
+const routesFiltersBrand = require('../Products/routes/routesFiltersBrand/routesFilterBrand.js')
+// const routesFiltersBrand = require('../../Products/routes/routesFiltersBrand/routesFilterBrand.js')
+const routesFiltersCategory = require('../Products//routes/routesFiltersCategory/routesFiltersCategory.js')
 
 
 
@@ -19,7 +21,6 @@ const router = () => {
     routers.use('/filterproducts', routesFiltersProducts)
     routers.use('/filterbrand', routesFiltersBrand)
     routers.use('/filtercategory', routesFiltersCategory)
-      
     return routers
 }
 

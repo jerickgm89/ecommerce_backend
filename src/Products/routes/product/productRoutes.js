@@ -18,8 +18,8 @@ const router = express.Router();
 router.post('/', upload.single('imageProducts'),createProductAndCharacteristics);
 router.patch('/:id', updateProductAndCharacteristics);
 router.get('/', getAllProducts);
+router.get('/search', getProductByName);
 router.get('/:id', getProductById);
-router.get('/name/:name', getProductByName);
 router.delete('/:id', deleteProductAndCharacteristics);
 
 

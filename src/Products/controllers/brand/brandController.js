@@ -43,8 +43,15 @@ const updateBrand = async (req, res) => {
 // }
 
 const getAllBrands = async (req, res) => {
+    let { page = 1, limit = 9 } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+    const offset = (page - 1) * limit;
     try {
-        const brands = await EntityBrand.findAll();
+        const brands = await EntityBrand.findAll({
+            offset,
+            limit,
+        });
         res.json(brands);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching brands' });
