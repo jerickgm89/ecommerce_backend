@@ -1,6 +1,6 @@
+const { Op } = require('sequelize');
 const { EntityProducts, CharacteristicsProducts } = require('../../../db.js');
 const cloudinary = require('cloudinary')
-
 const createProductAndCharacteristics = async (req, res) => {
    
     const imageProd = await cloudinary.uploader.upload(req.file.path)
@@ -181,14 +181,23 @@ const updateProductAndCharacteristics = async (req, res) => {
 // }
 
 const getAllProducts = async (req, res) => {
+    let { page = 1, limit = 9 } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+    const offset = (page - 1) * limit;
     try {
         const products = await EntityProducts.findAll({
+            offset,
+            limit,
             include:[{
                 model: CharacteristicsProducts,
                 attributes: ['modelProduct', 'characteristics','idBrand']
             }]
         });
-        res.json(products);
+        if(products.length){
+            // return res.status(200).send('No existen coincidencias.')
+            return res.status(200).json(products);
+        }
         
     } catch (error) {
         res.status(500).json({ error: 'Error fetching products', details: error.message });
@@ -197,6 +206,7 @@ const getAllProducts = async (req, res) => {
 
 const getProductById = async (req, res) => {
     const { id } = req.params;
+    // console.log(id, "IDD");
     try {
         const product = await EntityProducts.findByPk(id);
         if (product) {
@@ -210,11 +220,26 @@ const getProductById = async (req, res) => {
 };
 
 const getProductByName = async (req, res) => {
-    const { name } = req.params;
+    let { page = 1, limit = 9 } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+    const offset = (page - 1) * limit;
+
+
+    const { name } = req.query;
+    // console.log(name, "nameee");
     try {
-        const products = await EntityProducts.findAll({ where: { nameProduct: name } });
-        if (products.length > 0) {
-            res.json(products);
+        const products = await EntityProducts.findAll({ 
+            where: {
+                nameProduct: { 
+                    [Op.iLike]: `%${name}%`
+                }
+            },
+            offset,
+            limit,
+    });
+        if (products.length) {
+            res.status(200).json(products);
         } else {
             res.status(404).json({ error: 'Product not found' });
         }

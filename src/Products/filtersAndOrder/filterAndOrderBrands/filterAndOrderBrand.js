@@ -1,5 +1,5 @@
-const { EntityBrand } = require('../../../db');
-const {Op} = require('sequelize')
+const { EntityBrand, CharacteristicsProducts, EntityProducts } = require('../../../db');
+const {Op} = require('sequelize');
 
 const filterAndOrderBrand = async (req, res) => {
     const { nameBrand, orderBy, orderDirection } = req.query;
@@ -26,19 +26,47 @@ const filterAndOrderBrand = async (req, res) => {
                 order.push([selectedOrderBy, selectedOrderDirection.toUpperCase()])
             }
         }
-        console.log(order)
+        // console.log(order)
 
         const resultFiltersAndOrder = await EntityBrand.findAndCountAll({
             where: { ...where },
-            limit,
-            offset,
-            order: order.length > 0 ? order : undefined
+            order: order.length > 0 ? order : undefined,
+            include:[{
+                model: CharacteristicsProducts,
+                attributes: ['idProduct']
+            }]
+        });
+        const idProducts = resultFiltersAndOrder.rows.map(row => row.characteristicsProducts.map(cp => cp.idProduct)).flat();
+        const productsFilteredByBrand= await EntityProducts.findAll({
+            where: {
+                idProduct: {
+                    [Op.in]: idProducts
+                }
+            }
         });
 
-        if (!resultFiltersAndOrder || resultFiltersAndOrder.rows.length < 1) {
+        // const resultsProductsFiltered = EntityProducts.findAll({
+        //     where: {
+                
+        //     }
+        // }).resultFiltersAndOrder.idBrand
+        // limit,
+        // offset,
+        // let arr = resultFiltersAndOrder.rows.map(eachBrand => eachBrand.idBrand)
+        // console.log(arr)
+
+        // const resultFiltersAndOrder = await EntityBrand.findAndCountAll({
+        //     where: { ...where },
+        //     limit,
+        //     offset,
+        //     order: order.length > 0 ? order : undefined
+        // });
+
+        if (!productsFilteredByBrand || productsFilteredByBrand.length < 1) {
             return res.status(200).send('No existen coincidencias.')
         }
-        return res.status(200).json(resultFiltersAndOrder)
+        
+        return res.status(200).json(productsFilteredByBrand)
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Error en el servidor.' });

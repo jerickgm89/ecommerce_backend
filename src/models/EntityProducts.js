@@ -33,7 +33,7 @@ module.exports = (sequelize) => {
         },
         stockProduct: {
             type: DataTypes.INTEGER,
-          
+        
         },
         idReview: {
             type: DataTypes.INTEGER,

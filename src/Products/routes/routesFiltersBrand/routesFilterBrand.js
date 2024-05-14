@@ -1,6 +1,6 @@
 const express = require('express')
 
-const {filterAndOrderBrand} = require('../../filtersAndOrder/filterAndOrderBrands/filterAndOrderBrand')
+const {filterAndOrderBrand} = require('../../../Products/filtersAndOrder/filterAndOrderBrands/filterAndOrderBrand.js')
 
 const router = express.Router()
 
