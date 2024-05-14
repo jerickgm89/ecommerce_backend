@@ -2,9 +2,6 @@ const { Op } = require('sequelize');
 const { EntityProducts, CharacteristicsProducts } = require('../../../db.js');
 const cloudinary = require('cloudinary')
 const createProductAndCharacteristics = async (req, res) => {
-   
-    const imageProd = await cloudinary.uploader.upload(req.file.path)
-
     const {
         Products: {
             nameProduct,
@@ -26,13 +23,12 @@ const createProductAndCharacteristics = async (req, res) => {
     } = req.body;
 
     const transaction = await EntityProducts.sequelize.transaction();
-    
-   
+
     try {
         const newProduct = await EntityProducts.create({
             nameProduct,
             priceProduct,
-            imageProducts: imageProd.secure_url,
+            imageProducts,
             SKU,
             descriptionProduct,
             yearProduct,
@@ -122,6 +118,7 @@ const updateProductAndCharacteristics = async (req, res) => {
         product.imageProducts = imageProducts || product.imageProducts;
         product.SKU = SKU || product.SKU;
         product.descriptionProduct = descriptionProduct || product.descriptionProduct
+        product.yearProduct = yearProduct || product.yearProduct
         product.stockProduct = stockProduct || product.stockProduct;
         product.idReview = idReview || product.idReview;
         product.idCategory = idCategory || product.idCategory;
@@ -189,6 +186,7 @@ const getAllProducts = async (req, res) => {
         offset = (page - 1) * limit;
     }
     try {
+        // const where = {};
         const products = await EntityProducts.findAll({
             offset,
             limit,
