@@ -220,10 +220,24 @@ const getProductById = async (req, res) => {
 };
 
 const getProductByName = async (req, res) => {
+    let { page = 1, limit = 9 } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+    const offset = (page - 1) * limit;
+
+
     const { name } = req.query;
     // console.log(name, "nameee");
     try {
-        const products = await EntityProducts.findAll({ where: {nameProduct: { [Op.iLike]: `%${name}%`}}});
+        const products = await EntityProducts.findAll({ 
+            where: {
+                nameProduct: { 
+                    [Op.iLike]: `%${name}%`
+                }
+            },
+            offset,
+            limit,
+    });
         if (products.length) {
             res.status(200).json(products);
         } else {
