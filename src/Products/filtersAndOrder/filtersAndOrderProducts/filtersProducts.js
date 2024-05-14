@@ -7,7 +7,7 @@ const filtersProducts = async (req, res) => {
     const { page = 1, limit = 9} = req.query;
     const offset = (page - 1) * limit;   // Calcula el inicio del paginado.
     const where = {};
-
+console.log(where);
     try {
         // Construye las condiciones de filtrado basadas en los parámetros de consulta.
         if (name) {
@@ -53,9 +53,9 @@ const filtersProducts = async (req, res) => {
             where: { ...where },
             limit,
             offset,
-            
             order: order.length > 0 ? order : undefined,
         });
+        console.log(order);
 
         if (resultFilters.rows.length < 1) {
             return res.status(400).send('No existen coincidencias.');
@@ -69,6 +69,6 @@ const filtersProducts = async (req, res) => {
 };
 
 //EJEMPLO TE PETICION: http://localhost:3001/filterproducts?orderBy=nameProduct&orderDirection=ASC
-//Por nombre: http://localhost:3001/filterproducts?nameProduct=samsung&orderDirection=ASC
+//Por nombre: http://localhost:3001/filterproducts?name=iphone&orderBy=nameProduct&orderDirection=ASC
 
 module.exports = {filtersProducts};

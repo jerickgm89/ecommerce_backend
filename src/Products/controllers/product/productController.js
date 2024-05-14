@@ -1,6 +1,10 @@
 const { EntityProducts, CharacteristicsProducts } = require('../../../db.js');
+const cloudinary = require('cloudinary')
 
 const createProductAndCharacteristics = async (req, res) => {
+   
+    const imageProd = await cloudinary.uploader.upload(req.file.path)
+
     const {
         Products: {
             nameProduct,
@@ -22,12 +26,13 @@ const createProductAndCharacteristics = async (req, res) => {
     } = req.body;
 
     const transaction = await EntityProducts.sequelize.transaction();
-
+    
+   
     try {
         const newProduct = await EntityProducts.create({
             nameProduct,
             priceProduct,
-            imageProducts,
+            imageProducts: imageProd.secure_url,
             SKU,
             descriptionProduct,
             yearProduct,
