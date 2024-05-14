@@ -1,22 +1,22 @@
-const {EntityCategory} = require('../../../db');
+const {EntityCategory, EntityProducts} = require('../../../db');
 const {Op} = require('sequelize');
 
 const filterAndOrderCategory = async (req,res) => {
-    const {nameCategory, orderBy, orderDirection} = req.query;
+    const {idCategory, orderBy, orderDirection} = req.query;
     const {page = 1, limit = 9} = req.query;
     const offset = (page -1) * limit;
 
     const where = {};
 
     try {
-        if(nameCategory) {
-            where.nameCategory = { [Op.iLike]: `%${nameCategory}%`}
+        if(idCategory) {
+            where.idCategory = idCategory
         }
     const order = [];
     if(orderBy && orderDirection) {
         let selectedOrderBy = '';
         let selectedOrderDirection = '';
-        if(orderBy === 'nameCategory') {
+        if(orderBy === 'idCategory') {
             selectedOrderBy = orderBy
         }
         if(orderDirection === 'ASC' || orderDirection === 'DESC') {
@@ -26,13 +26,14 @@ const filterAndOrderCategory = async (req,res) => {
             order.push([selectedOrderBy, selectedOrderDirection.toUpperCase()])
         }
     }
-    console.log(order);
+
 
     const resultFiltersAndOrder = await EntityCategory.findAndCountAll({
         where: {...where},
         limit,
         offset,
-        order: order.length > 0 ? order : undefined
+        order: order.length > 0 ? order : undefined,
+        include: [{ model: EntityProducts }]
     });
 
     if(!resultFiltersAndOrder || resultFiltersAndOrder.rows.length < 1) {
@@ -46,6 +47,6 @@ const filterAndOrderCategory = async (req,res) => {
     }
 }
 
-//EJEMPLO DE PETICION: http://localhost:3001/filtercategory?orderBy=nameCategory&orderDirection=DESC
+//EJEMPLO DE PETICION: http://localhost:3001/filtercategory?idCategory=1&orderBy=nameCategory&orderDirection=DESC
 
 module.exports = {filterAndOrderCategory}

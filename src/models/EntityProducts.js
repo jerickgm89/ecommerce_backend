@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
         },
         yearProduct: {
             type: DataTypes.INTEGER,
-            // allowNull: false
+            allowNull: false
         },
         imageProducts: {
             type: DataTypes.JSONB,

@@ -19,6 +19,7 @@ const router = () => {
     routers.use('/filterproducts', routesFiltersProducts)
     routers.use('/filterbrand', routesFiltersBrand)
     routers.use('/filtercategory', routesFiltersCategory)
+      
     return routers
 }
 

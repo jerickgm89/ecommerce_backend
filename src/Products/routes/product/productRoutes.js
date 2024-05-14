@@ -1,4 +1,9 @@
 const express = require('express');
+
+
+const upload = require('../../../configCloudinary.js')
+const cloudinary = require('cloudinary')
+
 const {
   createProductAndCharacteristics,
   updateProductAndCharacteristics,
@@ -10,7 +15,7 @@ const {
 
 const router = express.Router();
 
-router.post('/', createProductAndCharacteristics);
+router.post('/', upload.single('imageProducts'),createProductAndCharacteristics);
 router.patch('/:id', updateProductAndCharacteristics);
 router.get('/', getAllProducts);
 router.get('/:id', getProductById);
