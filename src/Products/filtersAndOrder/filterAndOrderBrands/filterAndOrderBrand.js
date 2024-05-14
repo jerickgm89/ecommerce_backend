@@ -3,12 +3,13 @@ const {Op} = require('sequelize');
 
 const filterAndOrderBrand = async (req, res) => {
     const { nameBrand, orderBy, orderDirection } = req.query;
-    let { page, limit } = req.query;
-    const offset = (page - 1) * limit;
+    // let { page, limit } = req.query;
+    // const offset = (page - 1) * limit;
     const where = {};
 
     try {
         if (nameBrand) {
+            // console.log(nameBrand)
             where.nameBrand = { [Op.iLike]: `%${nameBrand}%` }
         }
 
@@ -30,8 +31,8 @@ const filterAndOrderBrand = async (req, res) => {
 
         const resultFiltersAndOrder = await EntityBrand.findAndCountAll({
             where: { ...where },
-            offset,
-            limit,
+            // offset,
+            // limit,
             order: order.length > 0 ? order : undefined,
             include:[{
                 model: CharacteristicsProducts,
