@@ -7,7 +7,7 @@ const filtersProducts = async (req, res) => {
     const { page = 1, limit = 9} = req.query;
     const offset = (page - 1) * limit;   // Calcula el inicio del paginado.
     const where = {};
-console.log(where);
+// console.log(where);
     try {
         // Construye las condiciones de filtrado basadas en los parámetros de consulta.
         if (name) {
@@ -20,10 +20,18 @@ console.log(where);
             where.yearProduct = year;
         }
         if ( priceMin || priceMax ) {
-            if (priceMin) {
+            if( priceMin && priceMax ){
+                where.priceProduct = {
+                    [Op.and]: [
+                        { [Op.gte]: priceMin },
+                        { [Op.lte]: priceMax }
+                    ]
+                };
+            }
+            else if (priceMin) {
                 where.priceProduct = {[ Op.gte ] : priceMin}; // Mayor o igual que priceMin
             }
-            if (priceMax) {
+            else if (priceMax) {
                 where.priceProduct= {[ Op.lte ] : priceMax}; // Menor o igual que priceMax
             }
         }
@@ -55,7 +63,7 @@ console.log(where);
             offset,
             order: order.length > 0 ? order : undefined,
         });
-        console.log(order);
+        // console.log(order);
 
         if (resultFilters.rows.length < 1) {
             return res.status(400).send('No existen coincidencias.');

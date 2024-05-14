@@ -70,7 +70,7 @@ const filterAndOrderBrand = async (req, res) => {
         
         return res.status(200).json(productsFilteredByBrand)
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         return res.status(500).json({ error: 'Error en el servidor.' });
     }
 }

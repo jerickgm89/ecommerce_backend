@@ -26,7 +26,7 @@ const filterAndOrderCategory = async (req,res) => {
             order.push([selectedOrderBy, selectedOrderDirection.toUpperCase()])
         }
     }
-    console.log(order);
+    // console.log(order);
 
     const resultFiltersAndOrder = await EntityCategory.findAndCountAll({
         where: {...where},
@@ -41,7 +41,7 @@ const filterAndOrderCategory = async (req,res) => {
     return res.status(200).json(resultFiltersAndOrder)
 
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         return res.status(500).json({ error: 'Error en el servidor.' });
     }
 }
