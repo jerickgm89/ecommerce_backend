@@ -3,7 +3,7 @@ const {Op} = require('sequelize');
 
 const filterAndOrderBrand = async (req, res) => {
     const { nameBrand, orderBy, orderDirection } = req.query;
-    const { page = 1, limit = 9 } = req.query;
+    let { page, limit } = req.query;
     const offset = (page - 1) * limit;
     const where = {};
 
@@ -30,6 +30,8 @@ const filterAndOrderBrand = async (req, res) => {
 
         const resultFiltersAndOrder = await EntityBrand.findAndCountAll({
             where: { ...where },
+            offset,
+            limit,
             order: order.length > 0 ? order : undefined,
             include:[{
                 model: CharacteristicsProducts,
