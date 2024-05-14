@@ -531,7 +531,7 @@ const initialProducts = [
         "product": {
         "nameProduct": "Lenovo ThinkPad X1 Carbon",
         "priceProduct": 5000000,
-        "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_609888-MLA74323981531_012024-O.webp",
+        "imageProducts": "https://www.smartdeal.cl/wp-content/uploads/2022/06/m15r6.jpg",
         "SKU": "laplenthix1car-001",
         "yearProduct": "2022",
         "descriptionProduct": "The Lenovo ThinkPad X1 Carbon is a lightweight and durable business laptop with impressive performance.",
@@ -685,7 +685,7 @@ const initialProducts = [
             "storage": "512GB SSD",
             "battery": "52Wh battery"
         },
-        "idBrand": 26
+        "idBrand": 25
         }
     },
     {
@@ -730,7 +730,7 @@ const initialProducts = [
             "memory": "16GB RAM",
             "storage": "1TB SSD",
             },
-        idBrand: 26
+        idBrand: 16
         }
     },
     {
