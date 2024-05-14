@@ -181,10 +181,13 @@ const updateProductAndCharacteristics = async (req, res) => {
 // }
 
 const getAllProducts = async (req, res) => {
-    let { page = 1, limit = 9 } = req.query;
-    page = parseInt(page);
-    limit = parseInt(limit);
-    const offset = (page - 1) * limit;
+    let { page, limit } = req.query;
+    let offset;
+    if(page|| limit){
+        page = parseInt(page);
+        limit = parseInt(limit);
+        offset = (page - 1) * limit;
+    }
     try {
         const products = await EntityProducts.findAll({
             offset,
