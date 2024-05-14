@@ -685,7 +685,7 @@ const initialProducts = [
             "storage": "512GB SSD",
             "battery": "52Wh battery"
         },
-        "idBrand": 26
+        "idBrand": 25
         }
     },
     {
@@ -730,7 +730,7 @@ const initialProducts = [
             "memory": "16GB RAM",
             "storage": "1TB SSD",
             },
-        idBrand: 26
+        idBrand: 16
         }
     },
     {
