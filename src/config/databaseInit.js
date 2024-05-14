@@ -646,7 +646,7 @@ const initialProducts = [
         "product": {
         "nameProduct": "Alienware m15 R6",
         "priceProduct": 3760000,
-        "imageProducts": "https://example.com/alienware_m15_r6.jpg",
+        "imageProducts": "https://www.reuse.cl/cdn/shop/files/1_bf0acb8f-5421-4a3e-ba7b-8044c32392e6_700x700.png",
         "SKU": "lapalin15r6-001",
         "yearProduct": "2022",
         "descriptionProduct": "The Alienware m15 R6 is a powerful gaming laptop with a futuristic design and top-notch performance.",
