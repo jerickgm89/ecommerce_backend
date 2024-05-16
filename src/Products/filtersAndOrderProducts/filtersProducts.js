@@ -1,14 +1,26 @@
-const { EntityProducts } = require('../../../db');
+const { EntityProducts, CharacteristicsProducts } = require('../../db');
 const { Op } = require('sequelize');
 
 const filtersProducts = async (req, res) => {
-    const { name, price, year, orderBy, orderDirection, priceMin, priceMax } = req.query;
-    // const { priceMin, priceMax } = req.query;
-    const { page = 1, limit = 9} = req.query;
-    const offset = (page - 1) * limit;   // Calcula el inicio del paginado.
-    const where = {};
-// console.log(where);
+    const { category, brand, name, price, year, priceMin, priceMax } = req.query;
+    const { orderBy, orderDirection } = req.query;
+    
+    let { page, limit } = req.query;
+    let order = [];
+    // console.log(where);
     try {
+        let offset;
+        if( page && limit ){
+            offset = (page - 1) * limit;
+        }
+        const where = {};
+        let include = brand
+        ? [{
+            model: CharacteristicsProducts,
+            where: {},
+            attributes: []
+        }]
+        : undefined
         // Construye las condiciones de filtrado basadas en los parámetros de consulta.
         if (name) {
             where.nameProduct = { [Op.iLike]: `%${name}%` };
@@ -36,8 +48,14 @@ const filtersProducts = async (req, res) => {
             }
         }
 
+        if(category) {
+            where.idCategory = category
+        }
+        if(brand) {
+            include[0].where.idBrand = brand
+            // console.log(order)
+        }
 
-        const order = [];
         if (orderBy && orderDirection) {
             let selectedOrderBy = '';
             let selectedOrderDirection = '';
@@ -61,14 +79,14 @@ const filtersProducts = async (req, res) => {
             where: { ...where },
             limit,
             offset,
-            order: order.length > 0 ? order : undefined,
+            include,
+            order: order.length ? order : undefined,
         });
         // console.log(order);
 
-        if (resultFilters.rows.length < 1) {
+        if (!resultFilters.rows.length) {
             return res.status(400).send('No existen coincidencias.');
         }
-
         return res.status(200).json(resultFilters);
     } catch (error) {
         console.error(error);

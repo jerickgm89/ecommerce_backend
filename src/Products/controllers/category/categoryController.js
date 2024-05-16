@@ -76,7 +76,8 @@ const deleteCategory = async (req, res) => {
         const category = await EntityCategory.findByPk(id);
         if (category) {
             await category.destroy();
-            res.status(204).json({ message: 'Category deleted successfully' });
+            res.status(200).json(!!category);
+            // res.status(204).json({ message: 'Category deleted successfully' });
         } else {
             res.status(404).json({ error: 'Category not found' });
         }

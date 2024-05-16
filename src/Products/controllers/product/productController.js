@@ -5,7 +5,7 @@ const cloudinary = require('cloudinary')
 
 const createProductAndCharacteristics = async (req, res) => {
     
-    const imageProd = await cloudinary.uploader.upload(req.file.path)
+    const imageProd = !!req.file ? await cloudinary.uploader.upload(req.file.path) : null
     const {
         Products: {
             nameProduct,
@@ -32,7 +32,7 @@ const createProductAndCharacteristics = async (req, res) => {
         const newProduct = await EntityProducts.create({
             nameProduct,
             priceProduct,
-            imageProducts: imageProd.secure_url,
+            imageProducts: imageProd ? imageProd.secure_url : null,
             SKU,
             descriptionProduct,
             yearProduct,
@@ -265,11 +265,13 @@ const deleteProductAndCharacteristics = async (req, res) => {
             return res.status(404).json({ error: 'Product not found' });
         }
 
-        await CharacteristicsProducts.destroy({ where: { idProduct: id }, transaction });
+        const response = await CharacteristicsProducts.destroy({ where: { idProduct: id }, transaction });
         await product.destroy({ transaction });
 
         await transaction.commit();
-        res.status(204).json({ message: 'Product and characteristics deleted successfully' });
+
+        res.status(200).json(!!response);
+        // res.status(204).json({ message: 'Product and characteristics deleted successfully' });
     } catch (error) {
         await transaction.rollback();
         res.status(500).json({ error: 'Error deleting product and characteristics', details: error.message });
