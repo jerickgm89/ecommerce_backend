@@ -1,4 +1,4 @@
-const {EntityCategory} = require('../../../db');
+const {EntityCategory, EntityProducts } = require('../../../db');
 const {Op} = require('sequelize');
 
 const filterAndOrderCategory = async (req,res) => {
@@ -10,35 +10,41 @@ const filterAndOrderCategory = async (req,res) => {
 
     try {
         if(nameCategory) {
-            where.nameCategory = { [Op.iLike]: `%${nameCategory}%`}
+            where.nameCategory = { [Op.like]: `%${nameCategory}%`}
         }
-    const order = [];
-    if(orderBy && orderDirection) {
-        let selectedOrderBy = '';
-        let selectedOrderDirection = '';
-        if(orderBy === 'nameCategory') {
-            selectedOrderBy = orderBy
+        const order = [];
+        if(orderBy && orderDirection) {
+            let selectedOrderBy = '';
+            let selectedOrderDirection = '';
+            if(orderBy === 'nameCategory') {
+                selectedOrderBy = orderBy
+            }
+            if(orderDirection === 'ASC' || orderDirection === 'DESC') {
+                selectedOrderDirection = orderDirection
+            }
+            if(selectedOrderBy && selectedOrderDirection) {
+                order.push([selectedOrderBy, selectedOrderDirection.toUpperCase()])
+            }
         }
-        if(orderDirection === 'ASC' || orderDirection === 'DESC') {
-            selectedOrderDirection = orderDirection
-        }
-        if(selectedOrderBy && selectedOrderDirection) {
-            order.push([selectedOrderBy, selectedOrderDirection.toUpperCase()])
-        }
-    }
     // console.log(order);
 
-    const resultFiltersAndOrder = await EntityCategory.findAndCountAll({
-        where: {...where},
-        limit,
-        offset,
-        order: order.length > 0 ? order : undefined
-    });
+        const resultFiltersAndOrder = await EntityCategory.findAndCountAll({
+            where: {...where},
+            limit,
+            offset,
+            order: order.length > 0 ? order : undefined,
+            throw: 'entityProducts',
+            include:[{
+                model: EntityProducts,
+                // attributes: ['idProduct']
+            }]
+        });
+        const response = resultFiltersAndOrder.rows[0].entityProducts
 
-    if(!resultFiltersAndOrder || resultFiltersAndOrder.rows.length < 1) {
-        return res.status(200).send('No existen coincidencias.')
-    }
-    return res.status(200).json(resultFiltersAndOrder)
+        if(!resultFiltersAndOrder || resultFiltersAndOrder.rows.length < 1) {
+            return res.status(200).send('No existen coincidencias.')
+        }
+        return res.status(200).json(response)
 
     } catch (error) {
         // console.error(error);
