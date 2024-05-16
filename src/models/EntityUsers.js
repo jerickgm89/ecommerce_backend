@@ -50,9 +50,9 @@ module.exports = (sequelize) => {
             type: DataTypes.BOOLEAN,
             allowNull: false
         },
-        userRole: {
+        isAdmin: {
             type: DataTypes.BOOLEAN,
-            defaultValue: true
+            defaultValue: false
         },
         // password: {
         //     type: DataTypes.STRING,

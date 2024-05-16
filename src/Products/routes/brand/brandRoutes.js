@@ -10,9 +10,9 @@ const {
 const router = express.Router();
 
 router.post('/', createBrand);
-router.put('/:id', updateBrand);
-router.get('/name/:name', getBrandByName);
 router.get('/', getAllBrands);
+router.get('/name/:brandName', getBrandByName);
+router.put('/:id', updateBrand);
 router.delete('/:id', deleteBrand);
 
 module.exports = router;

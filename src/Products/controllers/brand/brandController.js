@@ -59,11 +59,12 @@ const getAllBrands = async (req, res) => {
 };
 
 const getBrandByName = async (req, res) => {
-    const { name } = req.params;
+    const { brandName } = req.params;
+    console.log(brandName);
     try {
-        const brand = await EntityBrand.findOne({ where: { nameBrand: name } });
+        const brand = await EntityBrand.findOne({ where: { nameBrand: brandName } });
         if (brand) {
-            res.json(brand);
+            res.status(200).json(brand);
         } else {
             res.status(404).json({ error: 'Brand not found' });
         }
@@ -78,7 +79,8 @@ const deleteBrand = async (req, res) => {
         const brand = await EntityBrand.findByPk(id);
         if (brand) {
             await brand.destroy();
-            res.status(204).json({ message: 'Brand deleted successfully' });
+            res.status(200).json(!!brand);
+            // res.status(204).json({ message: 'Brand deleted successfully' });
         } else {
             res.status(404).json({ error: 'Brand not found' });
         }

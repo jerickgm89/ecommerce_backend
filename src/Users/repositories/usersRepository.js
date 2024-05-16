@@ -21,12 +21,15 @@ const getUserById = async (idUser) =>{
 }
 const modifyUser = async (idUser, infoToEdit) =>{
     const editedUser = await EntityUsers.update(
-        infoToEdit, { where: {
+        infoToEdit, 
+        { 
+            where: {
                 idUser: idUser
             }
         },
     )
-    return editedUser[0]
+    return editedUser
+
 };
 
 const deleteUser = async (idUser) =>{

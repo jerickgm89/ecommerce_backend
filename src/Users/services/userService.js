@@ -14,7 +14,8 @@ const logInUserServices = async ({ given_name, family_name, email, picture, emai
         lastNameUser: family_name,
         emailUser: email,
         pictureUser: picture,
-        email_verified
+        email_verified,
+        // idAdmin
     }
     const newUser = await loginUser(userInfo);
     return newUser
@@ -34,10 +35,15 @@ const getUserByIdServices = async ( idUser ) =>{
 }
 
 const modifyUserServices = async (idUser, infoToEdit) => {
-    const modifiedUser = await modifyUser(idUser, infoToEdit);
-    if(!modifiedUser){
+    const userExist = await getUserByIdServices(idUser)
+    if(!userExist){
         throw new Error ('Usuario no fue encontrado')
     }
+    const modifiedUser = await modifyUser(idUser, infoToEdit);
+    // if(!userExist){
+    //     throw new Error ('Usuario no fue encontrado')
+    // }
+
     return modifiedUser
 }
 
