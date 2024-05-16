@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
         },
         imageProducts: {
             type: DataTypes.JSONB,
-            allowNull: false
+            // allowNull: false
         },
         descriptionProduct: {
             type: DataTypes.STRING,

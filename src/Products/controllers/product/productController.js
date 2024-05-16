@@ -5,7 +5,7 @@ const cloudinary = require('cloudinary')
 
 const createProductAndCharacteristics = async (req, res) => {
     
-    const imageProd = await cloudinary.uploader.upload(req.file.path)
+    const imageProd = !!req.file ? await cloudinary.uploader.upload(req.file.path) : null
     const {
         Products: {
             nameProduct,
@@ -32,7 +32,7 @@ const createProductAndCharacteristics = async (req, res) => {
         const newProduct = await EntityProducts.create({
             nameProduct,
             priceProduct,
-            imageProducts: imageProd.secure_url,
+            imageProducts: imageProd ? imageProd.secure_url : null,
             SKU,
             descriptionProduct,
             yearProduct,

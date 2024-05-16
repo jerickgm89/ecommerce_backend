@@ -1,30 +1,18 @@
 //                          ----> Users <-----
 const { Router } = require('express')
 const routesUsers = require('./../Users/routes/routesUsers.js')
-const routesProducts = require('./../Products/routes')
+const routesProducts = require('./../Products/routes/index.js')
 
-// const routesFiltersProducts = require('../products/routes/routesFiltersProducts/routesFiltersProducts.js');
+//                           ----> filtres and order <----
 const routesFiltersProducts = require('../Products/routes/routesFiltersProducts/routesFiltersProducts.js')
-const routesFiltersBrand = require('../Products/routes/routesFiltersBrand/routesFilterBrand.js')
-// const routesFiltersBrand = require('../../Products/routes/routesFiltersBrand/routesFilterBrand.js')
-const routesFiltersCategory = require('../Products//routes/routesFiltersCategory/routesFiltersCategory.js')
-
-
 
 
 const router = () => {
     const routers = Router()
-    // Agregar aquí la ruta a users
-    
-    //                          ----> Products <-----
     routers.use('/products', routesProducts)
     routers.use('/filterproducts', routesFiltersProducts)
-    routers.use('/filterbrand', routesFiltersBrand)
-    routers.use('/filtercategory', routesFiltersCategory)
     return routers
 }
-
-//                           ----> filtres and order <----
 
 const auth_router = () => {
     const routers = Router()

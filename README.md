@@ -480,12 +480,12 @@ true
 ‣ Filtra por precio (exacto), año, nombre e intervalo de precios (priceMin, priceMax)
 <details>
 
-<summary>METODO GET</summary>
+<summary>METODO GET FILTROS Y ORDENAMIENTOS</summary>
 
 ### FILTROS Y ORDENAMIENTOS
 get /filterproducts → 
 </br>
-Filtra productos según price, year, name, priceMin, priceMax
+Filtra productos según price (exacto), year, name (inexacto), priceMin, priceMax, category, brand
 Ordena productos según priceProduct, yearProduct, nameProduct
 Petición a → 
 </br>
@@ -495,10 +495,10 @@ Petición a →
 ```json
 
 {
-  "count": 2,
+    "count": 2,
   "rows": [
-    {
-      "idProduct": 32,
+      {
+          "idProduct": 32,
       "nameProduct": "Acer Predator Helios 300",
       "priceProduct": "3450000.00",
       "yearProduct": 2021,
@@ -514,7 +514,7 @@ Petición a →
       "deletedProd_at": null
     },
     {
-      "idProduct": 25,
+        "idProduct": 25,
       "nameProduct": "Acer Swift 5",
       "priceProduct": "3210000.00",
       "yearProduct": 2022,
@@ -532,70 +532,40 @@ Petición a →
   ]
 }
 
+
 ```
-</details>
-</br>
-
-# Ruta 5: /filtercategory
-### Maneja filtros de productos según su categoría
-‣ Ordena productos según año, precio o nombre del producto de forma ascendente o descendente (orderBy, orderDirection)
-</br>
-‣ Filtra por precio (exacto), año, nombre e intervalo de precios (priceMin, priceMax)
-<details>
-
-<summary>METODO GET</summary>
-
-### FILTROS Y ORDENAMIENTOS
-get /filterproducts → 
-</br>
-Filtra productos según price, year, name, priceMin, priceMax
-Ordena productos según priceProduct, yearProduct, nameProduct
+### INCLUIR PAGINADO
 Petición a → 
 </br>
-/filterproducts?name=acer&orderBy=nameProduct&orderDirection=ASC
+filterproducts?brand=1&category=1&orderBy=yearProduct&orderDirection=DESC&page=1&limit=1
 
 ### Respuesta Exitosa (200 OK)
 ```json
-
 {
   "count": 2,
   "rows": [
     {
-      "idProduct": 32,
-      "nameProduct": "Acer Predator Helios 300",
-      "priceProduct": "3450000.00",
+      "idProduct": 1,
+      "nameProduct": "Samsung Galaxy S21",
+      "priceProduct": "759000.00",
       "yearProduct": 2021,
-      "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_887095-MLA49933868752_052022-O.webp",
-      "descriptionProduct": "The Acer Predator Helios 300 is a powerful gaming laptop with a high-refresh-rate display and advanced cooling system.",
-      "SKU": "lapaceprehel3000-001",
-      "stockProduct": 0,
+      "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_908886-MLA53734668410_022023-O.webp",
+      "descriptionProduct": "The Samsung Galaxy S21 is a flagship smartphone with a stunning display and powerful performance.",
+      "SKU": "celsamS21-001",
+      "stockProduct": 50,
       "idReview": null,
-      "idCategory": 2,
+      "idCategory": 1,
       "IdDiscount": null,
-      "createdProd_at": "2024-05-16T08:37:16.140Z",
-      "modifiedProd_at": "2024-05-16T08:37:16.140Z",
-      "deletedProd_at": null
-    },
-    {
-      "idProduct": 25,
-      "nameProduct": "Acer Swift 5",
-      "priceProduct": "3210000.00",
-      "yearProduct": 2022,
-      "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_969653-MLA71828485655_092023-O.webp",
-      "descriptionProduct": "The Acer Swift 5 is an ultra-lightweight laptop with a sleek design and long-lasting battery life.",
-      "SKU": "lapaceswi5-001",
-      "stockProduct": 0,
-      "idReview": null,
-      "idCategory": 2,
-      "IdDiscount": null,
-      "createdProd_at": "2024-05-16T08:37:16.127Z",
-      "modifiedProd_at": "2024-05-16T08:37:16.127Z",
+      "createdProd_at": "2024-05-16T18:19:18.007Z",
+      "modifiedProd_at": "2024-05-16T18:19:18.007Z",
       "deletedProd_at": null
     }
   ]
 }
-
+... CAMBIAR DE PÁGINA
 ```
+
+
 </details>
 </br>
 
@@ -605,7 +575,7 @@ Petición a →
 ► ["Borrar" usuario](#método-delete) -->
 
 
-# Ruta 7: /users 
+# Ruta 5: /users 
 <details>
 <summary>METODO POST</summary>
 
