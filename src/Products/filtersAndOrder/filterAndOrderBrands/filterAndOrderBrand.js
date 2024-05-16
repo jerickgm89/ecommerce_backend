@@ -3,21 +3,26 @@ const {Op} = require('sequelize');
 
 const filterAndOrderBrand = async (req, res) => {
     const { nameBrand, orderBy, orderDirection } = req.query;
-    // let { page, limit } = req.query;
-    // const offset = (page - 1) * limit;
+    let { page, limit } = req.query;
+    let offset;
+    if( page|| limit ){
+        page = parseInt(page);
+        limit = parseInt(limit);
+        offset = (page - 1) * limit;
+    }
     const where = {};
-
+    // console.log(limit)
     try {
         if (nameBrand) {
-            // console.log(nameBrand)
-            where.nameBrand = { [Op.iLike]: `%${nameBrand}%` }
+            console.log(nameBrand)
+            where.nameBrand = { [Op.like]: `%${nameBrand}%` }
         }
 
         const order = [];
         if (orderBy && orderDirection) {
             let selectedOrderBy = '';
             let selectedOrderDirection = '';
-            if (orderBy === 'nameBrand') {
+            if (orderBy === 'nameProduct') {
                 selectedOrderBy = orderBy
             }
             if (orderDirection === 'ASC' || orderDirection === 'DESC') {
@@ -30,41 +35,24 @@ const filterAndOrderBrand = async (req, res) => {
         // console.log(order)
 
         const resultFiltersAndOrder = await EntityBrand.findAndCountAll({
-            where: { ...where },
-            // offset,
-            // limit,
-            order: order.length > 0 ? order : undefined,
+            where: {nameBrand : { [Op.like]: `%${nameBrand}%` }},
             include:[{
                 model: CharacteristicsProducts,
                 attributes: ['idProduct']
             }]
         });
-        const idProducts = resultFiltersAndOrder.rows.map(row => row.characteristicsProducts.map(cp => cp.idProduct)).flat();
+        
+        const idProducts = resultFiltersAndOrder.rows.map(row => row.characteristicsProducts.map(characteristic => characteristic.idProduct)).flat();
         const productsFilteredByBrand= await EntityProducts.findAll({
             where: {
                 idProduct: {
                     [Op.in]: idProducts
                 }
-            }
+            },
+            offset,
+            limit,
+            order: order.length ? order : undefined,
         });
-
-        // const resultsProductsFiltered = EntityProducts.findAll({
-        //     where: {
-                
-        //     }
-        // }).resultFiltersAndOrder.idBrand
-        // limit,
-        // offset,
-        // let arr = resultFiltersAndOrder.rows.map(eachBrand => eachBrand.idBrand)
-        // console.log(arr)
-
-        // const resultFiltersAndOrder = await EntityBrand.findAndCountAll({
-        //     where: { ...where },
-        //     limit,
-        //     offset,
-        //     order: order.length > 0 ? order : undefined
-        // });
-
         if (!productsFilteredByBrand || productsFilteredByBrand.length < 1) {
             return res.status(200).send('No existen coincidencias.')
         }
