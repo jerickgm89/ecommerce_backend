@@ -3,9 +3,13 @@ const {Op} = require('sequelize');
 
 const filterAndOrderCategory = async (req,res) => {
     const {nameCategory, orderBy, orderDirection} = req.query;
-    const {page = 1, limit = 9} = req.query;
-    const offset = (page -1) * limit;
-
+    // let { page, limit } = req.query;
+    // let offset;
+    // if( page|| limit ){
+    //     page = parseInt(page);
+    //     limit = parseInt(limit);
+    //     offset = (page - 1) * limit;
+    // }
     const where = {};
 
     try {
@@ -16,7 +20,7 @@ const filterAndOrderCategory = async (req,res) => {
         if(orderBy && orderDirection) {
             let selectedOrderBy = '';
             let selectedOrderDirection = '';
-            if(orderBy === 'nameCategory') {
+            if(orderBy === 'nameProduct') {
                 selectedOrderBy = orderBy
             }
             if(orderDirection === 'ASC' || orderDirection === 'DESC') {
@@ -30,14 +34,14 @@ const filterAndOrderCategory = async (req,res) => {
 
         const resultFiltersAndOrder = await EntityCategory.findAndCountAll({
             where: {...where},
-            limit,
-            offset,
-            order: order.length > 0 ? order : undefined,
-            throw: 'entityProducts',
             include:[{
                 model: EntityProducts,
+                // limit,
+                // offset,
                 // attributes: ['idProduct']
-            }]
+            }],
+            order: order.length ? [[{ model: EntityProducts }, order[0][0], order[0][1]]]: undefined
+            // order.length > 0 ? order : undefined,
         });
         const response = resultFiltersAndOrder.rows[0].entityProducts
 
