@@ -50,6 +50,7 @@ post/ products/index → Crear un nuevo producto
     ```
 </details>
 </details>
+</details>
 
 <!-- </details> -->
 <details>
@@ -105,7 +106,7 @@ get /products/index → Trae todos los productos
 ### Método GET ID
 get /products/index/:id → Busca producto según id
 ### Respuesta Exitosa (200 OK)
-petición a → products/index/1
+petición a → products/index/3
 ```json
 {
   "idProduct": 3,
