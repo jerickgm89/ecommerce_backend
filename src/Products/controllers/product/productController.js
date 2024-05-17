@@ -4,8 +4,41 @@ const cloudinary = require('cloudinary')
 
 
 const createProductAndCharacteristics = async (req, res) => {
-    
-    const imageProd = !!req.file ? await cloudinary.uploader.upload(req.file.path) : null
+    /*
+        {
+            "name": "producto creado al último",
+            "price": "589652",
+            "year": "2045",
+            "stock": 8,
+            "sku": "wdjsweweq",
+            "idReview": "",
+            "idCategory": 2,
+            "idDiscount": "",
+            "description": " producto util, cumple perfecto su uso",
+            "images": [
+                {
+                "file": {}
+                },
+                {
+                "file": {}
+                },
+                {
+                "file": {}
+                }
+            ],
+            "model": "CFX plus",
+            "color": "negro",
+            "size": "grande",
+            "idBrand": 2
+        }
+    */
+    console.log("##req.file",req.file)
+    let imageProd = req.file ? await cloudinary.uploader.upload(req.file.path) : null
+    // let imageProd = null
+
+    // for( objeto in req.file)
+    // console.log("Holaaaaa",imageProd)
+    // console.log("###imageArray",imageProd.secure_url)
     const {
         Products: {
             nameProduct,
@@ -27,12 +60,12 @@ const createProductAndCharacteristics = async (req, res) => {
     } = req.body;
 
     const transaction = await EntityProducts.sequelize.transaction();
-
+    // console.log("####imageProducts",imageProducts)
     try {
         const newProduct = await EntityProducts.create({
             nameProduct,
             priceProduct,
-            imageProducts: imageProd ? imageProd.secure_url : null,
+            imageProducts: imageProd ? imageProd.secure_url: null,
             SKU,
             descriptionProduct,
             yearProduct,
@@ -213,7 +246,7 @@ const getProductById = async (req, res) => {
     const { id } = req.params;
     // console.log(id, "IDD");
     try {
-        const product = await EntityProducts.findByPk(id);
+        const product = await EntityProducts.findByPk(id, {include: {model:CharacteristicsProducts, attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']}});
         if (product) {
             res.json(product);
         } else {
