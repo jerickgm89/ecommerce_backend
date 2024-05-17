@@ -10,6 +10,14 @@ module.exports = (sequelize) => {
         nameBrand: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        logoBrand: {
+            type: DataTypes.STRING,
+            validate:{
+                isUrl: {
+                    msg: "Debe ser URL"
+                }
+            }
         }
     }, {
         paranoid: true,

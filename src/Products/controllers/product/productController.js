@@ -4,8 +4,39 @@ const cloudinary = require('cloudinary')
 
 
 const createProductAndCharacteristics = async (req, res) => {
-    
-    const imageProd = !!req.file ? await cloudinary.uploader.upload(req.file.path) : null
+    /*
+        {
+            "name": "producto creado al último",
+            "price": "589652",
+            "year": "2045",
+            "stock": 8,
+            "sku": "wdjsweweq",
+            "idReview": "",
+            "idCategory": 2,
+            "idDiscount": "",
+            "description": " producto util, cumple perfecto su uso",
+            "images": [
+                {
+                "file": {}
+                },
+                {
+                "file": {}
+                },
+                {
+                "file": {}
+                }
+            ],
+            "model": "CFX plus",
+            "color": "negro",
+            "size": "grande",
+            "idBrand": 2
+        }
+    */
+    // console.log(req.file.path.secure_url)
+    const imageProd = req.file.path
+    // const imageArray = await cloudinary.uploader.upload(req.file.path)
+    console.log("Holaaaaa",imageProd)
+    // console.log("###imageArray",imageArray.secure_url)
     const {
         Products: {
             nameProduct,
@@ -27,12 +58,12 @@ const createProductAndCharacteristics = async (req, res) => {
     } = req.body;
 
     const transaction = await EntityProducts.sequelize.transaction();
-
+    // console.log("####imageProducts",imageProducts)
     try {
         const newProduct = await EntityProducts.create({
             nameProduct,
             priceProduct,
-            imageProducts: imageProd ? imageProd.secure_url : null,
+            imageProducts: imageProd,
             SKU,
             descriptionProduct,
             yearProduct,
