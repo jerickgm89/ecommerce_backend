@@ -4,7 +4,7 @@ const routesUsers = require('./../Users/routes/routesUsers.js')
 const routesProducts = require('./../Products/routes/index.js')
 
 //                           ----> filtres and order <----
-const routesFiltersProducts = require('../Products/routes/routesFiltersProducts/routesFiltersProducts.js')
+const routesFiltersProducts = require('../Products/routes/filtersAndOrder/routesFiltersProducts.js')
 
 
 const router = () => {
