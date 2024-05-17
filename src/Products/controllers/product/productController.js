@@ -33,8 +33,8 @@ const createProductAndCharacteristics = async (req, res) => {
         }
     */
     // console.log(req.file.path.secure_url)
-    const imageProd = req.file.path
-    // const imageArray = await cloudinary.uploader.upload(req.file.path)
+    // const imageProd = req.file.path
+    const imageProd = await cloudinary.uploader.upload(req.file.path)
     console.log("Holaaaaa",imageProd)
     // console.log("###imageArray",imageArray.secure_url)
     const {
@@ -244,7 +244,7 @@ const getProductById = async (req, res) => {
     const { id } = req.params;
     // console.log(id, "IDD");
     try {
-        const product = await EntityProducts.findByPk(id);
+        const product = await EntityProducts.findByPk(id, {include: {model:CharacteristicsProducts, attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']}});
         if (product) {
             res.json(product);
         } else {
