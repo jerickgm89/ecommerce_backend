@@ -1,0 +1,157 @@
+
+{
+    "celulares": [
+        {
+          "name": "Samsung Galaxy S21",
+          "author": "Samsung",
+          "year": "2021",
+          "description": "The Samsung Galaxy S21 is a flagship smartphone with a stunning display and powerful performance.",
+          "image": "https://example.com/s21.jpg",
+          "characteristics": "6.2-inch Dynamic AMOLED display, Exynos 2100 processor, 8GB RAM, 128GB storage, 4000mAh battery"
+        },
+        {
+          "name": "iPhone 12",
+          "author": "Apple",
+          "year": "2020",
+          "description": "The iPhone 12 is a high-end smartphone that offers a seamless user experience and impressive camera capabilities.",
+          "image": "https://example.com/iphone12.jpg",
+          "characteristics": "6.1-inch Super Retina XDR display, A14 Bionic chip, 4GB RAM, 64GB storage, 2815mAh battery"
+        },
+        {
+          "name": "Google Pixel 5",
+          "author": "Google",
+          "year": "2020",
+          "description": "The Google Pixel 5 is a premium Android smartphone known for its exceptional camera performance and clean software experience.",
+          "image": "https://example.com/pixel5.jpg",
+          "characteristics": "6.0-inch OLED display, Snapdragon 765G processor, 8GB RAM, 128GB storage, 4080mAh battery"
+        },
+        {
+          "name": "OnePlus 9 Pro",
+          "author": "OnePlus",
+          "year": "2021",
+          "description": "The OnePlus 9 Pro is a flagship smartphone that offers a smooth and fast user experience with its high-refresh-rate display and powerful processor.",
+          "image": "https://example.com/oneplus9pro.jpg",
+          "characteristics": "6.7-inch Fluid AMOLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4500mAh battery"
+        },
+        {
+          "name": "Xiaomi Mi 11",
+          "author": "Xiaomi",
+          "year": "2021",
+          "description": "The Xiaomi Mi 11 is a feature-packed smartphone with a powerful camera system and a beautiful display.",
+          "image": "https://example.com/mi11.jpg",
+          "characteristics": "6.81-inch AMOLED display, Snapdragon 888 processor, 8GB RAM, 128GB storage, 4600mAh battery"
+        },
+        {
+          "name": "Sony Xperia 1 III",
+          "author": "Sony",
+          "year": "2021",
+          "description": "The Sony Xperia 1 III is a premium smartphone that offers a 4K OLED display and professional camera features.",
+          "image": "https://example.com/xperia1iii.jpg",
+          "characteristics": "6.5-inch 4K HDR OLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4500mAh battery"
+        },
+        {
+          "name": "LG Wing",
+          "author": "LG",
+          "year": "2020",
+          "description": "The LG Wing is a unique smartphone with a swiveling display that allows for new and creative use cases.",
+          "image": "https://example.com/lgwing.jpg",
+          "characteristics": "6.8-inch P-OLED display, Snapdragon 765G processor, 8GB RAM, 128GB storage, 4000mAh battery"
+        },
+        {
+          "name": "Motorola Edge+",
+          "author": "Motorola",
+          "year": "2020",
+          "description": "The Motorola Edge+ is a flagship smartphone with a curved display and a large battery for all-day usage.",
+          "image": "https://example.com/edgeplus.jpg",
+          "characteristics": "6.7-inch OLED display, Snapdragon 865 processor, 12GB RAM, 256GB storage, 5000mAh battery"
+        },
+        {
+          "name": "Nokia 8.3 5G",
+          "author": "Nokia",
+          "year": "2020",
+          "description": "The Nokia 8.3 5G is a mid-range smartphone that offers 5G connectivity and a large display for multimedia consumption.",
+          "image": "https://example.com/nokia8.3.jpg",
+          "characteristics": "6.81-inch IPS LCD display, Snapdragon 765G processor, 8GB RAM, 128GB storage, 4500mAh battery"
+        },
+        {
+          "name": "ASUS ROG Phone 5",
+          "author": "ASUS",
+          "year": "2021",
+          "description": "The ASUS ROG Phone 5 is a gaming smartphone with a high-refresh-rate display and powerful hardware for smooth gaming performance.",
+          "image": "https://example.com/rogphone5.jpg",
+          "characteristics": "6.78-inch AMOLED display, Snapdragon 888 processor, 16GB RAM, 256GB storage, 6000mAh battery"
+        },
+        {
+          "name": "Oppo Find X3 Pro",
+          "author": "Oppo",
+          "year": "2021",
+          "description": "The Oppo Find X3 Pro is a flagship smartphone with a versatile camera system and a beautiful display.",
+          "image": "https://example.com/findx3pro.jpg",
+          "characteristics": "6.7-inch AMOLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4500mAh battery"
+        },
+        {
+          "name": "Realme GT",
+          "author": "Realme",
+          "year": "2021",
+          "description": "The Realme GT is a high-performance smartphone with a flagship processor and a high-refresh-rate display.",
+          "image": "https://example.com/realme-gt.jpg",
+          "characteristics": "6.43-inch Super AMOLED display, Snapdragon 888 processor, 8GB RAM, 128GB storage, 4500mAh battery"
+        },
+        {
+          "name": "Vivo X60 Pro+",
+          "author": "Vivo",
+          "year": "2021",
+          "description": "The Vivo X60 Pro+ is a camera-centric smartphone with a professional-grade camera system and a beautiful design.",
+          "image": "https://example.com/vivox60pro.jpg",
+          "characteristics": "6.56-inch AMOLED display, Snapdragon 888 processor, 12GB RAM, 256GB storage, 4200mAh battery"
+        },
+        {
+          "name": "BlackBerry Key2",
+          "author": "BlackBerry",
+          "year": "2018",
+          "description": "The BlackBerry Key2 is a unique smartphone with a physical keyboard and a focus on productivity and security.",
+          "image": "https://example.com/key2.jpg",
+          "characteristics": "4.5-inch IPS LCD display, Snapdragon 660 processor, 6GB RAM, 64GB storage, 3500mAh battery"
+        },
+        {
+          "name": "Huawei P40 Pro",
+          "author": "Huawei",
+          "year": "2020",
+          "description": "The Huawei P40 Pro is a flagship smartphone with a versatile camera system and a beautiful curved display.",
+          "image": "https://example.com/p40pro.jpg",
+          "characteristics": "6.58-inch OLED display, Kirin 990 5G processor, 8GB RAM, 256GB storage, 4200mAh battery"
+        },
+        {
+          "name": "ZTE Axon 30 Ultra",
+          "author": "ZTE",
+          "year": "2021",
+          "description": "The ZTE Axon 30 Ultra is a flagship smartphone with a high-refresh-rate display and a powerful camera system.",
+          "image": "https://example.com/axon30ultra.jpg",
+          "characteristics": "6.67-inch AMOLED display, Snapdragon 888 processor, 8GB RAM, 128GB storage, 4600mAh battery"
+        },
+        {
+          "name": "Lenovo Legion Phone Duel",
+          "author": "Lenovo",
+          "year": "2020",
+          "description": "The Lenovo Legion Phone Duel is a gaming smartphone with a unique side-mounted pop-up camera and a high-refresh-rate display.",
+          "image": "https://example.com/legionphone.jpg",
+          "characteristics": "6.65-inch AMOLED display, Snapdragon 865+ processor, 12GB RAM, 256GB storage, 5000mAh battery"
+        },
+        {
+          "name": "Redmi Note 10 Pro",
+          "author": "Redmi",
+          "year": "2021",
+          "description": "The Redmi Note 10 Pro is a mid-range smartphone with a high-resolution display and a large battery for extended usage.",
+          "image": "https://example.com/note10pro.jpg",
+          "characteristics": "6.67-inch Super AMOLED display, Snapdragon 732G processor, 6GB RAM, 128GB storage, 5020mAh battery"
+        },
+        {
+          "name": "Infinix Zero 8",
+          "author": "Infinix",
+          "year": "2020",
+          "description": "The Infinix Zero 8 is a budget-friendly smartphone with a high-refresh-rate display and a capable camera system.",
+          "image": "https://example.com/zero8.jpg",
+          "characteristics": "6.85-inch IPS LCD display, MediaTek Helio G90T processor, 8GB RAM, 128GB storage, 4500mAh battery"
+        }
+      ]
+}
