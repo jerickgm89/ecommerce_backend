@@ -38,16 +38,16 @@ post/ products/index → Crear un nuevo producto
 
 <details>
 <summary>JSON EJEMPLO POST</summary>
-  
-    ```json
-    {
-        "email": "hola89@gmail.com",
-        "email_verified": true,
-        "family_name": "Garcia",
-        "given_name": "Pepe",
-        "picture": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbaYhk3_I6eNVXOhnZPCq-=s96-c"
-    }
-    ```
+
+```json
+{
+    "email": "hola89@gmail.com",
+    "email_verified": true,
+    "family_name": "Garcia",
+    "given_name": "Pepe",
+    "picture": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbaYhk3_I6eNVXOhnZPCq-=s96-c"
+}
+```
 </details>
 </details>
 </details>
@@ -189,8 +189,8 @@ get /products/index/:id → Modificar un producto
 <details>
 <summary>JSON EJEMPLO PATCH</summary>
   
-    ```json
-    {
+```json
+{
     "Products": {
         "nameProduct": "Nuevo Nombre",
         "priceProduct": 199.99,
@@ -212,7 +212,7 @@ get /products/index/:id → Modificar un producto
         "idBrand": 1
     }
 }
-    ```
+```
 </details>
 </details>
 
@@ -256,12 +256,12 @@ post/ products/category → Crear un nueva categoría
 <details>
 <summary>JSON EJEMPLO POST</summary>
   
-    ```json
-    {
-        "nameCategory": "Electronics",
-        "descriptionCategory": "Breve descripcion de la categoria"
-    }
-    ```
+```json
+{
+    "nameCategory": "Electronics",
+    "descriptionCategory": "Breve descripcion de la categoria"
+}
+```
 </details>
 
 </details>
@@ -371,6 +371,7 @@ true
 
 post/ products/brands → Crear un nueva marca
 ### Respuesta Exitosa (201 OK)
+
 ```json
 {
   "idBrand": 27,
@@ -386,11 +387,11 @@ post/ products/brands → Crear un nueva marca
 <details>
 <summary>JSON EJEMPLO POST</summary>
   
-    ```json
-    {
-        "nameBrand": "Editar Nombre"
-    }
-    ```
+```json
+{
+    "nameBrand": "Editar Nombre"
+}
+```
 </details>
     </details>
 
@@ -596,6 +597,7 @@ filterproducts?brand=1&category=1&orderBy=yearProduct&orderDirection=DESC&page=1
 post/ users → Crear un nuevo usuario o admin
 ### Respuesta Exitosa (201 OK)
 </br>
+
 ```json
 {
     "idUser": 1,
@@ -616,16 +618,16 @@ post/ users → Crear un nuevo usuario o admin
 
 <details>
 <summary>JSON EJEMPLO POST</summary>
-  
-    ```json
-    {
-        "email": "hola89@gmail.com",
-        "email_verified": true,
-        "family_name": "Garcia",
-        "given_name": "Pepe",
-        "picture": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbaYhk3_I6eNVXOhnZPCq-=s96-c"
-    }
-    ```
+
+```json 
+{
+    "email": "hola89@gmail.com",
+    "email_verified": true,
+    "family_name": "Garcia",
+    "given_name": "Pepe",
+    "picture": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbaYhk3_I6eNVXOhnZPCq-=s96-c"
+}
+```
 </details>
 
 </details>
@@ -710,12 +712,12 @@ get /users/:id → Modificar un usuario o admin según id
 <details>
 <summary>JSON EJEMPLO PUT</summary>
   
-    ```json
-    {
-        "nameUser": "Admin",
-        "isAdmin": true
-    }
-    ```
+```json
+{
+    "nameUser": "Admin",
+    "isAdmin": true
+}
+```
 </details>
 </details>
 <details>

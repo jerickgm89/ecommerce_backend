@@ -31,6 +31,29 @@ const createProductAndCharacteristics = async (req, res) => {
             "size": "grande",
             "idBrand": 2
         }
+
+
+
+        {
+            "name": "producto creado al último ULTIMO",
+            "price": "589652",
+            "year": "2045",
+            "stock": 1,
+            "sku": "wdjsweweq",
+            "idReview": "",
+            "idCategory": 1,
+            "idDiscount": "",
+            "description": "producto util, cumple perfecto su uso",
+            "images": [
+            {
+                "file": {}
+            }
+            ],
+            "model": "CFX plus",
+            "color": "negro",
+            "size": "grande",
+            "idBrand": 1
+}
     */
     console.log("##req.file",req.file)
     let imageProd = req.file ? await cloudinary.uploader.upload(req.file.path) : null
