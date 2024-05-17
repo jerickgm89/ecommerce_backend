@@ -55,7 +55,7 @@ const createProductAndCharacteristics = async (req, res) => {
             "idBrand": 1
 }
     */
-    console.log("##req.file",req.file)
+    // console.log("##req.file",req.file)
     let imageProd = req.file ? await cloudinary.uploader.upload(req.file.path) : null
     // let imageProd = null
 
@@ -84,6 +84,18 @@ const createProductAndCharacteristics = async (req, res) => {
 
     const transaction = await EntityProducts.sequelize.transaction();
     // console.log("####imageProducts",imageProducts)
+    console.log("####imageProducts",
+            nameProduct,
+            priceProduct,
+            // imageProd ? imageProd.secure_url: null,
+            imageProd,
+            SKU,
+            descriptionProduct,
+            yearProduct,
+            stockProduct,
+            idReview,
+            idCategory,
+            IdDiscount)
     try {
         const newProduct = await EntityProducts.create({
             nameProduct,
@@ -112,6 +124,7 @@ const createProductAndCharacteristics = async (req, res) => {
         res.status(201).json({ newProduct, newCharacteristics });
     } catch (error) {
         await transaction.rollback();
+        console.log(error)
         res.status(500).json({ error: 'Error creating product and characteristics', details: error.message });
     }
 };
