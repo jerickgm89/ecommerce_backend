@@ -14,4 +14,4 @@ routesUsers.get("/:id", controllerGetUserById);       // busca User por idUser
 routesUsers.put("/:id", controllerModifyUser);        // modifica user pasando el id
 routesUsers.delete("/:id", controllerDeleteUser);     // borrar user pasando el id
 
-module.exports = routesUsers;
+module.exports = routesUsers; 
