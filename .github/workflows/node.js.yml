@@ -30,6 +30,5 @@ jobs:
       env:
         super_secret: ${{ secrets.PROD_ENV_FILE }}
     - run: npm i -f
-    - run: 
-          touch .env 
-          echo "$super_secret" >> .env
+    - run: touch .env 
+    - run: echo "$super_secret" >> .env
