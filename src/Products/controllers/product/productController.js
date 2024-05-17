@@ -32,11 +32,13 @@ const createProductAndCharacteristics = async (req, res) => {
             "idBrand": 2
         }
     */
-    // console.log(req.file.path.secure_url)
-    // const imageProd = req.file.path
-    const imageProd = await cloudinary.uploader.upload(req.file.path)
-    console.log("Holaaaaa",imageProd)
-    // console.log("###imageArray",imageArray.secure_url)
+    console.log("##req.file",req.file)
+    let imageProd = req.file ? await cloudinary.uploader.upload(req.file.path) : null
+    // let imageProd = null
+
+    // for( objeto in req.file)
+    // console.log("Holaaaaa",imageProd)
+    // console.log("###imageArray",imageProd.secure_url)
     const {
         Products: {
             nameProduct,
@@ -63,7 +65,7 @@ const createProductAndCharacteristics = async (req, res) => {
         const newProduct = await EntityProducts.create({
             nameProduct,
             priceProduct,
-            imageProducts: imageProd,
+            imageProducts: imageProd ? imageProd.secure_url: null,
             SKU,
             descriptionProduct,
             yearProduct,
