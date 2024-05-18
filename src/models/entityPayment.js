@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
             type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
+            autoIncrement: true
         },
 
         paymentType: {
@@ -15,7 +16,7 @@ module.exports = (sequelize) => {
 
         CCV:{
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true
         },
 
         accountNumber:{
@@ -29,7 +30,8 @@ module.exports = (sequelize) => {
         },
 
         idUser:{
-            type: DataTypes.INTEGER
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
     }, 
     );
