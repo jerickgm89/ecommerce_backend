@@ -1,3 +1,5 @@
+require('dotenv').config()
+const {sendWelcomeEmail} = require('../../config/nodeMailer/controllersMailer.js')
 const {
     loginUser,
     getAllUsers,
@@ -5,9 +7,21 @@ const {
     modifyUser,
     deleteUser
 } = require('../repositories/usersRepository.js')
+const jwt = require('jsonwebtoken') // para crear token
+const { JWT_SECRET } = process.env
 
 //convertir a numero el dni
-const logInUserServices = async ({ given_name, family_name, email, picture, email_verified, userRole }) => {
+const logInUserServices = async ({ given_name, family_name, email, picture, email_verified }) => {
+
+    const tokenJWT = jwt.sign(
+        {
+            emailUser : email 
+        },
+        JWT_SECRET,
+        {
+            expiresIn: "1h" // expira en 1 hora
+        }
+    )
     const userInfo = {
         // DNI: Number(dni),
         nameUser: given_name,
@@ -15,10 +29,13 @@ const logInUserServices = async ({ given_name, family_name, email, picture, emai
         emailUser: email,
         pictureUser: picture,
         email_verified,
+        tokenAuth: tokenJWT
         // idAdmin
     }
-    const newUser = await loginUser(userInfo);
-    return newUser
+    const [user,create] = await loginUser(userInfo);
+
+    await sendWelcomeEmail( email, given_name )
+    return [user,create]
 }
 
 const getAllUsersServices = async () => {

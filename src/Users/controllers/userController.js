@@ -24,7 +24,7 @@ const controllerRegisterUser = async (request, response) => {
         }
 
         
-        const newUser = await logInUserServices({
+        const [user,create] = await logInUserServices({
             given_name,
             family_name,
             email,
@@ -32,10 +32,15 @@ const controllerRegisterUser = async (request, response) => {
             email_verified,
             idAdmin,
         })
+        if(!create){
+            return response
+            .status(200)
+            .json( user )
+        }
 
         return response
         .status(201)
-        .json( newUser )
+        .json( user )
         
     } catch (error) {
         response
@@ -118,10 +123,11 @@ const controllerModifyUser = async (request, response) =>{
     const { params } = request;
     const idUser = params.id;
     // const { body } = request
-    // const { DNI, nameUser, lastNameUser, emailUser, pictureUser, numberMobileUser, email_verified, activeUser, isAdmin } = request.body
+    const { DNI, nameUser, lastNameUser, emailUser, pictureUser, numberMobileUser, email_verified, activeUser, isAdmin } = request.body
+    const newUserInfo = { DNI, nameUser, lastNameUser, emailUser, pictureUser, numberMobileUser, email_verified, activeUser, isAdmin }
     try {
         
-        const modifiedUser = await modifyUserServices( idUser,  request.body);
+        const modifiedUser = await modifyUserServices( idUser, newUserInfo);
         // const modifiedUser = await modifyUserServices( idUser, { DNI, nameUser, lastNameUser, emailUser, numberMobileUser, pictureUser, email_verified, activeUser, isAdmin });
         if(!modifiedUser){
             return response

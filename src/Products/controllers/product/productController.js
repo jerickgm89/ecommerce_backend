@@ -55,25 +55,21 @@ const createProductAndCharacteristics = async (req, res) => {
             "idBrand": 1
 }
     */
-    // console.log("##req.file",req.file)
-    let imageProd = req.file ? await cloudinary.uploader.upload(req.file.path) : null
-    // let imageProd = null
+   //    
+   // for( objeto in req.file)
 
-    // for( objeto in req.file)
-    // console.log("Holaaaaa",imageProd)
-    // console.log("###imageArray",imageProd.secure_url)
     const {
         Products: {
             nameProduct,
             priceProduct,
-            imageProducts,
+            images,
             SKU,
             yearProduct,
             stockProduct,
             descriptionProduct,
             idReview,
             idCategory,
-            IdDiscount
+            idDiscount,
         },
         Variants: {
             modelProduct,
@@ -81,26 +77,39 @@ const createProductAndCharacteristics = async (req, res) => {
             idBrand
         }
     } = req.body;
+    // console.log(images)
+    let arrayImagesProducts = []
+    if(!!req.files){
+        for (const file of req.files) {
+            const result = await cloudinary.uploader.upload(file.path);
+            arrayImagesProducts.push(result.secure_url);
+            console.log("##$$$$$$$$$$$$$$$$$$$$$$req.file",result.secure_url)
+        }
+    }
+    if(!!req.file){
+            const file = await cloudinary.uploader.upload(req.file.path)
+            arrayImagesProducts = []
+            arrayImagesProducts.push(file.secure_url)
+            console.log("##$$$$$$$$$$$$$$$$$$$$$$req.file",file.secure_url)
 
+        }
+        // let imageProd = req.file ? await cloudinary.uploader.upload(req.file.path) : null
+        // console.log("##$req.files", imageProd)
+    // console.log("##$$$$$$$$$$$$$$$$$$$$$$req.file",req.file)
+    
     const transaction = await EntityProducts.sequelize.transaction();
     // console.log("####imageProducts",imageProducts)
-    console.log("####imageProducts",
-            nameProduct,
-            priceProduct,
-            // imageProd ? imageProd.secure_url: null,
-            imageProd,
-            SKU,
-            descriptionProduct,
-            yearProduct,
-            stockProduct,
-            idReview,
-            idCategory,
-            IdDiscount)
+    // console.log( "####imageProducts", imageProd )
+    // imageProd ? imageProd.secure_url: null,
+    
+    // const images =  imageProducts ? [imageProducts] : arrayImagesProducts
+
     try {
         const newProduct = await EntityProducts.create({
             nameProduct,
             priceProduct,
-            imageProducts: imageProd ? imageProd.secure_url: null,
+            imageProducts: arrayImagesProducts.length ? arrayImagesProducts[0] : null,
+            // imageProducts:imageProd.secure_url,
             SKU,
             descriptionProduct,
             yearProduct,
@@ -108,8 +117,9 @@ const createProductAndCharacteristics = async (req, res) => {
             yearProduct,
             descriptionProduct,
             idReview,
+            idReview: idReview || null,
             idCategory,
-            IdDiscount
+            idDiscount: idDiscount || null
         }, { transaction });
 
         const newCharacteristics = await CharacteristicsProducts.create({
