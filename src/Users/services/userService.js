@@ -1,3 +1,6 @@
+require('dotenv').config()
+const {sendWelcomeEmail} = require('../../config/nodeMailer/controllersMailer.js')
+
 const {
     loginUser,
     getAllUsers,
@@ -17,8 +20,15 @@ const logInUserServices = async ({ given_name, family_name, email, picture, emai
         email_verified,
         // idAdmin
     }
-    const newUser = await loginUser(userInfo);
-    return newUser
+    try {
+        const newUser = await loginUser(userInfo);
+        
+        await sendWelcomeEmail(email, given_name)
+        
+         return newUser
+    } catch (error) {
+        console.error('Error al registrar el usuario', error);
+    }
 }
 
 const getAllUsersServices = async () => {
