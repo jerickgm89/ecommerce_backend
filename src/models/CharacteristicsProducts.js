@@ -14,16 +14,20 @@ module.exports = (sequelize) => {
         },        
         modelProduct: {
             type: DataTypes.STRING,
-            allowNull: false
+            // allowNull: false
         },
         characteristics: {
             type: DataTypes.JSONB,
-            allowNull: false
+            // allowNull: false
         },
         idBrand: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            // allowNull: false,
         }
-
-    })
-}
+    }, {
+        paranoid: true,
+        createdAt: 'createCharacteristic_at',
+        updatedAt: 'modifiedCharacteristic_at',
+        deletedAt: 'deleteCharacteristic_at'
+    });
+};

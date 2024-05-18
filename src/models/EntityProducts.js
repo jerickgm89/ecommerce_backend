@@ -13,11 +13,19 @@ module.exports = (sequelize) => {
         },
         priceProduct: {
             type: DataTypes.DECIMAL(10,2),
-            allowNull: false
+            // allowNull: false
+        },
+        yearProduct: {
+            type: DataTypes.INTEGER,
+            // allowNull: false
         },
         imageProducts: {
             type: DataTypes.STRING,
-            allowNull: false
+            // allowNull: false
+        },
+        descriptionProduct: {
+            type: DataTypes.STRING,
+            // allowNull: false
         },
         SKU: {
             type: DataTypes.STRING,
@@ -25,7 +33,6 @@ module.exports = (sequelize) => {
         },
         stockProduct: {
             type: DataTypes.INTEGER,
-            allowNull: false
         },
         idReview: {
             type: DataTypes.INTEGER,
@@ -37,7 +44,7 @@ module.exports = (sequelize) => {
         IdDiscount: {
             type: DataTypes.INTEGER
         },
-    },    {
+    },{
         paranoid: true,
         createdAt: 'createdProd_at',
         updatedAt: 'modifiedProd_at',

@@ -56,4 +56,3 @@ CharacteristicsProducts.belongsTo(EntityBrand, { foreignKey: 'idBrand' });
     ...sequelize.models, 
     conn: sequelize,     
   };
-

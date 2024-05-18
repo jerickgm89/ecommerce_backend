@@ -1,21 +1,29 @@
+const { Router } = require('express')
 
-const {Router} = require('express')
+//                          ----> Users <-----<
 const routesUsers = require('./../Users/routes/routesUsers.js')
-const brandRoutes = require('./brandRoutes');
-const categoryRoutes = require('./categoryRoutes.js');
-const productRoutes = require('./productRoutes.js');
-// const characteristicsRoutes = require('./characterProducts'); // Importamos las rutas de las características de los productos
+
+//                          ----> Products <-----<
+const routesProducts = require('./../Products/routes/index.js')
+
+//                           ----> filtres and order <----
+const routesFiltersProducts = require('../Products/routes/filtersAndOrder/routesFiltersProducts.js')
 
 
+const router = () => {
+    const routers = Router()
+    routers.use('/products', routesProducts)
+    routers.use('/filterproducts', routesFiltersProducts)
+    return routers
+}
 
-const router = Router()
+const auth_router = () => {
+    const routers = Router()
+    routers.use('/users', routesUsers)
+    return routers
+}
 
-router.use('/users', routesUsers)
-router.use('/brands', brandRoutes);
-router.use('/products', productRoutes);
-router.use('/category', categoryRoutes);
-// router.use('/characters', characteristicsRoutes);
-
-
-
-module.exports = router;
+module.exports = {
+    router: router(), // Llamar a la función y exportar el resultado
+    auth_router: auth_router() // Llamar a la función y exportar el resultado
+};
