@@ -10,7 +10,7 @@ const {
 const jwt = require('jsonwebtoken') // para crear token
 const { JWT_SECRET } = process.env
 
-//convertir a numero el dni
+
 const logInUserServices = async ({ given_name, family_name, email, picture, email_verified }) => {
 
     const tokenJWT = jwt.sign(
