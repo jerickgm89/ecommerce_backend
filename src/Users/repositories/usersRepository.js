@@ -2,7 +2,7 @@ const  { EntityUsers } = require('../../db.js');
 
 const loginUser = async (newUserInfo) => {
     const [user, created] = await EntityUsers.findOrCreate({where: newUserInfo});
-    return user;
+    return [user, created];
 }
 
 const getAllUsers = async () =>{
