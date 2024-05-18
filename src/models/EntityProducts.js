@@ -45,6 +45,10 @@ module.exports = (sequelize) => {
         IdDiscount: {
             type: DataTypes.INTEGER
         },
+        active: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true
+        },
     },{
         paranoid: true,
         createdAt: 'createdProd_at',
