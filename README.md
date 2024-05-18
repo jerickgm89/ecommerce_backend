@@ -38,16 +38,18 @@ post/ products/index → Crear un nuevo producto
 
 <details>
 <summary>JSON EJEMPLO POST</summary>
-  
-    ```json
-    {
-        "email": "hola89@gmail.com",
-        "email_verified": true,
-        "family_name": "Garcia",
-        "given_name": "Pepe",
-        "picture": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbaYhk3_I6eNVXOhnZPCq-=s96-c"
-    }
-    ```
+
+```json
+{
+    "email": "hola89@gmail.com",
+    "email_verified": true,
+    "family_name": "Garcia",
+    "given_name": "Pepe",
+    "picture": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbaYhk3_I6eNVXOhnZPCq-=s96-c"
+}
+```
+</details>
+</details>
 </details>
 
 <!-- </details> -->
@@ -94,6 +96,7 @@ get /products/index → Trae todos los productos
 
 ```
 </details>
+</details>
 
 <details>
 
@@ -103,25 +106,35 @@ get /products/index → Trae todos los productos
 ### Método GET ID
 get /products/index/:id → Busca producto según id
 ### Respuesta Exitosa (200 OK)
-petición a → products/index/13
+petición a → products/index/3
 ```json
 {
-    {
-        "idProduct": 13,
-        "nameProduct": "BlackBerry Key2",
-        "priceProduct": "648000.00",
-        "yearProduct": 2018,
-        "imageProducts": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcS8JWpOBIMUJEtHVlGs4w545vUoldC7ZdhLq9bI5uYZr2p9_FUS49YM7lo9_jDjt1EB6NUZo3cE2TDAbGGB7t-pkvZv-bBYnQ",
-        "descriptionProduct": "The BlackBerry Key2 is a unique smartphone with a physical keyboard and a focus on productivity and security.",
-        "SKU": "celblak2-001",
-        "stockProduct": 50,
-        "idReview": null,
-        "idCategory": 1,
-        "IdDiscount": null,
-        "createdProd_at": "2024-05-16T08:37:16.095Z",
-        "modifiedProd_at": "2024-05-16T08:37:16.095Z",
-        "deletedProd_at": null
-    }
+  "idProduct": 3,
+  "nameProduct": "Google Pixel 5",
+  "priceProduct": "10000.00",
+  "yearProduct": 2020,
+  "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_966068-MLA50145216014_052022-O.webp",
+  "descriptionProduct": "The Google Pixel 5 is a premium Android smartphone known for its exceptional camera performance and clean software experience.",
+  "SKU": "celgoopix5-001",
+  "stockProduct": 50,
+  "idReview": null,
+  "idCategory": 1,
+  "IdDiscount": null,
+  "createdProd_at": "2024-05-16T23:59:22.718Z",
+  "modifiedProd_at": "2024-05-16T23:59:22.718Z",
+  "deletedProd_at": null,
+  "characteristicsProduct": {
+    "idCharacteristicsProducts": 3,
+    "modelProduct": "Google Pixel 5",
+    "characteristics": {
+      "memory": "8GB RAM",
+      "battery": "4080mAh battery",
+      "display": "6.0-inch OLED display",
+      "storage": "128GB storage",
+      "processor": "Snapdragon 765G processor"
+    },
+    "idBrand": 3
+  }
 }
 
 ```
@@ -176,8 +189,8 @@ get /products/index/:id → Modificar un producto
 <details>
 <summary>JSON EJEMPLO PATCH</summary>
   
-    ```json
-    {
+```json
+{
     "Products": {
         "nameProduct": "Nuevo Nombre",
         "priceProduct": 199.99,
@@ -199,7 +212,7 @@ get /products/index/:id → Modificar un producto
         "idBrand": 1
     }
 }
-    ```
+```
 </details>
 </details>
 
@@ -243,12 +256,12 @@ post/ products/category → Crear un nueva categoría
 <details>
 <summary>JSON EJEMPLO POST</summary>
   
-    ```json
-    {
-        "nameCategory": "Electronics",
-        "descriptionCategory": "Breve descripcion de la categoria"
-    }
-    ```
+```json
+{
+    "nameCategory": "Electronics",
+    "descriptionCategory": "Breve descripcion de la categoria"
+}
+```
 </details>
 
 </details>
@@ -358,6 +371,7 @@ true
 
 post/ products/brands → Crear un nueva marca
 ### Respuesta Exitosa (201 OK)
+
 ```json
 {
   "idBrand": 27,
@@ -373,11 +387,11 @@ post/ products/brands → Crear un nueva marca
 <details>
 <summary>JSON EJEMPLO POST</summary>
   
-    ```json
-    {
-        "nameBrand": "Editar Nombre"
-    }
-    ```
+```json
+{
+    "nameBrand": "Editar Nombre"
+}
+```
 </details>
     </details>
 
@@ -583,6 +597,7 @@ filterproducts?brand=1&category=1&orderBy=yearProduct&orderDirection=DESC&page=1
 post/ users → Crear un nuevo usuario o admin
 ### Respuesta Exitosa (201 OK)
 </br>
+
 ```json
 {
     "idUser": 1,
@@ -603,16 +618,16 @@ post/ users → Crear un nuevo usuario o admin
 
 <details>
 <summary>JSON EJEMPLO POST</summary>
-  
-    ```json
-    {
-        "email": "hola89@gmail.com",
-        "email_verified": true,
-        "family_name": "Garcia",
-        "given_name": "Pepe",
-        "picture": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbaYhk3_I6eNVXOhnZPCq-=s96-c"
-    }
-    ```
+
+```json 
+{
+    "email": "hola89@gmail.com",
+    "email_verified": true,
+    "family_name": "Garcia",
+    "given_name": "Pepe",
+    "picture": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbaYhk3_I6eNVXOhnZPCq-=s96-c"
+}
+```
 </details>
 
 </details>
@@ -697,12 +712,12 @@ get /users/:id → Modificar un usuario o admin según id
 <details>
 <summary>JSON EJEMPLO PUT</summary>
   
-    ```json
-    {
-        "nameUser": "Admin",
-        "isAdmin": true
-    }
-    ```
+```json
+{
+    "nameUser": "Admin",
+    "isAdmin": true
+}
+```
 </details>
 </details>
 <details>
