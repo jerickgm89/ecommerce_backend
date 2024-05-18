@@ -10,7 +10,9 @@ const {
   getAllProducts,
   getProductById,
   getProductByName,
-  deleteProductAndCharacteristics
+  deleteProductAndCharacteristics,
+  unlockProduct,
+  restoreProduct
 } = require('../../controllers/product/productController.js');
 
 const router = express.Router();
@@ -22,7 +24,8 @@ router.get('/', getAllProducts);
 router.get('/search', getProductByName);
 router.get('/:id', getProductById);
 router.delete('/:id', deleteProductAndCharacteristics);
-
+router.delete('/unlock/:id', unlockProduct)
+router.delete('/restore/:id', restoreProduct);
 
 
 module.exports = router;

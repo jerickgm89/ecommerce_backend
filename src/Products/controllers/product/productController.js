@@ -271,6 +271,7 @@ const getAllProducts = async (req, res) => {
     try {
         // const where = {};
         const products = await EntityProducts.findAll({
+            where: { active: true},
             offset,
             limit,
             include:[{
@@ -355,6 +356,39 @@ const deleteProductAndCharacteristics = async (req, res) => {
         await transaction.rollback();
         res.status(500).json({ error: 'Error deleting product and characteristics', details: error.message });
     }
+}
+const unlockProduct = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const product = await EntityProducts.findByPk(id);
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        product.active = false;
+        await product.save();
+
+        res.status(200).json({ message: 'Product has been deactivated' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error unlocking product', details: error.message });
+    }
+};
+const restoreProduct = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const product = await EntityProducts.findByPk(id, { paranoid: true });
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        product.active = true;
+        await product.restore();
+        await product.save();
+
+        res.status(200).json({ message: 'Product has been reactivated' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error restoring product', details: error.message });
+    }
 };
 
 module.exports = {
@@ -363,5 +397,7 @@ module.exports = {
     getAllProducts,
     getProductById,
     getProductByName,
-    deleteProductAndCharacteristics
+    deleteProductAndCharacteristics,
+    unlockProduct,
+    restoreProduct
 };

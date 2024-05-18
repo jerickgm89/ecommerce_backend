@@ -40,10 +40,17 @@ const deleteUser = async (idUser) =>{
     });
     return !!deletedUser
 }
+
+const unlockUser = async (idUser) => {
+    const unlockUser = await User.findOne({where: {idUser: idUser}})
+    unlockUser.destroy()
+    return unlockUser
+}
 module.exports = {
     loginUser,
     getAllUsers,
     getUserById,
     modifyUser,
-    deleteUser
+    deleteUser,
+    unlockUser
 }

@@ -3,7 +3,8 @@ const {
     getAllUsersServices,
     getUserByIdServices,
     modifyUserServices,
-    deleteUserServices
+    deleteUserServices,
+    unlockUserService
 } = require('../services/userService.js')
 
 const controllerRegisterUser = async (request, response) => {
@@ -164,13 +165,26 @@ const controllerDeleteUser = async (request, response) =>{
         .json({message: "Usuario no pudo ser eliminado"})
         
     }
+}
+const controllersUnlockUser = async (req, res) => {
     
-};
+    const {idUser} = req.params
+    try {
+        const unlockuser = await unlockUserService(idUser)
+        return res.status(200).json({destroy: true, unlockuser})
+        
+    } catch (error) {
+        return res.status(500).send('Usuario no pudo ser desactivado')
+    }
+}
+    
+    
 
 module.exports = {
     controllerGetAllUsers,
     controllerRegisterUser,
     controllerGetUserById,
     controllerModifyUser,
-    controllerDeleteUser
+    controllerDeleteUser,
+    controllersUnlockUser
 }
