@@ -20,19 +20,35 @@ post/ products/index → Crear un nuevo producto
 ### Respuesta Exitosa (201 OK)
 ```json
 {
-    "idUser": 1,
-    "DNI": null,
-    "nameUser": "hola",
-    "lastNameUser": "Garcia",
-    "emailUser": "hola89@gmail.com",
-    "pictureUser": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbaYhk3_I6eNVXOhnZPCq-=s96-c",
-    "numberMobileUser": null,
-    "email_verified": true,
-    "isAdmin": false,
-    "activeUser": true,
-    "createdUser_at": "2024-05-16T08:37:51.731Z",
-    "modifiedUser_at": "2024-05-16T08:48:07.248Z",
-    "deletedUser_at": null
+  "newProduct": {
+    "idProduct": 33,
+    "nameProduct": "Nombre",
+    "priceProduct": "99.99",
+    "imageProducts": null,
+    "SKU": "B0CFNX3PTT",
+    "descriptionProduct": "Descripción muy importante sobre el producto",
+    "yearProduct": 1990,
+    "stockProduct": 10,
+    "idReview": null,
+    "idCategory": 1,
+    "modifiedProd_at": "2024-05-18T05:39:07.476Z",
+    "createdProd_at": "2024-05-18T05:39:07.476Z",
+    "IdDiscount": null,
+    "deletedProd_at": null
+  },
+  "newCharacteristics": {
+    "idCharacteristicsProducts": 33,
+    "idProduct": 33,
+    "modelProduct": "Model A",
+    "characteristics": {
+      "size": "L",
+      "color": "red"
+    },
+    "idBrand": 1,
+    "modifiedCharacteristic_at": "2024-05-18T05:39:07.478Z",
+    "createCharacteristic_at": "2024-05-18T05:39:07.478Z",
+    "deleteCharacteristic_at": null
+  }
 }
 ```
 
@@ -40,12 +56,26 @@ post/ products/index → Crear un nuevo producto
 <summary>JSON EJEMPLO POST</summary>
 
 ```json
-{
-    "email": "hola89@gmail.com",
-    "email_verified": true,
-    "family_name": "Garcia",
-    "given_name": "Pepe",
-    "picture": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbaYhk3_I6eNVXOhnZPCq-=s96-c"
+ {
+    "Products": {
+        "nameProduct": "Nombre",
+        "priceProduct": 99.99,
+        "yearProduct": "1990",
+        "descriptionProduct": "Descripción muy importante sobre el producto",
+        "SKU": "B0CFNX3PTT",
+        "stockProduct": 10,
+        "idReview": null,
+        "idCategory": 1,
+        "IdDiscount": null
+    },
+    "Variants": {
+        "modelProduct": "Model A",
+        "characteristics": {
+            "color": "red",
+            "size": "L"
+        },
+        "idBrand": 1
+    }
 }
 ```
 </details>
@@ -295,7 +325,7 @@ get /products/category → Trae todas las categorías
 <summary>METODO GET NAME</summary>
 
 ### Método GET NAME
-get /products/category/name/:name → Busca categoría según nombre
+get /products/category/name/:name → Busca categoría según nombre exacto (sensible a mayúsculas)
 ### Respuesta Exitosa (200 OK)
 petición a → /products/category/name/Electronics
 ```json
@@ -425,7 +455,7 @@ get /products/brands → Trae todas las marcas
 <summary>METODO GET NAME</summary>
 
 ### Método GET NAME
-get /products/brands/name/:name → Busca marca según nombre
+get /products/brands/name/:name → Busca marca según nombre exacto (sensible a mayúsculas)
 ### Respuesta Exitosa (200 OK)
 petición a → products/brands/name/Samsung
 ```json
