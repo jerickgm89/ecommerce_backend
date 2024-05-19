@@ -293,7 +293,7 @@ const getProductById = async (req, res) => {
     const { id } = req.params;
     // console.log(id, "IDD");
     try {
-        const product = await EntityProducts.findByPk(id, {include: {model:CharacteristicsProducts, attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']}});
+        const product = await EntityProducts.findOne({where: {idProduct: id, active:true}}, {include: {model:CharacteristicsProducts, attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']}});
         if (product) {
             res.json(product);
         } else {
@@ -316,6 +316,7 @@ const getProductByName = async (req, res) => {
     try {
         const products = await EntityProducts.findAll({ 
             where: {
+                active: true,
                 nameProduct: { 
                     [Op.iLike]: `%${name}%`
                 }

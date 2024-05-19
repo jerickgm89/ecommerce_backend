@@ -6,7 +6,9 @@ const loginUser = async (newUserInfo) => {
 }
 
 const getAllUsers = async () =>{
-    const listAllUsers = await EntityUsers.findAll();
+    const listAllUsers = await EntityUsers.findAll({
+        where: {activeUser: true}
+    });
     
     return listAllUsers;
 };
@@ -14,6 +16,7 @@ const getAllUsers = async () =>{
 const getUserById = async (idUser) =>{
     const userToFind = await EntityUsers.findOne({
         where: {
+            activeUser: true,
             idUser: idUser
         }
     })
@@ -24,6 +27,7 @@ const modifyUser = async (idUser, infoToEdit) =>{
         infoToEdit, 
         { 
             where: {
+                activeUser: true,
                 idUser: idUser
             }
         },
@@ -35,6 +39,7 @@ const modifyUser = async (idUser, infoToEdit) =>{
 const deleteUser = async (idUser) =>{
     const deletedUser = await EntityUsers.destroy({
         where: {
+            activeUser: true,
             idUser: idUser
         }
     });
@@ -42,9 +47,21 @@ const deleteUser = async (idUser) =>{
 }
 
 const unlockUser = async (idUser) => {
-    const unlockUser = await User.findOne({where: {idUser: idUser}})
-    unlockUser.destroy()
-    return unlockUser
+    const user = await EntityUsers.findOne(idUser);
+ 
+    user.activeUser = false;
+    await user.save();
+    return user;
+};
+
+const restoreUser = async (idUser) => {
+    const restoreuser = await EntityUsers.findOne(idUser, {paranoid : true})
+
+    restoreuser.activeUser = true
+    await restoreuser.restore()
+    await  restoreuser.save()
+    
+    return restoreuser;
 }
 module.exports = {
     loginUser,
@@ -52,5 +69,6 @@ module.exports = {
     getUserById,
     modifyUser,
     deleteUser,
-    unlockUser
+    unlockUser,
+    restoreUser
 }

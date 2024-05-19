@@ -4,7 +4,8 @@ const {
     getUserByIdServices,
     modifyUserServices,
     deleteUserServices,
-    unlockUserService
+    unlockUserServices,
+    restoreUserServices
 } = require('../services/userService.js')
 
 const controllerRegisterUser = async (request, response) => {
@@ -167,16 +168,24 @@ const controllerDeleteUser = async (request, response) =>{
     }
 }
 const controllersUnlockUser = async (req, res) => {
-    
-    const {idUser} = req.params
+    const { idUser } = req.params;
     try {
-        const unlockuser = await unlockUserService(idUser)
-        return res.status(200).json({destroy: true, unlockuser})
-        
+        const user = await unlockUserServices(idUser);
+    
+        return res.status(200).json({ message: 'Usuario  ha sido desactivado con éxito', user });
     } catch (error) {
-        return res.status(500).send('Usuario no pudo ser desactivado')
+        return res.status(500).json({ error: 'Error al intentar desactivar  usuario', details: error.message });
     }
-}
+};
+const controllersRestoreUser = async (req, res) => {
+    const { idUser } = req.params;
+    try {
+        const user = await restoreUserServices(idUser);
+        return res.status(200).json({ message: 'Usuario ha sido restaurado con éxito.', user });
+    } catch (error) {
+        return res.status(500).json({ error: 'Usuario no pudo  ser restaurado', details: error.message });
+    }
+};
     
     
 
@@ -186,5 +195,6 @@ module.exports = {
     controllerGetUserById,
     controllerModifyUser,
     controllerDeleteUser,
-    controllersUnlockUser
+    controllersUnlockUser,
+    controllersRestoreUser
 }
