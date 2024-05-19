@@ -4,7 +4,8 @@ const {
     controllerGetUserById,
     controllerModifyUser,
     controllerDeleteUser,
-    controllersUnlockUser
+    controllersUnlockUser,
+    controllersRestoreUser
 } = require("../controllers/userController.js")
 
 const routesUsers = require("express").Router()
@@ -14,5 +15,6 @@ routesUsers.get("/", controllerGetAllUsers);          // obtiene todos los Users
 routesUsers.get("/:id", controllerGetUserById);       // busca User por idUser
 routesUsers.put("/:id", controllerModifyUser);        // modifica user pasando el id
 routesUsers.delete("/:id", controllerDeleteUser);     // borrar user pasando el id
-routesUsers.delete('/unlock/:id', controllersUnlockUser)
+routesUsers.delete('/unlock/:id', controllersUnlockUser) //desactivar un usuario
+routesUsers.delete('/restore/:id', controllersRestoreUser) //re activar un usuario
 module.exports = routesUsers; 
