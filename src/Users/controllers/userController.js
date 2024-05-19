@@ -5,7 +5,8 @@ const {
     modifyUserServices,
     deleteUserServices,
     unlockUserServices,
-    restoreUserServices
+    restoreUserServices,
+    serviceGetByEmail
 } = require('../services/userService.js')
 
 const controllerRegisterUser = async (request, response) => {
@@ -172,13 +173,12 @@ const controllersRestoreUser = async (req, res) => {
         return res.status(500).json({ error: 'Usuario no pudo  ser restaurado', details: error.message });
     }
 };
-    
 
 
 const controllerGetUserByEmail = async ( req, res ) =>{
     try {
         const { emailUser } = req.params;
-        if(!emailUser.length) return res.status(200).send('Email no ingresado')
+
         const isVerified = await serviceGetByEmail( emailUser );
 
         if( !isVerified ){
