@@ -1,11 +1,12 @@
 require('dotenv').config()
-const {sendWelcomeEmail} = require('../../config/nodeMailer/controllersMailer.js')
+const { sendWelcomeEmail } = require('../../config/nodeMailer/controllersMailer.js')
 const {
     loginUser,
     getAllUsers,
     getUserById,
     modifyUser,
-    deleteUser
+    deleteUser,
+    verifyEmail
 } = require('../repositories/usersRepository.js')
 const jwt = require('jsonwebtoken') // para crear token
 const { JWT_SECRET } = process.env
@@ -51,12 +52,12 @@ const getUserByIdServices = async ( idUser ) =>{
     return searchedUser
 }
 
-const modifyUserServices = async (idUser, infoToEdit) => {
-    const userExist = await getUserByIdServices(idUser)
+const modifyUserServices = async ( idUser, infoToEdit ) => {
+    const userExist = await getUserByIdServices( idUser )
     if(!userExist){
         throw new Error ('Usuario no fue encontrado')
     }
-    const modifiedUser = await modifyUser(idUser, infoToEdit);
+    const modifiedUser = await modifyUser( idUser, infoToEdit );
     // if(!userExist){
     //     throw new Error ('Usuario no fue encontrado')
     // }
@@ -64,12 +65,18 @@ const modifyUserServices = async (idUser, infoToEdit) => {
     return modifiedUser
 }
 
-const deleteUserServices = async (idUser) => {
-    const deletedUser = await deleteUser(idUser);
-    if(!deleteUser){
+const deleteUserServices = async ( idUser ) => {
+    const deletedUser = await deleteUser( idUser );
+    if( !deleteUser ){
         throw new Error ('Usuario no fue encontrado')
     }
     return deletedUser
+}
+
+const serviceGetByEmail = async ( emailToVerify ) => {
+
+    const userIsVerified = await verifyEmail( emailToVerify )
+    return userIsVerified
 }
 
 module.exports = {
@@ -77,5 +84,6 @@ module.exports = {
     getAllUsersServices,
     getUserByIdServices,
     modifyUserServices,
-    deleteUserServices
+    deleteUserServices,
+    serviceGetByEmail
 }

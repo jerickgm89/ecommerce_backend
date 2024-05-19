@@ -15,6 +15,7 @@ const routesFiltersProducts = require('../Products/routes/filtersAndOrder/routes
 //
 const routesShopping = require("../Shopping/routes/index.js")
 
+
 const router = () => {
     const routers = Router()
     routers.use('/products', routesProducts)
@@ -49,6 +50,7 @@ const router = () => {
 const auth_router = () => {
     const routers = Router()
     routers.use('/users', routesUsers)
+    // routers.use('/auth', routesAuth)
     return routers
 }
 

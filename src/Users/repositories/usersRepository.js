@@ -5,26 +5,26 @@ const loginUser = async (newUserInfo) => {
     return [user, created];
 }
 
-const getAllUsers = async () =>{
+const getAllUsers = async () => {
     const listAllUsers = await EntityUsers.findAll();
     
     return listAllUsers;
 };
 
-const getUserById = async (idUser) =>{
+const getUserById = async (idUser) => {
     const userToFind = await EntityUsers.findOne({
         where: {
-            idUser: idUser
+            idUser
         }
     })
     return userToFind
 }
-const modifyUser = async (idUser, infoToEdit) =>{
+const modifyUser = async (idUser, infoToEdit) => {
     const editedUser = await EntityUsers.update(
         infoToEdit, 
         { 
             where: {
-                idUser: idUser
+                idUser
             }
         },
     )
@@ -32,25 +32,41 @@ const modifyUser = async (idUser, infoToEdit) =>{
 
 };
 
-const deleteUser = async (idUser) =>{
+const deleteUser = async (idUser) => {
     const deletedUser = await EntityUsers.destroy({
         where: {
-            idUser: idUser
+            idUser
         }
     });
     return !!deletedUser
 }
 
 const unlockUser = async (idUser) => {
-    const unlockUser = await User.findOne({where: {idUser: idUser}})
+    const unlockUser = await User.findOne({where: { idUser }})
     unlockUser.destroy()
     return unlockUser
 }
+
+const verifyEmail = async ( emailToVerify ) => {
+    const user = await EntityUsers.findOne(
+        { 
+            where: {
+                emailUser: emailToVerify
+        }
+    })
+    if( user ){
+        const { isAdmin, tokenAuth } = user;
+        return { isAdmin, tokenAuth }
+    }
+    return false
+}
+
 module.exports = {
     loginUser,
     getAllUsers,
     getUserById,
     modifyUser,
     deleteUser,
-    unlockUser
+    unlockUser,
+    verifyEmail
 }
