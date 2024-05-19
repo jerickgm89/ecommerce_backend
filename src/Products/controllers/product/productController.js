@@ -54,9 +54,8 @@ const createProductAndCharacteristics = async (req, res) => {
             "size": "grande",
             "idBrand": 1
 }
-    */
-   //    
-   // for( objeto in req.file)
+*/
+   // for( objeto in req.file)   
 
     const {
         Products: {
@@ -87,12 +86,12 @@ const createProductAndCharacteristics = async (req, res) => {
         }
     }
     if(!!req.file){
-            const file = await cloudinary.uploader.upload(req.file.path)
-            arrayImagesProducts = []
-            arrayImagesProducts.push(file.secure_url)
-            console.log("##$$$$$$$$$$$$$$$$$$$$$$req.file",file.secure_url)
+        const file = await cloudinary.uploader.upload(req.file.path)
+        arrayImagesProducts = []
+        arrayImagesProducts.push(file.secure_url)
+        console.log("##$$$$$$$$$$$$$$$$$$$$$$req.file",file.secure_url)
 
-        }
+    }
         // let imageProd = req.file ? await cloudinary.uploader.upload(req.file.path) : null
         // console.log("##$req.files", imageProd)
     // console.log("##$$$$$$$$$$$$$$$$$$$$$$req.file",req.file)
@@ -377,8 +376,8 @@ const unlockProduct = async (req, res) => {
 const restoreProduct = async (req, res) => {
     const { id } = req.params;
     try {
-        const product = await EntityProducts.findByPk(id, { paranoid: true });
-        if (!product) {
+        const product = await EntityProducts.findByPk( id, { paranoid: true } );
+        if ( !product ) {
             return res.status(404).json({ error: 'Product not found' });
         }
 

@@ -5,30 +5,28 @@ const loginUser = async (newUserInfo) => {
     return [user, created];
 }
 
+
 const getAllUsers = async () =>{
     const listAllUsers = await EntityUsers.findAll({
         where: {activeUser: true}
     });
-    
     return listAllUsers;
 };
 
-const getUserById = async (idUser) =>{
+const getUserById = async (idUser) => {
     const userToFind = await EntityUsers.findOne({
         where: {
-            activeUser: true,
-            idUser: idUser
+            idUser
         }
     })
     return userToFind
 }
-const modifyUser = async (idUser, infoToEdit) =>{
+const modifyUser = async (idUser, infoToEdit) => {
     const editedUser = await EntityUsers.update(
         infoToEdit, 
         { 
             where: {
-                activeUser: true,
-                idUser: idUser
+                idUser
             }
         },
     )
@@ -36,33 +34,35 @@ const modifyUser = async (idUser, infoToEdit) =>{
 
 };
 
-const deleteUser = async (idUser) =>{
+const deleteUser = async (idUser) => {
     const deletedUser = await EntityUsers.destroy({
         where: {
-            activeUser: true,
-            idUser: idUser
+            idUser
         }
     });
     return !!deletedUser
 }
 
 const unlockUser = async (idUser) => {
-    const user = await EntityUsers.findOne(idUser);
- 
-    user.activeUser = false;
-    await user.save();
-    return user;
-};
-
-const restoreUser = async (idUser) => {
-    const restoreuser = await EntityUsers.findOne(idUser, {paranoid : true})
-
-    restoreuser.activeUser = true
-    await restoreuser.restore()
-    await  restoreuser.save()
-    
-    return restoreuser;
+    const unlockUser = await User.findOne({where: { idUser }})
+    unlockUser.destroy()
+    return unlockUser
 }
+
+const verifyEmail = async ( emailToVerify ) => {
+    const user = await EntityUsers.findOne(
+        { 
+            where: {
+                emailUser: emailToVerify
+        }
+    })
+    if( user ){
+        const { isAdmin, tokenAuth } = user;
+        return { isAdmin, tokenAuth }
+    }
+    return false
+}
+
 module.exports = {
     loginUser,
     getAllUsers,
@@ -70,5 +70,5 @@ module.exports = {
     modifyUser,
     deleteUser,
     unlockUser,
-    restoreUser
+    verifyEmail
 }

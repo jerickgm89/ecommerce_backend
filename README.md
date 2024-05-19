@@ -630,19 +630,20 @@ post/ users → Crear un nuevo usuario o admin
 
 ```json
 {
-    "idUser": 1,
-    "DNI": null,
-    "nameUser": "hola",
-    "lastNameUser": "Garcia",
-    "emailUser": "hola89@gmail.com",
-    "pictureUser": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbaYhk3_I6eNVXOhnZPCq-=s96-c",
-    "numberMobileUser": null,
-    "email_verified": true,
-    "isAdmin": false,
-    "activeUser": true,
-    "createdUser_at": "2024-05-16T08:37:51.731Z",
-    "modifiedUser_at": "2024-05-16T08:48:07.248Z",
-    "deletedUser_at": null
+  "isAdmin": false,
+  "activeUser": true,
+  "idUser": 1,
+  "nameUser": "Cami",
+  "lastNameUser": "S",
+  "emailUser": "cami.igsa@gmail.com",
+  "pictureUser": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbGzjPlzCu9e5TfoaYhk3_I6eNVXOhnZPCq-=s96-c",
+  "email_verified": true,
+  "tokenAuth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbFVzZXIiOiJjYW1pLmlnc2FAZ21haWwuY29tIiwiaWF0IjoxNzE2MDc2MTQzLCJleHAiOjE3MTYwNzk3NDN9.Rxz_3ihvDWSsmAxY23S7t4Rc_lDs_vsKuaVzmFhGjzQ",
+  "modifiedUser_at": "2024-05-18T23:49:03.211Z",
+  "createdUser_at": "2024-05-18T23:49:03.211Z",
+  "DNI": null,
+  "numberMobileUser": null,
+  "deletedUser_at": null
 }
 ```
 
@@ -651,11 +652,11 @@ post/ users → Crear un nuevo usuario o admin
 
 ```json 
 {
-    "email": "hola89@gmail.com",
-    "email_verified": true,
-    "family_name": "Garcia",
-    "given_name": "Pepe",
-    "picture": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbaYhk3_I6eNVXOhnZPCq-=s96-c"
+  "email": "cami.igsa@gmail.com",
+  "email_verified": true,
+  "family_name": "S",
+  "given_name": "Cami",
+  "picture": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbGzjPlzCu9e5TfoaYhk3_I6eNVXOhnZPCq-=s96-c"
 }
 ```
 </details>
@@ -758,6 +759,19 @@ get /users/:id → Eliminar user o admin según id (paranoid: true)
 ### Respuesta Exitosa (200 OK)
 ```json
 true
+```
+</details>
+<details>
+<summary>METODO GET USER BY EMAIL</summary>
+
+### Método GET
+get /users/verify/:emailUser → Envía email para recibir token del usuario
+### Respuesta Exitosa (200 OK)
+```json
+{
+  "isAdmin": false,
+  "tokenAuth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbFVzZXIiOiJjYW1pd2FudGFuQGhvdG1haWwuY29tIiwiaWF0IjoxNzE2MDk0NjIwLCJleHAiOjE3MTYwOTgyMjB9.Ky_mhAPMbr6CxYONaJKfai9DxZw2-_0raBgCVJWlwkg"
+}
 ```
 
 </details>
