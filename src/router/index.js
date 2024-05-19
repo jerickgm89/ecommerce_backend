@@ -12,6 +12,8 @@ const routesProducts = require('./../Products/routes/index.js')
 //                           ----> filtres and order <----
 const routesFiltersProducts = require('../Products/routes/filtersAndOrder/routesFiltersProducts.js')
 
+//
+const routesShopping = require("../Shopping/routes/index.js")
 
 const router = () => {
     const routers = Router()

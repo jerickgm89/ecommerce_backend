@@ -9,6 +9,11 @@ const entityCategoryModels = require('./models/EntityCategory.js')
 const CharacteristicsProductsModels = require('./models/CharacteristicsProducts.js')
 const entityBrandModels = require('./models/EntityBrand');
 const entityUsersModels = require('./models/EntityUsers.js')
+const entityPaymentModels = require('./models/entityPayment.js')
+const entityShoppingSessionModels = require('./models/entityShoppingSession.js')
+const entityCartItemModels = require('./models/entityCartItem.js')
+const entityOrderDetailModels = require("./models/entityOrderDetail.js");
+const EntityOrderItemsModels = require('./models/entityCartItem.js')
 
     const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/ecommerce`, {
         logging: false,
@@ -23,6 +28,11 @@ const entityUsersModels = require('./models/EntityUsers.js')
     CharacteristicsProductsModels(sequelize)
     entityBrandModels(sequelize)
     entityUsersModels(sequelize)
+    entityPaymentModels(sequelize)
+    entityShoppingSessionModels(sequelize)
+    entityCartItemModels(sequelize)
+    entityOrderDetailModels(sequelize)
+    EntityOrderItemsModels(sequelize)
 
     fs.readdirSync(path.join(__dirname, '/models'))
   .filter((file) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
@@ -36,7 +46,8 @@ const entityUsersModels = require('./models/EntityUsers.js')
   let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
   sequelize.models = Object.fromEntries(capsEntries);
 
-  const {EntityProducts, EntityCategory, CharacteristicsProducts, EntityBrand, EntityUsers} = sequelize.models
+  const {EntityProducts, EntityCategory, CharacteristicsProducts, EntityBrand, EntityUsers, 
+    EntityOrderDetail, EntityOrderItems, EntityPayment, EntityShoppingSession, EntityCartItem} = sequelize.models
 
 //Aqui van las relaciones: ->
 
@@ -51,6 +62,39 @@ CharacteristicsProducts.belongsTo(EntityProducts, {foreignKey: 'idProduct'});
 /*relacion CharacteristicsProducts - entityBrand*/
 EntityBrand.hasMany(CharacteristicsProducts, { foreignKey: 'idBrand' });
 CharacteristicsProducts.belongsTo(EntityBrand, { foreignKey: 'idBrand' });
+
+EntityOrderDetail.hasMany(EntityOrderItems, { foreignKey: 'UUID', sourceKey: 'UUID' });
+EntityOrderItems.belongsTo(EntityOrderDetail, { foreignKey: 'UUID', targetKey: 'UUID' });
+
+
+EntityPayment.hasOne(EntityOrderDetail, { foreignKey: 'idPayment' });
+EntityOrderDetail.belongsTo(EntityPayment, { foreignKey: 'idPayment' });
+
+
+EntityUsers.hasOne(EntityOrderDetail, {
+  foreignKey: 'idUser',
+  as: 'orderDetail'
+});
+EntityOrderDetail.belongsTo(EntityUsers, {
+  foreignKey: 'idUser',
+  as: 'user'
+});
+
+
+EntityProducts.hasMany(EntityOrderItems, { foreignKey: 'idProduct' });
+EntityOrderItems.belongsTo(EntityProducts, { foreignKey: 'idProduct' });
+
+
+EntityUsers.hasOne(EntityShoppingSession, { foreignKey: 'idUser' });
+EntityShoppingSession.belongsTo(EntityUsers, { foreignKey: 'idUser' });
+
+
+EntityShoppingSession.hasMany(EntityCartItem, { foreignKey: 'idShoppingSession' });
+EntityCartItem.belongsTo(EntityShoppingSession, { foreignKey: 'idShoppingSession' });
+
+
+EntityProducts.belongsToMany(EntityCartItem, { through: 'ProductCartItem', foreignKey: 'idProduct' });
+EntityCartItem.belongsToMany(EntityProducts, { through: 'ProductCartItem', foreignKey: 'idCartItem' });
 
   module.exports = {
     ...sequelize.models, 
