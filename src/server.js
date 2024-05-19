@@ -1,10 +1,8 @@
 require("dotenv").config();
 const express = require('express');
-const { 
-    router,
-    auth_router
-} = require('./router/index.js');
+const { router, auth_router } = require('./router/index.js');
 const cors = require('cors');
+
 const morgan = require('morgan');
 
 

@@ -9,11 +9,15 @@ const routesProducts = require('./../Products/routes/index.js')
 //                           ----> filtres and order <----
 const routesFiltersProducts = require('../Products/routes/filtersAndOrder/routesFiltersProducts.js')
 
+//                           ----> filtres and order <----
+const paymentRoutes = require('../payments/routes/paymentRoutes.js');
 
 const router = () => {
     const routers = Router()
     routers.use('/products', routesProducts)
     routers.use('/filterproducts', routesFiltersProducts)
+    routers.use('/payment', paymentRoutes);
+
     return routers
 }
 
