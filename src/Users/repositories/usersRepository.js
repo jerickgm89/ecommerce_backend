@@ -5,9 +5,11 @@ const loginUser = async (newUserInfo) => {
     return [user, created];
 }
 
-const getAllUsers = async () => {
-    const listAllUsers = await EntityUsers.findAll();
-    
+
+const getAllUsers = async () =>{
+    const listAllUsers = await EntityUsers.findAll({
+        where: {activeUser: true}
+    });
     return listAllUsers;
 };
 

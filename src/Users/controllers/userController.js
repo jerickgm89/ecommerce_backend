@@ -4,8 +4,8 @@ const {
     getUserByIdServices,
     modifyUserServices,
     deleteUserServices,
-    unlockUserService,
-    serviceGetByEmail
+    unlockUserServices,
+    restoreUserServices
 } = require('../services/userService.js')
 
 const controllerRegisterUser = async (request, response) => {
@@ -154,16 +154,26 @@ const controllerDeleteUser = async (request, response) =>{
     }
 }
 const controllersUnlockUser = async (req, res) => {
-    
-    const {idUser} = req.params
+    const { idUser } = req.params;
     try {
-        const unlockuser = await unlockUserService(idUser)
-        return res.status(200).json({destroy: true, unlockuser})
-        
+        const user = await unlockUserServices(idUser);
+    
+        return res.status(200).json({ message: 'Usuario  ha sido desactivado con éxito', user });
     } catch (error) {
-        return res.status(500).send('Usuario no pudo ser desactivado')
+        return res.status(500).json({ error: 'Error al intentar desactivar  usuario', details: error.message });
     }
-}
+};
+const controllersRestoreUser = async (req, res) => {
+    const { idUser } = req.params;
+    try {
+        const user = await restoreUserServices(idUser);
+        return res.status(200).json({ message: 'Usuario ha sido restaurado con éxito.', user });
+    } catch (error) {
+        return res.status(500).json({ error: 'Usuario no pudo  ser restaurado', details: error.message });
+    }
+};
+    
+
 
 const controllerGetUserByEmail = async ( req, res ) =>{
     try {
@@ -180,7 +190,6 @@ const controllerGetUserByEmail = async ( req, res ) =>{
         return res.status(500).send( 'No se pudo procesar la solicitud' )
     }
 }
-    
 
 module.exports = {
     controllerGetAllUsers,
@@ -189,5 +198,6 @@ module.exports = {
     controllerModifyUser,
     controllerDeleteUser,
     controllersUnlockUser,
-    controllerGetUserByEmail
+    controllersRestoreUser,
+    controllerGetUserByEmail,
 }

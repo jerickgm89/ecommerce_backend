@@ -6,6 +6,8 @@ const {
     getUserById,
     modifyUser,
     deleteUser,
+    unlockUser,
+    restoreUser,
     verifyEmail
 } = require('../repositories/usersRepository.js')
 const jwt = require('jsonwebtoken') // para crear token
@@ -79,11 +81,29 @@ const serviceGetByEmail = async ( emailToVerify ) => {
     return userIsVerified
 }
 
+const unlockUserServices = async (idUser) => {
+    const unlockuser = await unlockUser(idUser);
+    if(!unlockuser) {
+        throw new Error('No existe usuario para desactivar.')
+    }
+    return unlockuser
+}
+
+const restoreUserServices = async (idUser) => {
+    const restoreuser = await restoreUser(idUser)
+    if(!restoreuser) {
+        throw new Error('No se pudo restaurar el usuario')
+    }
+    return restoreuser
+}
+
 module.exports = {
     logInUserServices,
     getAllUsersServices,
     getUserByIdServices,
     modifyUserServices,
     deleteUserServices,
-    serviceGetByEmail
+    serviceGetByEmail,
+    unlockUserServices,
+    restoreUserServices
 }
