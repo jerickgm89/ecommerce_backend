@@ -96,6 +96,9 @@ EntityCartItem.belongsTo(EntityShoppingSession, { foreignKey: 'idShoppingSession
 EntityProducts.belongsToMany(EntityCartItem, { through: 'ProductCartItem', foreignKey: 'idProduct' });
 EntityCartItem.belongsToMany(EntityProducts, { through: 'ProductCartItem', foreignKey: 'idCartItem' });
 
+EntityUsers.hasMany(EntityPayment, { foreignKey: 'idUser', sourceKey: 'idUser' });
+EntityPayment.belongsTo(EntityUsers, { foreignKey: 'idUser', targetKey: 'idUser' });
+
   module.exports = {
     ...sequelize.models, 
     conn: sequelize,     

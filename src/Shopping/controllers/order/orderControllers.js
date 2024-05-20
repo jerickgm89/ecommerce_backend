@@ -62,29 +62,29 @@ const deleteOrderItems = async (req, res) => {
     }
 };
 
-const getOrderItems = async (req, res) => {
-    try {
-        const orderItems = await EntityOrderItems.findAll();
-        res.json(orderItems);
-    } catch (error) {
-        res.status(500).json({ error: 'Error fetching order items' });
-    }
-};
 // const getOrderItems = async (req, res) => {
 //     try {
-//         const orderItems = await EntityOrderItems.findAll({
-//             include: [{
-//                 model: EntityProducts,
-//                 as: 'entityProduct', // Aquí se cambia 'product' por 'entityProduct'
-//                 attributes: ['nameProduct', 'priceProduct']
-//             }]
-//         });
+//         const orderItems = await EntityOrderItems.findAll();
 //         res.json(orderItems);
 //     } catch (error) {
-//         console.error('Error fetching order items:', error);  // Log del error para depuración
 //         res.status(500).json({ error: 'Error fetching order items' });
 //     }
 // };
+const getOrderItems = async (req, res) => {
+    try {
+        const orderItems = await EntityOrderItems.findAll({
+            include: [{
+                model: EntityProducts,
+                as: 'entityProduct', // Aquí se cambia 'product' por 'entityProduct'
+                attributes: ['nameProduct', 'priceProduct']
+            }]
+        });
+        res.json(orderItems);
+    } catch (error) {
+        console.error('Error fetching order items:', error);  // Log del error para depuración
+        res.status(500).json({ error: 'Error fetching order items' });
+    }
+};
 
 
 module.exports = {
