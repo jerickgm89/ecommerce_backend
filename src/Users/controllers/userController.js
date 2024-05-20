@@ -4,7 +4,9 @@ const {
     getUserByIdServices,
     modifyUserServices,
     deleteUserServices,
-    unlockUserService
+    unlockUserServices,
+    restoreUserServices,
+    serviceGetByEmail
 } = require('../services/userService.js')
 
 const controllerRegisterUser = async (request, response) => {
@@ -17,8 +19,7 @@ const controllerRegisterUser = async (request, response) => {
             email_verified,
             idAdmin,
         } = request.body
-        
-        if( !given_name || !family_name || !email || !picture || !email_verified ){
+        if( !given_name || !family_name || !email || !email_verified ){
             return response
             .status(400)
             .json({message: "Todos los campos son requeridos"})
@@ -52,18 +53,6 @@ const controllerRegisterUser = async (request, response) => {
     }
 };
 
-// const controllerGetAllUsers = async (request, response) => {
-//     try {
-//         const allUsersList = await getAllUsersServices();
-//         return response.status(200).json(allUsersList)
-
-//     } catch (error) {
-//         response
-//         .status(500)
-//         .json({message: "Usuarios no fueron encontrados"})
-        
-//     }
-// };
 const controllerGetAllUsers = async (request, response) => {
     try {
         let allUsersList = await getAllUsersServices();
@@ -82,10 +71,10 @@ const controllerGetAllUsers = async (request, response) => {
         
 
         // Paginado
-        if (request.query.page && request.query.pageSize) {     //Verifico parametros
-            const { page, pageSize } = request.query;           //Pagina actual y tamaño
-            const startIndex = (page - 1) * pageSize;           //Índice de inicio y fin
-            const endIndex = page * pageSize;
+        if (request.query.page && request.query.limit) {     //Verifico parametros
+            const { page, limit } = request.query;           //Pagina actual y tamaño
+            const startIndex = (page - 1) * limit;           //Índice de inicio y fin
+            const endIndex = page * limit;
             allUsersList = allUsersList.slice(startIndex, endIndex); //Extraigo usuarios
         }
 
@@ -123,7 +112,6 @@ const controllerGetUserById = async (request, response) =>{
 const controllerModifyUser = async (request, response) =>{
     const { params } = request;
     const idUser = params.id;
-    // const { body } = request
     const { DNI, nameUser, lastNameUser, emailUser, pictureUser, numberMobileUser, email_verified, activeUser, isAdmin } = request.body
     const newUserInfo = { DNI, nameUser, lastNameUser, emailUser, pictureUser, numberMobileUser, email_verified, activeUser, isAdmin }
     try {
@@ -167,18 +155,41 @@ const controllerDeleteUser = async (request, response) =>{
     }
 }
 const controllersUnlockUser = async (req, res) => {
-    
-    const {idUser} = req.params
+    const { idUser } = req.params;
     try {
-        const unlockuser = await unlockUserService(idUser)
-        return res.status(200).json({destroy: true, unlockuser})
+        const user = await unlockUserServices(idUser);
+    
+        return res.status(200).json({ message: 'Usuario  ha sido desactivado con éxito', user });
+    } catch (error) {
+        return res.status(500).json({ error: 'Error al intentar desactivar  usuario', details: error.message });
+    }
+};
+const controllersRestoreUser = async (req, res) => {
+    const { idUser } = req.params;
+    try {
+        const user = await restoreUserServices(idUser);
+        return res.status(200).json({ message: 'Usuario ha sido restaurado con éxito.', user });
+    } catch (error) {
+        return res.status(500).json({ error: 'Usuario no pudo  ser restaurado', details: error.message });
+    }
+};
+
+
+const controllerGetUserByEmail = async ( req, res ) =>{
+    try {
+        const { emailUser } = req.params;
+
+        const isVerified = await serviceGetByEmail( emailUser );
+
+        if( !isVerified ){
+            return res.status(200).json( isVerified )
+        }
+        return res.status(200).json( isVerified )
         
     } catch (error) {
-        return res.status(500).send('Usuario no pudo ser desactivado')
+        return res.status(500).send( 'No se pudo procesar la solicitud' )
     }
 }
-    
-    
 
 module.exports = {
     controllerGetAllUsers,
@@ -186,5 +197,7 @@ module.exports = {
     controllerGetUserById,
     controllerModifyUser,
     controllerDeleteUser,
-    controllersUnlockUser
+    controllersUnlockUser,
+    controllersRestoreUser,
+    controllerGetUserByEmail,
 }
