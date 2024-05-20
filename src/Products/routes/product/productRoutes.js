@@ -12,7 +12,8 @@ const {
   getProductByName,
   deleteProductAndCharacteristics,
   unlockProduct,
-  restoreProduct
+  restoreProduct,
+  getDeactivatedProducts
 } = require('../../controllers/product/productController.js');
 
 const router = express.Router();
@@ -22,6 +23,7 @@ router.post('/', upload.single('imageProducts'),createProductAndCharacteristics)
 router.patch('/:id', updateProductAndCharacteristics);
 router.get('/', getAllProducts);
 router.get('/search', getProductByName);
+router.get('/deactivate', getDeactivatedProducts)
 router.get('/:id', getProductById);
 router.delete('/:id', deleteProductAndCharacteristics);
 router.delete('/unlock/:id', unlockProduct)

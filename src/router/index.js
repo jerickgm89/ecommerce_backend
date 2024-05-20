@@ -18,8 +18,6 @@ const routesShopping = require("../Shopping/routes/index.js")
 //                           ----> filtres and order <----
 const paymentRoutes = require('../payments/routes/paymentRoutes.js');
 
-
-
 const router = () => {
     const routers = Router()
     routers.use('/products', routesProducts)
