@@ -19,6 +19,7 @@ const router = () => {
     const routers = Router()
     routers.use('/products', routesProducts)
     routers.use('/filterproducts', routesFiltersProducts)
+    routers.use('/shop', routesShopping)
     routers.get('/', async (req, res) => {
         try {
             // Lee el contenido del archivo README.md

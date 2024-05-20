@@ -1,5 +1,4 @@
-const { EntityPayment } = require('../../../db.js');
-const entityPayment = require('../../../models/entityPayment.js');
+const { EntityPayment, EntityUsers } = require('../../../db.js'); // Asegúrate de importar EntityUsers
 
 const createPayment = async (req, res) => {
     console.log('Body de la solicitud:', req.body);
@@ -75,12 +74,28 @@ const deletePayment = async (req, res) => {
 
 const getPayment = async (req, res) => {
     try {
-        const payment = await EntityPayment.findAll();
-        res.json(payment);
+        const payments = await EntityPayment.findAll({
+            include: {
+                model: EntityUsers,
+                attributes: ['idUser', 'nameUser', 'lastNameUser', 'emailUser', 'pictureUser', 'numberMobileUser', 'email_verified', 'isAdmin', 'tokenAuth', 'activeUser']
+            }
+        });
+        res.json(payments);
     } catch (error) {
-        res.status(500).json({ error: 'Error fetching payment' });
+        console.error('Error fetching payments:', error);
+        res.status(500).json({ error: 'Error fetching payments' });
     }
 };
+
+
+// const getPayment = async (req, res) => {
+//     try {
+//         const payment = await EntityPayment.findAll();
+//         res.json(payment);
+//     } catch (error) {
+//         res.status(500).json({ error: 'Error fetching payment' });
+//     }
+// };
 
 module.exports = {
     createPayment,
