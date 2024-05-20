@@ -336,7 +336,28 @@ const restoreProduct = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Error restoring product', details: error.message });
     }
+}
+const getDeactivatedProducts = async (req, res) => {
+    try {
+        const deactivatedProducts = await EntityProducts.findAll({
+            where: {
+                active: false
+            },
+            include: [{
+                model: CharacteristicsProducts,
+                attributes: ['modelProduct', 'characteristics', 'idBrand']
+            }]
+        });
+
+        if (deactivatedProducts.length) {
+            return res.status(200).json(deactivatedProducts);
+        }
+        return res.status(404).send('No hay productos desactivados.');
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching deactivated products', details: error.message });
+    }
 };
+
 
 module.exports = {
     createProductAndCharacteristics,
@@ -346,5 +367,6 @@ module.exports = {
     getProductByName,
     deleteProductAndCharacteristics,
     unlockProduct,
-    restoreProduct
+    restoreProduct,
+    getDeactivatedProducts
 };
