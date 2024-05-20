@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment</title>
+</head>
+<body>
+  <button id="payButton">Pay</button>
+
+  <script>
+    document.getElementById('payButton').addEventListener('click', async () => {
+      try {
+        const response = await fetch('http://localhost:3001/payment/create_order', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            items: [
+              {
+                title: "Laptop",
+                unit_price: 10000,
+                currency_id: "COP",
+                quantity: 1
+              }
+            ]
+          })
+        });
+
+        const result = await response.json();
+        
+        // Verifica que init_point exista en la respuesta
+        if (result.init_point) {
+          window.location.href = result.init_point;
+        } else {
+          console.error('init_point no encontrado en la respuesta:', result);
+        }
+      } catch (error) {
+        console.error('Error creating order:', error);
+      }
+    });
+  </script>
+</body>
+</html>
