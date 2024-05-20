@@ -1,79 +1,24 @@
 const { Op } = require('sequelize');
 const { EntityProducts, CharacteristicsProducts } = require('../../../db.js');
 const cloudinary = require('cloudinary')
+const { imageFromCloudinary } = require('../../../../utils/imageReception.js')
 
 
 const createProductAndCharacteristics = async (req, res) => {
-    /*
-        {
-            "name": "producto creado al último",
-            "price": "589652",
-            "year": "2045",
-            "stock": 8,
-            "sku": "wdjsweweq",
-            "idReview": "",
-            "idCategory": 2,
-            "idDiscount": "",
-            "description": " producto util, cumple perfecto su uso",
-            "images": [
-                {
-                "file": {}
-                },
-                {
-                "file": {}
-                },
-                {
-                "file": {}
-                }
-            ],
-            "model": "CFX plus",
-            "color": "negro",
-            "size": "grande",
-            "idBrand": 2
-        }
 
 
-
-        {
-            "name": "producto creado al último ULTIMO",
-            "price": "589652",
-            "year": "2045",
-            "stock": 1,
-            "sku": "wdjsweweq",
-            "idReview": "",
-            "idCategory": 1,
-            "idDiscount": "",
-            "description": "producto util, cumple perfecto su uso",
-            "images": [
-            {
-                "file": {}
-            }
-            ],
-            "model": "CFX plus",
-            "color": "negro",
-            "size": "grande",
-            "idBrand": 1
-}
-    */
-    // console.log("##req.file",req.file)
-    let imageProd = req.file ? await cloudinary.uploader.upload(req.file.path) : null
-    // let imageProd = null
-
-    // for( objeto in req.file)
-    // console.log("Holaaaaa",imageProd)
-    // console.log("###imageArray",imageProd.secure_url)
     const {
         Products: {
             nameProduct,
             priceProduct,
-            imageProducts,
+            images,
             SKU,
             yearProduct,
             stockProduct,
             descriptionProduct,
             idReview,
             idCategory,
-            IdDiscount
+            idDiscount,
         },
         Variants: {
             modelProduct,
@@ -82,25 +27,38 @@ const createProductAndCharacteristics = async (req, res) => {
         }
     } = req.body;
 
+    let arrayImagesProducts = []
+    if(!!req.files){
+        for (const file of req.files) {
+            const result = await cloudinary.uploader.upload(file.path);
+            arrayImagesProducts.push(result.secure_url);
+            console.log("##$$$$$$$$$$$$$$$$$$$$$$req.file",result.secure_url)
+        }
+    }
+    if(!!req.file){
+        const file = await cloudinary.uploader.upload(req.file.path)
+        arrayImagesProducts = []
+        arrayImagesProducts.push(file.secure_url)
+        console.log("##$$$$$$$$$$$$$$$$$$$$$$req.file",file.secure_url)
+
+    }
+        // let imageProd = req.file ? await cloudinary.uploader.upload(req.file.path) : null
+        // console.log("##$req.files", imageProd)
+    // console.log("##$$$$$$$$$$$$$$$$$$$$$$req.file",req.file)
+    
     const transaction = await EntityProducts.sequelize.transaction();
     // console.log("####imageProducts",imageProducts)
-    console.log("####imageProducts",
-            nameProduct,
-            priceProduct,
-            // imageProd ? imageProd.secure_url: null,
-            imageProd,
-            SKU,
-            descriptionProduct,
-            yearProduct,
-            stockProduct,
-            idReview,
-            idCategory,
-            IdDiscount)
+    // console.log( "####imageProducts", imageProd )
+    // imageProd ? imageProd.secure_url: null,
+    
+    // const images =  imageProducts ? [imageProducts] : arrayImagesProducts
+
     try {
         const newProduct = await EntityProducts.create({
             nameProduct,
             priceProduct,
-            imageProducts: imageProd ? imageProd.secure_url: null,
+            imageProducts: arrayImagesProducts.length ? arrayImagesProducts[0] : null,
+            // imageProducts:imageProd.secure_url,
             SKU,
             descriptionProduct,
             yearProduct,
@@ -108,8 +66,9 @@ const createProductAndCharacteristics = async (req, res) => {
             yearProduct,
             descriptionProduct,
             idReview,
+            idReview: idReview || null,
             idCategory,
-            IdDiscount
+            idDiscount: idDiscount || null
         }, { transaction });
 
         const newCharacteristics = await CharacteristicsProducts.create({
@@ -253,14 +212,12 @@ const updateProductAndCharacteristics = async (req, res) => {
 const getAllProducts = async (req, res) => {
     let { page, limit } = req.query;
     let offset;
-    if( page|| limit ){
-        page = parseInt(page);
-        limit = parseInt(limit);
+    if( page && limit ){
         offset = (page - 1) * limit;
     }
     try {
-        // const where = {};
         const products = await EntityProducts.findAll({
+            // where: { active: true},
             offset,
             limit,
             include:[{
@@ -269,9 +226,9 @@ const getAllProducts = async (req, res) => {
             }]
         });
         if(products.length){
-            // return res.status(200).send('No existen coincidencias.')
             return res.status(200).json(products);
         }
+        return res.status(400).send('No existen coincidencias.')
         
     } catch (error) {
         res.status(500).json({ error: 'Error fetching products', details: error.message });
@@ -282,7 +239,7 @@ const getProductById = async (req, res) => {
     const { id } = req.params;
     // console.log(id, "IDD");
     try {
-        const product = await EntityProducts.findByPk(id, {include: {model:CharacteristicsProducts, attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']}});
+        const product = await EntityProducts.findOne({where: {idProduct: id, active:true}}, {include: {model:CharacteristicsProducts, attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']}});
         if (product) {
             res.json(product);
         } else {
@@ -305,6 +262,7 @@ const getProductByName = async (req, res) => {
     try {
         const products = await EntityProducts.findAll({ 
             where: {
+                active: true,
                 nameProduct: { 
                     [Op.iLike]: `%${name}%`
                 }
@@ -345,6 +303,39 @@ const deleteProductAndCharacteristics = async (req, res) => {
         await transaction.rollback();
         res.status(500).json({ error: 'Error deleting product and characteristics', details: error.message });
     }
+}
+const unlockProduct = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const product = await EntityProducts.findByPk(id);
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        product.active = false;
+        await product.save();
+
+        res.status(200).json({ message: 'Product has been deactivated' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error unlocking product', details: error.message });
+    }
+};
+const restoreProduct = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const product = await EntityProducts.findByPk( id, { paranoid: true } );
+        if ( !product ) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        product.active = true;
+        await product.restore();
+        await product.save();
+
+        res.status(200).json({ message: 'Product has been reactivated' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error restoring product', details: error.message });
+    }
 };
 
 module.exports = {
@@ -353,5 +344,7 @@ module.exports = {
     getAllProducts,
     getProductById,
     getProductByName,
-    deleteProductAndCharacteristics
+    deleteProductAndCharacteristics,
+    unlockProduct,
+    restoreProduct
 };

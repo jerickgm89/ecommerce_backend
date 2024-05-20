@@ -13,11 +13,12 @@ module.exports = (sequelize) => {
         },
         logoBrand: {
             type: DataTypes.STRING,
-            validate:{
-                isUrl: {
-                    msg: "Debe ser URL"
-                }
-            }
+            allowNull: true,
+            // validate:{
+            //     isUrl: {
+            //         msg: "Debe ser URL"
+            //     }
+            // }
         }
     }, {
         paranoid: true,

@@ -15,32 +15,32 @@ const initialCategories = [
 ];
 
 const initialBrands = [
-    { nameBrand: "Samsung" },
-    { nameBrand: "Apple" },
-    {nameBrand: "Google"},
-    {nameBrand: "OnePlus"},
-    {nameBrand: "Xiaomi"},
-    {nameBrand: "Sony"},
-    {nameBrand: "Motorola"},
-    {nameBrand: "Nokia"},
-    {nameBrand: "Asus"},
-    {nameBrand: "Oppo"},
-    {nameBrand: "Realme"},
-    {nameBrand: "Vivo"},
-    {nameBrand: "BlackBerry"},
-    {nameBrand: "Huawei"},
-    {nameBrand: "ZTE"},
-    {nameBrand: "Lenovo"},
-    {nameBrand: "Redmi"},
-    {nameBrand: "Infinix"},
-    {nameBrand: "Dell"},
-    {nameBrand: "Hp"},
-    {nameBrand: "Microsoft"},
-    {nameBrand: "Acer"},
-    {nameBrand: "Razer"},
-    {nameBrand: "Alienware"},
-    {nameBrand: "MSI"},
-    {nameBrand: "LG"}
+    { nameBrand: "Samsung" , logoBrand: "https://logos-world.net/wp-content/uploads/2020/04/Samsung-Logo-700x394.png"},
+    { nameBrand: "Apple" , logoBrand: "https://logos-world.net/wp-content/uploads/2020/04/Apple-Logo-700x394.png"},
+    {nameBrand: "Google", logoBrand: "https://logos-world.net/wp-content/uploads/2020/09/Google-Logo-700x394.png"},
+    {nameBrand: "OnePlus", logoBrand: "https://logos-world.net/wp-content/uploads/2023/03/OnePlus-Logo-500x281.png"},
+    {nameBrand: "Xiaomi", logoBrand: "https://logos-world.net/wp-content/uploads/2020/07/Xiaomi-Logo-700x394.png"},
+    {nameBrand: "Sony", logoBrand: "https://logos-world.net/wp-content/uploads/2020/04/Sony-Logo-700x394.png"},
+    {nameBrand: "Motorola", logoBrand: "https://logos-world.net/wp-content/uploads/2022/07/Motorola-Logo-700x394.png"},
+    {nameBrand: "Nokia", logoBrand: "https://logos-world.net/wp-content/uploads/2020/10/Nokia-Logo-500x281.png"},
+    {nameBrand: "Asus", logoBrand: "https://logos-world.net/wp-content/uploads/2020/07/Asus-Logo-700x394.png"},
+    {nameBrand: "Oppo", logoBrand: "https://logos-world.net/wp-content/uploads/2023/03/Oppo-Logo-500x281.png"},
+    {nameBrand: "Realme", logoBrand: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Realme-realme-_logo_box-RGB-01_with_out_back_ground.svg/2560px-Realme-realme-_logo_box-RGB-01_with_out_back_ground.svg.png"},
+    {nameBrand: "Vivo", logoBrand: "https://logos-world.net/wp-content/uploads/2023/03/Vivo-Logo-500x281.png"},
+    {nameBrand: "BlackBerry", logoBrand: "https://logos-world.net/wp-content/uploads/2020/11/BlackBerry-Logo-700x394.png"},
+    {nameBrand: "Huawei", logoBrand: "https://logos-world.net/wp-content/uploads/2020/04/Huawei-Logo-700x394.png"},
+    {nameBrand: "ZTE", logoBrand: "https://logos-world.net/wp-content/uploads/2023/03/ZTE-Logo-500x281.png"},
+    {nameBrand: "Lenovo", logoBrand: "https://logos-world.net/wp-content/uploads/2022/07/Lenovo-Logo-700x394.png"},
+    {nameBrand: "Redmi", logoBrand: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Redmi_Logo.svg/2560px-Redmi_Logo.svg.png"},
+    {nameBrand: "Infinix", logoBrand: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.m.wikipedia.org%2Fwiki%2FArchivo%3ALogo_of_Infinix.png&psig=AOvVaw0SGT3WhDIv5ilyFirHmNJ0&ust=1716273708345000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCIiiyffPm4YDFQAAAAAdAAAAABAE"},
+    {nameBrand: "Dell", logoBrand: "https://logos-world.net/wp-content/uploads/2020/08/Dell-Logo-700x394.png"},
+    {nameBrand: "Hp", logoBrand: "https://logos-world.net/wp-content/uploads/2020/11/HP-Logo-700x394.png"},
+    {nameBrand: "Microsoft", logoBrand: "https://logos-world.net/wp-content/uploads/2020/09/Microsoft-Logo-700x394.png"},
+    {nameBrand: "Acer", logoBrand: "https://logos-world.net/wp-content/uploads/2022/11/Acer-Logo-500x281.png"},
+    {nameBrand: "Razer", logoBrand: "https://logos-world.net/wp-content/uploads/2020/11/Razer-Logo-700x394.png"},
+    {nameBrand: "Alienware", logoBrand: "https://logos-world.net/wp-content/uploads/2020/05/Alienware-Logo-700x394.png"},
+    {nameBrand: "MSI", logoBrand: "https://logos-world.net/wp-content/uploads/2020/11/MSI-Logo-700x394.png"},
+    {nameBrand: "LG", logoBrand: "https://logos-world.net/wp-content/uploads/2020/05/LG-Logo-700x394.png"}
 ];
 
 const initialProducts = [
@@ -459,327 +459,326 @@ const initialProducts = [
         }
     },
     {
-        "product": {
-        "nameProduct": "Dell XPS 13",
-        "priceProduct": 2490000,
-        "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_948090-MLA54586548191_032023-O.webp",
-        "SKU": "lapdellxps13-001",
-        "yearProduct": "2022",
-        "descriptionProduct": "The Dell XPS 13 is a premium laptop with a stunning display and powerful performance.",
-        "stockProduct": 0,
-        "idCategory": 2
+        product: {
+            nameProduct: "Dell XPS 13",
+            priceProduct: 2490000,
+            imageProducts: "https://http2.mlstatic.com/D_NQ_NP_948090-MLA54586548191_032023-O.webp",
+            SKU: "lapdellxps13-001",
+            yearProduct: "2022",
+            descriptionProduct: "The Dell XPS 13 is a premium laptop with a stunning display and powerful performance.",
+            stockProduct: 0,
+            idCategory: 2
         },
-        "characteristics": {
-        "modelProduct": "",
-        "characteristics": {
-            "display": "13.4-inch 4K UHD display",
-            "processor": "Intel Core i7 processor",
-            "memory": "16GB RAM",
-            "storage": "1TB SSD",
-            "battery": "52Wh battery"
-        },
-        "idBrand": 19
-        }
-    },
-    {
-        "product": {
-        "nameProduct": "Apple MacBook Pro 14",
-        "priceProduct": 4000000,
-        "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_732996-MLA74328205367_012024-O.webp",
-        "SKU": "lapappmacp140-001",
-        "yearProduct": "2021",
-        "descriptionProduct": "The MacBook Pro 14 is a powerful laptop with Apple's M1 Pro chip and a stunning Liquid Retina XDR display.",
-        "stockProduct": 0,
-        "idCategory": 2
-        },
-        "characteristics": {
-        "modelProduct": "",
-        "characteristics": {
-            "display": "14.2-inch Liquid Retina XDR display",
-            "processor": "Apple M1 Pro chip",
-            "memory": "16GB RAM",
-            "storage": "1TB SSD",
-            "battery": "70Wh battery"
-        },
-        "idBrand": 2
-        }
-    },
-    {
-        "product": {
-        "nameProduct": "HP Spectre x360",
-        "priceProduct": 3000000,
-        "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_935665-MLA72396574169_102023-O.webp",
-        "SKU": "laphpSpex360-001",
-        "yearProduct": "2022",
-        "descriptionProduct": "The HP Spectre x360 is a versatile convertible laptop with a sleek design and impressive performance.",
-        "stockProduct": 0,
-        "idCategory": 2
-        },
-        "characteristics": {
-        "modelProduct": "",
-        "characteristics": {
-            "display": "13.5-inch OLED display",
-            "processor": "Intel Core i7 processor",
-            "memory": "16GB RAM",
-            "storage": "1TB SSD",
-            "battery": "66Wh battery"
-        },
-        "idBrand": 20
-        }
-    },
-    {
-        "product": {
-        "nameProduct": "Lenovo ThinkPad X1 Carbon",
-        "priceProduct": 5000000,
-        "imageProducts": "https://www.smartdeal.cl/wp-content/uploads/2022/06/m15r6.jpg",
-        "SKU": "laplenthix1car-001",
-        "yearProduct": "2022",
-        "descriptionProduct": "The Lenovo ThinkPad X1 Carbon is a lightweight and durable business laptop with impressive performance.",
-        "stockProduct": 0,
-        "idCategory": 2
-        },
-        "characteristics": {
-        "modelProduct": "",
-        "characteristics": {
-            "display": "14-inch 4K UHD display",
-            "processor": "Intel Core i7 processor",
-            "memory": "16GB RAM",
-            "storage": "1TB SSD",
-            "battery": "57Wh battery"
-        },
-        "idBrand": 16
-        }
-    },
-    {
-        "product": {
-        "nameProduct": "Asus ROG Zephyrus G14",
-        "priceProduct": 2740000,
-        "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_927362-MLA52990553670_122022-O.webp",
-        "SKU": "lapasurogzepg14-001",
-        "yearProduct": "2021",
-        "descriptionProduct": "The Asus ROG Zephyrus G14 is a powerful gaming laptop with a compact design and high-performance hardware.",
-        "stockProduct": 0,
-        "idCategory": 2
-        },
-        "characteristics": {
-        "modelProduct": "",
-        "characteristics": {
-            "display": "14-inch QHD display",
-            "processor": "AMD Ryzen 9 processor",
-            "memory": "16GB RAM",
-            "storage": "1TB SSD",
-            "battery": "76Wh battery"
-        },
-        "idBrand": 9
-        }
-    },
-    {
-        "product": {
-        "nameProduct": "Microsoft Surface Laptop 4",
-        "priceProduct": 1700000,
-        "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_955681-MLA54985741718_052023-O.webp",
-        "SKU": "lapmicsurlap4-001",
-        "yearProduct": "2021",
-        "descriptionProduct": "The Microsoft Surface Laptop 4 is a sleek and powerful laptop with a premium design and smooth performance.",
-        "stockProduct": 0,
-        "idCategory": 2
-        },
-        "characteristics": {
-        "modelProduct": "",
-        "characteristics": {
-            "display": "13.5-inch PixelSense display",
-            "processor": "Intel Core i7 processor",
-            "memory": "16GB RAM",
-            "storage": "512GB SSD",
-            "battery": "49Wh battery"
-        },
-        "idBrand": 21
-        }
-    },
-    {
-        "product": {
-        "nameProduct": "Acer Swift 5",
-        "priceProduct": 3210000,
-        "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_969653-MLA71828485655_092023-O.webp",
-        "SKU": "lapaceswi5-001",
-        "yearProduct": "2022",
-        "descriptionProduct": "The Acer Swift 5 is an ultra-lightweight laptop with a sleek design and long-lasting battery life.",
-        "stockProduct": 0,
-        "idCategory": 2
-        },
-        "characteristics": {
-        "modelProduct": "",
-        "characteristics": {
-            "display": "14-inch Full HD display",
-            "processor": "Intel Core i7 processor",
-            "memory": "16GB RAM",
-            "storage": "1TB SSD",
-            "battery": "56Wh battery"
-        },
-        "idBrand": 22
-        }
-    },
-    {
-        "product": {
-        "nameProduct": "Razer Blade 15",
-        "priceProduct": 4200000,
-        "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_935883-MLA70179141807_062023-O.webp",
-        "SKU": "laprazbla15-001",
-        "yearProduct": "2022",
-        "descriptionProduct": "The Razer Blade 15 is a high-performance gaming laptop with a sleek design and powerful hardware.",
-        "stockProduct": 0,
-        "idCategory": 2
-        },
-        "characteristics": {
-        "modelProduct": "",
-        "characteristics": {
-            "display": "15.6-inch QHD display",
-            "processor": "Intel Core i7 processor",
-            "memory": "16GB RAM",
-            "storage": "1TB SSD",
-            "battery": "80Wh battery"
-        },
-        "idBrand": 23
-        }
-    },
-    {
-        "product": {
-        "nameProduct": "Alienware m15 R6",
-        "priceProduct": 3760000,
-        "imageProducts": "https://www.reuse.cl/cdn/shop/files/1_bf0acb8f-5421-4a3e-ba7b-8044c32392e6_700x700.png",
-        "SKU": "lapalin15r6-001",
-        "yearProduct": "2022",
-        "descriptionProduct": "The Alienware m15 R6 is a powerful gaming laptop with a futuristic design and top-notch performance.",
-        "stockProduct": 0,
-        "idCategory": 2
-        },
-        "characteristics": {
-        "modelProduct": "",
-        "characteristics": {
-            "display": "15.6-inch Full HD display",
-            "processor": "Intel Core i7 processor",
-            "memory": "16GB RAM",
-            "storage": "1TB SSD",
-            "battery": "86Wh battery"
-        },
-        "idBrand": 24
-        }
-    },
-    {
-        "product": {
-        "nameProduct": "MSI Prestige 14 Evo",
-        "priceProduct": 4540000,
-        "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_692191-MLA46517834216_062021-O.webp",
-        "SKU": "lapmsipres14-001",
-        "yearProduct": "2022",
-        "descriptionProduct": "The MSI Prestige 14 Evo is a sleek and powerful laptop with a focus on productivity and performance.",
-        "stockProduct": 0,
-        "idCategory": 2
-        },
-        "characteristics": {
-        "modelProduct": "",
-        "characteristics": {
-            "display": "14-inch Full HD display",
-            "processor": "Intel Core i7 processor",
-            "memory": "16GB RAM",
-            "storage": "512GB SSD",
-            "battery": "52Wh battery"
-        },
-        "idBrand": 25
-        }
-    },
-    {
-        "product": {
-        "nameProduct": "LG Gram 17",
-        "priceProduct": 1200000,
-        "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_656631-MLA75128733761_032024-O.webp",
-        "SKU": "laplggram17-001",
-        "yearProduct": "2022",
-        "descriptionProduct": "The LG Gram 17 is an ultra-lightweight and portable laptop with a large display and impressive battery life.",
-        "stockProduct": 0,
-        "idCategory": 2
-        },
-        "characteristics": {
-        "modelProduct": "",
-        "characteristics": {
-            "display": "17-inch WQXGA display",
-            "processor": "Intel Core i7 processor",
-            "memory": "16GB RAM",
-            "storage": "1TB SSD",
-            "battery": "80Wh battery"
-        },
-        "idBrand": 26
-        }
-    },
-    {
-        "product": {
-        "nameProduct": "Lenovo Yoga 9i",
-        "priceProduct": 5000000,
-        "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_662478-MLU72561914070_112023-O.webp",
-        "SKU": "laplenyog9i-001",
-        "yearProduct": "2022",
-        "descriptionProduct": "The Lenovo Yoga 9i is a versatile 2-in-1 laptop with a premium design and powerful performance.",
-        "stockProduct": 0,
-        "idCategory": 2
-        },
-        "characteristics": {
-        "modelProduct": "",
-        "characteristics": {
-            "display": "14-inch 4K UHD display",
-            "processor": "Intel Core i7 processor",
-            "memory": "16GB RAM",
-            "storage": "1TB SSD",
+        characteristics: {
+            modelProduct: "",
+            characteristics: {
+                display: "13.4-inch 4K UHD display",
+                processor: "Intel Core i7 processor",
+                memory: "16GB RAM",
+                storage: "1TB SSD",
+                battery: "52Wh battery"
             },
-        idBrand: 16
+            idBrand: 19
         }
     },
     {
-        "product": {
-            "nameProduct": "Samsung Galaxy Book Pro 360",
-            "priceProduct": 3450000,
-            "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_2X_669720-MLU73980600476_012024-F.webp",
-            "SKU": "lapsamgalboop360-001",
-            "yearProduct": "2022",
-            "descriptionProduct": "The Samsung Galaxy Book Pro 360 is a convertible laptop with a stunning AMOLED display and long-lasting battery.",
-            "stockProduct": 0,
-            "idCategory": 2
+        product: {
+            nameProduct: "Apple MacBook Pro 14",
+            priceProduct: 4000000,
+            imageProducts: "https://http2.mlstatic.com/D_NQ_NP_732996-MLA74328205367_012024-O.webp",
+            SKU: "lapappmacp140-001",
+            yearProduct: "2021",
+            descriptionProduct: "The MacBook Pro 14 is a powerful laptop with Apple's M1 Pro chip and a stunning Liquid Retina XDR display.",
+            stockProduct: 0,
+            idCategory: 2
         },
-        "characteristics": {
-            "modelProduct": "",
-            "characteristics": {
-            "display": "13.3-inch AMOLED display",
-            "processor": "Intel Core i7 processor",
-            "memory": "16GB RAM",
-            "storage": "1TB SSD",
-            "battery": "63Wh battery"
+        characteristics: {
+            modelProduct: "",
+            characteristics: {
+                display: "14.2-inch Liquid Retina XDR display",
+                processor: "Apple M1 Pro chip",
+                memory: "16GB RAM",
+                storage: "1TB SSD",
+                battery: "70Wh battery"
             },
-            "idBrand": 1
+            idBrand: 2
         }
+    },
+    {
+        product: {
+            nameProduct: "HP Spectre x360",
+            priceProduct: 3000000,
+            imageProducts: "https://http2.mlstatic.com/D_NQ_NP_935665-MLA72396574169_102023-O.webp",
+            SKU: "laphpSpex360-001",
+            yearProduct: "2022",
+            descriptionProduct: "The HP Spectre x360 is a versatile convertible laptop with a sleek design and impressive performance.",
+            stockProduct: 0,
+            idCategory: 2
         },
-        {
-        "product": {
-            "nameProduct": "Acer Predator Helios 300",
-            "priceProduct": 3450000,
-            "imageProducts": "https://http2.mlstatic.com/D_NQ_NP_887095-MLA49933868752_052022-O.webp",
-            "SKU": "lapaceprehel3000-001",
-            "yearProduct": "2021",
-            "descriptionProduct": "The Acer Predator Helios 300 is a powerful gaming laptop with a high-refresh-rate display and advanced cooling system.",
-            "stockProduct": 0,
-            "idCategory": 2
-        },
-        "characteristics": {
-            "modelProduct": "",
-            "characteristics": {
-            "display": "15.6-inch Full HD display (144Hz)",
-            "processor": "Intel Core i7 processor",
-            "memory": "16GB RAM",
-            "storage": "512GB SSD",
-            "battery": "59Wh battery"
+        characteristics: {
+            modelProduct: "",
+            characteristics: {
+                display: "13.5-inch OLED display",
+                processor: "Intel Core i7 processor",
+                memory: "16GB RAM",
+                storage: "1TB SSD",
+                battery: "66Wh battery"
             },
-            "idBrand": 22
+            idBrand: 20
         }
+    },
+    {
+        product: {
+            nameProduct: "Lenovo ThinkPad X1 Carbon",
+            priceProduct: 5000000,
+            imageProducts: "https://www.smartdeal.cl/wp-content/uploads/2022/06/m15r6.jpg",
+            SKU: "laplenthix1car-001",
+            yearProduct: "2022",
+            descriptionProduct: "The Lenovo ThinkPad X1 Carbon is a lightweight and durable business laptop with impressive performance.",
+            stockProduct: 0,
+            idCategory: 2
+        },
+        characteristics: {
+            modelProduct: "",
+            characteristics: {
+                display: "14-inch 4K UHD display",
+                processor: "Intel Core i7 processor",
+                memory: "16GB RAM",
+                storage: "1TB SSD",
+                battery: "57Wh battery"
+            },
+            idBrand: 16
         }
-    
+    },
+    {
+        product: {
+            nameProduct: "Asus ROG Zephyrus G14",
+            priceProduct: 2740000,
+            imageProducts: "https://http2.mlstatic.com/D_NQ_NP_927362-MLA52990553670_122022-O.webp",
+            SKU: "lapasurogzepg14-001",
+            yearProduct: "2021",
+            descriptionProduct: "The Asus ROG Zephyrus G14 is a powerful gaming laptop with a compact design and high-performance hardware.",
+            stockProduct: 0,
+            idCategory: 2
+        },
+        characteristics: {
+            modelProduct: "",
+            characteristics: {
+                display: "14-inch QHD display",
+                processor: "AMD Ryzen 9 processor",
+                memory: "16GB RAM",
+                storage: "1TB SSD",
+                battery: "76Wh battery"
+            },
+            idBrand: 9
+        }
+    },
+    {
+        product: {
+            nameProduct: "Microsoft Surface Laptop 4",
+            priceProduct: 1700000,
+            imageProducts: "https://http2.mlstatic.com/D_NQ_NP_955681-MLA54985741718_052023-O.webp",
+            SKU: "lapmicsurlap4-001",
+            yearProduct: "2021",
+            descriptionProduct: "The Microsoft Surface Laptop 4 is a sleek and powerful laptop with a premium design and smooth performance.",
+            stockProduct: 0,
+            idCategory: 2
+        },
+        characteristics: {
+            modelProduct: "",
+            characteristics: {
+                display: "13.5-inch PixelSense display",
+                processor: "Intel Core i7 processor",
+                memory: "16GB RAM",
+                storage: "512GB SSD",
+                battery: "49Wh battery"
+            },
+            idBrand: 21
+        }
+    },
+    {
+        product: {
+            nameProduct: "Acer Swift 5",
+            priceProduct: 3210000,
+            imageProducts: "https://http2.mlstatic.com/D_NQ_NP_969653-MLA71828485655_092023-O.webp",
+            SKU: "lapaceswi5-001",
+            yearProduct: "2022",
+            descriptionProduct: "The Acer Swift 5 is an ultra-lightweight laptop with a sleek design and long-lasting battery life.",
+            stockProduct: 0,
+            idCategory: 2
+        },
+        characteristics: {
+            modelProduct: "",
+            characteristics: {
+                display: "14-inch Full HD display",
+                processor: "Intel Core i7 processor",
+                memory: "16GB RAM",
+                storage: "1TB SSD",
+                battery: "56Wh battery"
+            },
+            idBrand: 22
+        }
+    },
+    {
+        product: {
+            nameProduct: "Razer Blade 15",
+            priceProduct: 4200000,
+            imageProducts: "https://http2.mlstatic.com/D_NQ_NP_935883-MLA70179141807_062023-O.webp",
+            SKU: "laprazbla15-001",
+            yearProduct: "2022",
+            descriptionProduct: "The Razer Blade 15 is a high-performance gaming laptop with a sleek design and powerful hardware.",
+            stockProduct: 0,
+            idCategory: 2
+        },
+        characteristics: {
+            modelProduct: "",
+            characteristics: {
+                display: "15.6-inch QHD display",
+                processor: "Intel Core i7 processor",
+                memory: "16GB RAM",
+                storage: "1TB SSD",
+                battery: "80Wh battery"
+            },
+            idBrand: 23
+        }
+    },
+    {
+        product: {
+            nameProduct: "Alienware m15 R6",
+            priceProduct: 3760000,
+            imageProducts: "https://www.reuse.cl/cdn/shop/files/1_bf0acb8f-5421-4a3e-ba7b-8044c32392e6_700x700.png",
+            SKU: "lapalin15r6-001",
+            yearProduct: "2022",
+            descriptionProduct: "The Alienware m15 R6 is a powerful gaming laptop with a futuristic design and top-notch performance.",
+            stockProduct: 0,
+            idCategory: 2
+        },
+        characteristics: {
+            modelProduct: "",
+            characteristics: {
+                display: "15.6-inch Full HD display",
+                processor: "Intel Core i7 processor",
+                memory: "16GB RAM",
+                storage: "1TB SSD",
+                battery: "86Wh battery"
+            },
+            idBrand: 24
+        }
+    },
+    {
+        product: {
+            nameProduct: "MSI Prestige 14 Evo",
+            priceProduct: 4540000,
+            imageProducts: "https://http2.mlstatic.com/D_NQ_NP_692191-MLA46517834216_062021-O.webp",
+            SKU: "lapmsipres14-001",
+            yearProduct: "2022",
+            descriptionProduct: "The MSI Prestige 14 Evo is a sleek and powerful laptop with a focus on productivity and performance.",
+            stockProduct: 0,
+            idCategory: 2
+        },
+        characteristics: {
+            modelProduct: "",
+            characteristics: {
+                display: "14-inch Full HD display",
+                processor: "Intel Core i7 processor",
+                memory: "16GB RAM",
+                storage: "512GB SSD",
+                battery: "52Wh battery"
+            },
+            idBrand: 25
+        }
+    },
+    {
+        product: {
+            nameProduct: "LG Gram 17",
+            priceProduct: 1200000,
+            imageProducts: "https://http2.mlstatic.com/D_NQ_NP_656631-MLA75128733761_032024-O.webp",
+            SKU: "laplggram17-001",
+            yearProduct: "2022",
+            descriptionProduct: "The LG Gram 17 is an ultra-lightweight and portable laptop with a large display and impressive battery life.",
+            stockProduct: 0,
+            idCategory: 2
+        },
+        characteristics: {
+            modelProduct: "",
+            characteristics: {
+                display: "17-inch WQXGA display",
+                processor: "Intel Core i7 processor",
+                memory: "16GB RAM",
+                storage: "1TB SSD",
+                battery: "80Wh battery"
+            },
+            idBrand: 26
+        }
+    },
+    {
+        product: {
+            nameProduct: "Lenovo Yoga 9i",
+            priceProduct: 5000000,
+            imageProducts: "https://http2.mlstatic.com/D_NQ_NP_662478-MLU72561914070_112023-O.webp",
+            SKU: "laplenyog9i-001",
+            yearProduct: "2022",
+            descriptionProduct: "The Lenovo Yoga 9i is a versatile 2-in-1 laptop with a premium design and powerful performance.",
+            stockProduct: 0,
+            idCategory: 2
+        },
+        characteristics: {
+            modelProduct: "",
+            characteristics: {
+                display: "14-inch 4K UHD display",
+                processor: "Intel Core i7 processor",
+                memory: "16GB RAM",
+                storage: "1TB SSD"
+            },
+            idBrand: 16
+        }
+    },
+    {
+        product: {
+            nameProduct: "Samsung Galaxy Book Pro 360",
+            priceProduct: 3450000,
+            imageProducts: "https://http2.mlstatic.com/D_NQ_NP_2X_669720-MLU73980600476_012024-F.webp",
+            SKU: "lapsamgalboop360-001",
+            yearProduct: "2022",
+            descriptionProduct: "The Samsung Galaxy Book Pro 360 is a convertible laptop with a stunning AMOLED display and long-lasting battery.",
+            stockProduct: 0,
+            idCategory: 2
+        },
+        characteristics: {
+            modelProduct: "",
+            characteristics: {
+                display: "13.3-inch AMOLED display",
+                processor: "Intel Core i7 processor",
+                memory: "16GB RAM",
+                storage: "1TB SSD",
+                battery: "63Wh battery"
+            },
+            idBrand: 1
+        }
+    },
+    {
+        product: {
+            nameProduct: "Acer Predator Helios 300",
+            priceProduct: 3450000,
+            imageProducts: "https://http2.mlstatic.com/D_NQ_NP_887095-MLA49933868752_052022-O.webp",
+            SKU: "lapaceprehel3000-001",
+            yearProduct: "2021",
+            descriptionProduct: "The Acer Predator Helios 300 is a powerful gaming laptop with a high-refresh-rate display and advanced cooling system.",
+            stockProduct: 0,
+            idCategory: 2
+        },
+        characteristics: {
+            modelProduct: "",
+            characteristics: {
+                display: "15.6-inch Full HD display (144Hz)",
+                processor: "Intel Core i7 processor",
+                memory: "16GB RAM",
+                storage: "512GB SSD",
+                battery: "59Wh battery"
+            },
+            idBrand: 22
+        }
+    }
 ]
 
 

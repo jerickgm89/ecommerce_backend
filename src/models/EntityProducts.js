@@ -20,6 +20,7 @@ module.exports = (sequelize) => {
             // allowNull: false
         },
         imageProducts: {
+            // type: DataTypes.ARRAY(DataTypes.STRING(1000)),
             type: DataTypes.STRING,
             // allowNull: false
         },
@@ -43,6 +44,10 @@ module.exports = (sequelize) => {
         },
         IdDiscount: {
             type: DataTypes.INTEGER
+        },
+        active: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true
         },
     },{
         paranoid: true,

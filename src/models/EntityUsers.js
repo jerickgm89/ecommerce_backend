@@ -34,6 +34,7 @@ module.exports = (sequelize) => {
         emailUser: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
             validate: {
                 isEmail: true
             }
@@ -48,19 +49,17 @@ module.exports = (sequelize) => {
         },
         email_verified: {
             type: DataTypes.BOOLEAN,
-            allowNull: false
+            // allowNull: false
         },
         isAdmin: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         },
-        // password: {
-        //     type: DataTypes.STRING,
-        //     allowNull: true,
-            // validate: {
-            //     isAlphanumeric: true
-            // }
-        // },
+        tokenAuth: {
+            type: DataTypes.JSONB,
+            allowNull: true,
+            defaultValue: null
+        },
         activeUser: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
