@@ -6,7 +6,8 @@ const {
     deleteUserServices,
     unlockUserServices,
     restoreUserServices,
-    serviceGetByEmail
+    serviceGetByEmail,
+    verifyingTokenService
 } = require('../services/userService.js')
 
 const controllerRegisterUser = async (request, response) => {
@@ -19,14 +20,13 @@ const controllerRegisterUser = async (request, response) => {
             email_verified,
             idAdmin,
         } = request.body
-        if( !given_name || !family_name || !email || !email_verified ){
+
+        if( !email ){
             return response
             .status(400)
-            .json({message: "Todos los campos son requeridos"})
+            .json({message: "Proporcione un correo electrónico"})
         }
-
-        
-        const [user,create] = await logInUserServices({
+        const [ user, create ] = await logInUserServices({
             given_name,
             family_name,
             email,
@@ -34,15 +34,15 @@ const controllerRegisterUser = async (request, response) => {
             email_verified,
             idAdmin,
         })
-        if(!create){
+        if( !create ){
             return response
             .status(200)
-            .json( user )
+            .json( user.tokenAuth )
         }
 
         return response
         .status(201)
-        .json( user )
+        .json( user.tokenAuth )
         
     } catch (error) {
         response
@@ -92,7 +92,7 @@ const controllerGetAllUsers = async (request, response) => {
 
 
 const controllerGetUserById = async (request, response) =>{
-    const { params } = request;
+    const params = request.params;
     const idUser = params.id;
     try {
         
@@ -191,6 +191,17 @@ const controllerGetUserByEmail = async ( req, res ) =>{
     }
 }
 
+const controllerGetToken = async (request, response) => {
+    try {
+        const token = request.header( 'token' )
+        const verifying = await verifyingTokenService( token )
+        response.status(200).json( verifying )
+    } catch (error) {
+        // response.status(500).send( error )
+        response.status(500).send( 'No se pudo procesar la solicitud de verificación' )
+    }
+}
+
 module.exports = {
     controllerGetAllUsers,
     controllerRegisterUser,
@@ -200,4 +211,5 @@ module.exports = {
     controllersUnlockUser,
     controllersRestoreUser,
     controllerGetUserByEmail,
+    controllerGetToken
 }

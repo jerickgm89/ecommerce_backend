@@ -49,7 +49,7 @@ module.exports = (sequelize) => {
         },
         email_verified: {
             type: DataTypes.BOOLEAN,
-            allowNull: false
+            // allowNull: false
         },
         isAdmin: {
             type: DataTypes.BOOLEAN,
@@ -57,7 +57,8 @@ module.exports = (sequelize) => {
         },
         tokenAuth: {
             type: DataTypes.JSONB,
-            allowNull: false
+            allowNull: true,
+            defaultValue: null
         },
         activeUser: {
             type: DataTypes.BOOLEAN,

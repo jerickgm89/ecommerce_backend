@@ -4,8 +4,8 @@ const {
     router,
     auth_router
 } = require('./router/index.js');
-const cors = require('cors');
-const morgan = require('morgan');
+const cors = require( 'cors' );
+const morgan = require( 'morgan');
 
 
 const server = express();
