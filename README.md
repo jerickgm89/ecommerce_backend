@@ -250,7 +250,7 @@ get /products/index/:id → Modificar un producto
 <summary>METODO DELETE</summary>
 
 ### Método DELETE
-get /products/index/:id → "Eliminar" producto (paranoid: true)
+delete /products/index/:id → "Eliminar" producto (paranoid: true)
 ### Respuesta Exitosa (200 OK)
 ```json
 true
@@ -380,7 +380,7 @@ petición a → products/category/3
 
 ### Método DELETE
 
-get /products/category/:id → "Eliminar" categoría (paranoid: true)
+delete /products/category/:id → "Eliminar" categoría (paranoid: true)
 ### Respuesta Exitosa (200 OK)
 ```json
 true
@@ -624,27 +624,13 @@ filterproducts?brand=1&category=1&orderBy=yearProduct&orderDirection=DESC&page=1
 <summary>METODO POST</summary>
 
 ### Método POST
-post/ users → Crear un nuevo usuario o admin
+post/ users → Busca o crea un nuevo usuario o admin
 ### Respuesta Exitosa (201 OK)
+Entrega, si existe, token perteneciente al usuario. Si no, le asigna un token
 </br>
 
-```json
-{
-  "isAdmin": false,
-  "activeUser": true,
-  "idUser": 1,
-  "nameUser": "Cami",
-  "lastNameUser": "S",
-  "emailUser": "cami.igsa@gmail.com",
-  "pictureUser": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbGzjPlzCu9e5TfoaYhk3_I6eNVXOhnZPCq-=s96-c",
-  "email_verified": true,
-  "tokenAuth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbFVzZXIiOiJjYW1pLmlnc2FAZ21haWwuY29tIiwiaWF0IjoxNzE2MDc2MTQzLCJleHAiOjE3MTYwNzk3NDN9.Rxz_3ihvDWSsmAxY23S7t4Rc_lDs_vsKuaVzmFhGjzQ",
-  "modifiedUser_at": "2024-05-18T23:49:03.211Z",
-  "createdUser_at": "2024-05-18T23:49:03.211Z",
-  "DNI": null,
-  "numberMobileUser": null,
-  "deletedUser_at": null
-}
+```
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbFVzZXIiOiJjYW1pLmlnc2FAZ21haWwuY29tIiwiaWF0IjoxNzE2MTc1NTQ5LCJleHAiOjE3MTYzMTk1NDl9.R9w1UbRQYSXxVYrnT8vOYtnhoXGmfwupPUL8evNqzfw"
 ```
 
 <details>
@@ -652,8 +638,8 @@ post/ users → Crear un nuevo usuario o admin
 
 ```json 
 {
-  "email": "cami.igsa@gmail.com",
-  "email_verified": true,
+  "email": "cami.igsa@gmail.com", //allowNull: false
+  "email_verified": true, 
   "family_name": "S",
   "given_name": "Cami",
   "picture": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbGzjPlzCu9e5TfoaYhk3_I6eNVXOhnZPCq-=s96-c"
@@ -671,21 +657,23 @@ get /users → Trae todos los usuarios
 ```json
 
 [
-    {
-        "idUser": 1,
-        "DNI": null,
-        "nameUser": "hola",
-        "lastNameUser": "Garcia",
-        "emailUser": "hola89@gmail.com",
-        "pictureUser": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbaYhk3_I6eNVXOhnZPCq-=s96-c",
-        "numberMobileUser": null,
-        "email_verified": true,
-        "isAdmin": false,
-        "activeUser": true,
-        "createdUser_at": "2024-05-16T08:37:51.731Z",
-        "modifiedUser_at": "2024-05-16T08:48:07.248Z",
-        "deletedUser_at": null
-    }
+  {
+    "idUser": 1,
+    "DNI": null,
+    "nameUser": null,
+    "lastNameUser": null,
+    "emailUser": "cami@hotmail.com",
+    "pictureUser": null,
+    "numberMobileUser": null,
+    "email_verified": null,
+    "isAdmin": false,
+    "tokenAuth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbFVzZXIiOiJjYW1pQGhvdG1haWwuY29tIiwiaWF0IjoxNzE2MTc1NTIwLCJleHAiOjE3MTYzMTk1MjB9.51cWo4atThQ5fQuGwcRp3PdGyfMCD2uxAwsK_Guwv_o",
+    "activeUser": true,
+    "createdUser_at": "2024-05-20T03:25:20.946Z",
+    "modifiedUser_at": "2024-05-20T03:25:20.954Z",
+    "deletedUser_at": null
+  },
+  ... continúa
 ]
 
 ```
@@ -699,19 +687,20 @@ get /users/:id → Busca usuario según id
 ```json
 
 {
-    "idUser": 1,
-    "DNI": null,
-    "nameUser": "hola",
-    "lastNameUser": "Garcia",
-    "emailUser": "hola89@gmail.com",
-    "pictureUser": "https://lh3.googleusercontent.com/a/ACg8ocKPC6GOWR5AEG6bHbaYhk3_I6eNVXOhnZPCq-=s96-c",
-    "numberMobileUser": null,
-    "email_verified": true,
-    "isAdmin": false,
-    "activeUser": true,
-    "createdUser_at": "2024-05-16T08:37:51.731Z",
-    "modifiedUser_at": "2024-05-16T08:48:07.248Z",
-    "deletedUser_at": null
+  "idUser": 1,
+  "DNI": null,
+  "nameUser": null,
+  "lastNameUser": null,
+  "emailUser": "cami@hotmail.com",
+  "pictureUser": null,
+  "numberMobileUser": null,
+  "email_verified": null,
+  "isAdmin": false,
+  "tokenAuth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbFVzZXIiOiJjYW1pQGhvdG1haWwuY29tIiwiaWF0IjoxNzE2MTc1NTIwLCJleHAiOjE3MTYzMTk1MjB9.51cWo4atThQ5fQuGwcRp3PdGyfMCD2uxAwsK_Guwv_o",
+  "activeUser": true,
+  "createdUser_at": "2024-05-20T03:25:20.946Z",
+  "modifiedUser_at": "2024-05-20T03:25:20.954Z",
+  "deletedUser_at": null
 }
 
 ```
@@ -724,7 +713,7 @@ get /users/:id → Modificar un usuario o admin según id
 ### Respuesta Exitosa (200 OK)
 ```json
 {
-    "idUser": 1,
+  "idUser": 1,
   "DNI": null,
   "nameUser": "Admin",
   "lastNameUser": "Garcia",
@@ -733,6 +722,7 @@ get /users/:id → Modificar un usuario o admin según id
   "numberMobileUser": null,
   "email_verified": true,
   "isAdmin": true,
+  "tokenAuth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbFVzZXIiOiJjYW1pQGhvdG1haWwuY29tIiwiaWF0IjoxNzE2MTc1NTIwLCJleHAiOjE3MTYzMTk1MjB9.51cWo4atThQ5fQuGwcRp3PdGyfMCD2uxAwsK_Guwv_o",
   "activeUser": true,
   "createdUser_at": "2024-05-16T08:37:51.731Z",
   "modifiedUser_at": "2024-05-16T09:30:41.560Z",
@@ -755,7 +745,7 @@ get /users/:id → Modificar un usuario o admin según id
 <summary>METODO DELETE</summary>
 
 ### Método DELETE
-get /users/:id → Eliminar user o admin según id (paranoid: true)
+delete /users/:id → Eliminar user o admin según id (paranoid: true)
 ### Respuesta Exitosa (200 OK)
 ```json
 true
@@ -767,10 +757,34 @@ true
 ### Método GET
 get /users/verify/:emailUser → Envía email para recibir token del usuario
 ### Respuesta Exitosa (200 OK)
+```
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbFVzZXIiOiJjYW1pd2FudGFuQGhvdG1haWwuY29tIiwiaWF0IjoxNzE2MDk0NjIwLCJleHAiOjE3MTYwOTgyMjB9.Ky_mhAPMbr6CxYONaJKfai9DxZw2-_0raBgCVJWlwkg"
+```
+
+</details>
+
+<details>
+<summary>METODO GET USER INFO BY TOKEN</summary>
+
+### Método GET
+get /users/auth/token → Envía token por header para recibir información del usuario
+### Respuesta Exitosa (200 OK)
 ```json
 {
+  "idUser": 2,
+  "DNI": null,
+  "nameUser": null,
+  "lastNameUser": null,
+  "emailUser": "camiwantan@hotmail.com",
+  "pictureUser": null,
+  "numberMobileUser": null,
+  "email_verified": null,
   "isAdmin": false,
-  "tokenAuth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbFVzZXIiOiJjYW1pd2FudGFuQGhvdG1haWwuY29tIiwiaWF0IjoxNzE2MDk0NjIwLCJleHAiOjE3MTYwOTgyMjB9.Ky_mhAPMbr6CxYONaJKfai9DxZw2-_0raBgCVJWlwkg"
+  "tokenAuth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbFVzZXIiOiJjYW1pd2FudGFuQGhvdG1haWwuY29tIiwiaWF0IjoxNzE2MTc1NTQwLCJleHAiOjE3MTYzMTk1NDB9.A8lWG0l82nIpXqQUURfXaXVKJnhK4iu24EWY5Z1h2ac",
+  "activeUser": true,
+  "createdUser_at": "2024-05-20T03:25:40.729Z",
+  "modifiedUser_at": "2024-05-20T03:25:40.739Z",
+  "deletedUser_at": null
 }
 ```
 
