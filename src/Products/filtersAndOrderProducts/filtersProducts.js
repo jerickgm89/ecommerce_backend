@@ -76,7 +76,7 @@ const filtersProducts = async (req, res) => {
             }
         }
         const resultFilters = await EntityProducts.findAndCountAll({
-            where: { ...where },
+            where: { ...where, active: true },
             limit,
             offset,
             include,
