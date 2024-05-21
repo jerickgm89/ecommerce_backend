@@ -163,7 +163,17 @@ async function initializeData() {
     const productCount = await EntityProducts.count();
     if (productCount === 0) {
         for (const item of initialProducts) {
-            const newProduct = await EntityProducts.create(item.product);
+            const newProduct = await EntityProducts.create({
+                nameProduct: item.nameProduct,
+                priceProduct: item.priceProduct,
+                yearProduct: item.yearProduct,
+                descriptionProduct: item.descriptionProduct,
+                imageProducts: [item.imageProducts],
+                SKU: SKU,
+                stockProduct: item.stockProduct,
+                idCategory: item.idCategory,
+                // characteristics
+            });
             await CharacteristicsProducts.create({
                 ...item.characteristics,
                 idProduct: newProduct.idProduct
