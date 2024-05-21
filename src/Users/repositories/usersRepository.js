@@ -44,27 +44,16 @@ const getAllUsers = async () =>{
 };
 
 const getUserById = async (idUser) => {
-    const userExist = await EntityUsers.findByPk(idUser)
-    let userToFind;
-    if( !!userExist.idUserAddress ){
-        userToFind = await EntityUsers.findOne({
-            where: {
-                idUser
-            },
-            include: {
-                model: EntityUserAddress,
-                attributes: ['numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
-            }
-        })
-    }
-    else{
-        userToFind = await EntityUsers.findOne({
-            where: {
-                idUser
-            }
-        })
-    }
-    return userToFind
+    const userById = await EntityUsers.findOne({
+        where:{
+            idUser
+        },
+        include: {
+            model: EntityUserAddress,
+            attributes: ['numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
+        }
+    })
+    return userById
 }
 
 const getUserByEmail = async (email) => {
@@ -117,21 +106,30 @@ const modifyUser = async (idUser, {
         country
     }
 
-    // console.log(toUserAddressChart, "user adress chart");
-    // return toUserAddressChart
-    const userInfo = await EntityUsers.findOne({
-        where: {
-            idUser
+    const userInfo = await EntityUsers.findByPk(idUser)
+    if(userInfo){
+        if(numberAddress, addressName && postalCode && provinceAddress && cityAddress){
+
+            // Si existe un usuario con ese id
+            let addressInfo;
+            //Busca todas las direcciones del usuario que también coincidan con el nombre de la dirección dada
+            addressInfo = await EntityUserAddress.findOne({ 
+                where: {
+                    idUser,
+                    addressName
+                }
+            });
+            // si no existen direcciones asociadas al usuario con ese nombre pero quiere agregarla
+            if( !addressInfo && addressName ){
+                // Le asigna idUser a la info para crear
+                toUserAddressChart.idUser = idUser
+                addressInfo = await EntityUserAddress.create( toUserAddressChart )
+                // y crea la dirección asociada al usuario
+            }
         }
-    })
-    if(!!userInfo){
-        if( !userInfo.idUserAddress ){
-            const createInEntityUserAddress = await EntityUserAddress.create( toUserAddressChart )
-            toUsersChart.idUserAddress = createInEntityUserAddress.idUserAddress
-            console.log("userAddresses", createInEntityUserAddress);
-            // userInfo.changed('idUserAddress', true)
-            // await userInfo.save()
-        }
+        // Si existe información de dirección asociada al usuario
+        
+        // Siempre que el usuario exista modificará la información de usuario e incluye modelo
         const editedUser = await EntityUsers.update(
             toUsersChart, 
             { 
@@ -140,11 +138,23 @@ const modifyUser = async (idUser, {
                 }
             },
         )
-            
-        return editedUser
-    }
-    else throw new Error ('Usuario no fue encontrado')
+        if(!editedUser){
+            throw new Error ('Algo falló en la modificación en usuario' + idUser)
+        }
+        const updatedUser = await EntityUsers.findOne({
+            where:{
+                idUser
+            },
+            include: {
+                model: EntityUserAddress,
+                attributes: ['numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
+            }
+        })
 
+        return updatedUser 
+    }
+    // // Si no existe el usuario retorna un error
+    else throw new Error ('Usuario no fue encontrado')
 };
 
 const deleteUser = async (idUser) => {
@@ -201,11 +211,6 @@ const verifyEmail = async ( emailToVerify ) => {
     return false
 }
 
-// const transaction = await EntityUsers.sequelize.transaction();
-// const product = await EntityProducts.findByPk(id, { transaction });
-
-// await product.save({ transaction });
-//     await transaction.commit();
 
 const verifyingTokenUser = async (token) => {
     try {

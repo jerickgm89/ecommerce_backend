@@ -171,11 +171,11 @@ const controllerModifyUser = async (request, response) =>{
             .status(400)
             .json({ message: "Usuario no encontrado" })
         }
-        const getUpdatedUser = await getUserByIdServices(idUser);
+        // const getUpdatedUser = await getUserByIdServices(idUser);
 
         return response
         .status(200)
-        .json(getUpdatedUser)
+        .json(modifiedUser)
         
     } catch (error) {
         response

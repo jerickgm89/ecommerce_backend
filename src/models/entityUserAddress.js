@@ -32,6 +32,10 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             defaultValue: "Argentina",
             allowNull: true
+        },
+        idUser: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
         }
     },{
         // paranoid: true,

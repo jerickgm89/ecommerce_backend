@@ -17,6 +17,8 @@ const routesShopping = require("../Shopping/routes/index.js")
 
 //                           ----> filtres and order <----
 const paymentRoutes = require('../payments/routes/paymentRoutes.js');
+const addressesRoutes = require('../addressInformation/routes/addressInformationRoutes.js');
+
 
 const router = () => {
     const routers = Router()
@@ -24,6 +26,7 @@ const router = () => {
     routers.use('/filterproducts', routesFiltersProducts)
     routers.use('/shop', routesShopping)
     routers.use('/payment', paymentRoutes);
+    routers.use('/address', addressesRoutes)
 
     routers.get('/', async (req, res) => {
         try {

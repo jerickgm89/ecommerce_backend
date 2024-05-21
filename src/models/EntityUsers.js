@@ -64,9 +64,6 @@ module.exports = (sequelize) => {
             type: DataTypes.BOOLEAN,
             defaultValue: true
         },
-        idUserAddress: {
-            type: DataTypes.INTEGER,
-        },
     },{
         paranoid: true,
         createdAt: 'createdUser_at',

@@ -14,7 +14,6 @@ const {
 } = require('../repositories/usersRepository.js')
 
 const logInUserServices = async ( userInfo ) => {
-
     
     const infoUser = {
         // DNI: Number(dni),
@@ -88,7 +87,6 @@ const restoreUserServices = async (idUser) => {
 }
 
 const serviceGetByEmail = async ( emailToVerify ) => {
-
     const userIsVerified = await verifyEmail( emailToVerify )
     return userIsVerified
 }
