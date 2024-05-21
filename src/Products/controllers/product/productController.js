@@ -217,7 +217,7 @@ const getAllProducts = async (req, res) => {
     }
     try {
         const products = await EntityProducts.findAll({
-            // where: { active: true},
+            where: { active: true},
             offset,
             limit,
             include:[{
