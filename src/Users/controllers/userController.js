@@ -112,7 +112,8 @@ const controllerGetUserById = async (request, response) =>{
     }
 };  
 const controllergetUserByOnlyEmail = async (request, response) => {
-    const { emailUser } = request.params;
+    let { emailUser } = request.params;
+    emailUser = emailUser.trim()
     try {
         const email = await getUserByEmailServices( emailUser )
         if(email) return response.status(200).json(true)
@@ -240,8 +241,8 @@ const controllersRestoreUser = async (req, res) => {
 
 const controllerGetUserByEmail = async ( req, res ) =>{
     try {
-        const { emailUser } = req.params;
-
+        let { emailUser } = req.params;
+        emailUser = emailUser.trim()
         const isVerified = await serviceGetByEmail( emailUser );
 
         if( !isVerified ){
