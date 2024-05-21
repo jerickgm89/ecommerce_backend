@@ -44,9 +44,9 @@ const getUserByIdServices = async ( idUser ) =>{
 const getUserByEmailServices = async ( email ) =>{
     
     const searchedUser = await getUserByEmail( email )
-    if(!searchedUser){
-        throw new Error ('Usuario no fue encontrado')
-    }
+    // if(!searchedUser){
+    //     throw new Error ('Usuario no fue encontrado')
+    // }
     return searchedUser
 }
 
