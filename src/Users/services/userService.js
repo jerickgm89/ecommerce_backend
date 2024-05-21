@@ -4,6 +4,7 @@ const {
     loginUser,
     getAllUsers,
     getUserById,
+    getUserByEmail,
     modifyUser,
     deleteUser,
     unlockUser,
@@ -34,19 +35,26 @@ const getAllUsersServices = async () => {
 }
 
 const getUserByIdServices = async ( idUser ) =>{
+    
     const searchedUser = await getUserById( idUser )
     if(!searchedUser){
         throw new Error ('Usuario no fue encontrado')
     }
     return searchedUser
 }
-
-const modifyUserServices = async ( idUser, infoToEdit ) => {
-    const userExist = await getUserByIdServices( idUser )
-    if(!userExist){
+const getUserByEmailServices = async ( email ) =>{
+    
+    const searchedUser = await getUserByEmail( email )
+    if(!searchedUser){
         throw new Error ('Usuario no fue encontrado')
     }
-    const modifiedUser = await modifyUser( idUser, infoToEdit );
+    return searchedUser
+}
+
+
+const modifyUserServices = async ( idUser, infoToEdit ) => {
+
+    const modifiedUser = await modifyUser( idUser,  infoToEdit );
     // if(!userExist){
     //     throw new Error ('Usuario no fue encontrado')
     // }
@@ -94,6 +102,7 @@ module.exports = {
     logInUserServices,
     getAllUsersServices,
     getUserByIdServices,
+    getUserByEmailServices,
     modifyUserServices,
     deleteUserServices,
     serviceGetByEmail,
