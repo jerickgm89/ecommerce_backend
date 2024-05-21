@@ -115,11 +115,11 @@ const controllergetUserByOnlyEmail = async (request, response) => {
     const { emailUser } = request.params;
     try {
         const email = await getUserByEmailServices( emailUser )
-        return response.status(200).json(email)
+        if(email) return response.status(200).json(true)
     } catch (error) {
         response
-        .status(500)
-        .json({ error: 'No se pudo procesar la solicitud' })
+        .status(400)
+        .json(false)
         
     }
 }
