@@ -10,6 +10,8 @@ const {
     serviceGetByEmail,
     verifyingTokenService
 } = require('../services/userService.js')
+const cloudinary = require('cloudinary')
+
 
 const controllerRegisterUser = async (request, response) => {
     try {
@@ -126,6 +128,9 @@ const controllerModifyUser = async (request, response) =>{
     const idUser = params.id;
     const objectPetition = request.body
 
+    let arrayImagesProducts = []
+
+    
     const { 
         DNI,
         nameUser, 
@@ -144,15 +149,25 @@ const controllerModifyUser = async (request, response) =>{
         cityAddress,
         country
     } = objectPetition
+    
+    if( !!request.file ){
+        const file = await cloudinary.uploader.upload(request.file.path)
+        arrayImagesProducts.push(file.secure_url)
+        // console.log("##$$$$$$$$$$$$$$$$$$$$$$request.file",file.secure_url)
+    }
+    if(!request.file && pictureUser){
+        const file = await cloudinary.uploader.upload(pictureUser)
+        arrayImagesProducts.push(file.secure_url)
 
+    }
     try {
         
         const modifiedUser = await modifyUserServices( idUser, { 
-            DNI,
+            DNI: `${DNI}`,
             nameUser, 
             lastNameUser, 
             emailUser, 
-            pictureUser,
+            pictureUser: arrayImagesProducts.length ? arrayImagesProducts[0] : null,
             phoneArea,
             numberMobileUser,
             email_verified, 

@@ -9,12 +9,12 @@ module.exports = (sequelize) => {
             autoIncrement: true,
         },
         DNI: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             // allowNull: false,
-            validate: {
-                isInt: true,
-                max: 100000000
-            }
+            // validate: {
+            //     isInt: true,
+            //     max: 100000000
+            // }
         },
         nameUser: {
             type: DataTypes.STRING,
