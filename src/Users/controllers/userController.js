@@ -257,7 +257,7 @@ const controllerGetUserByEmail = async ( req, res ) =>{
 
 const controllerGetToken = async (request, response) => {
     try {
-        const token = request.header( 'token' )
+        const token = request.header('Authorization').split(' ')[1]
         const verifying = await verifyingTokenService( token )
         response.status(200).json( verifying )
     } catch (error) {

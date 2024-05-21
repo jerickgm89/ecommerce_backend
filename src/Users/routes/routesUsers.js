@@ -26,4 +26,4 @@ routesUsers.delete('/restore/:id', controllersRestoreUser) //re activar un usuar
 routesUsers.get("/verify/:emailUser", controllerGetUserByEmail);       // busca User por email por params y devuelve token
 routesUsers.get("/auth/token", controllerGetToken);       // recibe token por header y entrega la info del usuario si el token es válido
 
-module.exports = routesUsers; 
+module.exports = routesUsers;  
