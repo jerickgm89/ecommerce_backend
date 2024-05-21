@@ -9,23 +9,19 @@ module.exports = (sequelize) => {
             autoIncrement: true,
         },
         DNI: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             // allowNull: false,
-            validate: {
-                isInt: true,
-                max: 100000000
-            }
+            // validate: {
+            //     isInt: true,
+            //     max: 100000000
+            // }
         },
-        // sub: {
-        //     type: DataTypes.STRING,
-        //     allowNull: false
-        // },
         nameUser: {
             type: DataTypes.STRING,
             // allowNull: false,
             // validate: {
-            //     isAlpha: true
-            // }
+                //     isAlpha: true
+                // }
         },
         lastNameUser: {
             type: DataTypes.STRING,
@@ -43,26 +39,31 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: true
         },
+        phoneArea:{
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         numberMobileUser: {
             type: DataTypes.STRING,
             allowNull: true
         },
         email_verified: {
             type: DataTypes.BOOLEAN,
-            allowNull: false
+            defaultValue: false
         },
         isAdmin: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         },
         tokenAuth: {
-            type: DataTypes.JSONB,
-            allowNull: false
+            type: DataTypes.STRING(300),
+            allowNull: true,
+            defaultValue: null
         },
         activeUser: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
-        }
+        },
     },{
         paranoid: true,
         createdAt: 'createdUser_at',

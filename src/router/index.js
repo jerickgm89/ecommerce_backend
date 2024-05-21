@@ -15,11 +15,19 @@ const routesFiltersProducts = require('../Products/routes/filtersAndOrder/routes
 //
 const routesShopping = require("../Shopping/routes/index.js")
 
+//                           ----> filtres and order <----
+const paymentRoutes = require('../payments/routes/paymentRoutes.js');
+const addressesRoutes = require('../addressInformation/routes/addressInformationRoutes.js');
+
 
 const router = () => {
     const routers = Router()
     routers.use('/products', routesProducts)
     routers.use('/filterproducts', routesFiltersProducts)
+    routers.use('/shop', routesShopping)
+    routers.use('/payment', paymentRoutes);
+    routers.use('/address', addressesRoutes)
+
     routers.get('/', async (req, res) => {
         try {
             // Lee el contenido del archivo README.md

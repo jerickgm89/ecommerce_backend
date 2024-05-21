@@ -2,12 +2,16 @@ const {
     logInUserServices,
     getAllUsersServices,
     getUserByIdServices,
+    getUserByEmailServices,
     modifyUserServices,
     deleteUserServices,
     unlockUserServices,
     restoreUserServices,
-    serviceGetByEmail
+    serviceGetByEmail,
+    verifyingTokenService
 } = require('../services/userService.js')
+const cloudinary = require('cloudinary')
+
 
 const controllerRegisterUser = async (request, response) => {
     try {
@@ -19,14 +23,13 @@ const controllerRegisterUser = async (request, response) => {
             email_verified,
             idAdmin,
         } = request.body
-        if( !given_name || !family_name || !email || !email_verified ){
+
+        if( !email ){
             return response
             .status(400)
-            .json({message: "Todos los campos son requeridos"})
+            .json({message: "Proporcione un correo electrónico"})
         }
-
-        
-        const [user,create] = await logInUserServices({
+        const [ user, create ] = await logInUserServices({
             given_name,
             family_name,
             email,
@@ -34,21 +37,22 @@ const controllerRegisterUser = async (request, response) => {
             email_verified,
             idAdmin,
         })
-        if(!create){
+        if( !create ){
             return response
             .status(200)
-            .json( user )
+            .json( user.tokenAuth )
         }
 
         return response
         .status(201)
-        .json( user )
+        .json( user.tokenAuth )
         
     } catch (error) {
         response
         .status(500)
         // .json({error: error})
-        .json({message: "No fue posible crear el usuario"})
+        .json({message: error})
+        // .json({message: "No fue posible crear el usuario"})
         
     }
 };
@@ -92,10 +96,9 @@ const controllerGetAllUsers = async (request, response) => {
 
 
 const controllerGetUserById = async (request, response) =>{
-    const { params } = request;
+    const params = request.params;
     const idUser = params.id;
     try {
-        
         const searchedUser = await getUserByIdServices(idUser);
         return response
         .status(200)
@@ -108,32 +111,93 @@ const controllerGetUserById = async (request, response) =>{
         
     }
 };  
-
+const controllergetUserByOnlyEmail = async (request, response) => {
+    let { emailUser } = request.params;
+    emailUser = emailUser.trim()
+    try {
+        const email = await getUserByEmailServices( emailUser )
+        if(email) return response.status(200).json(true)
+    } catch (error) {
+        response
+        .status(400)
+        .json(false)
+        
+    }
+}
 const controllerModifyUser = async (request, response) =>{
     const { params } = request;
     const idUser = params.id;
-    const { DNI, nameUser, lastNameUser, emailUser, pictureUser, numberMobileUser, email_verified, activeUser, isAdmin } = request.body
-    const newUserInfo = { DNI, nameUser, lastNameUser, emailUser, pictureUser, numberMobileUser, email_verified, activeUser, isAdmin }
+    const objectPetition = request.body
+
+    let arrayImagesProducts = []
+
+    
+    const { 
+        DNI,
+        nameUser, 
+        lastNameUser, 
+        emailUser, 
+        pictureUser,
+        phoneArea,
+        numberMobileUser,
+        email_verified, 
+        activeUser, 
+        isAdmin,
+        numberAddress,
+        addressName,
+        postalCode,
+        provinceAddress,
+        cityAddress,
+        country
+    } = objectPetition
+    
+    if( !!request.file ){
+        const file = await cloudinary.uploader.upload(request.file.path)
+        arrayImagesProducts.push(file.secure_url)
+        // console.log("##$$$$$$$$$$$$$$$$$$$$$$request.file",file.secure_url)
+    }
+    if(!request.file && pictureUser){
+        const file = await cloudinary.uploader.upload(pictureUser)
+        arrayImagesProducts.push(file.secure_url)
+
+    }
     try {
         
-        const modifiedUser = await modifyUserServices( idUser, newUserInfo);
+        const modifiedUser = await modifyUserServices( idUser, { 
+            DNI: `${DNI}`,
+            nameUser, 
+            lastNameUser, 
+            emailUser, 
+            pictureUser: arrayImagesProducts.length ? arrayImagesProducts[0] : null,
+            phoneArea,
+            numberMobileUser,
+            email_verified, 
+            activeUser, 
+            isAdmin,
+            numberAddress,
+            addressName,
+            postalCode,
+            provinceAddress,
+            cityAddress,
+            country
+        });
         // const modifiedUser = await modifyUserServices( idUser, { DNI, nameUser, lastNameUser, emailUser, numberMobileUser, pictureUser, email_verified, activeUser, isAdmin });
         if(!modifiedUser){
             return response
             .status(400)
             .json({ message: "Usuario no encontrado" })
         }
-        const getUpdatedUser = await getUserByIdServices(idUser);
+        // const getUpdatedUser = await getUserByIdServices(idUser);
 
         return response
         .status(200)
-        .json(getUpdatedUser)
+        .json(modifiedUser)
         
     } catch (error) {
         response
         .status(500)
-        .json({ message: "Usuario no pudo ser modificado" })
-        
+        // .json({ message: "Usuario no pudo ser modificado" })
+        .json({ message: error })
     }
 };  
 const controllerDeleteUser = async (request, response) =>{
@@ -177,8 +241,8 @@ const controllersRestoreUser = async (req, res) => {
 
 const controllerGetUserByEmail = async ( req, res ) =>{
     try {
-        const { emailUser } = req.params;
-
+        let { emailUser } = req.params;
+        emailUser = emailUser.trim()
         const isVerified = await serviceGetByEmail( emailUser );
 
         if( !isVerified ){
@@ -191,13 +255,26 @@ const controllerGetUserByEmail = async ( req, res ) =>{
     }
 }
 
+const controllerGetToken = async (request, response) => {
+    try {
+        const token = request.header('Authorization').split(' ')[1]
+        const verifying = await verifyingTokenService( token )
+        response.status(200).json( verifying )
+    } catch (error) {
+        // response.status(500).send( error )
+        response.status(500).send( 'No se pudo procesar la solicitud de verificación' )
+    }
+}
+
 module.exports = {
     controllerGetAllUsers,
     controllerRegisterUser,
     controllerGetUserById,
+    controllergetUserByOnlyEmail,
     controllerModifyUser,
     controllerDeleteUser,
     controllersUnlockUser,
     controllersRestoreUser,
     controllerGetUserByEmail,
+    controllerGetToken
 }

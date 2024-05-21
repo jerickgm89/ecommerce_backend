@@ -1,61 +1,11 @@
 const { Op } = require('sequelize');
 const { EntityProducts, CharacteristicsProducts } = require('../../../db.js');
 const cloudinary = require('cloudinary')
+const { imageFromCloudinary } = require('../../../../utils/imageReception.js')
 
 
 const createProductAndCharacteristics = async (req, res) => {
-    /*
-        {
-            "name": "producto creado al último",
-            "price": "589652",
-            "year": "2045",
-            "stock": 8,
-            "sku": "wdjsweweq",
-            "idReview": "",
-            "idCategory": 2,
-            "idDiscount": "",
-            "description": " producto util, cumple perfecto su uso",
-            "images": [
-                {
-                "file": {}
-                },
-                {
-                "file": {}
-                },
-                {
-                "file": {}
-                }
-            ],
-            "model": "CFX plus",
-            "color": "negro",
-            "size": "grande",
-            "idBrand": 2
-        }
 
-
-
-        {
-            "name": "producto creado al último ULTIMO",
-            "price": "589652",
-            "year": "2045",
-            "stock": 1,
-            "sku": "wdjsweweq",
-            "idReview": "",
-            "idCategory": 1,
-            "idDiscount": "",
-            "description": "producto util, cumple perfecto su uso",
-            "images": [
-            {
-                "file": {}
-            }
-            ],
-            "model": "CFX plus",
-            "color": "negro",
-            "size": "grande",
-            "idBrand": 1
-}
-*/
-   // for( objeto in req.file)   
 
     const {
         Products: {
@@ -76,7 +26,7 @@ const createProductAndCharacteristics = async (req, res) => {
             idBrand
         }
     } = req.body;
-    // console.log(images)
+
     let arrayImagesProducts = []
     if(!!req.files){
         for (const file of req.files) {
@@ -262,13 +212,10 @@ const updateProductAndCharacteristics = async (req, res) => {
 const getAllProducts = async (req, res) => {
     let { page, limit } = req.query;
     let offset;
-    if( page|| limit ){
-        page = parseInt(page);
-        limit = parseInt(limit);
+    if( page && limit ){
         offset = (page - 1) * limit;
     }
     try {
-        // const where = {};
         const products = await EntityProducts.findAll({
             where: { active: true},
             offset,
@@ -279,9 +226,9 @@ const getAllProducts = async (req, res) => {
             }]
         });
         if(products.length){
-            // return res.status(200).send('No existen coincidencias.')
             return res.status(200).json(products);
         }
+        return res.status(400).send('No existen coincidencias.')
         
     } catch (error) {
         res.status(500).json({ error: 'Error fetching products', details: error.message });
@@ -389,7 +336,28 @@ const restoreProduct = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Error restoring product', details: error.message });
     }
+}
+const getDeactivatedProducts = async (req, res) => {
+    try {
+        const deactivatedProducts = await EntityProducts.findAll({
+            where: {
+                active: false
+            },
+            include: [{
+                model: CharacteristicsProducts,
+                attributes: ['modelProduct', 'characteristics', 'idBrand']
+            }]
+        });
+
+        if (deactivatedProducts.length) {
+            return res.status(200).json(deactivatedProducts);
+        }
+        return res.status(404).send('No hay productos desactivados.');
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching deactivated products', details: error.message });
+    }
 };
+
 
 module.exports = {
     createProductAndCharacteristics,
@@ -399,5 +367,6 @@ module.exports = {
     getProductByName,
     deleteProductAndCharacteristics,
     unlockProduct,
-    restoreProduct
+    restoreProduct,
+    getDeactivatedProducts
 };

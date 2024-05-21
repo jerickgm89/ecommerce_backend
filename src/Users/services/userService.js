@@ -4,40 +4,27 @@ const {
     loginUser,
     getAllUsers,
     getUserById,
+    getUserByEmail,
     modifyUser,
     deleteUser,
     unlockUser,
     restoreUser,
-    verifyEmail
+    verifyEmail,
+    verifyingTokenUser
 } = require('../repositories/usersRepository.js')
-const jwt = require('jsonwebtoken') // para crear token
-const { JWT_SECRET } = process.env
 
-
-const logInUserServices = async ({ given_name, family_name, email, picture, email_verified }) => {
-
-    const tokenJWT = jwt.sign(
-        {
-            emailUser : email 
-        },
-        JWT_SECRET,
-        {
-            expiresIn: "1h" // expira en 1 hora
-        }
-    )
-    const userInfo = {
+const logInUserServices = async ( userInfo ) => {
+    
+    const infoUser = {
         // DNI: Number(dni),
-        nameUser: given_name,
-        lastNameUser: family_name,
-        emailUser: email,
-        pictureUser: picture,
-        email_verified,
-        tokenAuth: tokenJWT
-        // idAdmin
+        nameUser: userInfo.given_name,
+        lastNameUser: userInfo.family_name,
+        emailUser: userInfo.email,
+        pictureUser: userInfo.picture,
+        email_verified : userInfo.email_verified,
     }
-    const [user,create] = await loginUser(userInfo);
-
-    await sendWelcomeEmail( email, given_name )
+    const [ user,create ] = await loginUser( infoUser );
+    await sendWelcomeEmail( infoUser.emailUser, infoUser.emailUser )
     return [user,create]
 }
 
@@ -47,19 +34,26 @@ const getAllUsersServices = async () => {
 }
 
 const getUserByIdServices = async ( idUser ) =>{
+    
     const searchedUser = await getUserById( idUser )
     if(!searchedUser){
         throw new Error ('Usuario no fue encontrado')
     }
     return searchedUser
 }
+const getUserByEmailServices = async ( email ) =>{
+    
+    const searchedUser = await getUserByEmail( email )
+    // if(!searchedUser){
+    //     throw new Error ('Usuario no fue encontrado')
+    // }
+    return searchedUser
+}
+
 
 const modifyUserServices = async ( idUser, infoToEdit ) => {
-    const userExist = await getUserByIdServices( idUser )
-    if(!userExist){
-        throw new Error ('Usuario no fue encontrado')
-    }
-    const modifiedUser = await modifyUser( idUser, infoToEdit );
+
+    const modifiedUser = await modifyUser( idUser,  infoToEdit );
     // if(!userExist){
     //     throw new Error ('Usuario no fue encontrado')
     // }
@@ -75,11 +69,6 @@ const deleteUserServices = async ( idUser ) => {
     return deletedUser
 }
 
-const serviceGetByEmail = async ( emailToVerify ) => {
-
-    const userIsVerified = await verifyEmail( emailToVerify )
-    return userIsVerified
-}
 
 const unlockUserServices = async (idUser) => {
     const unlockuser = await unlockUser(idUser);
@@ -97,13 +86,25 @@ const restoreUserServices = async (idUser) => {
     return restoreuser
 }
 
+const serviceGetByEmail = async ( emailToVerify ) => {
+    const userIsVerified = await verifyEmail( emailToVerify )
+    return userIsVerified
+}
+
+const verifyingTokenService = async ( token ) => {
+    const verifyingToken = await verifyingTokenUser( token );
+    return verifyingToken
+}
+
 module.exports = {
     logInUserServices,
     getAllUsersServices,
     getUserByIdServices,
+    getUserByEmailServices,
     modifyUserServices,
     deleteUserServices,
     serviceGetByEmail,
     unlockUserServices,
-    restoreUserServices
+    restoreUserServices,
+    verifyingTokenService
 }

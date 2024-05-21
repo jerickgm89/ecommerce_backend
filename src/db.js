@@ -14,6 +14,7 @@ const entityShoppingSessionModels = require('./models/entityShoppingSession.js')
 const entityCartItemModels = require('./models/entityCartItem.js')
 const entityOrderDetailModels = require("./models/entityOrderDetail.js");
 const EntityOrderItemsModels = require('./models/entityCartItem.js')
+const EntityUserAddressModels= require('./models/entityUserAddress.js')
 
     const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/ecommerce`, {
         logging: false,
@@ -32,7 +33,8 @@ const EntityOrderItemsModels = require('./models/entityCartItem.js')
     entityShoppingSessionModels(sequelize)
     entityCartItemModels(sequelize)
     entityOrderDetailModels(sequelize)
-    EntityOrderItemsModels(sequelize)
+    EntityOrderItemsModels(sequelize) 
+    EntityUserAddressModels(sequelize) 
 
     fs.readdirSync(path.join(__dirname, '/models'))
   .filter((file) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
@@ -47,7 +49,7 @@ const EntityOrderItemsModels = require('./models/entityCartItem.js')
   sequelize.models = Object.fromEntries(capsEntries);
 
   const {EntityProducts, EntityCategory, CharacteristicsProducts, EntityBrand, EntityUsers, 
-    EntityOrderDetail, EntityOrderItems, EntityPayment, EntityShoppingSession, EntityCartItem} = sequelize.models
+    EntityOrderDetail, EntityOrderItems, EntityPayment, EntityShoppingSession, EntityCartItem, EntityUserAddress} = sequelize.models
 
 //Aqui van las relaciones: ->
 
@@ -96,7 +98,13 @@ EntityCartItem.belongsTo(EntityShoppingSession, { foreignKey: 'idShoppingSession
 EntityProducts.belongsToMany(EntityCartItem, { through: 'ProductCartItem', foreignKey: 'idProduct' });
 EntityCartItem.belongsToMany(EntityProducts, { through: 'ProductCartItem', foreignKey: 'idCartItem' });
 
-  module.exports = {
-    ...sequelize.models, 
-    conn: sequelize,     
-  };
+EntityUsers.hasMany(EntityPayment, { foreignKey: 'idUser', sourceKey: 'idUser' });
+EntityPayment.belongsTo(EntityUsers, { foreignKey: 'idUser', targetKey: 'idUser' });
+
+EntityUsers.hasMany(EntityUserAddress, { foreignKey: 'idUser', sourceKey: 'idUser'});
+EntityUserAddress.belongsTo(EntityUsers, { foreignKey: 'idUser', targetKey: 'idUser'});
+
+module.exports = {
+  ...sequelize.models, 
+  conn: sequelize,     
+};
