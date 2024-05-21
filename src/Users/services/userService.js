@@ -4,6 +4,7 @@ const {
     loginUser,
     getAllUsers,
     getUserById,
+    getUserByEmail,
     modifyUser,
     deleteUser,
     unlockUser,
@@ -13,7 +14,6 @@ const {
 } = require('../repositories/usersRepository.js')
 
 const logInUserServices = async ( userInfo ) => {
-
     
     const infoUser = {
         // DNI: Number(dni),
@@ -34,19 +34,26 @@ const getAllUsersServices = async () => {
 }
 
 const getUserByIdServices = async ( idUser ) =>{
+    
     const searchedUser = await getUserById( idUser )
     if(!searchedUser){
         throw new Error ('Usuario no fue encontrado')
     }
     return searchedUser
 }
-
-const modifyUserServices = async ( idUser, infoToEdit ) => {
-    const userExist = await getUserByIdServices( idUser )
-    if(!userExist){
+const getUserByEmailServices = async ( email ) =>{
+    
+    const searchedUser = await getUserByEmail( email )
+    if(!searchedUser){
         throw new Error ('Usuario no fue encontrado')
     }
-    const modifiedUser = await modifyUser( idUser, infoToEdit );
+    return searchedUser
+}
+
+
+const modifyUserServices = async ( idUser, infoToEdit ) => {
+
+    const modifiedUser = await modifyUser( idUser,  infoToEdit );
     // if(!userExist){
     //     throw new Error ('Usuario no fue encontrado')
     // }
@@ -80,7 +87,6 @@ const restoreUserServices = async (idUser) => {
 }
 
 const serviceGetByEmail = async ( emailToVerify ) => {
-
     const userIsVerified = await verifyEmail( emailToVerify )
     return userIsVerified
 }
@@ -94,6 +100,7 @@ module.exports = {
     logInUserServices,
     getAllUsersServices,
     getUserByIdServices,
+    getUserByEmailServices,
     modifyUserServices,
     deleteUserServices,
     serviceGetByEmail,

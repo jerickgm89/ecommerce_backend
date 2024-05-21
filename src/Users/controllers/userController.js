@@ -2,6 +2,7 @@ const {
     logInUserServices,
     getAllUsersServices,
     getUserByIdServices,
+    getUserByEmailServices,
     modifyUserServices,
     deleteUserServices,
     unlockUserServices,
@@ -9,6 +10,8 @@ const {
     serviceGetByEmail,
     verifyingTokenService
 } = require('../services/userService.js')
+const cloudinary = require('cloudinary')
+
 
 const controllerRegisterUser = async (request, response) => {
     try {
@@ -48,7 +51,8 @@ const controllerRegisterUser = async (request, response) => {
         response
         .status(500)
         // .json({error: error})
-        .json({message: "No fue posible crear el usuario"})
+        .json({message: error})
+        // .json({message: "No fue posible crear el usuario"})
         
     }
 };
@@ -95,7 +99,6 @@ const controllerGetUserById = async (request, response) =>{
     const params = request.params;
     const idUser = params.id;
     try {
-        
         const searchedUser = await getUserByIdServices(idUser);
         return response
         .status(200)
@@ -108,32 +111,92 @@ const controllerGetUserById = async (request, response) =>{
         
     }
 };  
-
+const controllergetUserByOnlyEmail = async (request, response) => {
+    const { emailUser } = request.params;
+    try {
+        const email = await getUserByEmailServices( emailUser )
+        return response.status(200).json(email)
+    } catch (error) {
+        response
+        .status(500)
+        .json({ error: 'No se pudo procesar la solicitud' })
+        
+    }
+}
 const controllerModifyUser = async (request, response) =>{
     const { params } = request;
     const idUser = params.id;
-    const { DNI, nameUser, lastNameUser, emailUser, pictureUser, numberMobileUser, email_verified, activeUser, isAdmin } = request.body
-    const newUserInfo = { DNI, nameUser, lastNameUser, emailUser, pictureUser, numberMobileUser, email_verified, activeUser, isAdmin }
+    const objectPetition = request.body
+
+    let arrayImagesProducts = []
+
+    
+    const { 
+        DNI,
+        nameUser, 
+        lastNameUser, 
+        emailUser, 
+        pictureUser,
+        phoneArea,
+        numberMobileUser,
+        email_verified, 
+        activeUser, 
+        isAdmin,
+        numberAddress,
+        addressName,
+        postalCode,
+        provinceAddress,
+        cityAddress,
+        country
+    } = objectPetition
+    
+    if( !!request.file ){
+        const file = await cloudinary.uploader.upload(request.file.path)
+        arrayImagesProducts.push(file.secure_url)
+        // console.log("##$$$$$$$$$$$$$$$$$$$$$$request.file",file.secure_url)
+    }
+    if(!request.file && pictureUser){
+        const file = await cloudinary.uploader.upload(pictureUser)
+        arrayImagesProducts.push(file.secure_url)
+
+    }
     try {
         
-        const modifiedUser = await modifyUserServices( idUser, newUserInfo);
+        const modifiedUser = await modifyUserServices( idUser, { 
+            DNI: `${DNI}`,
+            nameUser, 
+            lastNameUser, 
+            emailUser, 
+            pictureUser: arrayImagesProducts.length ? arrayImagesProducts[0] : null,
+            phoneArea,
+            numberMobileUser,
+            email_verified, 
+            activeUser, 
+            isAdmin,
+            numberAddress,
+            addressName,
+            postalCode,
+            provinceAddress,
+            cityAddress,
+            country
+        });
         // const modifiedUser = await modifyUserServices( idUser, { DNI, nameUser, lastNameUser, emailUser, numberMobileUser, pictureUser, email_verified, activeUser, isAdmin });
         if(!modifiedUser){
             return response
             .status(400)
             .json({ message: "Usuario no encontrado" })
         }
-        const getUpdatedUser = await getUserByIdServices(idUser);
+        // const getUpdatedUser = await getUserByIdServices(idUser);
 
         return response
         .status(200)
-        .json(getUpdatedUser)
+        .json(modifiedUser)
         
     } catch (error) {
         response
         .status(500)
-        .json({ message: "Usuario no pudo ser modificado" })
-        
+        // .json({ message: "Usuario no pudo ser modificado" })
+        .json({ message: error })
     }
 };  
 const controllerDeleteUser = async (request, response) =>{
@@ -206,6 +269,7 @@ module.exports = {
     controllerGetAllUsers,
     controllerRegisterUser,
     controllerGetUserById,
+    controllergetUserByOnlyEmail,
     controllerModifyUser,
     controllerDeleteUser,
     controllersUnlockUser,
