@@ -20,8 +20,8 @@ module.exports = (sequelize) => {
             // allowNull: false
         },
         imageProducts: {
-            // type: DataTypes.ARRAY(DataTypes.STRING(1000)),
-            type: DataTypes.STRING,
+            type: DataTypes.ARRAY(DataTypes.STRING(1000)),
+            // type: DataTypes.STRING,
             // allowNull: false
         },
         descriptionProduct: {

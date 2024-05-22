@@ -8,10 +8,10 @@ const createProductAndCharacteristics = async (req, res) => {
 
 
     const {
-        Products: {
+        // Products: {
             nameProduct,
             priceProduct,
-            images,
+            imageProducts,
             SKU,
             yearProduct,
             stockProduct,
@@ -19,45 +19,37 @@ const createProductAndCharacteristics = async (req, res) => {
             idReview,
             idCategory,
             idDiscount,
-        },
-        Variants: {
+        // },
+        // Variants: {
             modelProduct,
             characteristics,
             idBrand
-        }
+        // }
     } = req.body;
 
-    let arrayImagesProducts = []
-    if(!!req.files){
-        for (const file of req.files) {
-            const result = await cloudinary.uploader.upload(file.path);
-            arrayImagesProducts.push(result.secure_url);
-            console.log("##$$$$$$$$$$$$$$$$$$$$$$req.file",result.secure_url)
+    const arrayImagesProducts = []
+    
+    if( !!req.files || imageProducts ){
+        if( typeof imageProducts === "string" ){
+            const result = await cloudinary.uploader.upload(imageProducts)
+            arrayImagesProducts.push(result.secure_url)
+        }
+        else {
+            for (const file of req.files) {
+                const result = await cloudinary.uploader.upload(file.path);
+                arrayImagesProducts.push(result.secure_url);
+            }
         }
     }
-    if(!!req.file){
-        const file = await cloudinary.uploader.upload(req.file.path)
-        arrayImagesProducts = []
-        arrayImagesProducts.push(file.secure_url)
-        console.log("##$$$$$$$$$$$$$$$$$$$$$$req.file",file.secure_url)
 
-    }
-        // let imageProd = req.file ? await cloudinary.uploader.upload(req.file.path) : null
-        // console.log("##$req.files", imageProd)
-    // console.log("##$$$$$$$$$$$$$$$$$$$$$$req.file",req.file)
-    
     const transaction = await EntityProducts.sequelize.transaction();
-    // console.log("####imageProducts",imageProducts)
-    // console.log( "####imageProducts", imageProd )
-    // imageProd ? imageProd.secure_url: null,
-    
-    // const images =  imageProducts ? [imageProducts] : arrayImagesProducts
+
 
     try {
         const newProduct = await EntityProducts.create({
             nameProduct,
             priceProduct,
-            imageProducts: arrayImagesProducts.length ? arrayImagesProducts[0] : null,
+            imageProducts: Array.isArray(arrayImagesProducts) ? arrayImagesProducts : [arrayImagesProducts],
             // imageProducts:imageProd.secure_url,
             SKU,
             descriptionProduct,

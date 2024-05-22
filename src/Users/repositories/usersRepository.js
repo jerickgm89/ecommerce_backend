@@ -11,7 +11,7 @@ const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email
         },
         JWT_SECRET,
         {
-            expiresIn: "40h" // expira en 40 horas
+            // expiresIn: "40h" // expira en 40 horas
         }
     )
     const newUserInfo = {

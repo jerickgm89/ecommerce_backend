@@ -3,7 +3,7 @@ const {conn} = require('./src/db.js');
 const PORT = process.env.PORT || 3001;
 const { initializeData } = require('./src/config/databaseInit')
 
-conn.sync({ alter: true }).then(async () => {
+conn.sync({ force: true }).then(async () => {
     try {
         await initializeData(); // aqui se llama a la funcion initializeData que AUTOMATICAMENTE CARGUE PRODUCTOS AL LEVANTAR EL SERVER 
         console.log('Initial data loaded successfully');
