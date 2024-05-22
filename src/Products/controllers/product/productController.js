@@ -8,7 +8,7 @@ const createProductAndCharacteristics = async (req, res) => {
 
 
     const {
-        // Products: {
+        Products: {
             nameProduct,
             priceProduct,
             imageProducts,
@@ -19,16 +19,16 @@ const createProductAndCharacteristics = async (req, res) => {
             idReview,
             idCategory,
             idDiscount,
-        // },
-        // Variants: {
+        },
+        Variants: {
             modelProduct,
             characteristics,
             idBrand
-        // }
+        }
     } = req.body;
 
     const arrayImagesProducts = []
-    
+
     if( !!req.files || imageProducts ){
         if( typeof imageProducts === "string" ){
             const result = await cloudinary.uploader.upload(imageProducts)
