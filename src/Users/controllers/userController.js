@@ -10,7 +10,8 @@ const {
     serviceGetByEmail,
     verifyingTokenService
 } = require('../services/userService.js')
-const cloudinary = require('cloudinary')
+const { imageCloudinaryUploader } = require('../../../utils/imageReception.js')
+
 
 
 const controllerRegisterUser = async (request, response) => {
@@ -23,6 +24,9 @@ const controllerRegisterUser = async (request, response) => {
             email_verified,
             // isAdmin
         } = request.body
+        
+        const fileImages =  request.files || request.file
+        const imagesUploader = (await imageCloudinaryUploader( fileImages, picture ))[0]
 
         if( !email ){
             return response
@@ -33,7 +37,7 @@ const controllerRegisterUser = async (request, response) => {
             given_name,
             family_name,
             email,
-            picture,
+            picture: imagesUploader,
             email_verified,
             // isAdmin,
         })
@@ -112,10 +116,10 @@ const controllerGetUserById = async (request, response) =>{
     }
 };  
 const controllergetUserByOnlyEmail = async (request, response) => {
-    let { emailUser } = request.params;
-    emailUser = emailUser.trim()
+    const { emailUser } = request.params;
+    const formatedEmail = emailUser.trim().toLowerCase()
     try {
-        const email = await getUserByEmailServices( emailUser )
+        const email = await getUserByEmailServices( formatedEmail )
         if(email) return response.status(200).json(true)
     } catch (error) {
         response
@@ -129,8 +133,7 @@ const controllerModifyUser = async (request, response) =>{
     const idUser = params.id;
     const objectPetition = request.body
 
-    let arrayImagesProducts = []
-
+    const fileImages =  request.files || request.file
     
     const { 
         DNI,
@@ -151,16 +154,8 @@ const controllerModifyUser = async (request, response) =>{
         country
     } = objectPetition
     
-    if( !!request.file ){
-        const file = await cloudinary.uploader.upload(request.file.path)
-        arrayImagesProducts.push(file.secure_url)
-        // console.log("##$$$$$$$$$$$$$$$$$$$$$$request.file",file.secure_url)
-    }
-    if(!request.file && pictureUser){
-        const file = await cloudinary.uploader.upload(pictureUser)
-        arrayImagesProducts.push(file.secure_url)
+    const imagesUploader = (await imageCloudinaryUploader( fileImages, pictureUser ))[0]
 
-    }
     try {
         
         const modifiedUser = await modifyUserServices( idUser, { 
@@ -168,7 +163,7 @@ const controllerModifyUser = async (request, response) =>{
             nameUser, 
             lastNameUser, 
             emailUser, 
-            pictureUser: arrayImagesProducts.length ? arrayImagesProducts[0] : null,
+            pictureUser: imagesUploader,
             phoneArea,
             numberMobileUser,
             email_verified, 
@@ -242,7 +237,7 @@ const controllersRestoreUser = async (req, res) => {
 const controllerGetUserByEmail = async ( req, res ) =>{
     try {
         let { emailUser } = req.params;
-        emailUser = emailUser.trim()
+        emailUser = emailUser.trim().toLowerCase()
         const isVerified = await serviceGetByEmail( emailUser );
 
         if( !isVerified ){
@@ -258,6 +253,7 @@ const controllerGetUserByEmail = async ( req, res ) =>{
 const controllerGetToken = async (request, response) => {
     try {
         const token = request.header('Authorization').split(' ')[1]
+        console.log("TOKEN:  ", token)
         const verifying = await verifyingTokenService( token )
         response.status(200).json( verifying )
     } catch (error) {
