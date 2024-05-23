@@ -5,10 +5,11 @@ const {
     getUserByEmailServices,
     modifyUserServices,
     deleteUserServices,
-    unlockUserServices,
-    restoreUserServices,
+    blockedUserServices,
     serviceGetByEmail,
-    verifyingTokenService
+    verifyingTokenService,
+    getDeactiveUserService,
+    restoreUserServices
 } = require('../services/userService.js')
 const { imageCloudinaryUploader } = require('../../../utils/imageReception.js')
 
@@ -211,23 +212,45 @@ const controllerDeleteUser = async (request, response) =>{
         .status(500)
         .json({message: "Usuario no pudo ser eliminado"})
         
-    }
-}
-const controllersUnlockUser = async (req, res) => {
-    const { idUser } = req.params;
+    };
+};
+
+const controllersBlockedUser = async (req, res) => {
+    const {params} = req;
+    const idUser = params.id;
     try {
-        const user = await unlockUserServices(idUser);
-    
-        return res.status(200).json({ message: 'Usuario  ha sido desactivado con éxito', user });
+        const user = await getUserByIdServices(idUser);
+        
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        if (!user.activeUser) {
+            return res.status(400).json({ message: 'El usuario ya está bloqueado' });
+        };
+        
+        const blockedUser = await blockedUserServices(idUser);
+        return res.status(200).json({ message: 'Usuario  ha sido desactivado con éxito', blockedUser });
+
     } catch (error) {
+        
         return res.status(500).json({ error: 'Error al intentar desactivar  usuario', details: error.message });
-    }
+    };
 };
 const controllersRestoreUser = async (req, res) => {
-    const { idUser } = req.params;
+    const {params} = req;
+    const idUser = params.id;
     try {
-        const user = await restoreUserServices(idUser);
-        return res.status(200).json({ message: 'Usuario ha sido restaurado con éxito.', user });
+        const user = await getUserByIdServices(idUser)
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        if(user.activeUser) {
+            return res.status(400).json({message: 'El usuario Ya fue restaurado'})
+        }
+        
+        const restoreUser = await restoreUserServices(idUser);
+        return res.status(200).json({ message: 'Usuario ha sido restaurado con éxito.', restoreUser });
     } catch (error) {
         return res.status(500).json({ error: 'Usuario no pudo  ser restaurado', details: error.message });
     }
@@ -260,6 +283,17 @@ const controllerGetToken = async (request, response) => {
         // response.status(500).send( error )
         response.status(500).send( 'No se pudo procesar la solicitud de verificación' )
     }
+};
+const controllersDeactiveUser = async (req,res) => {
+    try {
+        const getDeactiveUser = await getDeactiveUserService()
+        if(!getDeactiveUser.length) {
+            return res.status(404).send('No se encontraron usuarios desactivados.')
+        }
+        res.status(200).json(getDeactiveUser)
+    } catch (error) {
+            res.status(500).send('No se pudo procesar la solicitud de usuarios desactivados')
+    }
 }
 
 module.exports = {
@@ -269,8 +303,9 @@ module.exports = {
     controllergetUserByOnlyEmail,
     controllerModifyUser,
     controllerDeleteUser,
-    controllersUnlockUser,
+    controllersBlockedUser,
     controllersRestoreUser,
     controllerGetUserByEmail,
-    controllerGetToken
+    controllerGetToken,
+    controllersDeactiveUser
 }

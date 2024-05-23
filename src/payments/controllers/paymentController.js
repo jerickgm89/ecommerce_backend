@@ -90,81 +90,14 @@ const webhook = async (req, res) => {
   }
 
   try {
-    let details;
-    if (notificationType === 'payment') {
-      const response = await mercadopago.payment.findById(resourceId);
-      details = response.body;
-      console.log('Payment details:', JSON.stringify(details, null, 2)); // Pretty print JSON
-
-      // Extract relevant data
-      const { status, transaction_amount, payer, additional_info, card } = details;
-
-      // Find user by identification
-      const user = await EntityUsers.findOne({
-        where: { DNI: details.external_reference }
-      });
-
-      if (!user) {
-        console.log('User not found');
-        return res.sendStatus(404);
-      }
-
-      // Format accountNumber
-      let accountNumber = '';
-      if (details.payment_method_id === 'visa' || details.payment_method_id === 'master') {
-        accountNumber = `${card.first_six_digits}******${card.last_four_digits}`;
-      } else if (details.payment_method_id === 'amex') {
-        accountNumber = `${card.first_six_digits}*****${card.last_four_digits}`;
-      }
-
-      // Create payment record
-      const payment = await EntityPayment.create({
-        name: card.cardholder.name,
-        dni: card.cardholder.identification.number,
-        paymentType: details.payment_method_id,
-        accountNumber,
-        expiry: new Date(card.expiration_year, card.expiration_month - 1),
-        idUser: user.idUser
-      });
-      console.log('Payment record created:', payment);
-
-      // Create order detail record
-      const orderDetail = await EntityOrderDetail.create({
-        totalOrder: transaction_amount,
-        idPayment: payment.idPayment,
-        idUser: user.idUser
-      });
-      console.log('Order detail record created:', orderDetail);
-
-      // Create order items records
-      const items = additional_info.items;
-      for (const item of items) {
-        // Check if product exists
-        let product = await EntityProducts.findOne({ where: { idProduct: item.id } });
-       
-
-        await EntityOrderItems.create({
-          idOrder: orderDetail.UUID,
-          quantity: parseInt(item.quantity),
-          idProduct: product.idProduct,
-          status: details.status
-
-        });
-        console.log('Order item created for product:', product.idProduct);
-      }
-
-    } else if (notificationType === 'merchant_order') {
-      const response = await mercadopago.merchant_orders.get(resourceId);
-      details = response.body;
-      console.log('Merchant order:', JSON.stringify(details, null, 2)); // Pretty print JSON
+    const payment = req.query;
+    console.log(payment);
+    if (payment.type === "payment") {
+      const data = await mercadopago.payment.findById(payment["data.id"]);
+      console.log('data status: ', data.status);
     }
-
-    if (!details) {
-      console.log('Resource details not found');
-      return res.sendStatus(404);
-    }
-
-    res.status(200).json(details);
+    
+    res.sendStatus(204);
   } catch (error) {
     console.error('Error fetching resource:', error.message);
     res.sendStatus(500);

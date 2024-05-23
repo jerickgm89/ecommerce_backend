@@ -7,10 +7,11 @@ const {
     getUserByEmail,
     modifyUser,
     deleteUser,
-    unlockUser,
-    restoreUser,
     verifyEmail,
-    verifyingTokenUser
+    verifyingTokenUser,
+    restoreUser,
+    getDeactiveUser,
+    blockedUser
 } = require('../repositories/usersRepository.js')
 
 const logInUserServices = async ( userInfo ) => {
@@ -71,20 +72,20 @@ const deleteUserServices = async ( idUser ) => {
 }
 
 
-const unlockUserServices = async (idUser) => {
-    const unlockuser = await unlockUser(idUser);
-    if(!unlockuser) {
+const blockedUserServices = async (idUser) => {
+    const userBlocked = await blockedUser(idUser);
+    if(!userBlocked) {
         throw new Error('No existe usuario para desactivar.')
     }
-    return unlockuser
+    return userBlocked
 }
 
 const restoreUserServices = async (idUser) => {
-    const restoreuser = await restoreUser(idUser)
-    if(!restoreuser) {
+    const userRestore = await restoreUser(idUser)
+    if(!userRestore) {
         throw new Error('No se pudo restaurar el usuario')
-    }
-    return restoreuser
+    }        
+    return userRestore
 }
 
 const serviceGetByEmail = async ( emailToVerify ) => {
@@ -98,6 +99,14 @@ const verifyingTokenService = async ( token ) => {
     return verifyingToken
 }
 
+const getDeactiveUserService = async () => {
+    const deactiveUser = await getDeactiveUser()
+    if(!deactiveUser) {
+        throw new Error('No se pudo Encontrar usuarios desactivados')
+    }
+    return deactiveUser
+}
+
 module.exports = {
     logInUserServices,
     getAllUsersServices,
@@ -106,7 +115,8 @@ module.exports = {
     modifyUserServices,
     deleteUserServices,
     serviceGetByEmail,
-    unlockUserServices,
+    blockedUserServices,
     restoreUserServices,
-    verifyingTokenService
+    verifyingTokenService,
+    getDeactiveUserService
 }

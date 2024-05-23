@@ -205,6 +205,7 @@ const getAllProducts = async (req, res) => {
             where: { active: true},
             offset,
             limit,
+            order: [['idProduct', 'ASC']],
             include:[{
                 model: CharacteristicsProducts,
                 attributes: ['modelProduct', 'characteristics','idBrand']
@@ -328,6 +329,7 @@ const getDeactivatedProducts = async (req, res) => {
             where: {
                 active: false
             },
+            order: [['idProduct', 'ASC']],
             include: [{
                 model: CharacteristicsProducts,
                 attributes: ['modelProduct', 'characteristics', 'idBrand']
