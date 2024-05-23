@@ -21,7 +21,7 @@ const controllerRegisterUser = async (request, response) => {
             email,
             picture,
             email_verified,
-            idAdmin,
+            // isAdmin
         } = request.body
 
         if( !email ){
@@ -35,7 +35,7 @@ const controllerRegisterUser = async (request, response) => {
             email,
             picture,
             email_verified,
-            idAdmin,
+            // isAdmin,
         })
         if( !create ){
             return response

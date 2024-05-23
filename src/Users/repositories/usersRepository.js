@@ -20,6 +20,7 @@ const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email
         emailUser,
         pictureUser,
         email_verified,
+        // isAdmin
     };
 
     const [ user, create ]  = await EntityUsers.findOrCreate({ 
@@ -172,6 +173,15 @@ const unlockUser = async (idUser) => {
     return unlockUser
 }
 
+const restoreUser = async (idUser) => {
+    const restoreuser = await EntityUsers.findOne(idUser, {paranoid : true})
+
+    restoreuser.activeUser = true
+    await restoreuser.restore()
+    await  restoreuser.save()
+    
+    return restoreuser;
+}
 const verifyEmail = async ( emailToVerify ) => {
     const user = await EntityUsers.findOne(
         { 
