@@ -43,14 +43,16 @@ const updateBrand = async (req, res) => {
 // }
 
 const getAllBrands = async (req, res) => {
-    let { page = 1, limit = 9 } = req.query;
-    page = parseInt(page);
-    limit = parseInt(limit);
-    const offset = (page - 1) * limit;
+    // let { page, limit } = req.query;
+    // if(page && limit){
+    //     page = parseInt(page);
+    //     limit = parseInt(limit);
+    //     const offset = (page - 1) * limit;
+    // }
     try {
         const brands = await EntityBrand.findAll({
-            offset,
-            limit,
+            // offset,
+            // limit,
         });
         res.json(brands);
     } catch (error) {

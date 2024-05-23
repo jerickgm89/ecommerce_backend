@@ -797,7 +797,10 @@ async function initializeData() {
 
     const productCount = await EntityProducts.count();
     if (productCount === 0) {
-        for (const item of initialProducts) {
+        for (let item of initialProducts) {
+            if( typeof item.product.imageProducts === "string" ){
+                item.product.imageProducts= [item.product.imageProducts]
+            }
             const newProduct = await EntityProducts.create(item.product);
             await CharacteristicsProducts.create({
                 ...item.characteristics,
@@ -807,5 +810,6 @@ async function initializeData() {
         console.log('Initial products and characteristics added.');
     }
 }
+
 
 module.exports = { initializeData };

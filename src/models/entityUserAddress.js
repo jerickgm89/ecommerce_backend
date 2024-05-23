@@ -1,33 +1,46 @@
-const { DataTypes, DATE } = require('sequelize');
+const { DataTypes, UUIDV4 } = require('sequelize');
 
 module.exports = (sequelize) => {
     return sequelize.define('entityUserAddress', {
         idUserAddress: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            allowNull: false,
+            autoIncrement: true,
+            // allowNull: false,
         },
-
+        numberAddress: {
+            type: DataTypes.STRING,
+            // allowNull: false
+        },
+        addressName: {
+            type: DataTypes.STRING,
+            // allowNull: false
+        },
         postalCode: {
             type: DataTypes.STRING,
-            allowNull: false
+            // allowNull: false
         },
-
-        telephoneAddress:{
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-
         provinceAddress:{
             type: DataTypes.STRING,
-            allowNull: false
+            // allowNull: false
         },
-
         cityAddress:{
             type: DataTypes.STRING,
-            allowNull: false
+            // allowNull: false
+        },
+        country:{
+            type: DataTypes.STRING,
+            defaultValue: "Argentina",
+            allowNull: true
+        },
+        idUser: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
         }
-
-        
+    },{
+        // paranoid: true,
+        createdAt: 'createdUserAddress_at',
+        updatedAt: 'modifiedUserAddress_at',
+        deletedAt: 'deletedUserAddress_at'
     });
 };
