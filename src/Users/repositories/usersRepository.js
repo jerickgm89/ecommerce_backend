@@ -9,10 +9,7 @@ const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email
         {
             emailUser
         },
-        JWT_SECRET,
-        {
-            // expiresIn: "40h" // expira en 40 horas
-        }
+        JWT_SECRET
     )
     const newUserInfo = {
         nameUser,
@@ -77,6 +74,7 @@ const modifyUser = async (idUser, {
     email_verified, 
     activeUser, 
     isAdmin,
+    identifierName,
     numberAddress,
     addressName,
     postalCode,
@@ -86,11 +84,12 @@ const modifyUser = async (idUser, {
 }) => {
 
     // const imageToUpload = req.file ? (await cloudinary.uploader.upload(file.path)).secure_url : pictureUser ?(await cloudinary.uploader.upload(pictureUser)).secure_url: null
+    const emailFormated = emailUser.toLowerCase() 
     const toUsersChart = {
         DNI: parseInt(DNI),
         nameUser, 
         lastNameUser, 
-        emailUser, 
+        emailUser: emailFormated, 
         pictureUser,
         phoneArea: `${phoneArea}`,
         numberMobileUser: `${numberMobileUser}`,
@@ -99,6 +98,7 @@ const modifyUser = async (idUser, {
         isAdmin,
     }
     const toUserAddressChart = {
+        identifierName,
         numberAddress: `${numberAddress}`,
         addressName,
         postalCode: `${postalCode}`,
@@ -108,8 +108,9 @@ const modifyUser = async (idUser, {
     }
 
     const userInfo = await EntityUsers.findByPk(idUser)
+
     if(userInfo){
-        if(numberAddress, addressName && postalCode && provinceAddress && cityAddress){
+        if( identifierName && numberAddress && addressName && postalCode && provinceAddress && cityAddress){
 
             // Si existe un usuario con ese id
             let addressInfo;
@@ -148,7 +149,7 @@ const modifyUser = async (idUser, {
             },
             include: {
                 model: EntityUserAddress,
-                attributes: ['numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
+                attributes: ['identifierName', 'numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
             }
         })
 
@@ -223,8 +224,10 @@ const verifyEmail = async ( emailToVerify ) => {
 
 
 const verifyingTokenUser = async (token) => {
-    try {
-        const decoded = jwt.verify( token, JWT_SECRET );
+    // try {
+        const decoded = jwt.decode( token, JWT_SECRET );
+        // const decoded = jwt(token)
+        console.log("DECODE:  ", token)
         const user = await EntityUsers.findOne({
             where: {
                 emailUser: decoded.emailUser
@@ -235,24 +238,24 @@ const verifyingTokenUser = async (token) => {
         }
         else throw new Error (" el token no esta asignado a ningun usuario registrado")
         
-    } catch (error) {
-        if(error.name == "TokenExpiredError"){
-            const decoded = jwt.decode(token);
-            const user = await EntityUsers.findOne({
-                where: {
-                    emailUser: decoded.emailUser
-                }
-            })
-            if( user ) {
-                const newToken = generateToken(user.emailUser);
-                user.tokenAuth = newToken;
-                user.changed('tokenAuth', true);
-                await user.save();
-                return user
-            }
-        }
-        else throw new Error ("Token error")
-    }
+    // } catch (error) {
+    //     if(error.name == "TokenExpiredError"){
+    //         const decoded = jwt.decode(token);
+    //         const user = await EntityUsers.findOne({
+    //             where: {
+    //                 emailUser: decoded.emailUser
+    //             }
+    //         })
+    //         if( user ) {
+    //             const newToken = generateToken(user.emailUser);
+    //             user.tokenAuth = newToken;
+    //             user.changed('tokenAuth', true);
+    //             await user.save();
+    //             return user
+    //         }
+        // }
+    //     else throw new Error ("Token error")
+    // }
 }
 
 module.exports = {
@@ -263,6 +266,7 @@ module.exports = {
     modifyUser,
     deleteUser,
     unlockUser,
+    restoreUser,
     verifyEmail,
     verifyingTokenUser
 }

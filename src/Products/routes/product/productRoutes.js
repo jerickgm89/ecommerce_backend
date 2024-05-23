@@ -18,9 +18,9 @@ const {
 
 const router = express.Router();
 
-router.post('/', upload.array('imageProducts',10),createProductAndCharacteristics);
+router.post('/', upload.array('imageProducts',10), createProductAndCharacteristics);
 // router.post('/', upload.single('imageProducts'),createProductAndCharacteristics);
-router.patch('/:id', updateProductAndCharacteristics);
+router.patch('/:id', upload.array('imageProducts',10), updateProductAndCharacteristics);
 router.get('/', getAllProducts);
 router.get('/search', getProductByName);
 router.get('/deactivate', getDeactivatedProducts)

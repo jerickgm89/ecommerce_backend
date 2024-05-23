@@ -1,4 +1,5 @@
 const { EntityCategory, EntityBrand, EntityProducts, CharacteristicsProducts, EntityUsers } = require('../db');
+const { imageCloudinaryUploader } = require('../../utils/imageReception.js')
 
 const initialCategories = [
     {
@@ -815,6 +816,8 @@ async function initializeData() {
     if (productCount === 0) {
         for (let item of initialProducts) {
             if( typeof item.product.imageProducts === "string" ){
+                
+                // item.product.imageProducts = await imageCloudinaryUploader( false, item.product.imageProducts )
                 item.product.imageProducts= [item.product.imageProducts]
             }
             const newProduct = await EntityProducts.create(item.product);
