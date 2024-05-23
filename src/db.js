@@ -71,14 +71,8 @@ EntityPayment.hasOne(EntityOrderDetail, { foreignKey: 'idPayment' });
 EntityOrderDetail.belongsTo(EntityPayment, { foreignKey: 'idPayment' });
 
 
-EntityUsers.hasOne(EntityOrderDetail, {
-  foreignKey: 'idUser',
-  as: 'orderDetail'
-});
-EntityOrderDetail.belongsTo(EntityUsers, {
-  foreignKey: 'idUser',
-  as: 'user'
-});
+EntityUsers.hasOne(EntityOrderDetail, { foreignKey: 'idUser', as: 'orderDetail' });
+EntityOrderDetail.belongsTo(EntityUsers, { foreignKey: 'idUser', as: 'user' });
 
 
 EntityProducts.hasMany(EntityOrderItems, { foreignKey: 'idProduct' });

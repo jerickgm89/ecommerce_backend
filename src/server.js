@@ -1,6 +1,8 @@
 require("dotenv").config();
 const express = require('express');
 const morgan = require( 'morgan');
+const bodyParser = require('body-parser');
+
 const cors = require( 'cors' );
 const { 
     router,
@@ -16,6 +18,7 @@ const server = express();
 server.get('/favicon.ico', (req, res) => res.status(204).end());
 
 // Configuración para excluir `favicon.ico` en los logs
+server.use(bodyParser.json());
 server.use(
   morgan('dev', {
     skip: function (req) {

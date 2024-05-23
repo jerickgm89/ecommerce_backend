@@ -1,53 +1,40 @@
+const { EntityOrderItems, EntityOrderDetail, EntityUsers, EntityProducts, EntityPayment } = require('../../db');
+
 const mercadopago = require('mercadopago');
-const { MERCADOPAGO_API_KEY } = process.env;
+const crypto = require('crypto');
+const { MERCADOPAGO_API_KEY, MERCADOPAGO_SECRET } = process.env;
 
+mercadopago.configure({
+  access_token: MERCADOPAGO_API_KEY,
+});
 const createOrder = async (req, res) => {
-  mercadopago.configure({
-    access_token: MERCADOPAGO_API_KEY,
-  });
-
-  const { items, payer } = req.body;
-
-
-  // const result = await mercadopago.preferences.create({
-  //   items: [
-  //     {
-  //       title: "Laptop",
-  //       unit_price: 10000, 
-  //       currency_id: "ARS", 
-  //       quantity: 1,
-  //     },
-  //   ],
-  // payer: {
-  //   email: "test_user_1742344360@testuser.com", 
-  //   identification: {
-  //     type: "DNI", 
-  //     number: "12345678", 
-  //   },
-  //   name: "Test",
-  //   surname: "User",
-  //   address: {
-  //     zip_code: "1234",
-  //     street_name: "Test Street",
-  //     street_number: 123,
-  //   },
-  //   phone: {
-  //     area_code: "11",
-  //     number: 12345678,
-  //   },
-  // },
-
-
   try {
+    const body = req.body; // Obtener todos los datos de la solicitud
+
+    // Convertir `payer.phone.number` a número si es una cadena
+    if (body.payer && body.payer.phone && typeof body.payer.phone.number === 'string') {
+      body.payer.phone.number = Number(body.payer.phone.number);
+    }
+
+    // Eliminar el campo shipments si está presente
+    delete body.shipments;
+
+    // Eliminar el campo payment_methods si está presente
+    delete body.payment_methods;
+
+    // Añadir la identificación del usuario al campo external_reference
+    const externalReference = body.payer.identification.number;
+
     const result = await mercadopago.preferences.create({
-      items,  // Asignar los items recibidos en la solicitud
-      notification_url: "https://e720-190-237-16-208.sa.ngrok.io/webhook",
+      items: body.items,
+      payer: body.payer,
+      notification_url: "https://4d38-152-203-155-214.ngrok-free.app/payment/webhook",
       back_urls: {
-        success: "https://www.youtube.com/@art17joel/success",
+        success: "https://59fc-152-203-155-214.ngrok-free.app/success",
         pending: "https://www.youtube.com/@art17joel/pending",
         failure: "https://www.youtube.com/@art17joel/failure",
       },
-      payer, // Asignar el pagador si se proporciona en la solicitud
+      external_reference: externalReference
     });
 
     console.log('Preference created:', result.body);
@@ -57,24 +44,135 @@ const createOrder = async (req, res) => {
     return res.status(500).json({ message: "Something went wrong", error: error.message });
   }
 };
-const receiveWebhook = async (req, res) => {
+
+
+const webhook = async (req, res) => {
+  console.log('Received webhook:', req.body);
+
+  const signature = req.headers['x-signature'];
+  const xRequestId = req.headers['x-request-id'];
+
+  if (!signature || !xRequestId) {
+    console.log('Missing headers');
+    return res.sendStatus(400);
+  }
+
+  const [tsPart, hashPart] = signature.split(',');
+  const ts = tsPart.split('=')[1];
+  const hash = hashPart.split('=')[1];
+  const dataID = req.query['data.id'] || (req.body.data && req.body.data.id);
+
+  if (!dataID) {
+    console.log('Missing data ID');
+    return res.sendStatus(400);
+  }
+
+  const manifest = `id:${dataID};request-id:${xRequestId};ts:${ts};`;
+
+  const computedHash = crypto
+    .createHmac('sha256', MERCADOPAGO_SECRET)
+    .update(manifest)
+    .digest('hex');
+
+  if (computedHash !== hash) {
+    console.log('HMAC verification failed');
+    return res.sendStatus(400);
+  }
+
+  console.log('HMAC verification passed');
+
+  const notificationType = req.body.type;
+  const resourceId = req.body.data && req.body.data.id;
+
+  if (!resourceId) {
+    console.log('Missing resource ID');
+    return res.sendStatus(400);
+  }
+
   try {
-    const payment = req.query;
-    console.log(payment);
-    if (payment.type === "payment") {
-      const data = await mercadopago.payment.findById(payment["data.id"]);
-      console.log(data);
+    let details;
+    if (notificationType === 'payment') {
+      const response = await mercadopago.payment.findById(resourceId);
+      details = response.body;
+      console.log('Payment details:', JSON.stringify(details, null, 2)); // Pretty print JSON
+
+      // Extract relevant data
+      const { status, transaction_amount, payer, additional_info, card } = details;
+
+      // Find user by identification
+      const user = await EntityUsers.findOne({
+        where: { DNI: details.external_reference }
+      });
+
+      if (!user) {
+        console.log('User not found');
+        return res.sendStatus(404);
+      }
+
+      // Format accountNumber
+      let accountNumber = '';
+      if (details.payment_method_id === 'visa' || details.payment_method_id === 'master') {
+        accountNumber = `${card.first_six_digits}******${card.last_four_digits}`;
+      } else if (details.payment_method_id === 'amex') {
+        accountNumber = `${card.first_six_digits}*****${card.last_four_digits}`;
+      }
+
+      // Create payment record
+      const payment = await EntityPayment.create({
+        name: card.cardholder.name,
+        dni: card.cardholder.identification.number,
+        paymentType: details.payment_method_id,
+        accountNumber,
+        expiry: new Date(card.expiration_year, card.expiration_month - 1),
+        idUser: user.idUser
+      });
+      console.log('Payment record created:', payment);
+
+      // Create order detail record
+      const orderDetail = await EntityOrderDetail.create({
+        totalOrder: transaction_amount,
+        idPayment: payment.idPayment,
+        idUser: user.idUser
+      });
+      console.log('Order detail record created:', orderDetail);
+
+      // Create order items records
+      const items = additional_info.items;
+      for (const item of items) {
+        // Check if product exists
+        let product = await EntityProducts.findOne({ where: { idProduct: item.id } });
+       
+
+        await EntityOrderItems.create({
+          idOrder: orderDetail.UUID,
+          quantity: parseInt(item.quantity),
+          idProduct: product.idProduct,
+          status: details.status
+
+        });
+        console.log('Order item created for product:', product.idProduct);
+      }
+
+    } else if (notificationType === 'merchant_order') {
+      const response = await mercadopago.merchant_orders.get(resourceId);
+      details = response.body;
+      console.log('Merchant order:', JSON.stringify(details, null, 2)); // Pretty print JSON
     }
 
-    res.sendStatus(204);
+    if (!details) {
+      console.log('Resource details not found');
+      return res.sendStatus(404);
+    }
+
+    res.status(200).json(details);
   } catch (error) {
-    console.error('Error receiving webhook:', error);
-    return res.status(500).json({ message: "Something went wrong" });
+    console.error('Error fetching resource:', error.message);
+    res.sendStatus(500);
   }
 };
 
 
 module.exports = {
   createOrder,
-  receiveWebhook,
+  webhook,
 };
