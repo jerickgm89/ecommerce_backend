@@ -19,9 +19,10 @@ const logInUserServices = async ( userInfo ) => {
         // DNI: Number(dni),
         nameUser: userInfo.given_name,
         lastNameUser: userInfo.family_name,
-        emailUser: userInfo.email,
+        emailUser: userInfo.email.toLowerCase(),
         pictureUser: userInfo.picture,
         email_verified : userInfo.email_verified,
+        // isAdmin
     }
     const [ user,create ] = await loginUser( infoUser );
     await sendWelcomeEmail( infoUser.emailUser, infoUser.emailUser )
@@ -42,8 +43,8 @@ const getUserByIdServices = async ( idUser ) =>{
     return searchedUser
 }
 const getUserByEmailServices = async ( email ) =>{
-    
-    const searchedUser = await getUserByEmail( email )
+    const emailFormated = email.toLowerCase()
+    const searchedUser = await getUserByEmail( emailFormated )
     // if(!searchedUser){
     //     throw new Error ('Usuario no fue encontrado')
     // }
@@ -87,7 +88,8 @@ const restoreUserServices = async (idUser) => {
 }
 
 const serviceGetByEmail = async ( emailToVerify ) => {
-    const userIsVerified = await verifyEmail( emailToVerify )
+    const emailFormated = emailToVerify.toLowerCase()
+    const userIsVerified = await verifyEmail( emailFormated )
     return userIsVerified
 }
 
