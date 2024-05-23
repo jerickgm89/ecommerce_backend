@@ -1,5 +1,5 @@
 
-const { EntityCategory, EntityBrand, EntityProducts, CharacteristicsProducts } = require('../src/db');
+const { EntityCategory, EntityBrand, EntityProducts, CharacteristicsProducts, EntityUsers } = require('../src/db');
 
 const initialCategories = [
     {
@@ -780,35 +780,63 @@ let initialProducts = [
     }
 ]
 
+const initialUserAdmin = [
+    {
+        email: "ecommerceTech2024@gmail.com",
+        isAdmin: true
+    },
+    {
+        email: "cami.igsa@gmail.com",
+        isAdmin: true
+    }
+]
+
 async function initializeData() {
-    const categoryCount = await EntityCategory.count();
-    if (categoryCount === 0) {
-        await EntityCategory.bulkCreate(initialCategories);
-        console.log('Initial categories added.');
-    }
-
-    const brandCount = await EntityBrand.count();
-    if (brandCount === 0) {
-        await EntityBrand.bulkCreate(initialBrands);
-        console.log('Initial brands added.');
-    }
-
-    const productCount = await EntityProducts.count();
-    if (productCount === 0) {
-        for (let item of initialProducts) {
-            if( typeof item.product.imageProducts === "string" ){
-                console.log("ANTES!!", item.product.imageProducts, "ANTES!!")
-                item.product.imageProducts= [item.product.imageProducts]
-                console.log("DESPUES", item.product.imageProducts, "DESPUES")
-            }
-            const newProduct = await EntityProducts.create(item.product);
-            await CharacteristicsProducts.create({
-                ...item.characteristics,
-                idProduct: newProduct.idProduct
-            });
+    console.log('Initializing data...');
+    // try {
+        
+        const userCount = await EntityUsers.count();
+        if ( userCount === 0 ) {
+            await EntityUsers.bulkCreate(initialUserAdmin);
+            console.log('Initial admin user added.');
+        } 
+        // else {
+        //     console.log('Users already exist in the database.');
+        // }
+        
+        const categoryCount = await EntityCategory.count();
+        if (categoryCount === 0) {
+            await EntityCategory.bulkCreate(initialCategories);
+            console.log('Initial categories added');
         }
-        console.log('Initial products and characteristics added.');
-    }
+        
+        const brandCount = await EntityBrand.count();
+        if (brandCount === 0) {
+            await EntityBrand.bulkCreate(initialBrands);
+            console.log('Initial brands added');
+        }
+        
+        const productCount = await EntityProducts.count();
+        if (productCount === 0) {
+            for (let item of initialProducts) {
+                if( typeof item.product.imageProducts === "string" ){
+                    item.product.imageProducts= [item.product.imageProducts]
+                }
+                const newProduct = await EntityProducts.create(item.product);
+                await CharacteristicsProducts.create({
+                    ...item.characteristics,
+                    idProduct: newProduct.idProduct
+                });
+            }
+            console.log('Initial products and characteristics added.');
+        }
+        
+    // } catch (error) {
+    //     console.error('Error initializing data:', error);
+        
+    // }
+        
 }
-
+    
 module.exports = { initializeData };
+    

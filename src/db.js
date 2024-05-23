@@ -48,8 +48,7 @@ const EntityUserAddressModels= require('./models/entityUserAddress.js')
   let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
   sequelize.models = Object.fromEntries(capsEntries);
 
-  const {EntityProducts, EntityCategory, CharacteristicsProducts, EntityBrand, EntityUsers, 
-    EntityOrderDetail, EntityOrderItems, EntityPayment, EntityShoppingSession, EntityCartItem, EntityUserAddress} = sequelize.models
+  const {EntityProducts, EntityCategory, CharacteristicsProducts, EntityBrand, EntityUsers, EntityOrderDetail, EntityOrderItems, EntityPayment, EntityShoppingSession, EntityCartItem, EntityUserAddress} = sequelize.models
 
 //Aqui van las relaciones: ->
 
@@ -92,8 +91,10 @@ EntityCartItem.belongsTo(EntityShoppingSession, { foreignKey: 'idShoppingSession
 EntityProducts.belongsToMany(EntityCartItem, { through: 'ProductCartItem', foreignKey: 'idProduct' });
 EntityCartItem.belongsToMany(EntityProducts, { through: 'ProductCartItem', foreignKey: 'idCartItem' });
 
+
 EntityUsers.hasMany(EntityPayment, { foreignKey: 'idUser', sourceKey: 'idUser' });
 EntityPayment.belongsTo(EntityUsers, { foreignKey: 'idUser', targetKey: 'idUser' });
+
 
 EntityUsers.hasMany(EntityUserAddress, { foreignKey: 'idUser', sourceKey: 'idUser'});
 EntityUserAddress.belongsTo(EntityUsers, { foreignKey: 'idUser', targetKey: 'idUser'});
