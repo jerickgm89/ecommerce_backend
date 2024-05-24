@@ -1,4 +1,5 @@
 const {CharacteristicsProducts} = require('../../../db');
+
 const {
     createProducts,
     createCharacteristics,
@@ -15,7 +16,7 @@ const {
     restoreProduct,
     getDeactiveProducts,
     transactionRecicle
-} = require('../../repositoriesProducts/productRepositories');
+} = require('../../repositories/repositoriesProducts/productRepositories');
 
 const { imageCloudinaryUploader } = require('../../../../utils/imageReception');
 
@@ -49,8 +50,8 @@ const ProductAndCharacteristicsServices = async (Products, Variants, fileImages)
         }, transaction);
 
         await transaction.commit()
-        console.log('new Product: ', newProduct);
-        console.log('Characteristics: ', newCharacteristics);
+        // console.log('new Product: ', newProduct);
+        // console.log('Characteristics: ', newCharacteristics);
         return {newProduct, newCharacteristics}
     } catch (error) {
         await transaction.rollback()
