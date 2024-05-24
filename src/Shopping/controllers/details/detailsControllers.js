@@ -1,26 +1,5 @@
 const { EntityOrderDetail, EntityUsers, EntityPayment } = require('../../../db.js');
 
-const createOrderDetail = async (req, res) => {
-    const { UUID, totalOrder, idPayment, idUser } = req.body;
-    
-    if (!UUID || !totalOrder || !idPayment || !idUser) {
-        return res.status(400).json({ error: 'Todos los campos son requeridos' });
-    }
-
-    try {
-        const newDetail = await EntityOrderDetail.create({
-            UUID,
-            totalOrder,
-            idPayment,
-            idUser
-        });
-        res.status(201).json(newDetail);
-    } catch (error) {
-        console.error('Error creating order detail:', error);
-        res.status(500).json({ error: 'Error al crear detail' });
-    }
-};
-
 const updateOrderDetails = async (req, res) => {
     const { UUID } = req.params; // Ahora UUID viene en los parámetros de la ruta
     const { totalOrder, idPayment, idUser } = req.body;
@@ -33,16 +12,11 @@ const updateOrderDetails = async (req, res) => {
     try {
         // Buscar el detalle del pedido por UUID
         const orderDetail = await EntityOrderDetail.findOne({ where: { UUID } });
-        
+
         if (orderDetail) {
             // Actualizar los campos
-            orderDetail.totalOrder = totalOrder;
-            orderDetail.idPayment = idPayment;
-            orderDetail.idUser = idUser;
-            
-            // Guardar los cambios
-            await orderDetail.save();
-            
+            await orderDetail.update({ totalOrder, idPayment, idUser });
+
             // Devolver el detalle del pedido actualizado
             res.json(orderDetail);
         } else {
@@ -92,10 +66,9 @@ const getDetails = async (req, res) => {
         res.status(500).json({ error: 'Error fetching order items' });
     }
 };
-
 module.exports = {
-    createOrderDetail,
     updateOrderDetails,
     deleteOrderDetails,
     getDetails
 };
+
