@@ -51,10 +51,15 @@ const filtersProducts = async (req, res) => {
         if(category) {
             where.idCategory = category
         }
+        // if(brand) {
+        //     include[0].where.idBrand = brand
+        //     // console.log(order)
+        // }
         if(brand) {
-            include[0].where.idBrand = brand
-            // console.log(order)
+            const brandIds = brand.split(',').map(brandId => parseInt(brandId)); 
+            include[0].where.idBrand = {[Op.in]: brandIds};
         }
+        
 
         if (orderBy && orderDirection) {
             let selectedOrderBy = '';
@@ -63,9 +68,9 @@ const filtersProducts = async (req, res) => {
             if  (orderBy === 'priceProduct' || orderBy === 'yearProduct' || orderBy === 'nameProduct') {
                 selectedOrderBy = orderBy;
             }
-            {
-                selectedOrderBy = orderBy;
-            }
+            // {
+            //     selectedOrderBy = orderBy;
+            // }
 
             if (orderDirection === 'ASC' || orderDirection === 'DESC') {
                 selectedOrderDirection = orderDirection;

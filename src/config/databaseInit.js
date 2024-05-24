@@ -1,6 +1,5 @@
-
-
-const { EntityCategory, EntityBrand, EntityProducts, CharacteristicsProducts } = require('../db');
+const { EntityCategory, EntityBrand, EntityProducts, CharacteristicsProducts, EntityUsers } = require('../db');
+const { imageCloudinaryUploader } = require('../../utils/imageReception.js')
 
 const initialCategories = [
     {
@@ -780,9 +779,27 @@ const initialProducts = [
         }
     }
 ]
+const initialUserAdmin = [
+    {
+        emailUser: "ecommercetech2024@gmail.com",
+        isAdmin: true
+    },
+    {
+        emailUser: "cami.igsa@gmail.com",
+        isAdmin: true
+    }
+]
 
-
+    
 async function initializeData() {
+    console.log('Initializing data...');
+    
+    const userCount = await EntityUsers.count();
+    if ( userCount === 0 ) {
+        await EntityUsers.bulkCreate(initialUserAdmin);
+        console.log('Initial admin user added.');
+    } 
+
     const categoryCount = await EntityCategory.count();
     if (categoryCount === 0) {
         await EntityCategory.bulkCreate(initialCategories);
@@ -799,6 +816,8 @@ async function initializeData() {
     if (productCount === 0) {
         for (let item of initialProducts) {
             if( typeof item.product.imageProducts === "string" ){
+                
+                // item.product.imageProducts = await imageCloudinaryUploader( false, item.product.imageProducts )
                 item.product.imageProducts= [item.product.imageProducts]
             }
             const newProduct = await EntityProducts.create(item.product);

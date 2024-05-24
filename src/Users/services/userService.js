@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { sendWelcomeEmail } = require('../../config/nodeMailer/controllersMailer.js')
+const { sendWelcomeEmail, sendReviewEmail } = require('../../config/nodeMailer/controllersMailer.js')
 const {
     loginUser,
     getAllUsers,
@@ -7,10 +7,11 @@ const {
     getUserByEmail,
     modifyUser,
     deleteUser,
-    unlockUser,
-    restoreUser,
     verifyEmail,
-    verifyingTokenUser
+    verifyingTokenUser,
+    restoreUser,
+    getDeactiveUser,
+    blockedUser
 } = require('../repositories/usersRepository.js')
 
 const logInUserServices = async ( userInfo ) => {
@@ -19,12 +20,14 @@ const logInUserServices = async ( userInfo ) => {
         // DNI: Number(dni),
         nameUser: userInfo.given_name,
         lastNameUser: userInfo.family_name,
-        emailUser: userInfo.email,
+        emailUser: userInfo.email.toLowerCase(),
         pictureUser: userInfo.picture,
         email_verified : userInfo.email_verified,
+        // isAdmin
     }
     const [ user,create ] = await loginUser( infoUser );
     await sendWelcomeEmail( infoUser.emailUser, infoUser.emailUser )
+    await sendReviewEmail( infoUser.emailUser, infoUser.emailUser )
     return [user,create]
 }
 
@@ -42,8 +45,8 @@ const getUserByIdServices = async ( idUser ) =>{
     return searchedUser
 }
 const getUserByEmailServices = async ( email ) =>{
-    
-    const searchedUser = await getUserByEmail( email )
+    const emailFormated = email.toLowerCase()
+    const searchedUser = await getUserByEmail( emailFormated )
     // if(!searchedUser){
     //     throw new Error ('Usuario no fue encontrado')
     // }
@@ -57,7 +60,7 @@ const modifyUserServices = async ( idUser, infoToEdit ) => {
     // if(!userExist){
     //     throw new Error ('Usuario no fue encontrado')
     // }
-
+    // console.log(modifiedUser)
     return modifiedUser
 }
 
@@ -70,30 +73,39 @@ const deleteUserServices = async ( idUser ) => {
 }
 
 
-const unlockUserServices = async (idUser) => {
-    const unlockuser = await unlockUser(idUser);
-    if(!unlockuser) {
+const blockedUserServices = async (idUser) => {
+    const userBlocked = await blockedUser(idUser);
+    if(!userBlocked) {
         throw new Error('No existe usuario para desactivar.')
     }
-    return unlockuser
+    return userBlocked
 }
 
 const restoreUserServices = async (idUser) => {
-    const restoreuser = await restoreUser(idUser)
-    if(!restoreuser) {
+    const userRestore = await restoreUser(idUser)
+    if(!userRestore) {
         throw new Error('No se pudo restaurar el usuario')
-    }
-    return restoreuser
+    }        
+    return userRestore
 }
 
 const serviceGetByEmail = async ( emailToVerify ) => {
-    const userIsVerified = await verifyEmail( emailToVerify )
+    const emailFormated = emailToVerify.toLowerCase()
+    const userIsVerified = await verifyEmail( emailFormated )
     return userIsVerified
 }
 
 const verifyingTokenService = async ( token ) => {
     const verifyingToken = await verifyingTokenUser( token );
     return verifyingToken
+}
+
+const getDeactiveUserService = async () => {
+    const deactiveUser = await getDeactiveUser()
+    if(!deactiveUser) {
+        throw new Error('No se pudo Encontrar usuarios desactivados')
+    }
+    return deactiveUser
 }
 
 module.exports = {
@@ -104,7 +116,8 @@ module.exports = {
     modifyUserServices,
     deleteUserServices,
     serviceGetByEmail,
-    unlockUserServices,
+    blockedUserServices,
     restoreUserServices,
-    verifyingTokenService
+    verifyingTokenService,
+    getDeactiveUserService
 }

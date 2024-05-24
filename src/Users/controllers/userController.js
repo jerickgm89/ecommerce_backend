@@ -5,12 +5,14 @@ const {
     getUserByEmailServices,
     modifyUserServices,
     deleteUserServices,
-    unlockUserServices,
-    restoreUserServices,
+    blockedUserServices,
     serviceGetByEmail,
-    verifyingTokenService
+    verifyingTokenService,
+    getDeactiveUserService,
+    restoreUserServices
 } = require('../services/userService.js')
-const cloudinary = require('cloudinary')
+const { imageCloudinaryUploader } = require('../../../utils/imageReception.js')
+
 
 
 const controllerRegisterUser = async (request, response) => {
@@ -21,8 +23,11 @@ const controllerRegisterUser = async (request, response) => {
             email,
             picture,
             email_verified,
-            idAdmin,
+            // isAdmin
         } = request.body
+        
+        const fileImages =  request.files || request.file
+        const imagesUploader = (await imageCloudinaryUploader( fileImages, picture ))[0]
 
         if( !email ){
             return response
@@ -33,9 +38,9 @@ const controllerRegisterUser = async (request, response) => {
             given_name,
             family_name,
             email,
-            picture,
+            picture: imagesUploader,
             email_verified,
-            idAdmin,
+            // isAdmin,
         })
         if( !create ){
             return response
@@ -112,10 +117,10 @@ const controllerGetUserById = async (request, response) =>{
     }
 };  
 const controllergetUserByOnlyEmail = async (request, response) => {
-    let { emailUser } = request.params;
-    emailUser = emailUser.trim()
+    const { emailUser } = request.params;
+    const formatedEmail = emailUser.trim().toLowerCase()
     try {
-        const email = await getUserByEmailServices( emailUser )
+        const email = await getUserByEmailServices( formatedEmail )
         if(email) return response.status(200).json(true)
     } catch (error) {
         response
@@ -129,8 +134,7 @@ const controllerModifyUser = async (request, response) =>{
     const idUser = params.id;
     const objectPetition = request.body
 
-    let arrayImagesProducts = []
-
+    const fileImages =  request.files || request.file
     
     const { 
         DNI,
@@ -143,6 +147,7 @@ const controllerModifyUser = async (request, response) =>{
         email_verified, 
         activeUser, 
         isAdmin,
+        identifierName,
         numberAddress,
         addressName,
         postalCode,
@@ -151,29 +156,22 @@ const controllerModifyUser = async (request, response) =>{
         country
     } = objectPetition
     
-    if( !!request.file ){
-        const file = await cloudinary.uploader.upload(request.file.path)
-        arrayImagesProducts.push(file.secure_url)
-        // console.log("##$$$$$$$$$$$$$$$$$$$$$$request.file",file.secure_url)
-    }
-    if(!request.file && pictureUser){
-        const file = await cloudinary.uploader.upload(pictureUser)
-        arrayImagesProducts.push(file.secure_url)
+    const imagesUploader = (await imageCloudinaryUploader( fileImages, pictureUser ))[0]
 
-    }
     try {
-        
+        // console.log(objectPetition)
         const modifiedUser = await modifyUserServices( idUser, { 
             DNI: `${DNI}`,
             nameUser, 
             lastNameUser, 
             emailUser, 
-            pictureUser: arrayImagesProducts.length ? arrayImagesProducts[0] : null,
+            pictureUser: imagesUploader,
             phoneArea,
             numberMobileUser,
             email_verified, 
             activeUser, 
             isAdmin,
+            identifierName,
             numberAddress,
             addressName,
             postalCode,
@@ -197,7 +195,7 @@ const controllerModifyUser = async (request, response) =>{
         response
         .status(500)
         // .json({ message: "Usuario no pudo ser modificado" })
-        .json({ message: error })
+        .json({ error: error.message })
     }
 };  
 const controllerDeleteUser = async (request, response) =>{
@@ -216,23 +214,45 @@ const controllerDeleteUser = async (request, response) =>{
         .status(500)
         .json({message: "Usuario no pudo ser eliminado"})
         
-    }
-}
-const controllersUnlockUser = async (req, res) => {
-    const { idUser } = req.params;
+    };
+};
+
+const controllersBlockedUser = async (req, res) => {
+    const {params} = req;
+    const idUser = params.id;
     try {
-        const user = await unlockUserServices(idUser);
-    
-        return res.status(200).json({ message: 'Usuario  ha sido desactivado con éxito', user });
+        const user = await getUserByIdServices(idUser);
+        
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        if (!user.activeUser) {
+            return res.status(400).json({ message: 'El usuario ya está bloqueado' });
+        };
+        
+        const blockedUser = await blockedUserServices(idUser);
+        return res.status(200).json({ message: 'Usuario  ha sido desactivado con éxito', blockedUser });
+
     } catch (error) {
+        
         return res.status(500).json({ error: 'Error al intentar desactivar  usuario', details: error.message });
-    }
+    };
 };
 const controllersRestoreUser = async (req, res) => {
-    const { idUser } = req.params;
+    const {params} = req;
+    const idUser = params.id;
     try {
-        const user = await restoreUserServices(idUser);
-        return res.status(200).json({ message: 'Usuario ha sido restaurado con éxito.', user });
+        const user = await getUserByIdServices(idUser)
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        if(user.activeUser) {
+            return res.status(400).json({message: 'El usuario Ya fue restaurado'})
+        }
+        
+        const restoreUser = await restoreUserServices(idUser);
+        return res.status(200).json({ message: 'Usuario ha sido restaurado con éxito.', restoreUser });
     } catch (error) {
         return res.status(500).json({ error: 'Usuario no pudo  ser restaurado', details: error.message });
     }
@@ -242,7 +262,7 @@ const controllersRestoreUser = async (req, res) => {
 const controllerGetUserByEmail = async ( req, res ) =>{
     try {
         let { emailUser } = req.params;
-        emailUser = emailUser.trim()
+        emailUser = emailUser.trim().toLowerCase()
         const isVerified = await serviceGetByEmail( emailUser );
 
         if( !isVerified ){
@@ -258,11 +278,23 @@ const controllerGetUserByEmail = async ( req, res ) =>{
 const controllerGetToken = async (request, response) => {
     try {
         const token = request.header('Authorization').split(' ')[1]
+        console.log("TOKEN:  ", token)
         const verifying = await verifyingTokenService( token )
         response.status(200).json( verifying )
     } catch (error) {
         // response.status(500).send( error )
         response.status(500).send( 'No se pudo procesar la solicitud de verificación' )
+    }
+};
+const controllersDeactiveUser = async (req,res) => {
+    try {
+        const getDeactiveUser = await getDeactiveUserService()
+        if(!getDeactiveUser.length) {
+            return res.status(404).send('No se encontraron usuarios desactivados.')
+        }
+        res.status(200).json(getDeactiveUser)
+    } catch (error) {
+            res.status(500).send('No se pudo procesar la solicitud de usuarios desactivados')
     }
 }
 
@@ -273,8 +305,9 @@ module.exports = {
     controllergetUserByOnlyEmail,
     controllerModifyUser,
     controllerDeleteUser,
-    controllersUnlockUser,
+    controllersBlockedUser,
     controllersRestoreUser,
     controllerGetUserByEmail,
-    controllerGetToken
+    controllerGetToken,
+    controllersDeactiveUser
 }

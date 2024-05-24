@@ -1,10 +1,10 @@
 const { Op } = require('sequelize');
 const { EntityProducts, CharacteristicsProducts } = require('../../../db.js');
-const cloudinary = require('cloudinary')
-const { imageFromCloudinary } = require('../../../../utils/imageReception.js')
+
+const { imageCloudinaryUploader } = require('../../../../utils/imageReception.js')
 
 
-const createProductAndCharacteristics = async (req, res) => {
+const createProductAndCharacteristics = async ( req, res ) => {
 
 
     const {
@@ -27,20 +27,10 @@ const createProductAndCharacteristics = async (req, res) => {
         }
     } = req.body;
 
-    const arrayImagesProducts = []
+    const fileImages =  req.files || req.file
 
-    if( !!req.files || imageProducts ){
-        if( typeof imageProducts === "string" ){
-            const result = await cloudinary.uploader.upload(imageProducts)
-            arrayImagesProducts.push(result.secure_url)
-        }
-        else {
-            for (const file of req.files) {
-                const result = await cloudinary.uploader.upload(file.path);
-                arrayImagesProducts.push(result.secure_url);
-            }
-        }
-    }
+    const imagesUploader = await imageCloudinaryUploader( fileImages, imageProducts )
+    
 
     const transaction = await EntityProducts.sequelize.transaction();
 
@@ -49,8 +39,7 @@ const createProductAndCharacteristics = async (req, res) => {
         const newProduct = await EntityProducts.create({
             nameProduct,
             priceProduct,
-            imageProducts: Array.isArray(arrayImagesProducts) ? arrayImagesProducts : [arrayImagesProducts],
-            // imageProducts:imageProd.secure_url,
+            imageProducts: imagesUploader,
             SKU,
             descriptionProduct,
             yearProduct,
@@ -127,19 +116,23 @@ const updateProductAndCharacteristics = async (req, res) => {
             idBrand
         }
     } = req.body;
-
+    
+    const fileImages =  req.files || req.file
+    const imageOption = imageProducts || product.priceProduct
+    const imagesUploader = await imageCloudinaryUploader( fileImages, imageOption )
+    
     const transaction = await EntityProducts.sequelize.transaction();
-
+    
     try {
         const product = await EntityProducts.findByPk(id, { transaction });
-
+        
         if (!product) {
             return res.status(404).json({ error: 'Product not found' });
         }
 
         product.nameProduct = nameProduct || product.nameProduct;
         product.priceProduct = priceProduct || product.priceProduct;
-        product.imageProducts = imageProducts || product.imageProducts;
+        product.imageProducts = imagesUploader;
         product.SKU = SKU || product.SKU;
         product.descriptionProduct = descriptionProduct || product.descriptionProduct
         product.yearProduct = yearProduct || product.yearProduct
@@ -212,6 +205,7 @@ const getAllProducts = async (req, res) => {
             where: { active: true},
             offset,
             limit,
+            order: [['idProduct', 'ASC']],
             include:[{
                 model: CharacteristicsProducts,
                 attributes: ['modelProduct', 'characteristics','idBrand']
@@ -335,6 +329,7 @@ const getDeactivatedProducts = async (req, res) => {
             where: {
                 active: false
             },
+            order: [['idProduct', 'ASC']],
             include: [{
                 model: CharacteristicsProducts,
                 attributes: ['modelProduct', 'characteristics', 'idBrand']

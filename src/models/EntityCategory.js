@@ -12,9 +12,13 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        imageCategory: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         descriptionCategory: {
             type: DataTypes.STRING,
-            // allowNull: false
+            allowNull: true
 
         },
     }, {
