@@ -15,7 +15,7 @@ const upload = require('../../configCloudinary.js')
 
 const routesUsers = require("express").Router()
 
-routesUsers.post("/",upload.single('pictureUser'), controllerRegisterUser);        //ruta para crear usuarios
+routesUsers.post("/", upload.single('pictureUser'), controllerRegisterUser);        //ruta para crear usuarios
 routesUsers.get("/", controllerGetAllUsers);          // obtiene todos los Users
 routesUsers.get('/deactive', controllersDeactiveUser) //Obtenemos la lista de los usuarios desactivados
 routesUsers.get("/:id", controllerGetUserById);       // busca User por idUser
