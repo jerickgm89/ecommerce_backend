@@ -147,6 +147,7 @@ const controllerModifyUser = async (request, response) =>{
         email_verified, 
         activeUser, 
         isAdmin,
+        identifierName,
         numberAddress,
         addressName,
         postalCode,
@@ -158,7 +159,7 @@ const controllerModifyUser = async (request, response) =>{
     const imagesUploader = (await imageCloudinaryUploader( fileImages, pictureUser ))[0]
 
     try {
-        
+        // console.log(objectPetition)
         const modifiedUser = await modifyUserServices( idUser, { 
             DNI: `${DNI}`,
             nameUser, 
@@ -170,6 +171,7 @@ const controllerModifyUser = async (request, response) =>{
             email_verified, 
             activeUser, 
             isAdmin,
+            identifierName,
             numberAddress,
             addressName,
             postalCode,
@@ -193,7 +195,7 @@ const controllerModifyUser = async (request, response) =>{
         response
         .status(500)
         // .json({ message: "Usuario no pudo ser modificado" })
-        .json({ message: error })
+        .json({ error: error.message })
     }
 };  
 const controllerDeleteUser = async (request, response) =>{

@@ -1,12 +1,20 @@
 const { EntityBrand } = require('../../../db.js');
 
+const { imageCloudinaryUploader } = require('../../../../utils/imageReception.js')
 // const { createBrandService } = require('../../services/brand/brandServices.js')
 
 const createBrand = async (req, res) => {
     const { nameBrand, logoBrand } = req.body;
+    const fileImages =  req.files || req.file
+
+    // const imagesUploader = (await imageCloudinaryUploader( fileImages, logoBrand ))[0]
+
     try {
         // const newBrand = await createBrandService({nameBrand})
-        const newBrand = await EntityBrand.create({ nameBrand, logoBrand });
+        const newBrand = await EntityBrand.create({ 
+            nameBrand, 
+            // logoBrand: imagesUploader 
+        });
         res.status(201).json(newBrand);
     } catch (error) {
         console.error('Error creating brand:', error);
@@ -22,11 +30,17 @@ const createBrand = async (req, res) => {
 
 const updateBrand = async (req, res) => {
     const { id } = req.params;
-    const { nameBrand } = req.body;
+    const { nameBrand, logoBrand } = req.body;
+
+    const fileImages =  req.files || req.file
+
+    // const imagesUploader = (await imageCloudinaryUploader( fileImages, logoBrand ))[0]
+
     try {
         const brand = await EntityBrand.findByPk(id);
         if (brand) {
             brand.nameBrand = nameBrand;
+            // brand.logoBrand = imagesUploader;
             await brand.save();
             res.json(brand);
         } else {

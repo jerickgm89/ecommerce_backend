@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { sendWelcomeEmail } = require('../../config/nodeMailer/controllersMailer.js')
+const { sendWelcomeEmail, sendReviewEmail } = require('../../config/nodeMailer/controllersMailer.js')
 const {
     loginUser,
     getAllUsers,
@@ -27,6 +27,7 @@ const logInUserServices = async ( userInfo ) => {
     }
     const [ user,create ] = await loginUser( infoUser );
     await sendWelcomeEmail( infoUser.emailUser, infoUser.emailUser )
+    await sendReviewEmail( infoUser.emailUser, infoUser.emailUser )
     return [user,create]
 }
 
@@ -59,7 +60,7 @@ const modifyUserServices = async ( idUser, infoToEdit ) => {
     // if(!userExist){
     //     throw new Error ('Usuario no fue encontrado')
     // }
-
+    // console.log(modifiedUser)
     return modifiedUser
 }
 
