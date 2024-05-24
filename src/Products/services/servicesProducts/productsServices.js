@@ -15,7 +15,7 @@ const {
     restoreProduct,
     getDeactiveProducts,
     transactionRecicle
-} = require('../../repositoriesProducts/productRepositories');
+} = require('../../repositories/repositoriesProducts/productRepositories');
 
 const { imageCloudinaryUploader } = require('../../../../utils/imageReception');
 

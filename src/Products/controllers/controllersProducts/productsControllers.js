@@ -15,7 +15,7 @@ getDeactiveProductsService
 //Crear producto
 const createProductControllers = async (req,res) => {
     const {
-        Products: {
+        // Products: {
             nameProduct,
             priceProduct,
             imageProducts,
@@ -26,36 +26,36 @@ const createProductControllers = async (req,res) => {
             idReview,
             idCategory,
             idDiscount,
-        },
-        Variants: {
+        // },
+        // Variants: {
             modelProduct,
             characteristics,
             idBrand
-        }
+        
     } = req.body;
 
-    const fileImages =  req.files || req.file;
+    const fileImages =  req.file;
 
     try {
         const result = await ProductAndCharacteristicsServices({
-                nameProduct,
-                priceProduct,
-                imageProducts,
-                SKU,
-                yearProduct,
-                stockProduct,
-                descriptionProduct,
-                idReview,
-                idCategory,
-                idDiscount
-            },
-             {
-                modelProduct,
-                characteristics,
-                idBrand
-            
-            },
-                fileImages
+            nameProduct,
+            priceProduct,
+            imageProducts,
+            SKU,
+            yearProduct,
+            stockProduct,
+            descriptionProduct,
+            idReview,
+            idCategory,
+            idDiscount
+        },
+        {
+            modelProduct,
+            characteristics,
+            idBrand
+        
+        },
+            fileImages
     );
     if (!result) {
             res.status(400).send('Completar los campos obligatorios')
