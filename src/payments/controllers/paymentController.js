@@ -171,8 +171,63 @@ const webhook = async (req, res) => {
   }
 };
 
+const updatePayment = async (req, res) => {
+  const { id } = req.params;
+  const { name, dni, paymentType, accountNumber, expiry, idUser } = req.body;
+
+  // Verificar que todos los parámetros necesarios estén presentes
+  if (!name || !dni || !paymentType || !accountNumber || !expiry || !idUser) {
+      return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  try {
+      const payment = await EntityPayment.findByPk(id);
+      if (payment) {
+          await payment.update({ name, dni, paymentType, accountNumber, expiry, idUser });
+          res.json(payment);
+      } else {
+          res.status(404).json({ error: 'Payment not found' });
+      }
+  } catch (error) {
+      res.status(500).json({ error: 'Error updating payment' });
+  }
+};
+
+const deletePayment = async (req, res) => {
+  const { id } = req.params;
+  try {
+      const payment = await EntityPayment.findByPk(id);
+      if (payment) {
+          await payment.destroy();
+          res.status(200).json({ message: 'Payment deleted successfully' });
+      } else {
+          res.status(404).json({ error: 'Payment not found' });
+      }
+  } catch (error) {
+      res.status(500).json({ error: 'Error deleting payment' });
+  }
+};
+
+const getPayment = async (req, res) => {
+  try {
+      const payments = await EntityPayment.findAll({
+          include: {
+              model: EntityUsers,
+              attributes: ['idUser', 'nameUser', 'lastNameUser', 'emailUser', 'pictureUser', 'numberMobileUser', 'email_verified', 'isAdmin', 'tokenAuth', 'activeUser']
+          }
+      });
+      res.json(payments);
+  } catch (error) {
+      console.error('Error fetching payments:', error);
+      res.status(500).json({ error: 'Error fetching payments' });
+  }
+};
+
 
 module.exports = {
   createOrder,
   webhook,
+  updatePayment,
+  deletePayment,
+  getPayment
 };
