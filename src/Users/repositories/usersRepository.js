@@ -100,8 +100,7 @@ const modifyUser = async (idUser, {
 }) => {
 
     // const imageToUpload = req.file ? (await cloudinary.uploader.upload(file.path)).secure_url : pictureUser ?(await cloudinary.uploader.upload(pictureUser)).secure_url: null
-    const emailFormated = emailUser?.toLowerCase() 
-    // console.log("EMAILFORMATED",addressName)
+    const emailFormated = emailUser ? emailUser.toLowerCase() : null;    // console.log("EMAILFORMATED",addressName)
     const toUsersChart = {
         DNI: parseInt(DNI),
         nameUser, 
