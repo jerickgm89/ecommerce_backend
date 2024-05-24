@@ -12,9 +12,8 @@ const createBrand = async (req, res) => {
     const { nameBrand, logoBrand } = req.body;
     const fileImages = req.file
 
-    const imagesUploader = (await imageCloudinaryUploader( fileImages, logoBrand ))
     try {
-        const newBrand = await createBrandService({ nameBrand, logoBrand: imagesUploader })
+        const newBrand = await createBrandService({nameBrand, logoBrand}, fileImages)
         res.status(201).json(newBrand);
     } catch (error) {
         console.error({error: 'Error creating brand:', details: error.message });
@@ -27,11 +26,9 @@ const updateBrand = async (req, res) => {
     const { idBrand } = req.params;
     const { nameBrand, logoBrand } = req.body;
     const fileImages =  req.file;
-    console.log(idBrand);
-    const imagesUploader = (await imageCloudinaryUploader( fileImages, logoBrand ))[0]
     
     try {
-        const updatedBrand = await updateBrandService({ idBrand, nameBrand, logoBrand: imagesUploader })
+        const updatedBrand = await updateBrandService({ idBrand, nameBrand, logoBrand}, fileImages)
         if ( updatedBrand ) {
             res.status(200).json( updatedBrand );
         } else {

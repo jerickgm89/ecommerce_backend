@@ -1,4 +1,5 @@
 const {CharacteristicsProducts} = require('../../../db');
+
 const {
     createProducts,
     createCharacteristics,
@@ -49,8 +50,8 @@ const ProductAndCharacteristicsServices = async (Products, Variants, fileImages)
         }, transaction);
 
         await transaction.commit()
-        console.log('new Product: ', newProduct);
-        console.log('Characteristics: ', newCharacteristics);
+        // console.log('new Product: ', newProduct);
+        // console.log('Characteristics: ', newCharacteristics);
         return {newProduct, newCharacteristics}
     } catch (error) {
         await transaction.rollback()

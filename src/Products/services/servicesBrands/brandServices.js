@@ -1,14 +1,23 @@
 const { createBrandRepository, updateBrandRepository, allBrandsListRepository, getBrandByNameRepository, deleteBrandRepository } = require('../../repositories/repositoriesBrands/brandRepositories.js')
-// const { imageCloudinaryUploader } = require('../../configCloudinary.js')
+const { imageCloudinaryUploader } = require('../../../../utils/imageReception.js')
 
-const createBrandService = async (newBrandInfo) => {
-    
-    const newBrand = await createBrandRepository(newBrandInfo);
+const createBrandService = async ({nameBrand, logoBrand}, fileImages) => {
+    const imagesUploader = (await imageCloudinaryUploader( fileImages, logoBrand ))[0]
+    const infoToCreate = {
+        nameBrand,
+        logoBrand: imagesUploader
+    }
+    const newBrand = await createBrandRepository(infoToCreate);
     return newBrand;
 }
 
-const updateBrandService = async ({ idBrand, nameBrand, logoBrand }) => {
-    const updatedBrand = await updateBrandRepository({ idBrand, nameBrand, logoBrand })
+const updateBrandService = async ({ idBrand, nameBrand, logoBrand }, fileImages) => {
+    const imagesUploader = (await imageCloudinaryUploader( fileImages, logoBrand ))[0]
+    const infoToUpdate = {
+        nameBrand,
+        logoBrand: imagesUploader
+    }
+    const updatedBrand = await updateBrandRepository( idBrand, infoToUpdate)
     return updatedBrand
 }
 

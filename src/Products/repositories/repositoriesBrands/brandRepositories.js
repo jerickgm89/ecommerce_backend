@@ -7,9 +7,7 @@ const createBrandRepository = async ({nameBrand, logoBrand}) => {
     const newBrand = await EntityBrand.create(objectToCreate);
     return newBrand
 }
-const updateBrandRepository = async ({ idBrand, nameBrand, logoBrand }) => {
-    const infoToUpdate = { nameBrand, logoBrand }
-    // console.log("## id brand:    ",infoToUpdate)
+const updateBrandRepository = async (idBrand, infoToUpdate) => {
     const newBrand = await EntityBrand.update( 
         infoToUpdate,
         { 
