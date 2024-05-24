@@ -82,8 +82,7 @@ const getDeactiveUser = async () => {
 const modifyUser = async (idUser, { 
     DNI,
     nameUser, 
-    lastNameUser, 
-    emailUser, 
+    lastNameUser,
     pictureUser,
     phoneArea,
     numberMobileUser,
@@ -100,12 +99,10 @@ const modifyUser = async (idUser, {
 }) => {
 
     // const imageToUpload = req.file ? (await cloudinary.uploader.upload(file.path)).secure_url : pictureUser ?(await cloudinary.uploader.upload(pictureUser)).secure_url: null
-    const emailFormated = emailUser ? emailUser.toLowerCase() : null;    // console.log("EMAILFORMATED",addressName)
     const toUsersChart = {
         DNI: parseInt(DNI),
         nameUser, 
         lastNameUser, 
-        emailUser: emailFormated, 
         pictureUser,
         phoneArea: `${phoneArea}`,
         numberMobileUser: `${numberMobileUser}`,
@@ -215,34 +212,36 @@ const verifyEmail = async ( emailToVerify ) => {
         }
     );
     // Si el correo ya estaba registrado
-    if( user ){
+    if( !!user ){
         // y tiene un token creado
+        console.log("el user ->", user.tokenAuth)
         if( user.tokenAuth ){
-            try {
+            // try {
                 
                 //Verificar token
-                const decoded = jwt.verify( user.tokenAuth, JWT_SECRET );
+                const decoded = jwt.decode( user.tokenAuth, JWT_SECRET );
                 // si el token existe, uso el email de la decodificación
                 // para retornar la información del usuario
                 if( decoded.emailUser ){
+                    console.log("jwt:   ",decoded.emailUser)
                     return user.tokenAuth
-                };
+                }
             // Si el token no es válido o está caduco
-            } catch (error) {
+            // } catch (error) {
                 
-                if (error.name === 'TokenExpiredError') {
-                    const newToken = generateToken(emailUser);
-                    // genero un nuevo token y se lo asigno al usuario
-                    user.tokenAuth = newToken;
-                    user.changed('tokenAuth', true);
-                    await user.save();
-                    return newToken;
-                };
-            };
-        };
-    };
+            //     if (error.name === 'TokenExpiredError') {
+            //         const newToken = generateToken(emailUser);
+            //         // genero un nuevo token y se lo asigno al usuario
+            //         user.tokenAuth = newToken;
+            //         user.changed('tokenAuth', true);
+            //         await user.save();
+            //         return newToken;
+            //     };
+            // }
+        }
+    }
     // si no es un usuario registrado
-    return false;
+    else return false;
 };
 
 
