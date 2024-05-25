@@ -1,3 +1,10 @@
+const { 
+    createAddressUser,
+    getFullListAddressesUser,
+    updateAddressesUser,
+    deleteAddressesUser
+} = require('../repository/repositoriesAddressUser.js')
+
 const formatedResponse = (info) => {
     const arrayList = typeof info !== "string" ? Object.keys(info) : info
     const toFormat = Array.isArray(arrayList) 
@@ -35,15 +42,32 @@ const getPostalCodeServices = ({ province, city }, fullListPostalCode) => {
     }
 
 }
-const getProvincesServices = ( { province, city }, fullListPostalCode ) => {
-    // province ?
+const createAddressService = async ( idUser, adressToCreate ) => {
+    const addressToCreate = await createAddressUser(idUser, adressToCreate)
+// const getCityServices = ({ province, city }, fullListPostalCode) => {
+    return addressToCreate
 }
-const getCityServices = ({ province, city }, fullListPostalCode) => {
-
+const getFullListAddressesServices = async ( idUser ) => {
+    const fullAddressesList = await getFullListAddressesUser(idUser)
+// const getCityServices = ({ province, city }, fullListPostalCode) => {
+    return fullAddressesList
+}
+const updateAddressUserServices = async ( idAddress, updateAddressInfo ) => {
+    const fullAddressesList = await updateAddressesUser( idAddress, updateAddressInfo )
+// const getCityServices = ({ province, city }, fullListPostalCode) => {
+    return fullAddressesList
+}
+const deleteAddressUserService = async ( idAddress) => {
+    const deletedAddress = await deleteAddressesUser( idAddress)
+// const getCityServices = ({ province, city }, fullListPostalCode) => {
+    return deletedAddress
 }
 
 module.exports = {
     getPostalCodeServices,
-    getProvincesServices,
-    getCityServices
+    createAddressService,
+    getFullListAddressesServices,
+    updateAddressUserServices,
+    deleteAddressUserService
+    // getCityServices
 }
