@@ -214,7 +214,7 @@ const verifyEmail = async ( emailToVerify ) => {
     // Si el correo ya estaba registrado
     if( !!user ){
         // y tiene un token creado
-        console.log("el user ->", user.tokenAuth)
+        // console.log("el user ->", user.tokenAuth)
         if( user.tokenAuth ){
             // try {
                 
@@ -223,7 +223,7 @@ const verifyEmail = async ( emailToVerify ) => {
                 // si el token existe, uso el email de la decodificación
                 // para retornar la información del usuario
                 if( decoded.emailUser ){
-                    console.log("jwt:   ",decoded.emailUser)
+                    // console.log("jwt:   ",decoded.emailUser)
                     return user.tokenAuth
                 }
             // Si el token no es válido o está caduco

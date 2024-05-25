@@ -26,7 +26,7 @@ const controllerRegisterUser = async (request, response) => {
             // isAdmin
         } = request.body
         
-        const fileImages =  request.files || request.file
+        const fileImages =  request.file
         const imagesUploader = (await imageCloudinaryUploader( fileImages, picture ))[0]
 
         if( !email ){
@@ -134,7 +134,7 @@ const controllerModifyUser = async (request, response) =>{
     const idUser = params.id;
     const objectPetition = request.body
 
-    const fileImages =  request.files || request.file
+    const fileImages =  request.file
     
     const { 
         DNI,
