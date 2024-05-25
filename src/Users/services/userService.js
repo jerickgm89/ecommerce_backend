@@ -26,8 +26,8 @@ const logInUserServices = async ( userInfo ) => {
         // isAdmin
     }
     const [ user,create ] = await loginUser( infoUser );
-    await sendWelcomeEmail( infoUser.emailUser, infoUser.emailUser )
-    await sendReviewEmail( infoUser.emailUser, infoUser.emailUser )
+    // await sendWelcomeEmail( infoUser.emailUser, infoUser.emailUser )
+    // await sendReviewEmail( infoUser.emailUser, infoUser.emailUser )
     return [user,create]
 }
 
@@ -46,7 +46,6 @@ const getUserByIdServices = async ( idUser ) =>{
 }
 const getUserByEmailServices = async ( email ) =>{
     const searchedUser = await getUserByEmail( email )
-    console.log("Holaaaa")
     // if(!searchedUser){
         //     throw new Error ('Usuario no fue encontrado')
         // }

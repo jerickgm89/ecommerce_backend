@@ -2,7 +2,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const  { EntityUsers, EntityUserAddress } = require('../../db.js');
 const jwt = require('jsonwebtoken') // para crear token
 const { JWT_SECRET } = process.env;
-
+const { createAddressUser } = require('../../AddressInformation/repository/repositoriesAddressUser.js')
 
 const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email_verified }) => {
     const tokenJWT = jwt.sign(
@@ -111,9 +111,9 @@ const modifyUser = async (idUser, {
         isAdmin,
     };
     const toUserAddressChart = {
-        identifierName,
-        numberAddress: `${numberAddress}`,
-        addressName,
+        identifierName, //nonbre para identificar la dirección, dado por el user
+        numberAddress: `${numberAddress}`, // numero de casa calle
+        addressName, // nombre calle
         postalCode: `${postalCode}`,
         provinceAddress,
         cityAddress,
@@ -122,29 +122,21 @@ const modifyUser = async (idUser, {
 
     const userInfo = await EntityUsers.findByPk(idUser);
     // console.log(userInfo)
-    if(userInfo){
-        if( numberAddress && addressName && postalCode && provinceAddress && cityAddress){
 
-            // Si existe un usuario con ese id
-            let addressInfo;
-            //Busca todas las direcciones del usuario que también coincidan con el nombre de la dirección dada
-            addressInfo = await EntityUserAddress.findOne({ 
-                where: {
-                    idUser,
-                    addressName
-                }
-            });
-            // si no existen direcciones asociadas al usuario con ese nombre pero quiere agregarla
-            if( !addressInfo && addressName ){
-                // Le asigna idUser a la info para crear
-                toUserAddressChart.idUser = idUser
-                addressInfo = await EntityUserAddress.create( toUserAddressChart )
-                // y crea la dirección asociada al usuario
-            };
-        };
-        // Si existe información de dirección asociada al usuario
-        
-        // Siempre que el usuario exista modificará la información de usuario e incluye modelo
+    // Si existe un usuario con ese id
+    if(userInfo){
+        // Y lo recibido por body incluye toda la información necesaria para crear una dirección
+        let findOrCreateAddressUser;
+
+        if( numberAddress && addressName && postalCode && provinceAddress && cityAddress){
+            
+            findOrCreateAddressUser = await createAddressUser(idUser, toUserAddressChart)
+            
+        }
+            
+            // Si existe información de dirección asociada al usuario
+            
+            // Siempre que el usuario exista modificará la información de usuario e incluye modelo
         const editedUser = await EntityUsers.update(
             toUsersChart, 
             { 
@@ -156,6 +148,7 @@ const modifyUser = async (idUser, {
         if(!editedUser){
             throw new Error ('Algo falló en la modificación en usuario' + idUser)
         };
+
         const updatedUser = await EntityUsers.findOne({
             where:{
                 idUser
@@ -185,7 +178,7 @@ const blockedUser = async (idUser) => {
     console.log('unlock: ',idUser);
     const blockedUser = await EntityUsers.findByPk(idUser)
     
-     blockedUser.activeUser = false;
+    blockedUser.activeUser = false;
     await blockedUser.save();
     
     return blockedUser;
