@@ -104,7 +104,7 @@ const getAllProductsControllers = async (req,res) => {
         if(products.length) {
             res.status(200).json(products)
         } else {
-            return response.status(200).json([])
+            return res.status(200).json([])
         }
     } catch (error) {
         console.error('Controllers', error.message)
@@ -175,7 +175,7 @@ const getDeactivatedProductsControllers = async (req,res) => {
     if(deactivatedProducts.length) {
         return res.status(200).json(deactivatedProducts)
     }
-    return response.status(200).json([])
+    return res.status(200).json([])
 };
 
 
