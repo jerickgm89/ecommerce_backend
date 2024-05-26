@@ -15,6 +15,7 @@ const entityCartItemModels = require('./models/entityCartItem.js')
 const entityOrderDetailModels = require("./models/entityOrderDetail.js");
 const EntityOrderItemsModels = require('./models/entityCartItem.js')
 const EntityUserAddressModels= require('./models/entityUserAddress.js')
+const EntityReviewModels = require('./models/EntityReview.js')
 
     const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/ecommerce`, {
         logging: false,
@@ -35,6 +36,7 @@ const EntityUserAddressModels= require('./models/entityUserAddress.js')
     entityOrderDetailModels(sequelize)
     EntityOrderItemsModels(sequelize) 
     EntityUserAddressModels(sequelize) 
+    EntityReviewModels(sequelize)
 
     fs.readdirSync(path.join(__dirname, '/models'))
   .filter((file) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
@@ -48,7 +50,7 @@ const EntityUserAddressModels= require('./models/entityUserAddress.js')
   let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
   sequelize.models = Object.fromEntries(capsEntries);
 
-  const {EntityProducts, EntityCategory, CharacteristicsProducts, EntityBrand, EntityUsers, EntityOrderDetail, EntityOrderItems, EntityPayment, EntityShoppingSession, EntityCartItem, EntityUserAddress} = sequelize.models
+  const {EntityProducts, EntityCategory, CharacteristicsProducts, EntityBrand, EntityUsers, EntityOrderDetail, EntityOrderItems, EntityPayment, EntityShoppingSession, EntityCartItem, EntityUserAddress, EntityReview} = sequelize.models
 
 //Aqui van las relaciones: ->
 
@@ -98,6 +100,15 @@ EntityPayment.belongsTo(EntityUsers, { foreignKey: 'idUser', targetKey: 'idUser'
 
 EntityUsers.hasMany(EntityUserAddress, { foreignKey: 'idUser', sourceKey: 'idUser'});
 EntityUserAddress.belongsTo(EntityUsers, { foreignKey: 'idUser', targetKey: 'idUser'});
+
+
+//Relacion user/Review - review-user 
+EntityUsers.hasMany(EntityReview, {foreignKey: 'idUser', as: 'reviews'})
+EntityReview.belongsTo(EntityUsers, {foreignKey: 'idUser', as: 'user'})
+
+//relacion Products/review - Review/products
+EntityProducts.hasMany(EntityReview, {foreignKey: 'idReview'})
+EntityReview.belongsTo(EntityProducts, {foreignKey: 'idReview'})
 
 module.exports = {
   ...sequelize.models, 

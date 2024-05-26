@@ -1,5 +1,6 @@
-const {EntityProducts, CharacteristicsProducts} = require('../../../db');
-const {Op} = require('sequelize')
+const {EntityProducts, CharacteristicsProducts, EntityReview} = require('../../../db');
+const {Op} = require('sequelize');
+
 
 //Crear producto
 const createProducts = async (productData, transaction) => {
@@ -43,9 +44,20 @@ const getProductById = async (id) => {
         where: {
         idProduct: id,
          active:true
-        }}, {include: {model:CharacteristicsProducts, attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']}});
+        },include: [
+            {
+                model:CharacteristicsProducts, 
+                attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']
+            },
+            {
+                model: EntityReview,
+                attributes: ['idReview', 'descriptionReview', 'scoreReview']
+            }
+        ]
+    });
     return productById;
 };
+
 
 //buscar por nombre
 const searchProductByName = async (name, offset, limit) => {

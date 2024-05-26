@@ -124,8 +124,10 @@ const getAllProductsServices = async (page, limit) => {
         order: [['idProduct', 'ASC']],
         include:[{
             model: CharacteristicsProducts,
-            attributes: ['modelProduct', 'characteristics','idBrand']
-        }]
+            attributes: ['modelProduct', 'characteristics','idBrand'],
+        }
+      
+    ]
     })
     if(!getProducts) {
         throw new Error ('Error al mostrar los productos')
