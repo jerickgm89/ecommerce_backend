@@ -32,14 +32,14 @@ const createDiscountController = async ( request, response ) => {
         descriptionDiscount: discount.descriptionDiscount,
         quantity: parseFloat(discount.quantity),
         activeDiscount: discount.activeDiscount,
-        idProduct: idProduct,
+        idProduct: discount.idProduct,
         discountInGroup: discount.discountInGroup,
         productsInDiscountGroup: discount.productsInDiscountGroup
     }
     if(!created){
-        return response.status(201).json(objetoNewDiscount)
+        return response.status(200).json(objetoNewDiscount)
     }
-    return response.status(200).json(objetoNewDiscount)
+    return response.status(201).json(objetoNewDiscount)
     
 } catch (error) {
     response.status(500).json({ error: error, details: error.message })
