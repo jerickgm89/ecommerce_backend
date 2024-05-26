@@ -35,9 +35,6 @@ module.exports = (sequelize) => {
         stockProduct: {
             type: DataTypes.INTEGER,
         },
-        idReview: {
-            type: DataTypes.INTEGER,
-        },
         idCategory: {
             type: DataTypes.INTEGER,
             allowNull: true
