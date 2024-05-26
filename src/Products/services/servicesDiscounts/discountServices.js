@@ -1,8 +1,10 @@
 const {
     createDiscount,
+    createGroupDiscount,
     getDiscountByProduct,
     getDiscountByName,
     getDiscountById,
+    getAllGroupOfDiscount,
     updateDiscount,
     updateDiscountByGroup,
     deleteDiscount
@@ -11,8 +13,14 @@ const {
 const createDiscountService = async ( idProduct, discountInfo ) => {
     const [ discount, created ] = await createDiscount( idProduct, discountInfo )
     return [ discount, created ]
-
 }
+
+const createGroupDiscountService = async ( idProduct, discountInfo ) => {
+    const idProductsList = idProduct.split('+')
+    const [ discount, created ] = await createDiscount( idProductsList, discountInfo )
+    return [ discount, created ]
+}
+
 const getDiscountByProductService = async ( idProduct ) => {
     const getDiscountsProductsList = await getDiscountByProduct( idProduct )
     return getDiscountsProductsList
@@ -27,13 +35,18 @@ const getDiscountByIdService = async ( idDiscount ) => {
     return discountByIdDiscount
     
 }
-const updateDiscountService = async ( idDiscount ) => {
-    const updatedDiscount = await updateDiscount( idDiscount )
+const getAllGroupOfDiscountService = async ( idDiscount ) => {
+    const discountByIdDiscount = await getAllGroupOfDiscount( idDiscount )
+    return discountByIdDiscount
+    
+}
+const updateDiscountService = async ( idDiscount, infoToUploadDiscount ) => {
+    const updatedDiscount = await updateDiscount( idDiscount, infoToUploadDiscount )
     return updatedDiscount
     
 }
-const updateDiscountByGroupService = async ( name ) => {
-    const updatedGroupDiscount = await updateDiscountByGroup( name )
+const updateDiscountByGroupService = async ( idDiscount, infoToUploadDiscount ) => {
+    const updatedGroupDiscount = await updateDiscountByGroup( idDiscount, infoToUploadDiscount )
     return updatedGroupDiscount
     
 }
@@ -45,9 +58,11 @@ const deleteDiscountService = async (idDiscount) => {
 
 module.exports = {
     createDiscountService,
+    createGroupDiscountService,
     getDiscountByProductService,
     getDiscountByNameService,
     getDiscountByIdService,
+    getAllGroupOfDiscountService,
     updateDiscountService,
     updateDiscountByGroupService,
     deleteDiscountService
