@@ -1,42 +1,54 @@
-const {EntityReview, EntityProducts, EntityUsers} = require('../../db');
+const { EntityReview, EntityProducts, EntityUsers } = require('../../db');
 
-
-
-
-
-//Crear un review 
+// Crear una review
 const createReview = async (reviewData) => {
-    const reviewCreate = await EntityReview.create(reviewData)
-
+    const reviewCreate = await EntityReview.create(reviewData);
     return reviewCreate;
 };
 
+// Obtener todas las reviews
 const findAllReview = async () => {
-    
     const getAllReview = await EntityReview.findAll();
-    return getAllReview
+    return getAllReview;
 };
 
-// const reviewById = async  (idReview) => {
-//     const reviewId = await EntityReview.findOne({where: {idReview: idReview}},{
-//         attributes: ['descriptionReview', 'scoreReview'],
-//         include: [
-//             {
-//                 model: EntityProducts,
-//                 attributes: ['nameProduct']
-//             },
-//             {
-//                 model: EntityUsers,
-//                 attributes: ['emailUser']
-//             }
-//         ]
-//     });
-//     return reviewId;
-// }
+// Obtener reviews por idProduct
+const findReviewByProduct = async (idProduct) => {
+    const reviews = await EntityReview.findAll({
+        where: { idProduct },
+    });
+    return reviews;
+};
 
+// Obtener reviews por idUser
+const findReviewByUser = async (idUser) => {
+    const reviews = await EntityReview.findAll({
+        where: { idUser },
+    });
+    return reviews;
+};
+
+// Actualizar una review por ID
+const updateReview = async (idReview, updatedData) => {
+    const reviewUpdate = await EntityReview.update(updatedData, {
+        where: { idReview }
+    });
+    return reviewUpdate;
+};
+
+// Eliminar una review por ID
+const deleteReview = async (idReview) => {
+    const reviewDelete = await EntityReview.destroy({
+        where: { idReview }
+    });
+    return reviewDelete;
+};
 
 module.exports = {
     createReview,
     findAllReview,
-
-}
+    findReviewByProduct,
+    findReviewByUser,
+    updateReview,
+    deleteReview,
+};
