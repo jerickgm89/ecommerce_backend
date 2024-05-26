@@ -1,7 +1,8 @@
 const { 
 createReview,
 findAllReview,
-reviewById } = require('../repositoriesReview/reviewRepositories');
+updateReview
+ } = require('../repositoriesReview/reviewRepositories');
 
 const createReviewServices = async (idUser, idProduct,descriptionReview, scoreReview) => {
     const reviewData = {
@@ -33,14 +34,11 @@ const findAllReviewServices = async () => {
     return getAllReview
 };
 
-const reviewByIdServices = async (idReview) => {
-    const responseIdReview = await reviewById(idReview)
-    if(!responseIdReview) {
-        throw new Error('Error al buscar el review')
-    }
-}
+
+
+
 module.exports = {
     createReviewServices,
     findAllReviewServices,
-    reviewByIdServices
+    
 };

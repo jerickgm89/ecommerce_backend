@@ -1,6 +1,5 @@
-const {EntityReview} = require('../../db');
-const EntityProducts = require('../../models/EntityProducts');
-const EntityUsers = require('../../models/EntityUsers');
+const {EntityReview, EntityProducts, EntityUsers} = require('../../db');
+
 
 
 
@@ -18,12 +17,26 @@ const findAllReview = async () => {
     return getAllReview
 };
 
-const reviewById = async  (idReview) => {
-    const reviewId = await EntityReview.findByPk(idReview)
-    return reviewId
-}
+// const reviewById = async  (idReview) => {
+//     const reviewId = await EntityReview.findOne({where: {idReview: idReview}},{
+//         attributes: ['descriptionReview', 'scoreReview'],
+//         include: [
+//             {
+//                 model: EntityProducts,
+//                 attributes: ['nameProduct']
+//             },
+//             {
+//                 model: EntityUsers,
+//                 attributes: ['emailUser']
+//             }
+//         ]
+//     });
+//     return reviewId;
+// }
+
+
 module.exports = {
     createReview,
     findAllReview,
-    reviewById
+
 }

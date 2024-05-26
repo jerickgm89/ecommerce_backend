@@ -103,11 +103,11 @@ EntityUserAddress.belongsTo(EntityUsers, { foreignKey: 'idUser', targetKey: 'idU
 
 
 //Relacion user/Review - review-user 
-EntityUsers.hasMany(EntityReview, {foreignKey: 'idUser', as: 'reviews'})
-EntityReview.belongsTo(EntityUsers, {foreignKey: 'idUser', as: 'user'})
+EntityUsers.hasMany(EntityReview, {foreignKey: 'idUser'})
+EntityReview.belongsTo(EntityUsers, {foreignKey: 'idUser'})
 
 //relacion Products/review - Review/products
-EntityProducts.hasMany(EntityReview, {foreignKey: 'idReview'})
+EntityProducts.hasMany(EntityReview, {foreignKey: 'idProduct'})
 EntityReview.belongsTo(EntityProducts, {foreignKey: 'idReview'})
 
 module.exports = {

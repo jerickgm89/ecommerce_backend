@@ -1,7 +1,7 @@
 const {
     createReviewServices,
     findAllReviewServices,
-    reviewByIdServices
+    
 } = require('../serviceReview/reviewService')
 
 const createReviewControllers = async (req,res) => {
@@ -38,19 +38,24 @@ const findAllReviewControllers = async (req,res) => {
     }
 };
 
-const reviewByIdControllers = async (req,res) => {
-    const {id} = req.params
-    const idReview = id
-    try {
-        res.status(200).json(idReview)
-    } catch (error) {
-        res.status(500).json({message: 'Error al buscar un review especifico'})
-    }
-}
+// const reviewByIdControllers = async (req,res) => {
+
+//     const {id} = req.params
+//     const idReview = id;
+   
+    
+//     try {
+//         const review = await reviewByIdServices(idReview);
+//         res.status(200).json(review)
+//     } catch (error) {
+//         console.error(error.message)
+//         res.status(500).json({message: 'Error al buscar un review especifico'})
+//     }
+// }
 
 module.exports = {
     createReviewControllers,
     findAllReviewControllers,
-    reviewByIdControllers
+  
 
 }
