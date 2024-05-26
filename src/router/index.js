@@ -15,14 +15,19 @@ const addressesRoutes = require('../addressInformation/routes/addressInformation
 //                              ----> Ruta en '/' README.md <----
 const readmeEmptyPath = require('../../utils/emptyPath.js')
 
+//                                  ----> Reviews <----
+
+const reviewRoutes = require('../review/routesReview/reviewRutes.js')
+
 const router = () => {
     const routers = Router()
+    routers.use('/', readmeEmptyPath)
     routers.use('/products', routesProducts)
     routers.use('/filterproducts', routesFiltersProducts)
     routers.use('/shop', routesShopping)
     routers.use('/payment', paymentRoutes);
     routers.use('/address', addressesRoutes)
-    routers.use('/', readmeEmptyPath)
+    routers.use('/reviews', reviewRoutes)
     return routers
 }
 

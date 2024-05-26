@@ -1,5 +1,7 @@
-const {EntityProducts, CharacteristicsProducts, EntityDiscounts } = require('../../../db');
-const {Op} = require('sequelize')
+const {EntityProducts, CharacteristicsProducts, EntityReview, EntityUsers, EntityDiscounts} = require('../../../db');
+const {Op} = require('sequelize');
+const sequelize = require('sequelize')
+
 
 //Crear producto
 const createProducts = async (productData, transaction) => {
@@ -52,13 +54,22 @@ const getAllProducts = async (query) => {
 const getProductById = async (id) => {
     const productById = await EntityProducts.findOne({
         where: {
-            idProduct: id,
-            active: true
+            idProduct: id
         },
         include: [
             {
                 model: CharacteristicsProducts, 
                 attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']
+            },
+            {
+                model: EntityReview,
+                attributes: ['descriptionReview','idReview'],
+                include: [
+                    {
+                        model: EntityUsers,
+                        attributes: ['emailUser']
+                    }
+                ]
             },
             {
                 model: EntityDiscounts,
@@ -69,7 +80,8 @@ const getProductById = async (id) => {
     console.log(productById, "producto by id")
     return productById;
 };
-        
+
+
 //buscar por nombre
 const searchProductByName = async (name, offset, limit) => {
     const searchName =  await EntityProducts.findAll({ 
@@ -88,7 +100,7 @@ const searchProductByName = async (name, offset, limit) => {
 //Desactivar un producto
 const blockedProduct = async (id) => {
     const productBlocked = await EntityProducts.findOne({where:{idProduct: id}})
- 
+
     productBlocked.active = false;
     await productBlocked.save();
     

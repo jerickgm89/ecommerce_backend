@@ -35,19 +35,10 @@ module.exports = (sequelize) => {
         stockProduct: {
             type: DataTypes.INTEGER,
         },
-        idReview: {
-            type: DataTypes.INTEGER,
-            defaultValue: null,
-        },
         idCategory: {
             type: DataTypes.INTEGER,
             allowNull: true
         },
-        // idDiscount: {
-        //     type: DataTypes.INTEGER,
-        //     defaultValue: null,
-            
-        // },
         active: {
             type: DataTypes.BOOLEAN,
             defaultValue: true

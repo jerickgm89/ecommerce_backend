@@ -107,7 +107,7 @@ const getAllProductsControllers = async (req,res) => {
         if(products.length) {
             res.status(200).json(products)
         } else {
-            res.status(404).json({error: 'No se pudo mostrar los productos'})
+            return response.status(200).json([])
         }
     } catch (error) {
         console.error('Controllers', error.message)
@@ -178,7 +178,7 @@ const getDeactivatedProductsControllers = async (req,res) => {
     if(deactivatedProducts.length) {
         return res.status(200).json(deactivatedProducts)
     }
-    return res.status(404).json('No hay productos desactivados.', {details: error.message});
+    return response.status(200).json([])
 };
 
 

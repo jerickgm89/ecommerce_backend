@@ -1,6 +1,7 @@
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const  { EntityUsers, EntityUserAddress } = require('../../db.js');
-const jwt = require('jsonwebtoken') // para crear token
+const  { EntityUsers, EntityUserAddress} = require('../../db.js');
+const jwt = require('jsonwebtoken'); // para crear token
+
 const { JWT_SECRET } = process.env;
 const { createAddressUser } = require('../../AddressInformation/repository/repositoriesAddressUser.js')
 
@@ -40,7 +41,9 @@ const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email
 const getAllUsers = async () =>{
     const listAllUsers = await EntityUsers.findAll({
         where: {activeUser: true},
-        order: [['idUser', 'ASC']]
+        order: [['idUser', 'ASC']],
+      
+        
     });
     return listAllUsers;
 };
@@ -51,10 +54,11 @@ const getUserById = async (idUser) => {
         where:{
             idUser
         },
-        include: {
+        include:   {
             model: EntityUserAddress,
             attributes: ['numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
-        }
+        },
+        
     });
     return userById;
 };
