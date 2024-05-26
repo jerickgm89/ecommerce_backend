@@ -23,9 +23,7 @@ const createProductControllers = async (req,res) => {
             yearProduct,
             stockProduct,
             descriptionProduct,
-            idReview,
             idCategory,
-            idDiscount,
         },
         Variants: {
             modelProduct,
@@ -34,28 +32,26 @@ const createProductControllers = async (req,res) => {
         }
     } = req.body;
 
-    const fileImages =  req.files || req.file;
+    const fileImages =  req.files;
 
     try {
         const result = await ProductAndCharacteristicsServices({
-                nameProduct,
-                priceProduct,
-                imageProducts,
-                SKU,
-                yearProduct,
-                stockProduct,
-                descriptionProduct,
-                idReview,
-                idCategory,
-                idDiscount
-            },
-             {
-                modelProduct,
-                characteristics,
-                idBrand
-            
-            },
-                fileImages
+            nameProduct,
+            priceProduct,
+            imageProducts,
+            SKU,
+            yearProduct,
+            stockProduct,
+            descriptionProduct,
+            idCategory
+        },
+        {
+            modelProduct,
+            characteristics,
+            idBrand
+        
+        },
+            fileImages
     );
     if (!result) {
             res.status(400).send('Completar los campos obligatorios')
@@ -81,7 +77,7 @@ const updateProductCharacteristicsControllers = async (req,res) => {
         res.status(201).json(result)
     } catch (error) {
         console.error('Error en controllers: ', error.message)
-            res.status(500).json({error: 'error al modificar producto o caracteristicas',})
+            res.status(500).json({error: 'error al modificar producto o caracteristicas', details: error.message})
     }
 };
 
@@ -90,11 +86,11 @@ const deleteProductCharacteristicsControllers = async (req,res) => {
     const {id} = req.params;
 
     try {
-         await deleteProductCharacteristicsServices(id)
+        await deleteProductCharacteristicsServices(id)
         res.status(200).json({message: 'El producto ha sido eliminado permanentemente.'})
     } catch (error) {
 
-        res.status(500).json({error: 'El producto y/o las caracteristicas no pudieron ser eliminadas'})
+        res.status(500).json({error: 'El producto y/o las caracteristicas no pudieron ser eliminadas', details: error.message})
     }
 };
 
@@ -108,11 +104,12 @@ const getAllProductsControllers = async (req,res) => {
         if(products.length) {
             res.status(200).json(products)
         } else {
-            res.status(404).json({error: 'No se pudo mostrar los productos'})
+            return res.status(200).json([])
         }
     } catch (error) {
         console.error('Controllers', error.message)
-            res.status(500).json({error: 'Error al mostrar los productos'}, error.message)
+            res.status(500).json({error: 'Error al mostrar los productos', details: error.message}
+            )
     }
 }
 //Buscar producto por Id
@@ -120,7 +117,7 @@ const GetProductByIdControllers = async (req,res) => {
     const {id} = req.params
     try {
         const product = await getProductByIdServices(id);
-        res.json(product);
+        res.status(200).json(product);
     } catch (error) {
         if (error.message === 'Product not found') {
             res.status(404).json({ error: error.message });
@@ -142,7 +139,7 @@ const searchProductsControllers = async (req,res) => {
         }
     } catch (error) {
         console.error('error Controllers: ', error.message)
-        res.status(500).json({error: 'Error al mostrar el producto por nombre'})
+        res.status(500).json({error: 'Error al mostrar el producto por nombre', details: error.message})
     }
 };
 
@@ -150,13 +147,12 @@ const searchProductsControllers = async (req,res) => {
 const blockedProductControllers = async (req,res) => {
     const {id} = req.params
     try { 
-     
-           const blockedProduct = await blockedProductService(id);
-         
-           res.status(200).json({message: 'Producto desactivado con éxito', blockedProduct} )
+        const blockedProduct = await blockedProductService(id);
+        
+        res.status(200).json({message: 'Producto desactivado con éxito', blockedProduct} )
     } catch (error) {
         console.error('error en controllers:', error.message)
-        res.status(500).send('Error al desactivar un producto')
+        res.status(500).send('Error al desactivar un producto',{details: error.message})
     }
 };
 
@@ -168,7 +164,7 @@ const restoreProductControllers = async (req,res) => {
         res.status(200).json({message: 'El producto fue restaurado', restoreProduct})
     } catch (error) {
         console.error('error en controllers: ', error.message)
-        res.status(500).json({message: 'El producto no fue restaurado'})
+        res.status(500).json({message: 'El producto no fue restaurado', details: error.message})
     }
 };
 
@@ -179,7 +175,7 @@ const getDeactivatedProductsControllers = async (req,res) => {
     if(deactivatedProducts.length) {
         return res.status(200).json(deactivatedProducts)
     }
-    return res.status(404).send('No hay productos desactivados.');
+    return res.status(200).json([])
 };
 
 

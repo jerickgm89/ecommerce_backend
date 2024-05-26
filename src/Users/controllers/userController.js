@@ -26,7 +26,7 @@ const controllerRegisterUser = async (request, response) => {
             // isAdmin
         } = request.body
         
-        const fileImages =  request.files || request.file
+        const fileImages =  request.file
         const imagesUploader = (await imageCloudinaryUploader( fileImages, picture ))[0]
 
         if( !email ){
@@ -89,7 +89,7 @@ const controllerGetAllUsers = async (request, response) => {
 
         // Verificar si se encontraron usuarios después del filtrado
         if ( !allUsersList.length ) {
-            return response.status(404).json({ message: "No se encontraron usuarios con los criterios proporcionados" });
+            return response.status(200).json([])
         }
         return response.status(200).json(allUsersList);
     } catch (error) {
@@ -113,6 +113,7 @@ const controllerGetUserById = async (request, response) =>{
         response
         .status(500)
         .json({message: "Usuario no pudo ser encontrado"})
+        console.error(error.message)
         
     }
 };  
@@ -134,7 +135,7 @@ const controllerModifyUser = async (request, response) =>{
     const idUser = params.id;
     const objectPetition = request.body
 
-    const fileImages =  request.files || request.file
+    const fileImages =  request.file
     
     const { 
         DNI,
@@ -156,6 +157,7 @@ const controllerModifyUser = async (request, response) =>{
         country
     } = objectPetition
     
+   
     const imagesUploader = (await imageCloudinaryUploader( fileImages, pictureUser ))[0]
 
     try {
@@ -179,6 +181,7 @@ const controllerModifyUser = async (request, response) =>{
             cityAddress,
             country
         });
+
         // const modifiedUser = await modifyUserServices( idUser, { DNI, nameUser, lastNameUser, emailUser, numberMobileUser, pictureUser, email_verified, activeUser, isAdmin });
         if(!modifiedUser){
             return response
@@ -290,7 +293,8 @@ const controllersDeactiveUser = async (req,res) => {
     try {
         const getDeactiveUser = await getDeactiveUserService()
         if(!getDeactiveUser.length) {
-            return res.status(404).send('No se encontraron usuarios desactivados.')
+            // return res.status(404).send('No se encontraron usuarios desactivados.')
+            return res.status(200).json([])
         }
         res.status(200).json(getDeactiveUser)
     } catch (error) {

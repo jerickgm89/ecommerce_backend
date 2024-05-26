@@ -1,18 +1,31 @@
-const {EntityProducts, CharacteristicsProducts} = require('../../db');
-const {Op} = require('sequelize')
+const {EntityProducts, CharacteristicsProducts, EntityReview, EntityUsers, EntityDiscounts} = require('../../../db');
+const {Op} = require('sequelize');
+const sequelize = require('sequelize')
+
 
 //Crear producto
 const createProducts = async (productData, transaction) => {
-return EntityProducts.create(productData, {transaction});
+    return EntityProducts.create(productData, {transaction});
 };
+
 const createCharacteristics = async (characteristicsData, transaction) => {
     return CharacteristicsProducts.create(characteristicsData, {transaction});
 };
 
-
 //Repositorios para Modulular la funcion PATCH
 const findProductById = async (id, transaction) => {
-    return EntityProducts.findByPk(id, {transaction});
+    console.log(id, "-> en find by id")
+    
+    return EntityProducts.findOne({
+        where: {
+            idProduct: id
+        },
+        include: {
+            model: EntityDiscounts,
+            attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup' ],
+        },
+        transaction: transaction
+    });
 };
 const findCharacteriscticsProductsById = async (id, transaction) => {
         return CharacteristicsProducts.findOne({where: {idProduct: id}, transaction})
@@ -41,11 +54,33 @@ const getAllProducts = async (query) => {
 const getProductById = async (id) => {
     const productById = await EntityProducts.findOne({
         where: {
-        idProduct: id,
-         active:true
-        }}, {include: {model:CharacteristicsProducts, attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']}});
+            idProduct: id
+        },
+        include: [
+            {
+                model: CharacteristicsProducts, 
+                attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']
+            },
+            {
+                model: EntityReview,
+                attributes: ['descriptionReview','idReview'],
+                include: [
+                    {
+                        model: EntityUsers,
+                        attributes: ['emailUser']
+                    }
+                ]
+            },
+            {
+                model: EntityDiscounts,
+                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup' ],
+            }
+        ]
+    });
+    console.log(productById, "producto by id")
     return productById;
 };
+
 
 //buscar por nombre
 const searchProductByName = async (name, offset, limit) => {
@@ -65,7 +100,7 @@ const searchProductByName = async (name, offset, limit) => {
 //Desactivar un producto
 const blockedProduct = async (id) => {
     const productBlocked = await EntityProducts.findOne({where:{idProduct: id}})
- 
+
     productBlocked.active = false;
     await productBlocked.save();
     

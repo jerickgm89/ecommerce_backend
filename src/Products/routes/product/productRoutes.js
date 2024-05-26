@@ -2,17 +2,18 @@ const express = require('express');
 
 
 const upload = require('../../../configCloudinary.js')
-const cloudinary = require('cloudinary')
+// const cloudinary = require('cloudinary')
 const  {
-   createProductControllers,
-   GetProductByIdControllers,
-   updateProductCharacteristicsControllers,
-   deleteProductCharacteristicsControllers,
-   getAllProductsControllers,
-   searchProductsControllers, 
-   blockedProductControllers,
-   restoreProductControllers,
-  getDeactivatedProductsControllers} = require('../../controllers/controllersProducts/productsControllers.js')
+  createProductControllers,
+  GetProductByIdControllers,
+  updateProductCharacteristicsControllers,
+  deleteProductCharacteristicsControllers,
+  getAllProductsControllers,
+  searchProductsControllers, 
+  blockedProductControllers,
+  restoreProductControllers,
+  getDeactivatedProductsControllers
+} = require('../../controllers/controllersProducts/productsControllers.js')
 
 
 const router = express.Router();

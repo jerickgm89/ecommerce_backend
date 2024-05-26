@@ -5,7 +5,7 @@ const {
     createCategory,
     updateCategory,
     deleteCategory
-} = require('../../controllers/category/categoryController.js'); 
+} = require('../../controllers/controllerCategory/categoryController.js'); 
 const upload = require('../../../configCloudinary.js')
 
 const router = express.Router();
@@ -13,7 +13,7 @@ const router = express.Router();
 router.post('/', upload.single('imageCategory'), createCategory);
 router.get('/', getAllCategories);
 router.get('/name/:name', getCategoryByName);
-router.put('/:id', upload.single('imageCategory'), updateCategory);
-router.delete('/:id', deleteCategory);
+router.put('/:idCategory', upload.single('imageCategory'), updateCategory);
+router.delete('/:idCategory', deleteCategory);
 
 module.exports = router;
