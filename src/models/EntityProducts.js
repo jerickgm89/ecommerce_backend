@@ -37,14 +37,17 @@ module.exports = (sequelize) => {
         },
         idReview: {
             type: DataTypes.INTEGER,
+            defaultValue: null,
         },
         idCategory: {
             type: DataTypes.INTEGER,
             allowNull: true
         },
-        IdDiscount: {
-            type: DataTypes.INTEGER
-        },
+        // idDiscount: {
+        //     type: DataTypes.INTEGER,
+        //     defaultValue: null,
+            
+        // },
         active: {
             type: DataTypes.BOOLEAN,
             defaultValue: true

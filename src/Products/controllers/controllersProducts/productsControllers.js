@@ -15,7 +15,7 @@ getDeactiveProductsService
 //Crear producto
 const createProductControllers = async (req,res) => {
     const {
-        Products: {
+        // Products: {
             nameProduct,
             priceProduct,
             imageProducts,
@@ -26,12 +26,12 @@ const createProductControllers = async (req,res) => {
             idReview,
             idCategory,
             idDiscount,
-        },
-        Variants: {
+        // },
+        // Variants: {
             modelProduct,
             characteristics,
             idBrand
-        }
+        // }
     } = req.body;
 
     const fileImages =  req.files;
@@ -46,8 +46,7 @@ const createProductControllers = async (req,res) => {
             stockProduct,
             descriptionProduct,
             idReview,
-            idCategory,
-            idDiscount
+            idCategory
         },
         {
             modelProduct,
@@ -90,7 +89,7 @@ const deleteProductCharacteristicsControllers = async (req,res) => {
     const {id} = req.params;
 
     try {
-         await deleteProductCharacteristicsServices(id)
+        await deleteProductCharacteristicsServices(id)
         res.status(200).json({message: 'El producto ha sido eliminado permanentemente.'})
     } catch (error) {
 
@@ -121,7 +120,7 @@ const GetProductByIdControllers = async (req,res) => {
     const {id} = req.params
     try {
         const product = await getProductByIdServices(id);
-        res.json(product);
+        res.status(200).json(product);
     } catch (error) {
         if (error.message === 'Product not found') {
             res.status(404).json({ error: error.message });
