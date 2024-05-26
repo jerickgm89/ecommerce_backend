@@ -36,9 +36,9 @@ const ProductAndCharacteristicsServices = async (Products, Variants, fileImages)
             yearProduct: Products.yearProduct,
             stockProduct: Products.stockProduct,
             descriptionProduct: Products.descriptionProduct,
-            idReview: Products.idReview || null,
+            // idReview: Products.idReview || null,
             idCategory: Products.idCategory,
-            idDiscount: Products.idDiscount || null,
+            // idDiscount: Products.idDiscount || null,
         }, transaction );
         // if(newProduct.idProduct){
         //     const [newDiscount, created] = await createDiscountService( newProduct.idProduct, false )
@@ -133,7 +133,7 @@ const getAllProductsServices = async (page, limit) => {
             },{
                 model: EntityDiscounts,
                 attributes: ['nameDiscount', 'descriptionDiscount', 'quantity']
-            } 
+            }
         ]
     })
     if(!getProducts) {
