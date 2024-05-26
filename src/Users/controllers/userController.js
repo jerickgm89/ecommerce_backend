@@ -294,7 +294,7 @@ const controllersDeactiveUser = async (req,res) => {
         const getDeactiveUser = await getDeactiveUserService()
         if(!getDeactiveUser.length) {
             // return res.status(404).send('No se encontraron usuarios desactivados.')
-            res.status(200).json([])
+            return res.status(200).json([])
         }
         res.status(200).json(getDeactiveUser)
     } catch (error) {

@@ -3,7 +3,7 @@ const  { EntityUsers, EntityUserAddress} = require('../../db.js');
 const jwt = require('jsonwebtoken'); // para crear token
 
 const { JWT_SECRET } = process.env;
-const { createAddressUser } = require('../../AddressInformation/repository/repositoriesAddressUser.js')
+const { createAddressUser } = require('../../addressInformation/repository/repositoriesAddressUser.js')
 
 const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email_verified }) => {
     const tokenJWT = jwt.sign(
