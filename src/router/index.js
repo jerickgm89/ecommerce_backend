@@ -1,23 +1,19 @@
 const { Router } = require('express')
-const marked = require('marked');
-const fs = require('fs-extra');
-const path = require('path');
 
-//                          ----> Users <-----<
+//                               ----> Usuarios <-----<
 const routesUsers = require('./../Users/routes/routesUsers.js')
-
-//                          ----> Products <-----<
+//                              ----> Productos <-----<
 const routesProducts = require('./../Products/routes/index.js')
-
-//                           ----> filtres and order <----
+//                              ----> filtros y ordenamiento productos <----
 const routesFiltersProducts = require('../Products/routes/filtersAndOrder/routesFiltersProducts.js')
-
-//
+//                              ---->  <----
 const routesShopping = require("../Shopping/routes/index.js")
-
-//                           ----> filtres and order <----
+//                              ----> Pago en plataforma y estado pedido <----
 const paymentRoutes = require('../payments/routes/paymentRoutes.js');
+//                              ----> Direcciones de usuarios y entrega de código postal <----
 const addressesRoutes = require('../addressInformation/routes/addressInformationRoutes.js');
+//                              ----> Ruta en '/' README.md <----
+const readmeEmptyPath = require('../../utils/emptyPath.js')
 
 //                                  ----> Reviews <----
 
@@ -25,37 +21,13 @@ const reviewRoutes = require('../review/routesReview/reviewRutes.js')
 
 const router = () => {
     const routers = Router()
+    routers.use('/', readmeEmptyPath)
     routers.use('/products', routesProducts)
     routers.use('/filterproducts', routesFiltersProducts)
     routers.use('/shop', routesShopping)
     routers.use('/payment', paymentRoutes);
     routers.use('/address', addressesRoutes)
     routers.use('/reviews', reviewRoutes)
-
-    routers.get('/', async (req, res) => {
-        try {
-            // Lee el contenido del archivo README.md
-            const readmePath = path.join(__dirname, '../../README.md');
-            fs.readFile(readmePath, 'utf8', (err, readmeContent) => {
-                if (err) {
-                    console.error(err);
-                    return res.status(500).send('Error al cargar el archivo README.md');
-                }
-        
-                // Convierte el contenido Markdown a HTML usando 'marked.parse'
-                const htmlContent = marked.parse(readmeContent);
-        
-                // Envía el contenido HTML como respuesta
-                res.send(htmlContent);
-
-            })
-        } catch (err) {
-            // Manejo de errores
-            console.error(err);
-            res.status(500).send('Error al cargar el archivo README.md');
-        }
-    
-    });
     return routers
 }
 

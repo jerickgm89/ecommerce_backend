@@ -39,9 +39,6 @@ module.exports = (sequelize) => {
             type: DataTypes.INTEGER,
             allowNull: true
         },
-        IdDiscount: {
-            type: DataTypes.INTEGER
-        },
         active: {
             type: DataTypes.BOOLEAN,
             defaultValue: true

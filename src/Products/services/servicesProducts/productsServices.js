@@ -1,4 +1,4 @@
-const {CharacteristicsProducts} = require('../../../db');
+const {CharacteristicsProducts, EntityDiscounts, ProductsDiscounts} = require('../../../db');
 
 const {
     createProducts,
@@ -17,7 +17,7 @@ const {
     getDeactiveProducts,
     transactionRecicle
 } = require('../../repositories/repositoriesProducts/productRepositories');
-
+const { createDiscountService } = require('../servicesDiscounts/discountServices.js')
 const { imageCloudinaryUploader } = require('../../../../utils/imageReception');
 
 //Crear producto
@@ -36,10 +36,14 @@ const ProductAndCharacteristicsServices = async (Products, Variants, fileImages)
             yearProduct: Products.yearProduct,
             stockProduct: Products.stockProduct,
             descriptionProduct: Products.descriptionProduct,
-            idReview: Products.idReview || null,
+            // idReview: Products.idReview || null,
             idCategory: Products.idCategory,
-            idDiscount: Products.idDiscount || null,
+            // idDiscount: Products.idDiscount || null,
         }, transaction );
+        // if(newProduct.idProduct){
+        //     const [newDiscount, created] = await createDiscountService( newProduct.idProduct, false )
+        //     var discount = newDiscount.idDiscount ? {idDiscount: newDiscount.idDiscount} : null
+        // }
 
         Variants.idProduct = newProduct.idProduct;
         const newCharacteristics = await createCharacteristics({
@@ -122,12 +126,15 @@ const getAllProductsServices = async (page, limit) => {
         offset,
         limit,
         order: [['idProduct', 'ASC']],
-        include:[{
-            model: CharacteristicsProducts,
-            attributes: ['modelProduct', 'characteristics','idBrand'],
-        }
-      
-    ]
+        include:[
+            {
+                model: CharacteristicsProducts,
+                attributes: ['modelProduct', 'characteristics','idBrand']
+            },{
+                model: EntityDiscounts,
+                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity']
+            }
+        ]
     })
     if(!getProducts) {
         throw new Error ('Error al mostrar los productos')

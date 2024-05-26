@@ -30,9 +30,9 @@ const createOrder = async (req, res) => {
       payer: body.payer,
       notification_url: "https://4d38-152-203-155-214.ngrok-free.app/payment/webhook",
       back_urls: {
-        success: "https://59fc-152-203-155-214.ngrok-free.app/success",
-        pending: "https://www.youtube.com/@art17joel/pending",
-        failure: "https://www.youtube.com/@art17joel/failure",
+        success: "https://st2.depositphotos.com/3108485/9725/i/450/depositphotos_97258336-stock-photo-hand-thumb-up.jpg",
+        pending: "https://cdn-icons-png.flaticon.com/512/3756/3756719.png",
+        failure: "https://www.publicdomainpictures.net/pictures/180000/nahled/hand-with-thumb-down.jpg",
       },
       external_reference: externalReference
     });

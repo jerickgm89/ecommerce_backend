@@ -23,9 +23,7 @@ const createProductControllers = async (req,res) => {
             yearProduct,
             stockProduct,
             descriptionProduct,
-            idReview,
             idCategory,
-            idDiscount,
         },
         Variants: {
             modelProduct,
@@ -45,9 +43,7 @@ const createProductControllers = async (req,res) => {
             yearProduct,
             stockProduct,
             descriptionProduct,
-            idReview,
-            idCategory,
-            idDiscount
+            idCategory
         },
         {
             modelProduct,
@@ -90,7 +86,7 @@ const deleteProductCharacteristicsControllers = async (req,res) => {
     const {id} = req.params;
 
     try {
-         await deleteProductCharacteristicsServices(id)
+        await deleteProductCharacteristicsServices(id)
         res.status(200).json({message: 'El producto ha sido eliminado permanentemente.'})
     } catch (error) {
 
@@ -121,7 +117,7 @@ const GetProductByIdControllers = async (req,res) => {
     const {id} = req.params
     try {
         const product = await getProductByIdServices(id);
-        res.json(product);
+        res.status(200).json(product);
     } catch (error) {
         if (error.message === 'Product not found') {
             res.status(404).json({ error: error.message });

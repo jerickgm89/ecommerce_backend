@@ -7,10 +7,10 @@ const {
     deleteAddressUserControllerAddress
 } = require('../controllers/addressesController.js')
 routesAddresses.get("/", getControllerAddress ); //getAll provincias con query llega a city
-routesAddresses.post("/:idUser", createControllerAddress );
-routesAddresses.get("/:idUser", getAllByUserControllerAddress ); //getAll provincias con query llega a city
-routesAddresses.put("/idAddress/:idAddress", updateUserControllerAddress ); //getAll provincias con query llega a city
-routesAddresses.delete("/idAddress/:idAddress", deleteAddressUserControllerAddress ); //getAll provincias con query llega a city
+routesAddresses.post("/:idUser", createControllerAddress ); // crea dirección asociada a usuario (si es diferente el nombre de la calle y el numero de cualquier otra registrada)
+routesAddresses.get("/:idUser", getAllByUserControllerAddress );  // obtiene todas las direcciones asociadas al usuario
+routesAddresses.put("/idAddress/:idAddress", updateUserControllerAddress ); // obtiene la dirección en particular del usuario
+routesAddresses.delete("/idAddress/:idAddress", deleteAddressUserControllerAddress ); // borra la dirección solicitada
 
 // routesAddresses.get("/:provinces/:city", controllerAddress);
 
