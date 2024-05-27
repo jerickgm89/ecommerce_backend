@@ -73,7 +73,7 @@ const getProductById = async (id) => {
             },
             {
                 model: EntityDiscounts,
-                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup' ],
+                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup', 'productsInDiscountGroup' ],
             }
         ]
     });
