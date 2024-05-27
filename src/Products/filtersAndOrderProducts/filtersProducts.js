@@ -15,11 +15,25 @@ const filtersProducts = async (req, res) => {
         }
         const where = {};
         let include = brand
-        ? [{
-            model: CharacteristicsProducts,
-            where: {},
-            attributes: []
-        }]
+        ? [ {
+                model: CharacteristicsProducts,
+                where: {},
+                attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']
+            },{
+                model: EntityReview,
+                attributes: ['descriptionReview','idReview'],
+                include: [
+                    {
+                        model: EntityUsers,
+                        attributes: ['emailUser']
+                    }
+                ]
+            },
+            {
+                model: EntityDiscounts,
+                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup' ],
+            }
+        ]
         : undefined
         // Construye las condiciones de filtrado basadas en los parámetros de consulta.
         if (name) {

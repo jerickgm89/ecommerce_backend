@@ -136,7 +136,6 @@ const controllerModifyUser = async (request, response) =>{
     const objectPetition = request.body
 
     const fileImages =  request.file
-    
     const { 
         DNI,
         nameUser, 
@@ -157,7 +156,6 @@ const controllerModifyUser = async (request, response) =>{
         country
     } = objectPetition
     
-   
     const imagesUploader = (await imageCloudinaryUploader( fileImages, pictureUser ))[0]
 
     try {
