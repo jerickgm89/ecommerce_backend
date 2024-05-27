@@ -32,48 +32,82 @@ const createDiscount = async ( idProduct, {
     return [discountCreated, created]
 };
 
-const createGroupDiscount = async ( idProductsList, {
+const createGroupDiscount = async ( idProduct, {
     nameDiscount,
     descriptionDiscount,
     quantity,
     activeDiscount,
 } ) => {
-    const transaction = await Sequelize.transaction();
-    
-    // if (!idProductsList.length) {
-        // throw new Error('El listado de productois asociados no puede estar vacío.');
-    // }
-    
+    const idProductList = idProduct.split('+').map(Number).sort((a, b) => a - b); 
+    if (!idProductList.length) {
+        throw new Error('El listado de productos asociados no puede estar vacío.');
+    }
+    // console.log("type of idProductList->", typeof idProductList, "   isArray ->> ", Array.isArray(idProductList))
     const objectToCreate = {
         nameDiscount,
         descriptionDiscount,
         quantity: parseFloat(quantity),
         activeDiscount,
         discountInGroup: true,
-        productsInDiscountGroup: idProductsList
+        productsInDiscountGroup: idProductList
     }
-    const newDiscount = await EntityDiscounts.create( objectToCreate, { transaction: transaction } )
+    // console.log("type of idProductList->", typeof objectToCreate, "   isArray ->> ", Array.isArray(objectToCreate.productsInDiscountGroup))
+    
+    // const newDiscount = await EntityDiscounts.create( objectToCreate )
 
-    const result = await sequelize.transaction(async (transaction) => {
-        await Promise.all( 
-            idProductsList?.map( async ( productID ) => {
-                const productFound = await EntityProducts.findByPk( productID, { transaction } )
-                if (!productFound) {
-                    await transaction.rollback();
-                    throw new error(`Producto con ID ${productID} no fue encontrado.`);
+    const [newDiscount, create] = await EntityDiscounts.findOrCreate({        
+        where: { 
+            idProduct: null,
+            nameDiscount,
+            discountInGroup: true,
+            quantity
+        },
+        defaults: objectToCreate
+    });
+
+    // console.log("salio bien o no:   ", !!newDiscount)
+
+    if(!newDiscount){
+        throw new Error('No fue posible crear el descuento');
+
+    }
+    await Promise.all( 
+        idProductList.map( async ( productID ) => {
+            const productFound = await EntityProducts.findOne({
+                where: {
+                    idProduct: productID
                 }
-                await newDiscount.addEntityProduct(productFound, { transaction: transaction });
-            }))
+        })
+        if (!productFound) {
+            throw new error(`Producto con ID ${productID} no fue encontrado.`);
+        }
+        !!productFound && await newDiscount.addEntityProduct(productFound);
+        })
+    )
+
+    const result = await EntityDiscounts.findOne({
+        where:{
+            idDiscount: newDiscount.idDiscount,
+    //         // productsInDiscountGroup: idProductList
+        },
     })
-    return result
+    // console.log("was->>", result)
+    return [result, create]
 };
 
 const getDiscountByProduct = async ( idProduct ) => {
-    const getListOfDiscounts = await EntityDiscounts.findAll({
-        where:{
-            idProduct
+    const getListOfDiscounts = await EntityDiscounts.findAndCountAll({
+        where: {
+            [Op.or]: [
+                { idProduct },
+                {
+                    productsInDiscountGroup: {
+                        [Op.contains]: [idProduct]
+                    }
+                }
+            ]
         }
-    })
+    });
     return getListOfDiscounts
 };
 
@@ -97,11 +131,11 @@ const getDiscountById = async ( idDiscount ) => {
     return discountByIdDiscount
 };
 
-const getAllGroupOfDiscount = async ( idDiscount ) => {
+const getAllGroupOfDiscount = async (  ) => {
     const discountByIdDiscount = await EntityDiscounts.findAll({
         where: {
-            idDiscount,
-            idProduct: null,
+            // idDiscount,
+            // idProduct: null,
             discountInGroup: true
         }
     })
@@ -109,8 +143,8 @@ const getAllGroupOfDiscount = async ( idDiscount ) => {
 };
 
 const updateDiscount = async ( idDiscount, infoToUploadDiscount ) => {
-    console.log("ID DISCOUNT ->  ",idDiscount)
-    console.log("UPLOAD ->  ",infoToUploadDiscount)
+    // console.log("ID DISCOUNT ->  ",idDiscount)
+    // console.log("UPLOAD ->  ",infoToUploadDiscount)
     const updateByIdDiscounts = await EntityDiscounts.update(
         infoToUploadDiscount,
         {
