@@ -37,7 +37,11 @@ const findReviewById = async (idReview) => {
 
 // Actualizar una review por ID
 const updateReview = async (idReview, updatedData) => {
-    const reviewUpdate = await EntityReview.update(updatedData, {
+    const infoToUpdate = {
+        descriptionReview,
+        scoreReview
+    }
+    const reviewUpdate = await EntityReview.update(infoToUpdate, {
         where: { idReview }
     });
     return reviewUpdate;

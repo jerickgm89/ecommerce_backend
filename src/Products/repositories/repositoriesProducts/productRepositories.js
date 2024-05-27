@@ -14,7 +14,7 @@ const createCharacteristics = async (characteristicsData, transaction) => {
 
 //Repositorios para Modulular la funcion PATCH
 const findProductById = async (id, transaction) => {
-    console.log(id, "-> en find by id")
+    // console.log(id, "-> en find by id")
     
     return EntityProducts.findOne({
         where: {
@@ -77,7 +77,7 @@ const getProductById = async (id) => {
             }
         ]
     });
-    console.log(productById, "producto by id")
+    // console.log(productById, "producto by id")
     return productById;
 };
 
