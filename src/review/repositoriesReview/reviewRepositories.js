@@ -27,6 +27,13 @@ const findReviewByUser = async (idUser) => {
     });
     return reviews;
 };
+const findReviewById = async (idReview) => {
+    console.log('Repositorio buscando review con ID:', idReview);  // Log para verificar el parámetro
+    const review = await EntityReview.findByPk(idReview);
+    console.log('Review en repositorio:', review);  // Log para verificar el resultado de la consulta
+    return review;
+};
+
 
 // Actualizar una review por ID
 const updateReview = async (idReview, updatedData) => {
@@ -49,6 +56,7 @@ module.exports = {
     findAllReview,
     findReviewByProduct,
     findReviewByUser,
+    findReviewById,
     updateReview,
     deleteReview,
 };

@@ -3,6 +3,7 @@ const {
     findAllReview,
     findReviewByProduct,
     findReviewByUser,
+    findReviewById,
     updateReview,
     deleteReview,
 } = require('../repositoriesReview/reviewRepositories');
@@ -40,6 +41,13 @@ const findReviewByUserServices = async (idUser) => {
     }
     return reviews;
 };
+const findReviewByIdServices = async (idReview) => {
+    console.log('Servicio buscando review con ID:', idReview);  // Log para verificar el parámetro
+    const review = await findReviewById(idReview);
+    console.log('Review en servicio:', review);  // Log para verificar la respuesta del repositorio
+    return review;
+};
+
 
 const updateReviewServices = async (idReview, updatedData) => {
     const reviewUpdate = await updateReview(idReview, updatedData);
@@ -62,6 +70,7 @@ module.exports = {
     findAllReviewServices,
     findReviewByProductServices,
     findReviewByUserServices,
+    findReviewByIdServices,
     updateReviewServices,
     deleteReviewServices,
 };

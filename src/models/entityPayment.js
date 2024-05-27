@@ -10,11 +10,11 @@ module.exports = (sequelize) => {
         },
         name: { // Añadido campo DNI asociado a la tarjeta
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         dni: { // Añadido campo DNI asociado a la tarjeta
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         paymentType: {
             type: DataTypes.STRING,

@@ -13,6 +13,7 @@ const {
     findAllReviewServices,
     findReviewByProductServices,
     findReviewByUserServices,
+    findReviewByIdServices,
     updateReviewServices,
     deleteReviewServices,
 } = require('../serviceReview/reviewService');
@@ -55,6 +56,23 @@ const findReviewByUserControllers = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener las reviews de este usuario' });
     }
 };
+const findReviewByIdControllers = async (req, res) => {
+    const { idReview } = req.params;
+    console.log('ID Review:', idReview);  // Log para verificar el parámetro
+    try {
+        const review = await findReviewByIdServices(idReview);
+        console.log('Review encontrada:', review);  // Log para verificar la respuesta del servicio
+        if (review) {
+            res.status(200).json(review);
+        } else {
+            res.status(404).json({ message: 'Review no encontrada' });
+        }
+    } catch (error) {
+        console.error('Error al obtener la review:', error);  // Log para el error
+        res.status(500).json({ error: 'Error al obtener la review' });
+    }
+};
+
 const updateReviewControllers = async (req, res) => {
     const { id } = req.params;
     const updatedData = req.body;
@@ -80,6 +98,7 @@ module.exports = {
     findAllReviewControllers,
     findReviewByProductControllers,
     findReviewByUserControllers,
+    findReviewByIdControllers,
     updateReviewControllers,
     deleteReviewControllers,
 };
