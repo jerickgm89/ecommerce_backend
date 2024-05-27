@@ -1,4 +1,4 @@
-const {EntityProducts, CharacteristicsProducts, EntityReview, EntityUsers, EntityDiscounts} = require('../../../db');
+const {EntityProducts, CharacteristicsProducts, EntityReview, EntityUsers, EntityDiscounts, EntityComments} = require('../../../db');
 const {Op} = require('sequelize');
 const sequelize = require('sequelize')
 
@@ -73,8 +73,18 @@ const getProductById = async (id) => {
             },
             {
                 model: EntityDiscounts,
-                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup', 'productsInDiscountGroup' ],
-            }
+                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup' ],
+            },
+            {
+            model: EntityComments,
+            attributtes: ['comments', 'idProduct'],
+            include: [
+                {
+                    model: EntityUsers,
+                    attributes: ['emailUser']
+                }
+            ]
+        }
         ]
     });
     // console.log(productById, "producto by id")

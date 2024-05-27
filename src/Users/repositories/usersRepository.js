@@ -6,6 +6,8 @@ const { JWT_SECRET } = process.env;
 const { createAddressUser } = require('../../addressInformation/repository/repositoriesAddressUser.js')
 
 const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email_verified }) => {
+
+    
     const tokenJWT = jwt.sign(
         {
             emailUser
@@ -28,6 +30,7 @@ const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email
         where: { emailUser },
         defaults: newUserInfo
     });
+    
     if( create ){
         user.tokenAuth = tokenJWT;
         user.changed('tokenAuth', true);
