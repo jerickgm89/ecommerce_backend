@@ -56,7 +56,7 @@ const filtersProducts = async (req, res) => {
         //     // console.log(order)
         // }
         if(brand) {
-            const brandIds = brand.split(',').map(brandId => parseInt(brandId)); 
+            const brandIds = brand.split(',').map(brandId => parseInt(brandId)); // Convertir a array de números
             include[0].where.idBrand = {[Op.in]: brandIds};
         }
         
