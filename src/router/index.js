@@ -18,6 +18,9 @@ const readmeEmptyPath = require('../../utils/emptyPath.js')
 //                                  ----> Reviews <----
 
 const reviewRoutes = require('../review/routesReview/reviewRutes.js')
+//                                  ----> comments <----
+
+const commentsRoutes = require('../comments/routesComments/commentsRoutes.js')
 
 const router = () => {
     const routers = Router()
@@ -28,6 +31,7 @@ const router = () => {
     routers.use('/payment', paymentRoutes);
     routers.use('/address', addressesRoutes)
     routers.use('/reviews', reviewRoutes)
+    routers.use('/comments', commentsRoutes)
     return routers
 }
 

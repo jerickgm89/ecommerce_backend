@@ -31,6 +31,7 @@ const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email
         // }
     );
 
+    
     if( create ){
         user.tokenAuth = tokenJWT;
         user.changed('tokenAuth', true);
@@ -45,14 +46,12 @@ const getAllUsers = async () =>{
     const listAllUsers = await EntityUsers.findAll({
         where: {activeUser: true},
         order: [['idUser', 'ASC']],
-      
         
     });
     return listAllUsers;
 };
 
 const getUserById = async (idUser) => {
-   
     const userById = await EntityUsers.findOne({
         where:{
             idUser
