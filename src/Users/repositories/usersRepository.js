@@ -36,6 +36,7 @@ const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email
         user.tokenAuth = tokenJWT;
         user.changed('tokenAuth', true);
         await user.save();
+        await user.reload();
         return [user, create];
     };
     return [user, create];
@@ -253,8 +254,7 @@ const verifyingTokenUser = async (token) => {
         const user = await EntityUsers.findOne({
             where: {
                 emailUser,
-                isActive,
-                isAdmin
+                activeUser:true
             }
         });
         if( user ){
