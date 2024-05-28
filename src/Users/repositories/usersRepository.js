@@ -223,7 +223,7 @@ const verifyEmail = async ( emailToVerify ) => {
                 // si el token existe, uso el email de la decodificación
                 // para retornar la información del usuario
                 if( decoded.emailUser ){
-                    console.log("jwt:   ",decoded.emailUser)
+                    console.log("jwt:   ", decoded.emailUser)
                     return user.tokenAuth
                 }
             // Si el token no es válido o está caduco
@@ -247,7 +247,7 @@ const verifyEmail = async ( emailToVerify ) => {
 
 const verifyingTokenUser = async (token) => {
     // try {
-        const {emailUser, isActive, isAdmin} = jwt.decode( token, JWT_SECRET );
+        const {emailUser, activeUser, isAdmin} = jwt.decode( token, JWT_SECRET );
         // const decoded = jwt(token)
         // console.log("TOKEN ->  ", token)
         // console.log("DECODE ->>> ", emailUser, isActive, isAdmin)

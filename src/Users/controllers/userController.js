@@ -181,13 +181,11 @@ const controllerModifyUser = async (request, response) =>{
             country
         });
 
-        // const modifiedUser = await modifyUserServices( idUser, { DNI, nameUser, lastNameUser, emailUser, numberMobileUser, pictureUser, email_verified, activeUser, isAdmin });
         if(!modifiedUser){
             return response
             .status(400)
             .json({ message: "Usuario no encontrado" })
         }
-        // const getUpdatedUser = await getUserByIdServices(idUser);
 
         return response
         .status(200)
@@ -279,12 +277,15 @@ const controllerGetUserByEmail = async ( req, res ) =>{
 
 const controllerGetToken = async (request, response) => {
     try {
+        if(!!request.header('Authorization')){
+            return response.status(204)
+        }
         const token =
         request.header('Authorization').split(' ').length > 1 
         ? request.header('Authorization').split(' ')[1] 
         : request.header('Authorization')
         
-        console.log("TOKEN:  ", token)
+        console.log("TOKEN:  ", !!token )
         const verifying = await verifyingTokenService( token )
         return response.status(200).json( verifying )
     } catch (error) {
