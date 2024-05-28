@@ -302,6 +302,28 @@ const controllersDeactiveUser = async (req,res) => {
     }
 }
 
+const getLastRegisteredUsersServices = async () => {
+    try {
+        let allUsersList = await getAllUsersServices();
+
+        // fecha de registro desc
+        allUsersList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        // ultimos usuarios
+        const numberOfUsers = 2; // Número de últimos usuarios
+        const lastUsers = allUsersList.slice(0, numberOfUsers);
+
+        return lastUsers;
+    } catch (error) {
+        throw new Error("Error al obtener los últimos usuarios registrados");
+    }
+};
+
+module.exports = {
+    getLastRegisteredUsersServices
+};
+
+
 module.exports = {
     controllerGetAllUsers,
     controllerRegisterUser,

@@ -98,6 +98,22 @@ const getUserByEmailServices = async ( email ) =>{
     const verifyingToken = await verifyingTokenUser( token );
     return verifyingToken
 }
+const { getLastRegisteredUsersServices } = require('./ruta/al/archivo/services/lastRegisteredUsersService');
+
+const controllerGetLastRegisteredUsers = async (request, response) => {
+    try {
+        let lastUsersList = await getLastRegisteredUsersServices();
+
+        return response.status(200).json(lastUsersList);
+    } catch (error) {
+        response.status(500).json({ message: "No se pudieron obtener los últimos usuarios registrados" });
+    }
+};
+
+module.exports = {
+    controllerGetLastRegisteredUsers
+};
+
 
 const getDeactiveUserService = async () => {
     const deactiveUser = await getDeactiveUser()
