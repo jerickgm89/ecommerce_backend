@@ -99,10 +99,40 @@ const searchProductByName = async (name, offset, limit) => {
             active: true,
             nameProduct: { 
                 [Op.iLike]: `%${name}%`
-            }
+            },
         },
         offset,
         limit,
+        include: [
+            {
+                model: CharacteristicsProducts, 
+                attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']
+            },
+            {
+                model: EntityReview,
+                attributes: ['descriptionReview','idReview'],
+                include: [
+                    {
+                        model: EntityUsers,
+                        attributes: ['emailUser']
+                    }
+                ]
+            },
+            {
+                model: EntityDiscounts,
+                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup' ],
+            },
+            {
+            model: EntityComments,
+            attributtes: ['comments', 'idProduct'],
+            include: [
+                {
+                    model: EntityUsers,
+                    attributes: ['emailUser']
+                }
+            ]
+        }
+        ]
     })
     return searchName;
 };
