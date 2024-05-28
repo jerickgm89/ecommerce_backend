@@ -1,4 +1,4 @@
-const { EntityProducts, CharacteristicsProducts } = require('../../db');
+const { EntityProducts, CharacteristicsProducts, EntityDiscounts, EntityReview,EntityUsers } = require('../../db');
 const { Op } = require('sequelize');
 
 const filtersProducts = async (req, res) => {
