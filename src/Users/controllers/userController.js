@@ -9,7 +9,8 @@ const {
     serviceGetByEmail,
     verifyingTokenService,
     getDeactiveUserService,
-    restoreUserServices
+    restoreUserServices,
+    isActiveUserEmailService
 } = require('../services/userService.js')
 const { imageCloudinaryUploader } = require('../../../utils/imageReception.js')
 
@@ -299,7 +300,18 @@ const controllersDeactiveUser = async (req,res) => {
         }
         res.status(200).json(getDeactiveUser)
     } catch (error) {
-            res.status(500).send('No se pudo procesar la solicitud de usuarios desactivados')
+        res.status(500).send('No se pudo procesar la solicitud de usuarios desactivados')
+    }
+}
+
+const isActiveUserControllerEmail = async ( req, res ) =>{
+    try {
+        let { emailUser } = req.params;
+        emailUser = emailUser.trim().toLowerCase()
+        const isAnActiveUser = await isActiveUserEmailService( emailUser );
+        return res.status(200).json( isAnActiveUser ) 
+    } catch (error) {
+        return res.status(500).send( 'No se pudo procesar la solicitud' )
     }
 }
 
@@ -314,5 +326,6 @@ module.exports = {
     controllersRestoreUser,
     controllerGetUserByEmail,
     controllerGetToken,
-    controllersDeactiveUser
+    controllersDeactiveUser,
+    isActiveUserControllerEmail
 }

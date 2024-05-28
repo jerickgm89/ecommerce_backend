@@ -281,7 +281,14 @@ const verifyingTokenUser = async (token) => {
         // }
         // else throw new Error ("Token error")
 }
-
+const isActiveUserEmail = async (email) => {
+    const {activeUser} = await EntityUsers.findOne({
+        where: {
+            emailUser: email
+        }
+    });
+    return !!activeUser;
+};
 
 module.exports = {
     loginUser,
@@ -294,5 +301,6 @@ module.exports = {
     restoreUser,
     verifyEmail,
     verifyingTokenUser,
-    getDeactiveUser
+    getDeactiveUser,
+    isActiveUserEmail
 }
