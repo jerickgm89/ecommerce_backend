@@ -23,7 +23,7 @@ const controllerRegisterUser = async (request, response) => {
             email,
             picture,
             email_verified,
-            // isAdmin
+            isAdmin
         } = request.body
         
         const fileImages =  request.file
@@ -40,7 +40,7 @@ const controllerRegisterUser = async (request, response) => {
             email,
             picture: imagesUploader,
             email_verified,
-            // isAdmin,
+            isAdmin,
         })
         if( !create ){
             return response
@@ -278,10 +278,13 @@ const controllerGetUserByEmail = async ( req, res ) =>{
 
 const controllerGetToken = async (request, response) => {
     try {
-        const token = request.header('Authorization').split(' ')[1]
+        const token = request.header('Authorization').split(' ').length > 1 
+        ? request.header('Authorization').split(' ')[1] 
+        : request.header('Authorization')
+        
         console.log("TOKEN:  ", token)
         const verifying = await verifyingTokenService( token )
-        response.status(200).json( verifying )
+        return response.status(200).json( verifying )
     } catch (error) {
         // response.status(500).send( error )
         response.status(500).send( 'No se pudo procesar la solicitud de verificación' )

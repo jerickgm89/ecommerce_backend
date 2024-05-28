@@ -5,29 +5,32 @@ const jwt = require('jsonwebtoken'); // para crear token
 const { JWT_SECRET } = process.env;
 const { createAddressUser } = require('../../addressInformation/repository/repositoriesAddressUser.js')
 
-const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email_verified }) => {
-    const tokenJWT = jwt.sign(
-        {
-            emailUser
-        },
-        JWT_SECRET,
-        {
-            expiresIn: "40h" // expira en 40 horas
-        }
-    );
+const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email_verified, isAdmin }) => {
+    
     const newUserInfo = {
         nameUser,
         lastNameUser,
-        emailUser,
+        emailUser:emailUser,
         pictureUser,
         email_verified,
-        // isAdmin
+        isAdmin
     };
-
     const [ user, create ]  = await EntityUsers.findOrCreate({ 
         where: { emailUser },
         defaults: newUserInfo
     });
+    const tokenJWT = jwt.sign(
+        {
+            emailUser, 
+            isActive: create ? true : user.isActive,
+            isAdmin: user.isAdmin
+        },
+        JWT_SECRET
+        // {
+        //     expiresIn: "4h" // expira en 40 horas
+        // }
+    );
+
     if( create ){
         user.tokenAuth = tokenJWT;
         user.changed('tokenAuth', true);
@@ -220,7 +223,7 @@ const verifyEmail = async ( emailToVerify ) => {
                 // si el token existe, uso el email de la decodificación
                 // para retornar la información del usuario
                 if( decoded.emailUser ){
-                    // console.log("jwt:   ",decoded.emailUser)
+                    console.log("jwt:   ",decoded.emailUser)
                     return user.tokenAuth
                 }
             // Si el token no es válido o está caduco
@@ -243,13 +246,16 @@ const verifyEmail = async ( emailToVerify ) => {
 
 
 const verifyingTokenUser = async (token) => {
-    try {
-        const decoded = jwt.decode( token, JWT_SECRET );
+    // try {
+        const {emailUser, isActive, isAdmin} = jwt.decode( token, JWT_SECRET );
         // const decoded = jwt(token)
-        console.log("DECODE:  ", token)
+        // console.log("TOKEN ->  ", token)
+        // console.log("DECODE ->>> ", emailUser, isActive, isAdmin)
         const user = await EntityUsers.findOne({
             where: {
-                emailUser: decoded.emailUser
+                emailUser,
+                isActive,
+                isAdmin
             }
         });
         if( user ){
@@ -257,24 +263,24 @@ const verifyingTokenUser = async (token) => {
         }
         else throw new Error (" el token no esta asignado a ningun usuario registrado")
         
-    } catch (error) {
-        if(error.name == "TokenExpiredError"){
-            const decoded = jwt.decode(token);
-            const user = await EntityUsers.findOne({
-                where: {
-                    emailUser: decoded.emailUser
-                }
-            });
-            if( user ) {
-                const newToken = generateToken(user.emailUser);
-                user.tokenAuth = newToken;
-                user.changed('tokenAuth', true);
-                await user.save();
-                return user
-            };
-        }
-        else throw new Error ("Token error")
-    }
+    // } catch (error) {
+        // if(error.name == "TokenExpiredError"){
+        //     const decoded = jwt.decode(token);
+        //     const user = await EntityUsers.findOne({
+        //         where: {
+        //             emailUser: decoded.emailUser
+        //         }
+        //     });
+        //     if( user ) {
+        //         const newToken = generateToken(user.emailUser);
+        //         user.tokenAuth = newToken;
+        //         user.changed('tokenAuth', true);
+        //         await user.save();
+        //         return user
+        //     };
+        // }
+        // }
+        // else throw new Error ("Token error")
 }
 
 
