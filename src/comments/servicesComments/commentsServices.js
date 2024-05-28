@@ -11,18 +11,19 @@ const {
 
 
 //Crear comentarios
-const createCommentsServices = async (idUser, idProduct, comments) => {
+const createCommentsServices = async (idUser, idProduct, comments, responseComments) => {
 
     const commentsData = {
         idUser,
         idProduct,
-        comments
+        comments,
+        responseComments
     }
     if(!commentsData) {
         throw new Error('Error al crear un comentario')
     }
-    const responseComments = await  createComments(commentsData)
-    return responseComments
+    const responseComment = await  createComments(commentsData)
+    return responseComment
 };
 
 //Mostrar todos los comentarios

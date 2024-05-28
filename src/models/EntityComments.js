@@ -12,6 +12,9 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
         
         },
+        responseComments: {
+            type: DataTypes.STRING
+        },
         activeComments: {
             type: DataTypes.BOOLEAN,
             defaultValue: true

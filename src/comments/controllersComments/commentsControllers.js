@@ -12,9 +12,9 @@ const {
  //Crer comentarios
 const createCommentsControllers = async (req,res) => {
 
-    const {idUser, idProduct, comments} = req.body
+    const {idUser, idProduct, comments, responseComments} = req.body
     try {
-        const newComments = await createCommentsServices(idUser,idProduct,comments)
+        const newComments = await createCommentsServices(idUser,idProduct,comments, responseComments)
         res.status(201).json({message: 'Comentario creado con éxito ', newComments})
     } catch (error) {
         res.status(500).json({error: 'Error al crear un comentario', details: error.message})

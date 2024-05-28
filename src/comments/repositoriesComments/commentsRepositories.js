@@ -40,9 +40,10 @@ const getCommentsById = async (id) => {
 
 //Modificar comentario. solo comments
 const updateComments = async (idComments, commentsData) => {
-    const { comments } = commentsData;
+    const { comments, responseComments } = commentsData;
     const reviewUpdate = await EntityComments.update(
-        { comments },
+        { comments, responseComments },
+        
         { where: { idComments } }
     )
     return reviewUpdate
