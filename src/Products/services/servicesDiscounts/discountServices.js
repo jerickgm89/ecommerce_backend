@@ -16,8 +16,7 @@ const createDiscountService = async ( idProduct, discountInfo ) => {
 }
 
 const createGroupDiscountService = async ( idProduct, discountInfo ) => {
-    const idProductsList = idProduct.split('+')
-    const [ discount, created ] = await createDiscount( idProductsList, discountInfo )
+    const [ discount, created ] = await createGroupDiscount( idProduct, discountInfo )
     return [ discount, created ]
 }
 
@@ -35,8 +34,8 @@ const getDiscountByIdService = async ( idDiscount ) => {
     return discountByIdDiscount
     
 }
-const getAllGroupOfDiscountService = async ( idDiscount ) => {
-    const discountByIdDiscount = await getAllGroupOfDiscount( idDiscount )
+const getAllGroupOfDiscountService = async (  ) => {
+    const discountByIdDiscount = await getAllGroupOfDiscount(  )
     return discountByIdDiscount
     
 }
