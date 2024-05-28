@@ -279,7 +279,8 @@ const controllerGetUserByEmail = async ( req, res ) =>{
 
 const controllerGetToken = async (request, response) => {
     try {
-        const token = request.header('Authorization').split(' ').length > 1 
+        const token =
+        request.header('Authorization').split(' ').length > 1 
         ? request.header('Authorization').split(' ')[1] 
         : request.header('Authorization')
         
