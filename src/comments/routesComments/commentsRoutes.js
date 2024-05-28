@@ -8,7 +8,8 @@ const {
     deleteCommentsControllers,
     deactivateCommentControllers,
     restoreCommentControllers,
-    getInactiveCommentsControllers
+    getInactiveCommentsControllers,
+    reportCommentControllers
  } = require('../controllersComments/commentsControllers')
 
 const router = express.Router()
@@ -21,4 +22,5 @@ router.put('/:id', updateCommentsControllers)
 router.delete('/:id', deleteCommentsControllers)
 router.delete('/deactive/:id', deactivateCommentControllers )
 router.delete('/restore/:id', restoreCommentControllers)
+router.put('/report/:id', reportCommentControllers)
 module.exports = router;

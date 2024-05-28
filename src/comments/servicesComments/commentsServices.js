@@ -6,7 +6,8 @@ const {
     deleteComments,
     deactivateComment,
     restoreComment,
-    getInactiveComments
+    getInactiveComments,
+    reportComment
 } = require('../repositoriesComments/commentsRepositories')
 
 
@@ -88,6 +89,15 @@ const getInactiveCommentsService = async () => {
     return inactiveComments;
 };
 
+//Agregar un reporte a comentario, después del 5to reporte es desactivado.
+const reportCommentService = async (id) => {
+    const report = await reportComment(id)
+    if (!report.success) {
+        throw new Error('No se pudo encontrar el comentario a reportar')
+    }
+    return report;
+};
+
 module.exports = {
     createCommentsServices,
     getAllCommentsService,
@@ -96,5 +106,6 @@ module.exports = {
     deleteCommentsService,
     deactivateCommentService,
     restoreCommentService,
-    getInactiveCommentsService
+    getInactiveCommentsService,
+    reportCommentService
 }

@@ -47,6 +47,7 @@ const updateComments = async (idComments, commentsData) => {
         { where: { idComments } }
     )
     return reviewUpdate
+    
 };
 
 //Borrar comentario permanentemente
@@ -69,23 +70,52 @@ const deactivateComment = async (id) => {
 
 //Restaurar un comentario
 const restoreComment = async (id) => {
-        const commentsRestore = await EntityComments.findOne({where:{idComments: id}}, {paranoid: true})
+    const commentsRestore = await EntityComments.findOne({where:{idComments: id}}, {paranoid: true})
     
-        commentsRestore.activeComments = true;
-        await commentsRestore.restore();
-        await commentsRestore.save();
+    commentsRestore.activeComments = true;
+    await commentsRestore.restore();
+    await commentsRestore.save();
     
-        return commentsRestore;
+    return commentsRestore;
 };
 
 //Mostrar lista de comentarios desactivados.
 const getInactiveComments = async () => {
-        const inactiveComments = await EntityComments.findAll({
-            where: { activeComments: false },
-            order: [['idComments', 'ASC']]
-        });
-        return inactiveComments;
-    };
+    const inactiveComments = await EntityComments.findAll({
+        where: { activeComments: false },
+        order: [['idComments', 'ASC']]
+    });
+    return inactiveComments;
+};
+
+const reportComment = async (id) => {
+    const reportedComment = await EntityComments.findByPk(id);
+    if(!reportedComment){
+        return {success: !reportedComment}
+    }
+    else{
+        if(reportedComment.reportsCount === 5){ // === 5
+            reportedComment.activeComments = false;
+            await reportedComment.save()
+            await reportedComment.reload()
+        }
+        else{
+            reportedComment.reportsCount += 1 
+            await reportedComment.save()
+            await reportedComment.reload()
+        }
+    }
+    response = {
+        success: !!reportedComment,
+        activeComments: reportedComment.activeComments
+    }
+    
+    // const foundedComment = await EntityComments.findByPk(idComments)
+    console.log("founded comment -> ", reportedComment) 
+    console.log("obj comment ->>>>> ", response) 
+    // return false
+    return response;
+};
 
 
 module.exports = {
@@ -96,5 +126,6 @@ module.exports = {
     deleteComments,
     deactivateComment,
     restoreComment,
-    getInactiveComments
+    getInactiveComments,
+    reportComment
 };

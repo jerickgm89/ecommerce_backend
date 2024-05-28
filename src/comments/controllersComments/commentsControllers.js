@@ -6,8 +6,9 @@ const {
     deleteCommentsService,
     deactivateCommentService,
     restoreCommentService,
-    getInactiveCommentsService
- } = require('../servicesComments/commentsServices')
+    getInactiveCommentsService,
+    reportCommentService
+} = require('../servicesComments/commentsServices')
 
  //Crer comentarios
 const createCommentsControllers = async (req,res) => {
@@ -105,10 +106,22 @@ const restoreCommentControllers = async (req,res) => {
         res.status(500).json({message: 'Error al restaurar el comentario'})
     }
 };
+const reportCommentControllers = async (req,res) => {
+    const {id} = req.params
+        const report = await reportCommentService(id)
+    try {
+        if(report.success && report.activeComments){
+            return res.status(200).json({message: 'El comentario recibió un reporte'})
+        }
+        return res.status(200).json({message: 'El comentario fue desactivado'})
+    } catch (error) {
+        res.status(500).json({message: 'Error al restaurar el comentario'})
+    }
+};
 
 
 
- module.exports = {
+module.exports = {
     createCommentsControllers,
     getAllCommentsControllers,
     updateCommentsControllers,
@@ -116,5 +129,6 @@ const restoreCommentControllers = async (req,res) => {
     deleteCommentsControllers,
     deactivateCommentControllers,
     restoreCommentControllers,
-    getInactiveCommentsControllers
+    getInactiveCommentsControllers,
+    reportCommentControllers
 }
