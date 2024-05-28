@@ -10,14 +10,18 @@ module.exports = (sequelize) => {
         },
         comments: {
             type: DataTypes.STRING,
-        
         },
         responseComments: {
             type: DataTypes.STRING
         },
         activeComments: {
             type: DataTypes.BOOLEAN,
-            defaultValue: true
+            defaultValue: true,
+        },
+        reportsCount:{
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
+            allowNull: true
         }
     },
     {

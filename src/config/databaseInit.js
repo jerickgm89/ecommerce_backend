@@ -1,5 +1,6 @@
 const { EntityCategory, EntityBrand, EntityProducts, CharacteristicsProducts, EntityUsers } = require('../db');
 const { imageCloudinaryUploader } = require('../../utils/imageReception.js')
+const {logInUserServices} = require('../Users/services/userService.js')
 
 const initialCategories = [
     {
@@ -781,11 +782,11 @@ const initialProducts = [
 ]
 const initialUserAdmin = [
     {
-        emailUser: "ecommercetech2024@gmail.com",
+        email: "ecommercetech2024@gmail.com",
         isAdmin: true
     },
     {
-        emailUser: "cami.igsa@gmail.com",
+        email: "cami.igsa@gmail.com",
         isAdmin: true
     }
 ]
@@ -796,9 +797,13 @@ async function initializeData() {
     
     const userCount = await EntityUsers.count();
     if ( userCount === 0 ) {
-        await EntityUsers.bulkCreate(initialUserAdmin);
+        initialUserAdmin.map( async (user) => await logInUserServices(user))
         console.log('Initial admin user added.');
-    } 
+    }
+    // if ( userCount === 0 ) {
+    //     await EntityUsers.bulkCreate(initialUserAdmin);
+    //     console.log('Initial admin user added.');
+    // } 
 
     const categoryCount = await EntityCategory.count();
     if (categoryCount === 0) {

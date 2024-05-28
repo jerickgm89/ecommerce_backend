@@ -20,10 +20,10 @@ const logInUserServices = async ( userInfo ) => {
         // DNI: Number(dni),
         nameUser: userInfo.given_name,
         lastNameUser: userInfo.family_name,
-        emailUser: userInfo.email.toLowerCase(),
+        emailUser: userInfo.email,
         pictureUser: userInfo.picture,
         email_verified : userInfo.email_verified,
-        // isAdmin
+        isAdmin: userInfo.isAdmin ? userInfo.isAdmin : false
     }
     const [ user,create ] = await loginUser( infoUser );
     // await sendWelcomeEmail( infoUser.emailUser, infoUser.emailUser )
