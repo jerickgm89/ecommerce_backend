@@ -103,7 +103,7 @@ const verifyingTokenService = async ( token ) => {
 const getDeactiveUserService = async () => {
     const deactiveUser = await getDeactiveUser()
     if(!deactiveUser) {
-        throw new Error('No se pudo Encontrar usuarios desactivados')
+        throw new Error('No se pudo encontrar usuarios desactivados')
     }
     return deactiveUser
 }
@@ -123,5 +123,6 @@ module.exports = {
     blockedUserServices,
     restoreUserServices,
     verifyingTokenService,
+    getDeactiveUserService,
     isActiveUserEmailService
 }
