@@ -246,41 +246,38 @@ const verifyEmail = async ( emailToVerify ) => {
 
 
 const verifyingTokenUser = async (token) => {
-    // try {
-        const {emailUser, activeUser, isAdmin} = jwt.decode( token, JWT_SECRET );
-        // const decoded = jwt(token)
-        // console.log("TOKEN ->  ", token)
-        // console.log("DECODE ->>> ", emailUser, isActive, isAdmin)
+    try {
+        const decoded = jwt.verify( token, JWT_SECRET );
         const user = await EntityUsers.findOne({
             where: {
-                emailUser,
-                activeUser:true
+                emailUser: decoded.emailUser
             }
-        });
+        })
         if( user ){
             return user
         }
         else throw new Error (" el token no esta asignado a ningun usuario registrado")
         
-    // } catch (error) {
-        // if(error.name == "TokenExpiredError"){
-        //     const decoded = jwt.decode(token);
-        //     const user = await EntityUsers.findOne({
-        //         where: {
-        //             emailUser: decoded.emailUser
-        //         }
-        //     });
-        //     if( user ) {
-        //         const newToken = generateToken(user.emailUser);
-        //         user.tokenAuth = newToken;
-        //         user.changed('tokenAuth', true);
-        //         await user.save();
-        //         return user
-        //     };
-        // }
-        // }
-        // else throw new Error ("Token error")
+    } catch (error) {
+        if(error.name == "TokenExpiredError"){
+            const decoded = jwt.decode(token);
+            const user = await EntityUsers.findOne({
+                where: {
+                    emailUser: decoded.emailUser
+                }
+            })
+            if( user ) {
+                const newToken = generateToken(user.emailUser);
+                user.tokenAuth = newToken;
+                user.changed('tokenAuth', true);
+                await user.save();
+                return user
+            }
+        }
+        else throw new Error ("Token error")
+    }
 }
+
 const isActiveUserEmail = async (email) => {
     const {activeUser} = await EntityUsers.findOne({
         where: {

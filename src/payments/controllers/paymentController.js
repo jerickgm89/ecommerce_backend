@@ -28,7 +28,7 @@ const createOrder = async (req, res) => {
     const result = await mercadopago.preferences.create({
       items: body.items,
       payer: body.payer,
-      notification_url: "https://fb02-152-203-155-214.ngrok-free.app/payment/webhook",
+      notification_url: "https://33bd-2803-c180-2001-b3c1-107d-8497-4e58-5b95.ngrok-free.app/payment/webhook",
       back_urls: {
         success: "https://st2.depositphotos.com/3108485/9725/i/450/depositphotos_97258336-stock-photo-hand-thumb-up.jpg",
         pending: "https://cdn-icons-png.flaticon.com/512/3756/3756719.png",
