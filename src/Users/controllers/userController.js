@@ -277,22 +277,14 @@ const controllerGetUserByEmail = async ( req, res ) =>{
 
 const controllerGetToken = async (request, response) => {
     try {
-        if(!!request.header('Authorization')){
-            return response.status(204)
-        }
-        const token =
-        request.header('Authorization').split(' ').length > 1 
-        ? request.header('Authorization').split(' ')[1] 
-        : request.header('Authorization')
-        
-        console.log("TOKEN:  ", !!token )
+        const token = request.header('Authorization').split(' ')[1]
         const verifying = await verifyingTokenService( token )
-        return response.status(200).json( verifying )
+        response.status(200).json( verifying )
     } catch (error) {
         // response.status(500).send( error )
         response.status(500).send( 'No se pudo procesar la solicitud de verificación' )
     }
-};
+}
 const controllersDeactiveUser = async (req,res) => {
     try {
         const getDeactiveUser = await getDeactiveUserService()
