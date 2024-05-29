@@ -76,7 +76,7 @@ const updateAddressesUser = async ( idUser, updateAddressInfo ) => {
 }
 
 const deleteAddressesUser = async ( idAddress ) => {
-    const deleted = await EntityUserAddress.findAll({ where: { idUserAddress:idAddress }})
+    const deleted = await EntityUserAddress.destroy({ where: { idUserAddress:idAddress }})
     return !!deleted
 }
 module.exports = {
