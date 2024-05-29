@@ -195,7 +195,7 @@ const controllerModifyUser = async (request, response) =>{
         response
         .status(500)
         // .json({ message: "Usuario no pudo ser modificado" })
-        .json({ error: error.message })
+        .json({error: error, detail: error.message })
     }
 };  
 const controllerDeleteUser = async (request, response) =>{
@@ -294,7 +294,7 @@ const controllersDeactiveUser = async (req,res) => {
         }
         res.status(200).json(getDeactiveUser)
     } catch (error) {
-        res.status(500).send('No se pudo procesar la solicitud de usuarios desactivados')
+        res.status(500).send({error:'No se pudo procesar la solicitud de usuarios desactivados', details: error.message})
     }
 }
 
@@ -305,7 +305,7 @@ const isActiveUserControllerEmail = async ( req, res ) =>{
         const isAnActiveUser = await isActiveUserEmailService( emailUser );
         return res.status(200).json( isAnActiveUser ) 
     } catch (error) {
-        return res.status(500).send( 'No se pudo procesar la solicitud' )
+        return res.status(500).json({ error:'No se pudo procesar la solicitud', detail: error.message })
     }
 }
 
