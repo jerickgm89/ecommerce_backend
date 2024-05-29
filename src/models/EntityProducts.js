@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
             // allowNull: false
         },
         descriptionProduct: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             // allowNull: false
         },
         SKU: {

@@ -28,7 +28,7 @@ const createOrder = async (req, res) => {
     const result = await mercadopago.preferences.create({
       items: body.items,
       payer: body.payer,
-      notification_url: "https://fb02-152-203-155-214.ngrok-free.app/payment/webhook",
+      notification_url: "https://fa51-152-203-36-17.ngrok-free.app/payment/webhook",
       back_urls: {
         success: "https://st2.depositphotos.com/3108485/9725/i/450/depositphotos_97258336-stock-photo-hand-thumb-up.jpg",
         pending: "https://cdn-icons-png.flaticon.com/512/3756/3756719.png",
@@ -44,7 +44,6 @@ const createOrder = async (req, res) => {
     return res.status(500).json({ message: "Something went wrong", error: error.message });
   }
 };
-
 
 const webhook = async (req, res) => {
   console.log('Received webhook:', req.body);
