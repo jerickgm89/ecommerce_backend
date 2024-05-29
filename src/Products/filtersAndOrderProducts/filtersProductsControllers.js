@@ -1,7 +1,4 @@
-// const { EntityProducts, CharacteristicsProducts, EntityDiscounts, EntityReview,EntityUsers } = require('../../db.js');
-// const { Op } = require('sequelize');
-
-const {filtersProductsServices} = require('../../services/filtersProductsServices.js');   
+const {filtersProductsServices} = require('../services/servicesFiltersAndOrder/filtersProductsServices.js');   
 
 const filtersProductsController = async (req, res) => {
     const { category, brand, name, price, year, priceMin, priceMax } = req.query;
