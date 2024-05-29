@@ -8,7 +8,7 @@ const initialCategories = [
     { nameCategory: "Celulares y Teléfonos", descriptionCategory: "Breve descripcion de la categoria" },
     { nameCategory: "Accesorios para Celulares", descriptionCategory: "Breve descripcion de la categoria" },
     { nameCategory: "Smartwatches y Accesorios", descriptionCategory: "Breve descripcion de la categoria" },
-    { nameCategory: "Laptops", descriptionCategory: "Breve descripcion de la categoria" },
+    // { nameCategory: "Laptops", descriptionCategory: "Breve descripcion de la categoria" },
     { nameCategory: "Cámaras", descriptionCategory: "Breve descripcion de la categoria" },
     { nameCategory: "Accesorios para Cámaras", descriptionCategory: "Breve descripcion de la categoria" },
     { nameCategory: "Drones y Accesorios", descriptionCategory: "Breve descripcion de la categoria" },
