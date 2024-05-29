@@ -942,13 +942,12 @@ delete /products/review/
 true
 ```
 </details>
- Método DELETE
+
  <details>
    
  <summary>Metodo deactive/Active</summary>
 patch /products/review/deactivate/
 → Desactivar una revisión (paranoid: true)
- </details>
 
 ### Respuesta Exitosa (200 OK)
 ```json
@@ -966,6 +965,7 @@ patch /products/review/deactivate/
 }
   ```
 </details>
+ </details>
 
 ### Método DELETE
 <details>
