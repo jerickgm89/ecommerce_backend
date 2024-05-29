@@ -790,3 +790,197 @@ get /users/auth/token → Envía token por header para recibir información del 
 
 </details>
 
+# Ruta 6: /products/review
+Maneja Puntuación de productos
+<details>
+<summary>METODO POST</summary>
+<a name="crear-nueva-review"></a>
+### Método POST
+post /products/review → Crear una nueva review
+
+### Respuesta Exitosa (201 OK)
+```json
+{
+  "idReview": 3,
+  "descriptionReview": "Excelente producto, muy satisfecho con mi compra.",
+  "ratingReview": 5,
+  "createdReview_at": "2024-05-16T17:28:23.909Z",
+  "modifiedReview_at": "2024-05-16T17:28:23.909Z",
+  "deletedReview_at": null,
+  "idProduct": 1,
+  "idUser": 1
+}
+```
+<details>
+<summary>JSON EJEMPLO POST</summary>
+```json
+{
+  "descriptionReview": "Excelente producto, muy satisfecho con mi compra.",
+  "ratingReview": 5,
+  "idProduct": 1,
+  "idUser": 1
+}
+  ```
+</details>
+</details>
+<details>
+<summary>METODO GET</summary>
+<a name="todas-las-revisiones"></a>
+### Método GET
+get /products/review → Trae todas las revisiones
+
+### Respuesta Exitosa (200 OK)
+```json
+[
+  {
+    "idReview": 1,
+    "descriptionReview": "Buen producto, cumple con lo esperado.",
+    "ratingReview": 4,
+    "createdReview_at": "2024-05-16T08:37:16.040Z",
+    "modifiedReview_at": "2024-05-16T08:37:16.040Z",
+    "deletedReview_at": null,
+    "idProduct": 1,
+    "idUser": 2,
+    "user": {
+      "idUser": 2,
+      "nameUser": "Jane Smith"
+    },
+    "product": {
+      "idProduct": 1,
+      "nameProduct": "Samsung Galaxy S21"
+    }
+  },
+  {
+    "idReview": 2,
+    "descriptionReview": "No estoy satisfecho, el producto tiene varios problemas.",
+    "ratingReview": 2,
+    "createdReview_at": "2024-05-16T08:37:16.040Z",
+    "modifiedReview_at": "2024-05-16T08:37:16.040Z",
+    "deletedReview_at": null,
+    "idProduct": 2,
+    "idUser": 3,
+    "user": {
+      "idUser": 3,
+      "nameUser": "John Doe"
+    },
+    "product": {
+      "idProduct": 2,
+      "nameProduct": "MacBook Pro"
+    }
+  }
+]
+```
+</details>
+<details>
+<summary>METODO GET ID</summary>
+<a name="revision-segun-id"></a>
+### Método GET ID
+get /products/review/
+→ Busca revisión según id
+
+### Respuesta Exitosa (200 OK)
+Petición a → products/review/1
+
+```json
+{
+  "idReview": 1,
+  "descriptionReview": "Buen producto, cumple con lo esperado.",
+  "ratingReview": 4,
+  "createdReview_at": "2024-05-16T08:37:16.040Z",
+  "modifiedReview_at": "2024-05-16T08:37:16.040Z",
+  "deletedReview_at": null,
+  "idProduct": 1,
+  "idUser": 2,
+  "user": {
+    "idUser": 2,
+    "nameUser": "Jane Smith"
+  },
+  "product": {
+    "idProduct": 1,
+    "nameProduct": "Samsung Galaxy S21"
+  }
+}
+```
+</details>
+<details>
+<summary>METODO PATCH</summary>
+### Método PUT
+patch /products/review/
+→ Modificar una review
+
+### Respuesta Exitosa (200 OK)
+```json
+{
+  "idReview": 1,
+  "descriptionReview": "Producto decente, pero esperaba más.",
+  "ratingReview": 3,
+  "createdReview_at": "2024-05-16T08:37:16.040Z",
+  "modifiedReview_at": "2024-05-16T16:37:12.569Z",
+  "deletedReview_at": null,
+  "idProduct": 1,
+  "idUser": 2
+}
+```
+<details>
+<summary>JSON EJEMPLO PATCH</summary>
+```json
+{
+  "descriptionReview": "Producto decente, pero esperaba más.",
+  "ratingReview": 3
+}
+```
+</details>
+</details>
+<details>
+<summary>METODO DELETE</summary>
+### Método DELETE
+delete /products/review/
+→ "Eliminar" review (paranoid: true)
+
+### Respuesta Exitosa (200 OK)
+```json
+true
+```
+</details>
+### Método DELETE
+patch /products/review/deactivate/
+→ Desactivar una revisión (paranoid: true)
+
+### Respuesta Exitosa (200 OK)
+```json
+{
+  "idReview": 1,
+  "activeReview": false,
+  "modifiedReview_at": "2024-05-16T16:37:12.569Z"
+}
+```
+<details>
+<summary>JSON EJEMPLO PATCH</summary>
+```json
+{
+  "activeReview": false
+}
+  ```
+</details>
+
+### Método DELETE
+patch /products/review/restore/
+→ Restaurar una revisión (paranoid: true)
+
+### Respuesta Exitosa (200 OK)
+```json
+{
+  "idReview": 1,
+  "activeReview": true,
+  "modifiedReview_at": "2024-05-16T16:37:12.569Z"
+}
+```
+<details>
+<summary>JSON EJEMPLO PATCH</summary>
+```json
+{
+  "activeReview": true
+}
+```
+</details>
+</details>
