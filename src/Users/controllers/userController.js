@@ -282,7 +282,7 @@ const controllerGetToken = async (request, response) => {
         response.status(200).json( verifying )
     } catch (error) {
         // response.status(500).send( error )
-        response.status(500).send( 'No se pudo procesar la solicitud de verificación' )
+        response.status(500).json({ error:'No se pudo procesar la solicitud de verificación', detail: error.message } )
     }
 }
 const controllersDeactiveUser = async (req,res) => {
