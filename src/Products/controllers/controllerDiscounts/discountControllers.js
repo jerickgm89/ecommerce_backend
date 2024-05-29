@@ -25,7 +25,7 @@ const createDiscountController = async ( request, response ) => {
     let created;
     try {
     
-        if(isNaN(idProduct)){
+        if(typeof(idProduct) === "string"){
             // return response.status(400).json({ error: 'Invalid input parameters' });
             // else if( discountInGroup && productsInDiscountGroup ){
                 [ discount, created ] = await createGroupDiscountService(idProduct, { 

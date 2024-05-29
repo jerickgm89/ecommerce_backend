@@ -1,10 +1,10 @@
 const express = require('express')
 
-const {filtersProducts} = require('../../filtersAndOrderProducts/filtersProducts.js')
+const {filtersProductsController} = require('../../filtersAndOrderProducts/filtersProductsControllers.js')
 
 const router = express.Router()
 
-router.get('/', filtersProducts)
+router.get('/', filtersProductsController)
 
 
 module.exports = router
