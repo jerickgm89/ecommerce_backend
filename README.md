@@ -933,7 +933,7 @@ patch /products/review/
 </details>
 <details>
 <summary>METODO DELETE</summary>
-### Método DELETE
+ Método DELETE
 delete /products/review/
 → "Eliminar" review (paranoid: true)
 
@@ -942,7 +942,8 @@ delete /products/review/
 true
 ```
 </details>
-### Método DELETE
+ Método DELETE
+ <summary>Metodo deactive/Active</summary>
 patch /products/review/deactivate/
 → Desactivar una revisión (paranoid: true)
 
