@@ -8,7 +8,9 @@ const createReview = async (reviewData) => {
 
 // Obtener todas las reviews
 const findAllReview = async () => {
-    const getAllReview = await EntityReview.findAll();
+    const getAllReview = await EntityReview.findAll({
+       where: {activeReview: true}
+    });
     return getAllReview;
 };
 
@@ -48,6 +50,36 @@ const deleteReview = async (idReview) => {
     return reviewDelete;
 };
 
+//desactivar una review
+const deactivedReview = async (id) => {
+    const deactived = await EntityReview.findOne({
+        where: {idReview: id}
+    });
+    deactived.activeReview = false
+    await deactived.save()
+    return deactived
+};
+
+//Restaurar una review
+const restoreReview = async (id) => {
+    const restore = await EntityReview.findOne({where:{idReview: id}}, {paranoid: true})
+    
+    restore.activeReview = true;
+    await restore.restore();
+    await restore.save();
+    
+    return restore;
+};
+
+//Mostrar reviews inactivas
+const getInactiveReview = async () => {
+    const getInactive = await EntityReview.findAll({
+        where: {activeReview: false}
+    })
+    return getInactive
+}
+
+
 module.exports = {
     createReview,
     findAllReview,
@@ -55,4 +87,7 @@ module.exports = {
     findReviewByUser,
     updateReview,
     deleteReview,
+    deactivedReview,
+    restoreReview,
+    getInactiveReview
 };

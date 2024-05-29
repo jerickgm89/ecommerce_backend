@@ -5,6 +5,9 @@ const {
     findReviewByUser,
     updateReview,
     deleteReview,
+    deactivedReview,
+    restoreReview,
+    getInactiveReview,
 } = require('../repositoriesReview/reviewRepositories');
 
 const createReviewServices = async (idUser, idProduct, descriptionReview, scoreReview) => {
@@ -57,6 +60,32 @@ const deleteReviewServices = async (idReview) => {
     return reviewDelete;
 };
 
+const deactivedReviewService = async (id) => {
+    const inactiveReviews = await deactivedReview(id);
+    if (inactiveReviews.length === 0) {
+        throw new Error('No hay reviews desactivadas');
+    }
+    return inactiveReviews
+};
+
+
+const restoreReviewService = async (id) => {
+    const restore = await restoreReview(id)
+    if(!restore) {
+        throw new Error('No se pudo restaurar la review')
+    }
+    return restore
+};
+
+const getInactiveReviewService = async () => {
+    const getInactive = await getInactiveReview()
+    if(!getInactive) {
+        throw new Error('no se pudo mostrar los reviews desactivados')
+    }
+    
+    return getInactive
+}
+
 module.exports = {
     createReviewServices,
     findAllReviewServices,
@@ -64,4 +93,7 @@ module.exports = {
     findReviewByUserServices,
     updateReviewServices,
     deleteReviewServices,
+    deactivedReviewService,
+    restoreReviewService,
+    getInactiveReviewService
 };
