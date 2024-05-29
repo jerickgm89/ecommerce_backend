@@ -965,7 +965,7 @@ patch /products/review/deactivate/
 
 ### Método DELETE
 patch /products/review/restore/
-→ Restaurar una revisión (paranoid: true)
+→ Restaurar una review (paranoid: true)
 
 ### Respuesta Exitosa (200 OK)
 ```json
