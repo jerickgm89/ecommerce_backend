@@ -5,33 +5,38 @@ const jwt = require('jsonwebtoken'); // para crear token
 const { JWT_SECRET } = process.env;
 const { createAddressUser } = require('../../addressInformation/repository/repositoriesAddressUser.js')
 
-const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email_verified }) => {
-    const tokenJWT = jwt.sign(
-        {
-            emailUser
-        },
-        JWT_SECRET,
-        {
-            expiresIn: "40h" // expira en 40 horas
-        }
-    );
+const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email_verified, isAdmin }) => {
+    
     const newUserInfo = {
         nameUser,
         lastNameUser,
-        emailUser,
+        emailUser:emailUser,
         pictureUser,
         email_verified,
-        // isAdmin
+        isAdmin
     };
-
     const [ user, create ]  = await EntityUsers.findOrCreate({ 
         where: { emailUser },
         defaults: newUserInfo
     });
+    const tokenJWT = jwt.sign(
+        {
+            emailUser, 
+            activeUser: create ? true : user.activeUser,
+            isAdmin: user.isAdmin
+        },
+        JWT_SECRET
+        // {
+        //     expiresIn: "4h" // expira en 40 horas
+        // }
+    );
+
+    
     if( create ){
         user.tokenAuth = tokenJWT;
         user.changed('tokenAuth', true);
         await user.save();
+        await user.reload();
         return [user, create];
     };
     return [user, create];
@@ -42,21 +47,19 @@ const getAllUsers = async () =>{
     const listAllUsers = await EntityUsers.findAll({
         where: {activeUser: true},
         order: [['idUser', 'ASC']],
-      
         
     });
     return listAllUsers;
 };
 
 const getUserById = async (idUser) => {
-   
     const userById = await EntityUsers.findOne({
         where:{
             idUser
         },
         include:   {
             model: EntityUserAddress,
-            attributes: ['numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
+            attributes: ['identifierName', 'numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
         },
         
     });
@@ -77,7 +80,7 @@ const getDeactiveUser = async () => {
         order: [['idUser', 'ASC']],
         include: [{
             model: EntityUserAddress,
-            attributes: ['numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
+            attributes: ['identifierName', 'numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
         }]
     });
     return deactiveUser;
@@ -215,68 +218,46 @@ const verifyEmail = async ( emailToVerify ) => {
         if( user.tokenAuth ){
             // try {
                 
-                //Verificar token
-                const decoded = jwt.decode( user.tokenAuth, JWT_SECRET );
-                // si el token existe, uso el email de la decodificación
-                // para retornar la información del usuario
-                if( decoded.emailUser ){
-                    // console.log("jwt:   ",decoded.emailUser)
-                    return user.tokenAuth
-                }
-            // Si el token no es válido o está caduco
-            // } catch (error) {
-                
-            //     if (error.name === 'TokenExpiredError') {
-            //         const newToken = generateToken(emailUser);
-            //         // genero un nuevo token y se lo asigno al usuario
-            //         user.tokenAuth = newToken;
-            //         user.changed('tokenAuth', true);
-            //         await user.save();
-            //         return newToken;
-            //     };
-            // }
-        }
+            //Verificar token
+            const decoded = jwt.decode( user.tokenAuth, JWT_SECRET );
+            // si el token existe, uso el email de la decodificación
+            // para retornar la información del usuario
+            if( decoded.emailUser ){
+                console.log("jwt:   ", decoded.emailUser)
+                return user.tokenAuth
+            };
+        };
     }
     // si no es un usuario registrado
     else return false;
 };
 
-
 const verifyingTokenUser = async (token) => {
-    try {
-        const decoded = jwt.decode( token, JWT_SECRET );
-        // const decoded = jwt(token)
-        console.log("DECODE:  ", token)
-        const user = await EntityUsers.findOne({
-            where: {
-                emailUser: decoded.emailUser
-            }
-        });
-        if( user ){
-            return user
-        }
-        else throw new Error (" el token no esta asignado a ningun usuario registrado")
-        
-    } catch (error) {
-        if(error.name == "TokenExpiredError"){
-            const decoded = jwt.decode(token);
-            const user = await EntityUsers.findOne({
-                where: {
-                    emailUser: decoded.emailUser
-                }
-            });
-            if( user ) {
-                const newToken = generateToken(user.emailUser);
-                user.tokenAuth = newToken;
-                user.changed('tokenAuth', true);
-                await user.save();
-                return user
-            };
-        }
-        else throw new Error ("Token error")
+    const {emailUser} = jwt.decode( token, JWT_SECRET );
+    const user = await EntityUsers.findOne({
+        where: {
+            emailUser: emailUser
+        },
+        include: [{
+            model: EntityUserAddress,
+            attributes: ['identifierName', 'numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
+        }]
+    }) 
+    
+    if( user ){
+        return user
     }
-}
+    throw new Error (" el token no esta asignado a ningun usuario registrado")
+};
 
+const isActiveUserEmail = async (email) => {
+    const {activeUser} = await EntityUsers.findOne({
+        where: {
+            emailUser: email
+        }
+    });
+    return !!activeUser;
+};
 
 module.exports = {
     loginUser,
@@ -289,5 +270,6 @@ module.exports = {
     restoreUser,
     verifyEmail,
     verifyingTokenUser,
-    getDeactiveUser
+    getDeactiveUser,
+    isActiveUserEmail
 }

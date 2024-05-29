@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
         },
         activeReview: {
             type: DataTypes.BOOLEAN,
-            defaultValue: true
+            defaultValue: false
         }
     },
     {

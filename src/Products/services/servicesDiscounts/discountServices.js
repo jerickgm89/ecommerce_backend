@@ -8,7 +8,8 @@ const {
     updateDiscount,
     updateDiscountByGroup,
     deleteDiscount
-} = require('../../repositories/repositoriesDiscounts/repositoriesDiscounts.js')
+} = require('../../repositories/repositoriesDiscounts/repositoriesDiscounts.js');
+const arrayFormatter = require('../../../../utils/formatArrayToAddDiscount.js') ;
 
 const createDiscountService = async ( idProduct, discountInfo ) => {
     const [ discount, created ] = await createDiscount( idProduct, discountInfo )
@@ -16,7 +17,8 @@ const createDiscountService = async ( idProduct, discountInfo ) => {
 }
 
 const createGroupDiscountService = async ( idProduct, discountInfo ) => {
-    const [ discount, created ] = await createGroupDiscount( idProduct, discountInfo )
+    const idProductList = await arrayFormatter(idProduct)
+    const [ discount, created ] = await createGroupDiscount( idProductList, discountInfo )
     return [ discount, created ]
 }
 

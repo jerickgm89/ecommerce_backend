@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { EntityCategory, EntityBrand, EntityProducts, CharacteristicsProducts, EntityUsers } = require('../db');
-const { imageCloudinaryUploader } = require('../../utils/imageReception.js');
+const { imageCloudinaryUploader } = require('../../utils/imageReception.js')
+const {logInUserServices} = require('../Users/services/userService.js')
 
 const initialCategories = [
     { nameCategory: "Celulares y Teléfonos", descriptionCategory: "Breve descripcion de la categoria" },
@@ -59,10 +60,14 @@ async function initializeData() {
     console.log('Initializing data...');
 
     const userCount = await EntityUsers.count();
-    if (userCount === 0) {
-        await EntityUsers.bulkCreate(initialUserAdmin);
+    if ( userCount === 0 ) {
+        initialUserAdmin.map( async (user) => await logInUserServices(user))
         console.log('Initial admin user added.');
-    } 
+    }
+    // if ( userCount === 0 ) {
+    //     await EntityUsers.bulkCreate(initialUserAdmin);
+    //     console.log('Initial admin user added.');
+    // } 
 
     const categoryCount = await EntityCategory.count();
     if (categoryCount === 0) {

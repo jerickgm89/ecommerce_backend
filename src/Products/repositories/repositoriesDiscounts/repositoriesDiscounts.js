@@ -32,13 +32,13 @@ const createDiscount = async ( idProduct, {
     return [discountCreated, created]
 };
 
-const createGroupDiscount = async ( idProduct, {
+const createGroupDiscount = async ( idProductList, {
     nameDiscount,
     descriptionDiscount,
     quantity,
     activeDiscount,
 } ) => {
-    const idProductList = idProduct.split('+').map(Number).sort((a, b) => a - b); 
+    // const idProductList = idProduct.split('+').map(Number).sort((a, b) => a - b); 
     if (!idProductList.length) {
         throw new Error('El listado de productos asociados no puede estar vacío.');
     }

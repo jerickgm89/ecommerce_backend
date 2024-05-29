@@ -9,7 +9,8 @@ const {
     controllerGetToken,
     controllergetUserByOnlyEmail,
     controllersDeactiveUser,
-    controllersBlockedUser
+    controllersBlockedUser,
+    isActiveUserControllerEmail
 } = require("../controllers/userController.js")
 const upload = require('../../configCloudinary.js')
 
@@ -26,5 +27,6 @@ routesUsers.delete('/blocked/:id', controllersBlockedUser) //desactivar un usuar
 routesUsers.delete('/restore/:id', controllersRestoreUser) //re activar un usuario
 routesUsers.get("/verify/:emailUser", controllerGetUserByEmail);       // busca User por email por params y devuelve token
 routesUsers.get("/auth/token", controllerGetToken);       // recibe token por header y entrega la info del usuario si el token es válido
+routesUsers.get("/isActive/:emailUser", isActiveUserControllerEmail);        // modifica user pasando el id
 
 module.exports = routesUsers;  

@@ -6,7 +6,7 @@ const { MERCADOPAGO_API_KEY, MERCADOPAGO_SECRET } = process.env;
 
 mercadopago.configure({
   access_token: MERCADOPAGO_API_KEY,
-});
+});   
 const createOrder = async (req, res) => {
   try {
     const body = req.body; // Obtener todos los datos de la solicitud
@@ -28,6 +28,7 @@ const createOrder = async (req, res) => {
     const result = await mercadopago.preferences.create({
       items: body.items,
       payer: body.payer,
+
       notification_url: "https://fa51-152-203-36-17.ngrok-free.app/payment/webhook",
       back_urls: {
         success: "https://st2.depositphotos.com/3108485/9725/i/450/depositphotos_97258336-stock-photo-hand-thumb-up.jpg",
@@ -97,7 +98,7 @@ const webhook = async (req, res) => {
 
       // Extract relevant data
       const { status, transaction_amount, payer, additional_info, card } = details;
-
+        console.log('status: ',status);
       // Find user by identification
       const user = await EntityUsers.findOne({
         where: { DNI: details.external_reference }
