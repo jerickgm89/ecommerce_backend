@@ -57,7 +57,7 @@ const filtersProducts = async (req, res) => {
             else if (priceMin) {
                 where.priceProduct = {[ Op.gte ] : priceMin}; // Mayor o igual que priceMin
             }
-            else if (priceMax) {
+            else{
                 where.priceProduct= {[ Op.lte ] : priceMax}; // Menor o igual que priceMax
             }
         }

@@ -15,7 +15,7 @@ getDeactiveProductsService
 //Crear producto
 const createProductControllers = async (req,res) => {
     const {
-        Products: {
+        // Products: {
             nameProduct,
             priceProduct,
             imageProducts,
@@ -24,12 +24,12 @@ const createProductControllers = async (req,res) => {
             stockProduct,
             descriptionProduct,
             idCategory,
-        },
-        Variants: {
+        // },
+        // Variants: {
             modelProduct,
             characteristics,
             idBrand
-        }
+        // }
     } = req.body;
 
     const fileImages =  req.files;
