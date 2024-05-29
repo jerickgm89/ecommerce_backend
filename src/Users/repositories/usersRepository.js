@@ -251,30 +251,35 @@ const verifyingTokenUser = async (token) => {
         const user = await EntityUsers.findOne({
             where: {
                 emailUser: emailUser
-            }
-        })
+            },
+            include: [{
+                model: EntityUserAddress,
+                attributes: ['numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
+            }]
+        }) 
+        
         if( user ){
             return user
         }
         else throw new Error (" el token no esta asignado a ningun usuario registrado")
-        
     } catch (error) {
-        if(error.name == "TokenExpiredError"){
-            const decoded = jwt.decode(token);
-            const user = await EntityUsers.findOne({
-                where: {
-                    emailUser: decoded.emailUser
-                }
-            })
-            if( user ) {
-                const newToken = generateToken(user.emailUser);
-                user.tokenAuth = newToken;
-                user.changed('tokenAuth', true);
-                await user.save();
-                return user
-            }
-        }
-        else throw new Error ("Token error")
+        
+    //     if(error.name == "TokenExpiredError"){
+    //         const decoded = jwt.decode(token);
+    //         const user = await EntityUsers.findOne({
+    //             where: {
+    //                 emailUser: decoded.emailUser
+    //             }
+    //         })
+    //         if( user ) {
+    //             const newToken = generateToken(user.emailUser);
+    //             user.tokenAuth = newToken;
+    //             user.changed('tokenAuth', true);
+    //             await user.save();
+    //             return user
+    //         }
+    //     }
+    //     else throw new Error ("Token error")
     }
 }
 

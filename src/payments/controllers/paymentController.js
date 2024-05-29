@@ -6,7 +6,7 @@ const { MERCADOPAGO_API_KEY, MERCADOPAGO_SECRET } = process.env;
 
 mercadopago.configure({
   access_token: MERCADOPAGO_API_KEY,
-});
+});   
 const createOrder = async (req, res) => {
   try {
     const body = req.body; // Obtener todos los datos de la solicitud
