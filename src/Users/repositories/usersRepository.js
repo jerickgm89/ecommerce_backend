@@ -22,7 +22,7 @@ const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email
     const tokenJWT = jwt.sign(
         {
             emailUser, 
-            isActive: create ? true : user.isActive,
+            activeUser: create ? true : user.activeUser,
             isAdmin: user.isAdmin
         },
         JWT_SECRET
@@ -247,10 +247,10 @@ const verifyEmail = async ( emailToVerify ) => {
 
 const verifyingTokenUser = async (token) => {
     try {
-        const decoded = jwt.verify( token, JWT_SECRET );
+        const {emailUser} = jwt.decode( token, JWT_SECRET );
         const user = await EntityUsers.findOne({
             where: {
-                emailUser: decoded.emailUser
+                emailUser: emailUser
             }
         })
         if( user ){
