@@ -27,8 +27,10 @@ const logInUserServices = async ( userInfo ) => {
         isAdmin: userInfo.isAdmin ? userInfo.isAdmin : false
     }
     const [ user,create ] = await loginUser( infoUser );
-    // await sendWelcomeEmail( infoUser.emailUser, infoUser.emailUser )
-    // await sendReviewEmail( infoUser.emailUser, infoUser.emailUser )
+    if(create){
+        // await sendWelcomeEmail( infoUser.emailUser, infoUser.emailUser )
+        // await sendReviewEmail( infoUser.emailUser, infoUser.emailUser )
+    }
     return [user,create]
 }
 

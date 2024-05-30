@@ -10,7 +10,7 @@ const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email
     const newUserInfo = {
         nameUser,
         lastNameUser,
-        emailUser:emailUser,
+        emailUser,
         pictureUser,
         email_verified,
         isAdmin
@@ -19,9 +19,10 @@ const loginUser = async ({ nameUser, lastNameUser, emailUser, pictureUser, email
         where: { emailUser },
         defaults: newUserInfo
     });
+    
     const tokenJWT = jwt.sign(
         {
-            emailUser, 
+            emailUser: user.emailUser, 
             activeUser: create ? true : user.activeUser,
             isAdmin: user.isAdmin
         },
