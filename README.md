@@ -791,7 +791,7 @@ get /users/auth/token → Envía token por header para recibir información del 
 </details>
 
 # Ruta 6: /review
-Maneja Puntuación de productos
+### Maneja Puntuación de productos
 <details>
 <summary>METODO POST</summary>
 <a name="crear-nueva-review"></a>
@@ -991,18 +991,19 @@ patch /products/review/restore/
 ```
 </details>
 </details>
+
 # Ruta 7: /comments
-Maneja comentarios
+### Maneja comentarios
 <details>
 <summary>POST</summary>
-### Método POST
+ Método POST
 post /comments → Crear un nuevo comentario
 
 Respuesta Exitosa (201 Created)
   ```json
 {
   "idComment": 1,
-  "contentComment": "This is a comment",
+  "comments": "This is a comment",
   "idProduct": 1,
   "idUser": 1,
   "createdComment_at": "2024-05-29T16:37:12.569Z",
@@ -1020,7 +1021,7 @@ Respuesta Exitosa (200 OK)
 [
   {
     "idComment": 1,
-    "contentComment": "This is a comment",
+    "comments": "This is a comment",
     "idProduct": 1,
     "idUser": 1,
     "createdComment_at": "2024-05-29T16:37:12.569Z",
@@ -1035,7 +1036,7 @@ Respuesta Exitosa (200 OK)
 [
   {
     "idComment": 1,
-    "contentComment": "This comment is deactivated",
+    "comments": "This comment is deactivated",
     "idProduct": 1,
     "idUser": 1,
     "createdComment_at": "2024-05-29T16:37:12.569Z",
@@ -1051,7 +1052,7 @@ Respuesta Exitosa (200 OK)
 ```json
 {
   "idComment": 1,
-  "contentComment": "This is a comment",
+  "comments": "This is a comment",
   "idProduct": 1,
   "idUser": 1,
   "createdComment_at": "2024-05-29T16:37:12.569Z",
@@ -1069,7 +1070,7 @@ Respuesta Exitosa (200 OK)
 ```json
 {
   "idComment": 1,
-  "contentComment": "Updated comment",
+  "comments": "Updated comment",
   "idProduct": 1,
   "idUser": 1,
   "createdComment_at": "2024-05-29T16:37:12.569Z",
