@@ -5,21 +5,21 @@ const { imageCloudinaryUploader } = require('../../utils/imageReception.js')
 const {logInUserServices} = require('../Users/services/userService.js')
 
 const initialCategories = [
-    { nameCategory: "Celulares y Teléfonos", descriptionCategory: "Breve descripcion de la categoria" },
-    { nameCategory: "Accesorios para Celulares", descriptionCategory: "Breve descripcion de la categoria" },
-    { nameCategory: "Smartwatches y Accesorios", descriptionCategory: "Breve descripcion de la categoria" },
+    { nameCategory: "Celulares y Teléfonos", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/14673309_6?format=png" },
+    { nameCategory: "Accesorios para Celulares", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/prod16426548?format=png" },
+    { nameCategory: "Smartwatches y Accesorios", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/16354229_2?format=png" },
     // { nameCategory: "Laptops", descriptionCategory: "Breve descripcion de la categoria" },
-    { nameCategory: "Cámaras", descriptionCategory: "Breve descripcion de la categoria" },
-    { nameCategory: "Accesorios para Cámaras", descriptionCategory: "Breve descripcion de la categoria" },
-    { nameCategory: "Drones y Accesorios", descriptionCategory: "Breve descripcion de la categoria" },
-    { nameCategory: "Consolas", descriptionCategory: "Breve descripcion de la categoria" },
-    { nameCategory: "Accesorios para Consolas", descriptionCategory: "Breve descripcion de la categoria" },
-    { nameCategory: "Accesorios para PC Gaming", descriptionCategory: "Breve descripcion de la categoria" },
-    { nameCategory: "PC de Escritorio", descriptionCategory: "Breve descripcion de la categoria" },
-    { nameCategory: "Portátiles", descriptionCategory: "Breve descripcion de la categoria" },
-    { nameCategory: "Accesorios para Portátiles", descriptionCategory: "Breve descripcion de la categoria" },
-    { nameCategory: "Tablets", descriptionCategory: "Breve descripcion de la categoria" },
-    { nameCategory: "Televisores", descriptionCategory: "Breve descripcion de la categoria" }
+    { nameCategory: "Cámaras", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/gsc_122577138_3386294_1?format=png" },
+    { nameCategory: "Accesorios para Cámaras", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://rinconfotografico.cl/image/cachewebp/data/productos/easycover/5DMKII/easycover_ecc5d2_easycover_for_the_canon_1407519315000_1070763-370x370.webp" },
+    { nameCategory: "Drones y Accesorios", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/15181586_1?format=png" },
+    { nameCategory: "Consolas", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/16894931_3?format=png" },
+    { nameCategory: "Accesorios para Consolas", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/16957319_1?format=png" },
+    { nameCategory: "Accesorios para PC Gaming", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/gsc_113797053_765549_1?format=png" },
+    { nameCategory: "PC de Escritorio", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/gsc_112882071_448839_1?format=png" },
+    { nameCategory: "Portátiles", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/16495789_1?format=png" },
+    { nameCategory: "Accesorios para Portátiles", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/3651417_2?format=png" },
+    { nameCategory: "Tablets", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/16642827_1?format.png" },
+    { nameCategory: "Televisores", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/16763072_1?format=png" }
 ];
 
 const initialBrands = [
@@ -40,7 +40,7 @@ const initialBrands = [
     { nameBrand: "ZTE", logoBrand: "https://logos-world.net/wp-content/uploads/2023/03/ZTE-Logo-500x281.png" },
     { nameBrand: "Lenovo", logoBrand: "https://logos-world.net/wp-content/uploads/2022/07/Lenovo-Logo-700x394.png" },
     { nameBrand: "Redmi", logoBrand: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Redmi_Logo.svg/2560px-Redmi_Logo.svg.png" },
-    { nameBrand: "Infinix", logoBrand: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.m.wikipedia.org%2Fwiki%2FArchivo%3ALogo_of_Infinix.png&psig=AOvVaw0SGT3WhDIv5ilyFirHmNJ0&ust=1716273708345000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCIiiyffPm4YDFQAAAAAdAAAAABAE" },
+    { nameBrand: "Infinix", logoBrand: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Logo_of_Infinix.png/800px-Logo_of_Infinix.png" },
     { nameBrand: "Dell", logoBrand: "https://logos-world.net/wp-content/uploads/2020/08/Dell-Logo-700x394.png" },
     { nameBrand: "Hp", logoBrand: "https://logos-world.net/wp-content/uploads/2020/11/HP-Logo-700x394.png" },
     { nameBrand: "Microsoft", logoBrand: "https://logos-world.net/wp-content/uploads/2020/09/Microsoft-Logo-700x394.png" },
@@ -52,8 +52,15 @@ const initialBrands = [
 ];
 
 const initialUserAdmin = [
-    { emailUser: "ecommercetech2024@gmail.com", isAdmin: true },
-    { emailUser: "cami.igsa@gmail.com", isAdmin: true }
+    { email: "ecommercetech2024@gmail.com", given_name: "Admin", family_name:"EcommerceTech Proyecto Final", isAdmin: true },
+    { email: "afoviedola@gmail.com", given_name: "Alen", family_name:"Oviedo", isAdmin: true },
+    { email: "martineznavarrojulian159@gmail.com", given_name: "Julian", family_name:"Navarro", isAdmin: true },
+    { email: "jerickgm89@gmail.com", given_name: "Jorge", family_name:"Garcia", isAdmin: true },
+    { email: "ajds.joel1995@gmail.com", given_name: "Anthony", family_name:"Depablos", isAdmin: true },
+    { email: "cristianse.galvan@gmail.com", given_name: "Cristian", family_name:"Galván", isAdmin: true },
+    { email: "javier.arangue@gmail.com", given_name: "Javier", family_name:"Arangue", isAdmin: true },
+    { email: "velardemarianovelarde37@gmail.com", given_name: "Mariano", family_name:"Velarde", isAdmin: true },
+    { email: "cami.igsa@gmail.com", given_name: "Camila", family_name:"Sotomayor", isAdmin: true },
 ]
 
 async function initializeData() {
@@ -88,7 +95,7 @@ async function initializeData() {
         const productData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
         for (let item of productData) {
-            console.log(`Processing product: ${item.product.nameProduct}`);
+            // console.log(`Processing product: ${item.product.nameProduct}`);
             if (typeof item.product.imageProducts === "string") {
                 // item.product.imageProducts = await imageCloudinaryUploader(false, item.product.imageProducts)
                 item.product.imageProducts = [item.product.imageProducts];

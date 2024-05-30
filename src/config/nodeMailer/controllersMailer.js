@@ -36,7 +36,7 @@ const sendReviewEmail = async (email, given_name) => {
         </div>
         <div class="content" style="padding: 20px; text-align: center;">
         <p>Hola ${given_name},</p>
-        <p>Esperamos que estés bien. Nos encantaría escuchar tus comentarios sobre tu última compra con nosotros. Tu opinión es muy importante para nosotros y nos ayuda a mejorar nuestros productos y servicios para ti y otros clientes.</p>
+        <p>Nos encantaría escuchar tus comentarios sobre tu última compra en <a href="https://main.d1v4o3mt97tf62.amplifyapp.com/" style="text-decoration: none;">Ecommerce Tech</a>. Tu opinión es muy importante para nosotros y nos ayuda a mejorar nuestros productos y servicios para ti y otros clientes.</p>
         <p>Por favor, tómate un momento para compartir tu experiencia con nosotros. ¿Cómo fue tu experiencia de compra? ¿Hubo algo que te gustó especialmente o algo en lo que crees que podríamos mejorar?</p>
         <p>¡Tu opinión cuenta! Estamos aquí para escucharte.</p>
         <p>¡Gracias por elegirnos y por tu continuo apoyo!</p>

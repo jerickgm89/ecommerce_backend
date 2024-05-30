@@ -10,18 +10,16 @@ module.exports = (sequelize) => {
         },
         DNI: {
             type: DataTypes.STRING,
-            // allowNull: false,
-            // validate: {
-            //     isInt: true,
-            //     max: 100000000
-            // }
+            unique: true,
+            allowNull: true,
+            validate: {
+                isInt: true,
+                max: 100000000
+            }
         },
         nameUser: {
             type: DataTypes.STRING,
-            // allowNull: false,
-            // validate: {
-                //     isAlpha: true
-                // }
+            allowNull: true,
         },
         lastNameUser: {
             type: DataTypes.STRING,
@@ -37,7 +35,10 @@ module.exports = (sequelize) => {
         },
         pictureUser: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: true,
+            validate: {
+                isUrl: true
+            }
         },
         phoneArea:{
             type: DataTypes.STRING,

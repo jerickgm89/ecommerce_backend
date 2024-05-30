@@ -122,6 +122,7 @@ EntityComments.belongsTo(EntityUsers, {foreignKey: 'idUser'})
 //Relación Product/Comments - comments/product 1:M
 EntityProducts.hasMany(EntityComments, {foreignKey: 'idProduct'})
 EntityComments.belongsTo(EntityProducts, {foreignKey: 'idComments'})
+
 module.exports = {
   ...sequelize.models, 
   conn: sequelize,     
