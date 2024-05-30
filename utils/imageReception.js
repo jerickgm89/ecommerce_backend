@@ -10,11 +10,11 @@ const imageCloudinaryUploader = async ( fileImages, image ) =>{
                 const result = await cloudinary.uploader.upload(image)
                 arrayImagesProducts.push(result.secure_url)
             }
-            if( fileImages?.path){
-                // console.log("FILE-> ", fileImages)
-                const result = await cloudinary.uploader.upload(fileImages.path)
-                arrayImagesProducts.push(result.secure_url)
-            }
+            // if( fileImages?.path){
+            //     // console.log("FILE-> ", fileImages)
+            //     const result = await cloudinary.uploader.upload(fileImages.path)
+            //     arrayImagesProducts.push(result.secure_url)
+            // }
             if( Array.isArray(fileImages) ){
                 // console.log("FILES IMAGES -> ", fileImages)
                 const uploadPromises = fileImages.map(async ({ path }) => {

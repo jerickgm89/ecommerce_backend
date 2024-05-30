@@ -9,20 +9,16 @@ mercadopago.configure({
 });   
 const createOrder = async (req, res) => {
   try {
-    const body = req.body; // Obtener todos los datos de la solicitud
+    const body = req.body; 
 
-    // Convertir `payer.phone.number` a número si es una cadena
     if (body.payer && body.payer.phone && typeof body.payer.phone.number === 'string') {
       body.payer.phone.number = Number(body.payer.phone.number);
     }
 
-    // Eliminar el campo shipments si está presente
     delete body.shipments;
 
-    // Eliminar el campo payment_methods si está presente
     delete body.payment_methods;
 
-    // Añadir la identificación del usuario al campo external_reference
     const externalReference = body.payer.identification.number;
 
     const result = await mercadopago.preferences.create({
@@ -45,7 +41,6 @@ const createOrder = async (req, res) => {
     return res.status(500).json({ message: "Something went wrong", error: error.message });
   }
 };
-
 
 const webhook = async (req, res) => {
   console.log('Received webhook:', req.body);
@@ -95,12 +90,11 @@ const webhook = async (req, res) => {
     if (notificationType === 'payment') {
       const response = await mercadopago.payment.findById(resourceId);
       details = response.body;
-      console.log('Payment details:', JSON.stringify(details, null, 2)); // Pretty print JSON
+      console.log('Payment details:', JSON.stringify(details, null, 2)); 
 
-      // Extract relevant data
       const { status, transaction_amount, payer, additional_info, card } = details;
-        console.log('status: ',status);
-      // Find user by identification
+      console.log('status: ', status);
+
       const user = await EntityUsers.findOne({
         where: { DNI: details.external_reference }
       });
@@ -110,7 +104,6 @@ const webhook = async (req, res) => {
         return res.sendStatus(404);
       }
 
-      // Format accountNumber
       let accountNumber = '';
       if (details.payment_method_id === 'visa' || details.payment_method_id === 'master') {
         accountNumber = `${card.first_six_digits}******${card.last_four_digits}`;
@@ -118,7 +111,6 @@ const webhook = async (req, res) => {
         accountNumber = `${card.first_six_digits}*****${card.last_four_digits}`;
       }
 
-      // Create payment record
       const payment = await EntityPayment.create({
         name: card.cardholder.name,
         dni: card.cardholder.identification.number,
@@ -129,7 +121,6 @@ const webhook = async (req, res) => {
       });
       console.log('Payment record created:', payment);
 
-      // Create order detail record
       const orderDetail = await EntityOrderDetail.create({
         totalOrder: transaction_amount,
         idPayment: payment.idPayment,
@@ -137,27 +128,29 @@ const webhook = async (req, res) => {
       });
       console.log('Order detail record created:', orderDetail);
 
-      // Create order items records
       const items = additional_info.items;
       for (const item of items) {
-        // Check if product exists
         let product = await EntityProducts.findOne({ where: { idProduct: item.id } });
-       
 
         await EntityOrderItems.create({
           idOrder: orderDetail.UUID,
           quantity: parseInt(item.quantity),
           idProduct: product.idProduct,
           status: details.status
-
         });
         console.log('Order item created for product:', product.idProduct);
-      }
 
+        // Update stockProduct si el status es 'approved'
+        if (status === 'approved') {
+          product.stockProduct -= parseInt(item.quantity);
+          await product.save();
+          console.log('Stock updated for product:', product.idProduct);
+        }
+      }
     } else if (notificationType === 'merchant_order') {
       const response = await mercadopago.merchant_orders.get(resourceId);
       details = response.body;
-      console.log('Merchant order:', JSON.stringify(details, null, 2)); // Pretty print JSON
+      console.log('Merchant order:', JSON.stringify(details, null, 2)); 
     }
 
     if (!details) {
@@ -172,11 +165,11 @@ const webhook = async (req, res) => {
   }
 };
 
+
 const updatePayment = async (req, res) => {
   const { id } = req.params;
   const { name, dni, paymentType, accountNumber, expiry, idUser } = req.body;
 
-  // Verificar que todos los parámetros necesarios estén presentes
   if (!name || !dni || !paymentType || !accountNumber || !expiry || !idUser) {
       return res.status(400).json({ error: 'Missing required fields' });
   }
