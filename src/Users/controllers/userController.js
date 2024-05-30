@@ -312,8 +312,9 @@ const isActiveUserControllerEmail = async ( req, res ) =>{
 
 const isAdminUserControllerEmail = async ( req, res ) =>{
     try {
-        let { idUser } = req.params;
-        const userIsAdmin = await isAdminUserService( idUser );
+        let { emailUser } = req.params;
+        emailUser = emailUser.trim().toLowerCase()
+        const userIsAdmin = await isAdminUserService( emailUser );
         return res.status(200).json( userIsAdmin ) 
     } catch (error) {
         return res.status(500).json({ error:'No se pudo procesar la solicitud', detail: error.message })

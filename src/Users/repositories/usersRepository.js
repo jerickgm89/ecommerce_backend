@@ -259,9 +259,12 @@ const isActiveUserEmail = async (email) => {
     });
     return !!activeUser;
 };
-const isAdminUser = async (idUser) => {
-    console.log('iduser: ', idUser);
-    const user = await EntityUsers.findByPk(idUser);
+const isAdminUser = async (emailUser) => {
+    const user = await EntityUsers.findOne({
+        where:{
+            emailUser
+        }
+    });
     return !!user.isAdmin;
 };
 
