@@ -10,7 +10,8 @@ const {
     verifyingTokenService,
     getDeactiveUserService,
     restoreUserServices,
-    isActiveUserEmailService
+    isActiveUserEmailService,
+    isAdminUserService
 } = require('../services/userService.js')
 const { imageCloudinaryUploader } = require('../../../utils/imageReception.js')
 
@@ -307,6 +308,16 @@ const isActiveUserControllerEmail = async ( req, res ) =>{
     } catch (error) {
         return res.status(500).json({ error:'No se pudo procesar la solicitud', detail: error.message })
     }
+};
+
+const isAdminUserControllerEmail = async ( req, res ) =>{
+    try {
+        let { idUser } = req.params;
+        const userIsAdmin = await isAdminUserService( idUser );
+        return res.status(200).json( userIsAdmin ) 
+    } catch (error) {
+        return res.status(500).json({ error:'No se pudo procesar la solicitud', detail: error.message })
+    }
 }
 
 module.exports = {
@@ -321,5 +332,6 @@ module.exports = {
     controllerGetUserByEmail,
     controllerGetToken,
     controllersDeactiveUser,
-    isActiveUserControllerEmail
+    isActiveUserControllerEmail,
+    isAdminUserControllerEmail
 }

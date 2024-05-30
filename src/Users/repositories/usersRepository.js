@@ -259,6 +259,11 @@ const isActiveUserEmail = async (email) => {
     });
     return !!activeUser;
 };
+const isAdminUser = async (idUser) => {
+    console.log('iduser: ', idUser);
+    const user = await EntityUsers.findByPk(idUser);
+    return !!user.isAdmin;
+};
 
 module.exports = {
     loginUser,
@@ -272,5 +277,6 @@ module.exports = {
     verifyEmail,
     verifyingTokenUser,
     getDeactiveUser,
-    isActiveUserEmail
+    isActiveUserEmail,
+    isAdminUser
 }
