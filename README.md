@@ -790,7 +790,7 @@ get /users/auth/token → Envía token por header para recibir información del 
 
 </details>
 
-# Ruta 6: /products/review
+# Ruta 6: /review
 Maneja Puntuación de productos
 <details>
 <summary>METODO POST</summary>
@@ -991,7 +991,7 @@ patch /products/review/restore/
 ```
 </details>
 </details>
-# Ruta 6: /products/review
+# Ruta 7: /comments
 Maneja comentarios
 <details>
 <summary>POST</summary>
@@ -1000,7 +1000,6 @@ post /comments → Crear un nuevo comentario
 
 Respuesta Exitosa (201 Created)
   ```json
-
 {
   "idComment": 1,
   "contentComment": "This is a comment",
