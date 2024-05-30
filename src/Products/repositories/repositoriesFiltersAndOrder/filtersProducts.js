@@ -1,4 +1,4 @@
-const { EntityProducts, CharacteristicsProducts, EntityDiscounts, EntityReview, EntityUsers } = require('../../../db.js');
+const { EntityProducts, CharacteristicsProducts, EntityDiscounts, EntityReview, EntityUsers, EntityBrand } = require('../../../db.js');
 const { Op } = require('sequelize');
 
 const filtersProducts = async (properties, limit, offset, order) => {
@@ -10,7 +10,13 @@ const filtersProducts = async (properties, limit, offset, order) => {
         {
             model: CharacteristicsProducts,
             where: {},
-            attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']
+            attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand'],
+            include: [
+                {
+                    model: EntityBrand,
+                    attributes: ['nameBrand', 'logoBrand'],
+                }
+            ]
         },{
             model: EntityReview,
             attributes: ['descriptionReview','idReview'],
@@ -20,13 +26,12 @@ const filtersProducts = async (properties, limit, offset, order) => {
                     attributes: ['emailUser']
                 }
             ]
-        },
-        {
+        },{
             model: EntityDiscounts,
             attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup' ],
         }
     ];
-    
+
     if (name) {
         where.nameProduct = { [Op.iLike]: `%${name}%` };
     }
@@ -53,14 +58,17 @@ const filtersProducts = async (properties, limit, offset, order) => {
         }
     }
 
-    if(category) {
-        where.idCategory = category
+    if( category ) {
+        const categoryIds = Array.isArray(category) ? category : category.split('+').map(categoryId => parseInt(categoryId))
+        if( Array.isArray(categoryIds)){ 
+            where.idCategory = {[Op.in]: categoryIds};
+        }
+        else where.idCategory = category
     }
     if(brand) {
-        const brandIds = brand.split(',').map(brandId => parseInt(brandId)); 
+        const brandIds = Array.isArray(brand) ? brand : brand.split('+').map(brandId => parseInt(brandId))
         include[0].where.idBrand = {[Op.in]: brandIds};
-    }
-
+    }  
     const resultFilters = await EntityProducts.findAndCountAll({
         where,
         limit,

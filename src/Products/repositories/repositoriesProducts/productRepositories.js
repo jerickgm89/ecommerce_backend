@@ -1,7 +1,6 @@
-const {EntityProducts, CharacteristicsProducts, EntityReview, EntityUsers, EntityDiscounts, EntityComments} = require('../../../db');
+const {EntityProducts, CharacteristicsProducts, EntityReview, EntityUsers, EntityDiscounts, EntityComments, ProductsDiscounts} = require('../../../db');
 const {Op} = require('sequelize');
 const sequelize = require('sequelize')
-
 
 //Crear producto
 const createProducts = async (productData, transaction) => {
@@ -14,16 +13,22 @@ const createCharacteristics = async (characteristicsData, transaction) => {
 
 //Repositorios para Modulular la funcion PATCH
 const findProductById = async (id, transaction) => {
-    // console.log(id, "-> en find by id")
     
     return EntityProducts.findOne({
         where: {
             idProduct: id
         },
-        include: {
+        include: [
+            {
+                model: CharacteristicsProducts,
+                attributes: ['modelProduct', 'characteristics','idBrand']
+            },{
+                model: EntityReview,
+                attributes: ['descriptionReview','idReview'],
+            },{
             model: EntityDiscounts,
             attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup' ],
-        },
+        }],
         transaction: transaction
     });
 };
@@ -46,8 +51,32 @@ const deleteCharacteristics = async (id, transaction) => {
 };
 
 //Ver todos los productos
-const getAllProducts = async (query) => {
-    return EntityProducts.findAll(query)
+// const getAllProducts = async (query) => {
+const getAllProducts = async (where, offset, limit, order ) => {
+    let include = [
+        {
+            model: CharacteristicsProducts,
+            attributes: ['modelProduct', 'characteristics','idBrand']
+        },{
+            model: EntityReview,
+            attributes: ['descriptionReview','idReview'],
+        },{
+            model: EntityDiscounts,
+            attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup'],
+            through: {
+                model: ProductsDiscounts,
+                attributes: []
+            }
+        }
+    ]
+
+    return EntityProducts.findAll({
+        where,
+        offset,
+        limit,
+        order,
+        include
+    })
 };
 
 //Buscar producto por id
@@ -87,7 +116,6 @@ const getProductById = async (id) => {
         }
         ]
     });
-    // console.log(productById, "producto by id")
     return productById;
 };
 
