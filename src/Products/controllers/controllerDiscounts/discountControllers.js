@@ -19,22 +19,19 @@ const createDiscountController = async ( request, response ) => {
         activeDiscount, // boolean
         // productsInDiscountGroup
     } = request.body;
-    
     const { idProduct } = request.params;
     let discount;
     let created;
     try {
-    
-        if(typeof(idProduct) === "string"){
-            // return response.status(400).json({ error: 'Invalid input parameters' });
-            // else if( discountInGroup && productsInDiscountGroup ){
-                [ discount, created ] = await createGroupDiscountService(idProduct, { 
-                    nameDiscount,
-                    descriptionDiscount,
-                    quantity,
-                    activeDiscount,
-                })
-            }
+        // acá recibo un string en idProduct, ejemplos: "Laptops", "Apple", "Acer", "Celulares"
+        if(!Number(idProduct)){
+            [ discount, created ] = await createGroupDiscountService(idProduct, { 
+                nameDiscount,
+                descriptionDiscount,
+                quantity,
+                activeDiscount,
+            })
+        }
         else{
             [ discount, created ] = await createDiscountService(idProduct, { 
             nameDiscount,
@@ -56,7 +53,6 @@ const createDiscountController = async ( request, response ) => {
         if(!created){
             return response.status(200).json(objetoNewDiscount)
         }
-        console.log("OBJETO ->>>   ", objetoNewDiscount.productsInDiscountGroup)
         return response.status(201).json(objetoNewDiscount)
         
     } catch (error) {

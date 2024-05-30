@@ -59,7 +59,7 @@ const getUserById = async (idUser) => {
         },
         include:   {
             model: EntityUserAddress,
-            attributes: ['identifierName', 'numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
+            attributes: ['idUserAddress', 'identifierName', 'numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
         },
         
     });
@@ -80,7 +80,7 @@ const getDeactiveUser = async () => {
         order: [['idUser', 'ASC']],
         include: [{
             model: EntityUserAddress,
-            attributes: ['identifierName', 'numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
+            attributes: ['idUserAddress', 'identifierName', 'numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
         }]
     });
     return deactiveUser;
@@ -162,7 +162,7 @@ const modifyUser = async (idUser, {
             },
             include: {
                 model: EntityUserAddress,
-                attributes: ['identifierName', 'numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
+                attributes: ['idUserAddress', 'identifierName', 'numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
             }
         });
 
@@ -240,7 +240,7 @@ const verifyingTokenUser = async (token) => {
         },
         include: [{
             model: EntityUserAddress,
-            attributes: ['identifierName', 'numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
+            attributes: ['idUserAddress', 'identifierName', 'numberAddress', 'addressName', 'postalCode', 'provinceAddress', 'cityAddress', 'country']
         }]
     }) 
     

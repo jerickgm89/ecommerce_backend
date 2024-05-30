@@ -28,33 +28,26 @@ const createDiscount = async ( idProduct, {
     });
     await product.addEntityDiscount( discount )
     const discountCreated = await EntityDiscounts.findByPk(discount.idDiscount);
-    // console.log("###", quantity, typeof(quantity), isNaN(quantity), objeto);
     return [discountCreated, created]
 };
 
-const createGroupDiscount = async ( idProductList, {
+const createGroupDiscount = async ( idProductsList, {
     nameDiscount,
     descriptionDiscount,
     quantity,
-    activeDiscount,
+    activeDiscount
 } ) => {
-    // const idProductList = idProduct.split('+').map(Number).sort((a, b) => a - b); 
-    if (!idProductList.length) {
+    if (!idProductsList.length) {
         throw new Error('El listado de productos asociados no puede estar vacío.');
     }
-    // console.log("type of idProductList->", typeof idProductList, "   isArray ->> ", Array.isArray(idProductList))
     const objectToCreate = {
         nameDiscount,
         descriptionDiscount,
         quantity: parseFloat(quantity),
         activeDiscount,
         discountInGroup: true,
-        productsInDiscountGroup: idProductList
+        productsInDiscountGroup: idProductsList
     }
-    // console.log("type of idProductList->", typeof objectToCreate, "   isArray ->> ", Array.isArray(objectToCreate.productsInDiscountGroup))
-    
-    // const newDiscount = await EntityDiscounts.create( objectToCreate )
-
     const [newDiscount, create] = await EntityDiscounts.findOrCreate({        
         where: { 
             idProduct: null,
@@ -65,14 +58,12 @@ const createGroupDiscount = async ( idProductList, {
         defaults: objectToCreate
     });
 
-    // console.log("salio bien o no:   ", !!newDiscount)
-
     if(!newDiscount){
         throw new Error('No fue posible crear el descuento');
 
     }
     await Promise.all( 
-        idProductList.map( async ( productID ) => {
+        idProductsList.map( async ( productID ) => {
             const productFound = await EntityProducts.findOne({
                 where: {
                     idProduct: productID
@@ -88,10 +79,9 @@ const createGroupDiscount = async ( idProductList, {
     const result = await EntityDiscounts.findOne({
         where:{
             idDiscount: newDiscount.idDiscount,
-    //         // productsInDiscountGroup: idProductList
+    //         // productsInDiscountGroup: idProductsList
         },
     })
-    // console.log("was->>", result)
     return [result, create]
 };
 
@@ -143,8 +133,6 @@ const getAllGroupOfDiscount = async (  ) => {
 };
 
 const updateDiscount = async ( idDiscount, infoToUploadDiscount ) => {
-    // console.log("ID DISCOUNT ->  ",idDiscount)
-    // console.log("UPLOAD ->  ",infoToUploadDiscount)
     const updateByIdDiscounts = await EntityDiscounts.update(
         infoToUploadDiscount,
         {

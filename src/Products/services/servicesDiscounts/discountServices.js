@@ -17,8 +17,18 @@ const createDiscountService = async ( idProduct, discountInfo ) => {
 }
 
 const createGroupDiscountService = async ( idProduct, discountInfo ) => {
-    const idProductList = await arrayFormatter(idProduct)
-    const [ discount, created ] = await createGroupDiscount( idProductList, discountInfo )
+    
+    // idProduct es un string, ejemplos: "Laptops", "Apple", "Acer", "Celulares"
+    // unidos de forma "Laptops+Celulares"
+    
+    const idProductsList = await arrayFormatter( idProduct );
+    // console.log("idProduct in discountService->", idProductsList)
+
+    // debo entregar un array de idProduct, ejemplos: [1, 2, 3, 4]
+    // console.log("formatted info in discountService ->>>", idProductsList )
+
+    // const toShow = idProduct
+    const [ discount, created ] = await createGroupDiscount( idProductsList, discountInfo )
     return [ discount, created ]
 }
 
