@@ -991,3 +991,152 @@ patch /products/review/restore/
 ```
 </details>
 </details>
+# Ruta 6: /products/review
+Maneja comentarios
+<details>
+<summary>POST</summary>
+### Método POST
+post /comments → Crear un nuevo comentario
+
+Respuesta Exitosa (201 Created)
+  ```json
+
+{
+  "idComment": 1,
+  "contentComment": "This is a comment",
+  "idProduct": 1,
+  "idUser": 1,
+  "createdComment_at": "2024-05-29T16:37:12.569Z",
+  "modifiedComment_at": "2024-05-29T16:37:12.569Z"
+}
+```
+</details>
+<details>
+<summary>GET</summary>
+Método GET
+get /comments → Lista de comentarios
+
+Respuesta Exitosa (200 OK)
+```json
+[
+  {
+    "idComment": 1,
+    "contentComment": "This is a comment",
+    "idProduct": 1,
+    "idUser": 1,
+    "createdComment_at": "2024-05-29T16:37:12.569Z",
+    "modifiedComment_at": "2024-05-29T16:37:12.569Z"
+  }
+]
+```
+get /comments/deactived → Lista de comentarios inactivos
+
+Respuesta Exitosa (200 OK)
+```json
+[
+  {
+    "idComment": 1,
+    "contentComment": "This comment is deactivated",
+    "idProduct": 1,
+    "idUser": 1,
+    "createdComment_at": "2024-05-29T16:37:12.569Z",
+    "modifiedComment_at": "2024-05-29T16:37:12.569Z",
+    "activeComment": false
+  }
+]
+```
+get /comments/
+→ Obtener un comentario por ID
+
+Respuesta Exitosa (200 OK)
+```json
+{
+  "idComment": 1,
+  "contentComment": "This is a comment",
+  "idProduct": 1,
+  "idUser": 1,
+  "createdComment_at": "2024-05-29T16:37:12.569Z",
+  "modifiedComment_at": "2024-05-29T16:37:12.569Z"
+}
+```
+</details>
+<details>
+<summary>PUT</summary>
+Método PUT
+put /comments/
+→ Actualizar un comentario por ID
+
+Respuesta Exitosa (200 OK)
+```json
+{
+  "idComment": 1,
+  "contentComment": "Updated comment",
+  "idProduct": 1,
+  "idUser": 1,
+  "createdComment_at": "2024-05-29T16:37:12.569Z",
+  "modifiedComment_at": "2024-05-29T16:37:12.569Z"
+}
+```
+put /comments/report/
+→ Reportar un comentario
+
+Respuesta Exitosa (200 OK)
+```json
+{
+  "idComment": 1,
+  "reportComments": 1,
+  "modifiedComment_at": "2024-05-29T16:37:12.569Z"
+}
+```
+</details>
+<details>
+<summary>DELETE</summary>
+Método DELETE
+delete /comments/
+→ Eliminar un comentario por ID
+
+Respuesta Exitosa (200 OK)
+```json
+{
+  "message": "Comentario eliminado con éxito"
+}
+```
+delete /comments/deactive/
+→ Desactivar un comentario (paranoid: true)
+
+Respuesta Exitosa (200 OK)
+```json
+{
+  "idComment": 1,
+  "activeComment": false,
+  "modifiedComment_at": "2024-05-29T16:37:12.569Z"
+}
+```
+<details>
+<summary>JSON EJEMPLO DELETE</summary>
+```json
+{
+  "activeComment": false
+}
+```
+</details>
+delete /comments/restore/
+→ Restaurar un comentario (paranoid: true)
+
+Respuesta Exitosa (200 OK)
+```json
+{
+  "idComment": 1,
+  "activeComment": true,
+  "modifiedComment_at": "2024-05-29T16:37:12.569Z"
+}
+```
+<details>
+<summary>JSON EJEMPLO DELETE</summary>
+```json
+{
+  "activeComment": true
+}
+```
+</details>
+</details>
