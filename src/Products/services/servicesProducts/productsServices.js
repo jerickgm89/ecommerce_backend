@@ -1,5 +1,3 @@
-const {CharacteristicsProducts, EntityDiscounts, ProductsDiscounts} = require('../../../db');
-
 const {
     createProducts,
     createCharacteristics,
@@ -17,7 +15,6 @@ const {
     getDeactiveProducts,
     transactionRecicle
 } = require('../../repositories/repositoriesProducts/productRepositories');
-const { createDiscountService } = require('../servicesDiscounts/discountServices.js')
 const { imageCloudinaryUploader } = require('../../../../utils/imageReception');
 
 //Crear producto
@@ -121,21 +118,11 @@ const getAllProductsServices = async (page, limit) => {
     if(page && limit) {
         offset = (page - 1) * limit;
     };
-    const getProducts = getAllProducts({
-        where: { active: true},
-        offset,
-        limit,
-        order: [['idProduct', 'ASC']],
-        include:[
-            {
-                model: CharacteristicsProducts,
-                attributes: ['modelProduct', 'characteristics','idBrand']
-            },{
-                model: EntityDiscounts,
-                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity']
-            }
-        ]
-    })
+    const where = { active: true}
+    const order = [['idProduct', 'ASC']]
+
+    const getProducts = getAllProducts(where, offset, limit, order)
+
     if(!getProducts) {
         throw new Error ('Error al mostrar los productos')
     }
