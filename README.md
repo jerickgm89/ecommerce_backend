@@ -999,7 +999,7 @@ patch /products/review/restore/
  Método POST
 post /comments → Crear un nuevo comentario
 
-Respuesta Exitosa (201 Created)
+# Respuesta Exitosa (201 Created)
   ```json
 {
   "idComment": 1,
@@ -1016,7 +1016,7 @@ Respuesta Exitosa (201 Created)
 Método GET
 get /comments → Lista de comentarios
 
-Respuesta Exitosa (200 OK)
+# Respuesta Exitosa (200 OK)
 ```json
 [
   {
@@ -1031,7 +1031,7 @@ Respuesta Exitosa (200 OK)
 ```
 get /comments/deactived → Lista de comentarios inactivos
 
-Respuesta Exitosa (200 OK)
+# Respuesta Exitosa (200 OK)
 ```json
 [
   {
@@ -1048,7 +1048,7 @@ Respuesta Exitosa (200 OK)
 get /comments/
 → Obtener un comentario por ID
 
-Respuesta Exitosa (200 OK)
+# Respuesta Exitosa (200 OK)
 ```json
 {
   "idComment": 1,
@@ -1066,7 +1066,7 @@ Método PUT
 put /comments/
 → Actualizar un comentario por ID
 
-Respuesta Exitosa (200 OK)
+# Respuesta Exitosa (200 OK)
 ```json
 {
   "idComment": 1,
@@ -1080,7 +1080,7 @@ Respuesta Exitosa (200 OK)
 put /comments/report/
 → Reportar un comentario
 
-Respuesta Exitosa (200 OK)
+# Respuesta Exitosa (200 OK)
 ```json
 {
   "idComment": 1,
@@ -1095,7 +1095,7 @@ Método DELETE
 delete /comments/
 → Eliminar un comentario por ID
 
-Respuesta Exitosa (200 OK)
+# Respuesta Exitosa (200 OK)
 ```json
 {
   "message": "Comentario eliminado con éxito"
@@ -1104,7 +1104,7 @@ Respuesta Exitosa (200 OK)
 delete /comments/deactive/
 → Desactivar un comentario (paranoid: true)
 
-Respuesta Exitosa (200 OK)
+# Respuesta Exitosa (200 OK)
 ```json
 {
   "idComment": 1,
@@ -1123,7 +1123,7 @@ Respuesta Exitosa (200 OK)
 delete /comments/restore/
 → Restaurar un comentario (paranoid: true)
 
-Respuesta Exitosa (200 OK)
+# Respuesta Exitosa (200 OK)
 ```json
 {
   "idComment": 1,
@@ -1139,4 +1139,131 @@ Respuesta Exitosa (200 OK)
 }
 ```
 </details>
+</details>
+
+# Ruta 8: /discounts
+### Maneja descuentos
+<details>
+<summary>POST</summary>
+Método POST
+post /discounts/both/
+→ Crear un nuevo descuento (simple o de grupo)
+
+Respuesta Exitosa (201 Created)
+```json
+{
+  "idDiscount": 1,
+  "nameDiscount": "Black Friday",
+  "descriptionDiscount": "Descuento por Black Friday",
+  "quantity": 20,
+  "activeDiscount": true,
+  "idProduct": 1,
+  "created_at": "2024-05-29T16:37:12.569Z",
+  "updated_at": "2024-05-29T16:37:12.569Z"
+}
+```
+</details>
+<details>
+<summary>GET</summary>
+Método GET
+get /discounts/product/
+→ Obtener todos los descuentos relacionados a un producto por ID
+
+# Respuesta Exitosa (200 OK)
+```json
+[
+  {
+    "idDiscount": 1,
+    "nameDiscount": "Black Friday",
+    "descriptionDiscount": "Descuento por Black Friday",
+    "quantity": 20,
+    "activeDiscount": true,
+    "idProduct": 1,
+    "created_at": "2024-05-29T16:37:12.569Z",
+    "updated_at": "2024-05-29T16:37:12.569Z"
+  }
+]
+```
+get /discounts/both/
+→ Obtener descuentos por nombre (insensible a mayúsculas)
+
+# Respuesta Exitosa (200 OK)
+```json
+[
+  {
+    "idDiscount": 1,
+    "nameDiscount": "Black Friday",
+    "descriptionDiscount": "Descuento por Black Friday",
+    "quantity": 20,
+    "activeDiscount": true,
+    "created_at": "2024-05-29T16:37:12.569Z",
+    "updated_at": "2024-05-29T16:37:12.569Z"
+  }
+]
+```
+get /discounts/group/ → Obtener todos los descuentos de grupo
+
+# Respuesta Exitosa (200 OK)
+```json
+[
+  {
+    "idDiscount": 1,
+    "nameDiscount": "Descuento Grupo A",
+    "descriptionDiscount": "Descuento para el grupo A",
+    "quantity": 15,
+    "activeDiscount": true,
+    "discountInGroup": true,
+    "productsInDiscountGroup": [1, 2, 3],
+    "created_at": "2024-05-29T16:37:12.569Z",
+    "updated_at": "2024-05-29T16:37:12.569Z"
+  }
+]
+```
+get /discounts/both/
+→ Obtener descuento por ID
+
+# Respuesta Exitosa (200 OK)
+```json
+{
+  "idDiscount": 1,
+  "nameDiscount": "Black Friday",
+  "descriptionDiscount": "Descuento por Black Friday",
+  "quantity": 20,
+  "activeDiscount": true,
+  "created_at": "2024-05-29T16:37:12.569Z",
+  "updated_at": "2024-05-29T16:37:12.569Z"
+}
+```
+</details>
+<details>
+<summary>PUT</summary>
+Método PUT
+put /discounts/both/
+→ Actualizar descuento por ID (simple o de grupo)
+
+# Respuesta Exitosa (200 OK)
+```json
+{
+  "idDiscount": 1,
+  "nameDiscount": "Black Friday Updated",
+  "descriptionDiscount": "Descuento por Black Friday actualizado",
+  "quantity": 25,
+  "activeDiscount": true,
+  "created_at": "2024-05-29T16:37:12.569Z",
+  "updated_at": "2024-05-29T16:37:12.569Z"
+}
+```
+</details>
+<details>
+<summary>DELETE</summary>
+Método DELETE
+delete /discounts/both/
+→ Eliminar descuento por ID
+
+# Respuesta Exitosa (200 OK)
+```json
+{
+  "message": "Descuento eliminado con éxito"
+}
+```
 </details>
