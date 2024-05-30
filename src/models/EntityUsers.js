@@ -10,7 +10,6 @@ module.exports = (sequelize) => {
         },
         DNI: {
             type: DataTypes.STRING,
-            unique: true,
             allowNull: true,
         },
         nameUser: {
