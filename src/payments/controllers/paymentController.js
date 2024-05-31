@@ -1,4 +1,5 @@
 const { EntityOrderItems, EntityOrderDetail, EntityUsers, EntityProducts, EntityPayment } = require('../../db');
+const { sendStatusResponse } = require('./.src/config/nodeMailer/controllersMailer');
 
 const mercadopago = require('mercadopago');
 const crypto = require('crypto');
@@ -102,6 +103,9 @@ const webhook = async (req, res) => {
         console.log('User not found');
         return res.sendStatus(404);
       }
+
+      // Enviar el correo electrónico según el estado del pago
+      await sendStatusResponse(payer.email, user.name, status);
 
       let accountNumber = '';
       if (details.payment_method_id === 'visa' || details.payment_method_id === 'master') {
