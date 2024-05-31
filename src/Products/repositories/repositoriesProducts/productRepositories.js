@@ -13,7 +13,7 @@ const createCharacteristics = async (characteristicsData, transaction) => {
 
 //Repositorios para Modulular la funcion PATCH
 const findProductById = async (id, transaction) => {
-    
+    console.log("id ->>", id);
     const response = await EntityProducts.findOne({
         where: {
             idProduct: id
@@ -103,7 +103,11 @@ const getProductById = async (id) => {
             },
             {
                 model: EntityDiscounts,
-                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup' ],
+                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup', 'productsInDiscountGroup' ],
+                through: {
+                    model: ProductsDiscounts,
+                    attributes: []
+                }
             },
             {
             model: EntityComments,
@@ -117,6 +121,26 @@ const getProductById = async (id) => {
         }
         ]
     });
+
+    // if(productById.entityDiscounts.length){
+    //     productById.entityDiscounts?.map(async (discount) => {
+    //         if(discount.activeDiscount) {
+    //             if( !!discount.idProduct) {
+    //                 const newPrice = (1-discount.quantity)*productById.priceProduct;
+    //                 productById.discountPriceProduct = newPrice;
+    //             }
+    //             if(discount.discountInGroup && productById.productsDiscounts.length) {
+    //                 const newPrice = 1-discount.quantity*productById.priceProduct;
+    //                 productById.discountPriceProduct = newPrice;
+    //             }
+    //             if(newPrice !== undefined) {
+    //                 console.log("newPrice ->>", newPrice);
+    //                 await productById.save();
+    //                 await productById.reload();
+    //             }
+    //         }
+    //     });
+    // }
     return productById;
 };
 

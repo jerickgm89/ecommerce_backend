@@ -31,10 +31,12 @@ module.exports = (sequelize) => {
         },
         phoneArea:{
             type: DataTypes.STRING,
+            defaultValue: null,
             allowNull: true
         },
         numberMobileUser: {
             type: DataTypes.STRING,
+            defaultValue: null,
             allowNull: true
         },
         email_verified: {
