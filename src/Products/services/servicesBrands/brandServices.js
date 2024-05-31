@@ -1,4 +1,11 @@
-const { createBrandRepository, updateBrandRepository, allBrandsListRepository, getBrandByNameRepository, deleteBrandRepository } = require('../../repositories/repositoriesBrands/brandRepositories.js')
+const { 
+    createBrandRepository,
+    updateBrandRepository, 
+    allBrandsListRepository, 
+    getBrandByNameRepository, 
+    deleteBrandRepository,
+    getBrandByIdRepository
+} = require('../../repositories/repositoriesBrands/brandRepositories.js')
 const { imageCloudinaryUploader } = require('../../../../utils/imageReception.js')
 
 const createBrandService = async ({nameBrand, logoBrand}, fileImages) => {
@@ -36,10 +43,16 @@ const deleteBrandService = async (idBrand) => {
     return deleted
 }
 
+const getBrandByIdService = async (idBrand) => {
+    const allBrandsList = await getBrandByIdRepository(idBrand)
+    return allBrandsList
+}
+
 module.exports = {
     createBrandService,
     updateBrandService,
     allBrandsListService,
     getBrandByNameService,
-    deleteBrandService
+    deleteBrandService,
+    getBrandByIdService
 }
