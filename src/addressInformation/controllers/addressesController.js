@@ -46,7 +46,7 @@ const createControllerAddress = async (request, response) => {
         provinceAddress,
         cityAddress,
     })
-    console.log("createee ->>", !!addressInfoUser, userWasCreated, createdUserAddress)
+    // console.log("createee ->>", !!addressInfoUser, userWasCreated, createdUserAddress)
     // console.log("createe", request.body)
     // if(!createNewAddressUser && !created){
     //     response.status(404).json('No se pudo crear la dirección')
