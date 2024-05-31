@@ -122,25 +122,25 @@ const getProductById = async (id) => {
         ]
     });
 
-    // if(productById.entityDiscounts.length){
-    //     productById.entityDiscounts?.map(async (discount) => {
-    //         if(discount.activeDiscount) {
-    //             if( !!discount.idProduct) {
-    //                 const newPrice = (1-discount.quantity)*productById.priceProduct;
-    //                 productById.discountPriceProduct = newPrice;
-    //             }
-    //             if(discount.discountInGroup && productById.productsDiscounts.length) {
-    //                 const newPrice = 1-discount.quantity*productById.priceProduct;
-    //                 productById.discountPriceProduct = newPrice;
-    //             }
-    //             if(newPrice !== undefined) {
-    //                 console.log("newPrice ->>", newPrice);
-    //                 await productById.save();
-    //                 await productById.reload();
-    //             }
-    //         }
-    //     });
-    // }
+    if(productById.entityDiscounts.length){
+        productById.entityDiscounts?.map(async (discount) => {
+            if(discount.activeDiscount) {
+                if( !!discount.idProduct) {
+                    const newPrice = (1-discount.quantity)*productById.priceProduct;
+                    productById.discountPriceProduct = newPrice;
+                }
+                if(discount.discountInGroup && productById.productsDiscounts.length) {
+                    const newPrice = 1-discount.quantity*productById.priceProduct;
+                    productById.discountPriceProduct = newPrice;
+                }
+                if(newPrice !== undefined) {
+                    console.log("newPrice ->>", newPrice);
+                    await productById.save();
+                    await productById.reload();
+                }
+            }
+        });
+    }
     return productById;
 };
 

@@ -49,12 +49,12 @@ const createAddressService = async ( idUser, emailUser, adressToCreate ) => {
         email: emailUser
     }
     try {
-        const [user, create] = await logInUserServices(userInfo)
+        const [user, userWasCreated] = await logInUserServices(userInfo)
 
         const userID = user?.idUser || idUser
-        const [addressInfoUser, userWasCreated] = await createAddressUser(userID, adressToCreate)
+        const [addressInfoUser, createdUserAddress] = await createAddressUser(userID, adressToCreate)
         // const getCityServices = ({ province, city }, fullListPostalCode) => {
-        return [addressInfoUser, userWasCreated]
+        return [addressInfoUser, userWasCreated, createdUserAddress]
     } catch (error) {
         console.error('Error al llamar a logInUserServices:', error);
         throw error;
