@@ -51,7 +51,7 @@ const createAddressService = async ( idUser, emailUser, adressToCreate ) => {
     try {
         const [user, create] = await logInUserServices(userInfo)
 
-        const userID = user?.idUser
+        const userID = user?.idUser || idUser
         const [addressInfoUser, userWasCreated] = await createAddressUser(userID, adressToCreate)
         // const getCityServices = ({ province, city }, fullListPostalCode) => {
         return [addressInfoUser, userWasCreated]
