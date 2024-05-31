@@ -38,18 +38,11 @@ const createAddressUser = async (idUser, {
             }, 
             defaults: toCreate
         })
-        // .findOrCreate({ 
-        //     where: { emailUser },
-        //     defaults: newUserInfo
-        // });
-
-
-
-
+        addressInfo = addressInfoUser
         // y crea la dirección asociada al usuario
     };
-
-    return [addressInfoUser, userWasCreated]
+    // const userAddress = addressInfoUser || addressInfo;
+    return [addressInfo, userWasCreated]
 };
 
 const getFullListAddressesUser = async (idUser) => {
