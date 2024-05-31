@@ -1,6 +1,6 @@
-const { EntityProducts, CharacteristicsProducts, EntityDiscounts, EntityReview, EntityUsers, EntityBrand } = require('../../../db.js');
+const { EntityProducts, CharacteristicsProducts, EntityDiscounts, EntityReview, EntityUsers, EntityBrand, ProductsDiscounts } = require('../../../db.js');
 const { Op } = require('sequelize');
-
+const modifyPriceProduct = require('../../../../utils/modifyPriceProduct.js');
 const filtersProducts = async (properties, limit, offset, order) => {
     const { category, brand, name, price, year, priceMin, priceMax } = properties;
     const where = {};
@@ -28,7 +28,11 @@ const filtersProducts = async (properties, limit, offset, order) => {
             ]
         },{
             model: EntityDiscounts,
-            attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup' ],
+            attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup', 'productsInDiscountGroup' ],
+            through: {
+                model: ProductsDiscounts,
+                attributes: []
+            }
         }
     ];
 
@@ -76,7 +80,18 @@ const filtersProducts = async (properties, limit, offset, order) => {
         include,
         order
     });
-    return resultFilters;
+    const modifiedProducts = await Promise.all(
+        resultFilters.rows?.map(async (product) => {
+            const modifiedProduct = await modifyPriceProduct(product);
+            return modifiedProduct;
+        })
+    );
+    const response = {
+        count: resultFilters.count,
+        rows: modifiedProducts
+    };
+    
+    return response;
 };
 module.exports = {
     filtersProducts

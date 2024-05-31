@@ -25,7 +25,7 @@ const ProductAndCharacteristicsServices = async (Products, Variants, fileImages)
         const imagesUploader = await imageCloudinaryUploader(fileImages, Products.imageProducts)
         Products.imageProducts = imagesUploader;
 
-        const newProduct = await createProducts({
+        let newProduct = await createProducts({
             nameProduct: Products.nameProduct,
             priceProduct: Products.priceProduct,
             imageProducts: Products.imageProducts,
@@ -53,6 +53,7 @@ const ProductAndCharacteristicsServices = async (Products, Variants, fileImages)
         await transaction.commit()
         // console.log('new Product: ', newProduct);
         // console.log('Characteristics: ', newCharacteristics);
+        newProduct.priceProduct = parseFloat(newProduct.priceProduct);
         return {newProduct, newCharacteristics}
     } catch (error) {
         await transaction.rollback()
