@@ -1,5 +1,5 @@
 const { Op } = require('sequelize')
-const { EntityProducts, CharacteristicsProducts, EntityDiscounts, EntityReview, EntityUsers, EntityBrand, ProductsDiscounts } = require('../../../db.js');
+const { EntityCategory, EntityProducts, CharacteristicsProducts, EntityDiscounts, EntityReview, EntityUsers, EntityBrand, ProductsDiscounts } = require('../../../db.js');
 
 const createCategoryRepository = async ( categoryToCreate ) => {
     const newCategory = await EntityCategory.create(categoryToCreate);

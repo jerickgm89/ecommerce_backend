@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { EntityProducts, CharacteristicsProducts, EntityDiscounts, EntityReview, EntityUsers, EntityBrand, ProductsDiscounts } = require('../../../db.js');
+const { EntityProducts, CharacteristicsProducts, EntityDiscounts, EntityReview, EntityUsers, EntityBrand, ProductsDiscounts, EntityCategory } = require('../../../db.js');
 
 const createBrandRepository = async ({nameBrand, logoBrand}) => {
     const objectToCreate = {nameBrand, logoBrand}
