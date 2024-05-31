@@ -4,7 +4,7 @@ const filtersProductsController = async (req, res) => {
     const { category, brand, name, price, year, priceMin, priceMax } = req.query;
     const { orderBy, orderDirection } = req.query;
     
-    let { page, limit } = req.query;
+    let { page=1, limit=9 } = req.query;
     let order = [];
 
     try {
