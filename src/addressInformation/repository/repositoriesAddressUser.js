@@ -6,8 +6,7 @@ const createAddressUser = async (idUser, {
     addressName,
     postalCode,
     provinceAddress,
-    cityAddress,
-    country
+    cityAddress
 }) => {
     const toCreate = {
     identifierName, //nombre para identificar la dirección, dado por el user
@@ -15,15 +14,14 @@ const createAddressUser = async (idUser, {
     addressName, // nombre calle
     postalCode: `${postalCode}`,
     provinceAddress,
-    cityAddress,
-    country
+    cityAddress
     }
 
         //Busca la dirección del usuario que coincida con el nombre de la dirección y el número dada
     let addressInfo;
     addressInfo = await EntityUserAddress.findOne({ 
         where: {
-            idUser,
+            idUser: idUser,
             addressName:toCreate.addressName,
             numberAddress: toCreate.numberAddress,
         }
@@ -32,7 +30,7 @@ const createAddressUser = async (idUser, {
     if( !addressInfo && addressName ){
         // Le asigna idUser a la info para crear
         toCreate.idUser = idUser
-        addressInfo = await EntityUserAddress.findOrCreate({ 
+        var [addressInfoUser, userWasCreated] = await EntityUserAddress.findOrCreate({ 
             where: { 
                 idUser, 
                 addressName: toCreate.addressName, 
@@ -40,18 +38,11 @@ const createAddressUser = async (idUser, {
             }, 
             defaults: toCreate
         })
-
-        // .findOrCreate({ 
-        //     where: { emailUser },
-        //     defaults: newUserInfo
-        // });
-
-
-
-
+        addressInfo = addressInfoUser
         // y crea la dirección asociada al usuario
     };
-    return addressInfo [0]
+    // const userAddress = addressInfoUser || addressInfo;
+    return [addressInfo, userWasCreated]
 };
 
 const getFullListAddressesUser = async (idUser) => {

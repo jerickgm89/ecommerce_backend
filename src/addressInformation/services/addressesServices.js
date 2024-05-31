@@ -4,6 +4,7 @@ const {
     updateAddressesUser,
     deleteAddressesUser
 } = require('../repository/repositoriesAddressUser.js')
+const { logInUserServices } = require('../../Users/services/userService.js')
 
 const formatedResponse = (info) => {
     const arrayList = typeof info !== "string" ? Object.keys(info) : info
@@ -42,10 +43,22 @@ const getPostalCodeServices = ({ province, city }, fullListPostalCode) => {
     }
 
 }
-const createAddressService = async ( idUser, adressToCreate ) => {
-    const addressToCreate = await createAddressUser(idUser, adressToCreate)
-// const getCityServices = ({ province, city }, fullListPostalCode) => {
-    return addressToCreate
+const createAddressService = async ( idUser, emailUser, adressToCreate ) => {
+    // let userID;
+    const userInfo = {
+        email: emailUser
+    }
+    try {
+        const [user, userWasCreated] = await logInUserServices(userInfo)
+
+        const userID = user?.idUser || idUser
+        const [addressInfoUser, createdUserAddress] = await createAddressUser(userID, adressToCreate)
+        // const getCityServices = ({ province, city }, fullListPostalCode) => {
+        return [addressInfoUser, userWasCreated, createdUserAddress]
+    } catch (error) {
+        console.error('Error al llamar a logInUserServices:', error);
+        throw error;
+    }
 }
 const getFullListAddressesServices = async ( idUser ) => {
     const fullAddressesList = await getFullListAddressesUser(idUser)

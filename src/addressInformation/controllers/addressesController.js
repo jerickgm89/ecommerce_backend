@@ -30,28 +30,35 @@ const createControllerAddress = async (request, response) => {
         postalCode,
         provinceAddress,
         cityAddress,
-        country
+        emailUser
     } = request.body;
-    console.log(idUser)
-    
+    // console.log(idUser)
+    try {
+
     if( !numberAddress || !addressName || !postalCode || !provinceAddress || !cityAddress ){
         response.status(400).json('Por favor entregue todos los datos necesarios realizar la solicitud de creación.')
     }
-    const createNewAddressUser = await createAddressService(idUser, {
+    const [addressInfoUser, userWasCreated, createdUserAddress] = await createAddressService(idUser, emailUser, {
         identifierName,
         numberAddress,
         addressName,
         postalCode,
         provinceAddress,
         cityAddress,
-        country
     })
+    console.log("createee ->>", !!addressInfoUser, userWasCreated, createdUserAddress)
     // console.log("createe", request.body)
-    if(!createNewAddressUser){
-        response.status(418).json('No fue posible realizar esa solicitud')
+    // if(!createNewAddressUser && !created){
+    //     response.status(404).json('No se pudo crear la dirección')
+    // }
+    if(userWasCreated){
+        return response.status(201).json(addressInfoUser)
     }
-    else response.status(201).json(createNewAddressUser)
-    
+    else if (!userWasCreated) return response.status(200).json(addressInfoUser)
+        
+    } catch (error) {
+        return response.status(500).json({error: error, details:error.message})
+    }
 }
 
 const getAllByUserControllerAddress = async (request, response) => {

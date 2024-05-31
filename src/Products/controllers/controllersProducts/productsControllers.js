@@ -119,7 +119,7 @@ const GetProductByIdControllers = async (req,res) => {
         const product = await getProductByIdServices(id);
         res.status(200).json(product);
     } catch (error) {
-        if (error.message === 'Product not found') {
+        if (error.message === 'No se encuentra el producto') {
             res.status(404).json({ error: error.message });
         } else {
             res.status(500).json({ error: 'Error fetching product by id', details: error.message });

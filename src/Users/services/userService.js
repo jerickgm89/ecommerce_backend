@@ -12,7 +12,8 @@ const {
     restoreUser,
     getDeactiveUser,
     blockedUser,
-    isActiveUserEmail
+    isActiveUserEmail,
+    isAdminUser
 } = require('../repositories/usersRepository.js')
 
 const logInUserServices = async ( userInfo ) => {
@@ -114,6 +115,11 @@ const isActiveUserEmailService = async ( emailToVerify ) => {
     const userIsVerified = await isActiveUserEmail( emailToVerify )
     return userIsVerified
 }
+
+const isAdminUserService = async ( emailUser ) => {
+    const userIsAdmin = await isAdminUser( emailUser )
+    return userIsAdmin
+}
 module.exports = {
     logInUserServices,
     getAllUsersServices,
@@ -126,5 +132,6 @@ module.exports = {
     restoreUserServices,
     verifyingTokenService,
     getDeactiveUserService,
-    isActiveUserEmailService
+    isActiveUserEmailService,
+    isAdminUserService
 }
