@@ -31,12 +31,6 @@ const findProductById = async (id, transaction) => {
         }],
         transaction: transaction
     });
-    if (response) {
-        if(response.entityDiscounts.length) {
-            console.log("descuento", response.EntityDiscounts)
-        }
-        response.discountPriceProduct = response.EntityDiscounts;
-    }
     return response;
 };
 const findCharacteriscticsProductsById = async (id, transaction) => {
