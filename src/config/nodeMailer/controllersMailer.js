@@ -1,6 +1,6 @@
-const { transporter } = require('./nodeMailerConfig')
-require('dotenv').config()
-const { GMAIL } = process.env
+const { transporter } = require('./nodeMailerConfig');
+require('dotenv').config();
+const { GMAIL } = process.env;
 
 const sendWelcomeEmail = async (email, given_name) => {
     const mailOptions = {
@@ -18,24 +18,18 @@ const sendWelcomeEmail = async (email, given_name) => {
         `
     };
     try {
-        await transporter.sendMail(mailOptions)
+        await transporter.sendMail(mailOptions);
+        console.log(`Welcome email sent to ${email}`);
     } catch (error) {
-        console.error('Error al enviar mensaje de bienvenida: ', error)
-
+        console.error('Error al enviar mensaje de bienvenida: ', error);
     }
 };
-
-
-//hay dos funciones:
-//La primera envia un mensaje invitando a dejar un comentario PD: Hay que modificar texto, lo menos importante.
-//La segunda es una funcion con switch case, para entregar un mensaje según el status. necesitamos el email, el nombre y el status
-
 
 const sendReviewEmail = async (email, given_name) => {
     const mailOptions = {
         from: GMAIL,
         to: email,
-        subject: `${given_name} cuéntanos tu experiencia de tu última compra.`,
+        subject: `${given_name}, cuéntanos tu experiencia de tu última compra.`,
         html: `
         <div class="container" style="width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <div class="header" style="background-color: #4CAF50; color: #ffffff; padding: 20px; text-align: center;">
@@ -48,24 +42,7 @@ const sendReviewEmail = async (email, given_name) => {
         <p>¡Tu opinión cuenta! Estamos aquí para escucharte.</p>
         <p>¡Gracias por elegirnos y por tu continuo apoyo!</p>
         <p>Saludos cordiales,</p>
-        <p>[Tu nombre o el equipo de atención al cliente]</p>
-        <h2>El/los producto/os que compraste</h2>
-        <div class="product" style="display: flex; margin-bottom: 20px;">
-        <img src="https://via.placeholder.com/120" alt="Producto 1" style="width: 120px; height: auto; margin-right: 20px; border-radius: 8px;">
-        <div class="product-info" style="max-width: 400px;">
-        <h3 style="margin: 0; font-size: 1.2em; color: #333;">Producto 1</h3>
-        <p style="margin: 5px 0 10px; color: #666;">Descripción del producto 1. Es un producto increíble que te encantará.</p>
-        <a href="https://example.com/product1" class="cta-button" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: #ffffff; text-decoration: none; border-radius: 5px;">Ver Producto</a>
-        </div>
-        </div>
-        <div class="product" style="display: flex; margin-bottom: 20px;">
-        <img src="https://via.placeholder.com/120" alt="Producto 2" style="width: 120px; height: auto; margin-right: 20px; border-radius: 8px;">
-        <div class="product-info" style="max-width: 400px;">
-        <h3 style="margin: 0; font-size: 1.2em; color: #333;">Producto 2</h3>
-        <p style="margin: 5px 0 10px; color: #666;">Descripción del producto 2. Es otro producto asombroso que debes tener.</p>
-        <a href="https://example.com/product2" class="cta-button" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: #ffffff; text-decoration: none; border-radius: 5px;">Ver Producto</a>
-        </div>
-        </div>
+        <p>El equipo de atención al cliente</p>
         </div>
         <div class="footer" style="background-color: #f4f4f4; color: #666; text-align: center; padding: 10px; font-size: 0.9em;">
         <p>&copy; 2024 Nuestra Tienda. Todos los derechos reservados.</p>
@@ -73,66 +50,68 @@ const sendReviewEmail = async (email, given_name) => {
         </div>
         </div>
         `
-    }
+    };
     try {
-        await transporter.sendMail(mailOptions)
+        await transporter.sendMail(mailOptions);
+        console.log(`Review email sent to ${email}`);
     } catch (error) {
-        console.error('Error al enviar mensaje de bienvenida: ', error)
-
-
+        console.error('Error al enviar mensaje de revisión: ', error);
     }
 };
 
 const sendStatusResponse = async (email, given_name, status) => {
     if (!email) {
-        throw new Error('email is required')
+        throw new Error('Email is required');
     }
-    let subject, htmlContent
+
+    let subject, htmlContent;
 
     switch (status) {
         case 'approved':
             subject = '¡Tu compra fue aprobada 🎉';
             htmlContent = `
-        <h1>¡Gracias por tu compra, ${given_name}!</h1>
-        <p>Nos complace informarte que tu compra ha sido aprobada exitosamente. Estamos preparando tu pedido y te notificaremos cuando esté en camino.</p>
+            <h1>¡Gracias por tu compra, ${given_name}!</h1>
+            <p>Nos complace informarte que tu compra ha sido aprobada exitosamente. Estamos preparando tu pedido y te notificaremos cuando esté en camino.</p>
             <p>Mientras tanto, ¿por qué no echas un vistazo a nuestras nuevas ofertas y productos recomendados especialmente para ti?</p>
             <p>¡Gracias por elegirnos y feliz compra!</p>
             <p>El equipo de E-commerce Tech</p>
-        `;
+            `;
             break;
         case 'in_process':
-            subject = '¡Tu compra se está procesando ⏳'
+            subject = '¡Tu compra se está procesando ⏳';
             htmlContent = `
-        <h1>Hola, ${given_name}</h1>
-        <p>Tu compra está siendo procesada. Nos estamos asegurando de que todo esté en orden antes de aprobar tu pedido.</p>
-        <p>¿Sabías que tenemos una amplia variedad de productos que podrían interesarte mientras esperas? ¡Visítanos y descubre más!</p>
-        <p>Gracias por tu paciencia y por elegirnos.</p>
+            <h1>Hola, ${given_name}</h1>
+            <p>Tu compra está siendo procesada. Nos estamos asegurando de que todo esté en orden antes de aprobar tu pedido.</p>
+            <p>¡Gracias por tu paciencia y por elegirnos!</p>
             <p>El equipo de E-commerce Tech</p>
             `;
             break;
-        case 'reject':
-            subject = '¡Ups! Tu compra fue rechazada 😟'
+        case 'rejected':
+            subject = '¡Ups! Tu compra fue rechazada 😟';
             htmlContent = `
-        <h1>Hola, ${given_name}</h1>
-            <p>Lamentamos informarte que tu compra fue rechazada. Pero no te preocupes, ¡estamos aquí para ayudarte!</p>
-            <p>Por favor, verifica los detalles de tu pago y vuelve a intentarlo. Si necesitas asistencia, nuestro equipo de soporte está disponible para ayudarte.</p>
+            <h1>Hola, ${given_name}</h1>
+            <p>Lamentamos informarte que tu compra fue rechazada. Por favor, verifica los detalles de tu pago y vuelve a intentarlo. Si necesitas asistencia, nuestro equipo de soporte está disponible para ayudarte.</p>
             <p>Gracias por tu paciencia y por elegirnos.</p>
-            <p>El equipo de E-commerce Tech</p>`
+            <p>El equipo de E-commerce Tech</p>
+            `;
             break;
         default:
-            console.error('status desconocido', status)
-            return
+            console.error('Unknown status', status);
+            return;
     }
+
     const mailOptions = {
         from: GMAIL,
         to: email,
         subject: subject,
         html: htmlContent
-    }
+    };
+
     try {
-        await transporter.sendEmail(mailOptions)
+        await transporter.sendMail(mailOptions);
+        console.log(`Status response email sent to ${email} with status ${status}`);
     } catch (error) {
-        console.error('Error al enviar notificación.', error)
+        console.error('Error al enviar notificación:', error);
     }
 };
 

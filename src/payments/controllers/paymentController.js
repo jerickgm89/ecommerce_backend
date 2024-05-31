@@ -1,5 +1,5 @@
 const { EntityOrderItems, EntityOrderDetail, EntityUsers, EntityProducts, EntityPayment } = require('../../db');
-const { sendStatusResponse } = require('./.src/config/nodeMailer/controllersMailer');
+const { sendStatusResponse } = require('../../config/nodeMailer/controllersMailer');
 
 const mercadopago = require('mercadopago');
 const crypto = require('crypto');
@@ -8,24 +8,26 @@ const { MERCADOPAGO_API_KEY, MERCADOPAGO_SECRET } = process.env;
 mercadopago.configure({
   access_token: MERCADOPAGO_API_KEY,
 });   
+let lastPayerEmail = '';
+
 const createOrder = async (req, res) => {
   try {
-    const body = req.body; 
+    const body = req.body;
 
     if (body.payer && body.payer.phone && typeof body.payer.phone.number === 'string') {
       body.payer.phone.number = Number(body.payer.phone.number);
     }
 
     delete body.shipments;
-
     delete body.payment_methods;
 
     const externalReference = body.payer.identification.number;
+    lastPayerEmail = body.payer.email;  // Guardar el correo electrónico en la variable global
 
     const result = await mercadopago.preferences.create({
       items: body.items,
       payer: body.payer,
-      notification_url: "https://2f19-181-91-0-67.ngrok-free.app/payment/webhook",
+      notification_url: "https://e494-191-111-5-156.ngrok-free.app/payment/webhook",
       back_urls: {
         success: "https://st2.depositphotos.com/3108485/9725/i/450/depositphotos_97258336-stock-photo-hand-thumb-up.jpg",
         pending: "https://cdn-icons-png.flaticon.com/512/3756/3756719.png",
@@ -41,7 +43,6 @@ const createOrder = async (req, res) => {
     return res.status(500).json({ message: "Something went wrong", error: error.message });
   }
 };
-
 const webhook = async (req, res) => {
   console.log('Received webhook:', req.body);
 
@@ -56,7 +57,7 @@ const webhook = async (req, res) => {
   const [tsPart, hashPart] = signature.split(',');
   const ts = tsPart.split('=')[1];
   const hash = hashPart.split('=')[1];
-  const dataID = req.query['data.id'] || (req.body.data && req.body.data.id);
+  const dataID = req.query['data.id'] || (req.body.data && req.body.data.id) || req.query.id;
 
   if (!dataID) {
     console.log('Missing data ID');
@@ -77,8 +78,8 @@ const webhook = async (req, res) => {
 
   console.log('HMAC verification passed');
 
-  const notificationType = req.body.type;
-  const resourceId = req.body.data && req.body.data.id;
+  const notificationType = req.body.type || req.query.topic;
+  const resourceId = req.body.data && req.body.data.id || req.query.id;
 
   if (!resourceId) {
     console.log('Missing resource ID');
@@ -95,6 +96,19 @@ const webhook = async (req, res) => {
       const { status, transaction_amount, payer, additional_info, card } = details;
       console.log('status: ', status);
 
+      // Usar el correo electrónico almacenado en la variable global
+      const payerEmail = lastPayerEmail;
+      const payerName = payer.first_name || (additional_info && additional_info.payer && additional_info.payer.first_name) || 'Cliente';
+
+      if (!payerEmail) {
+        console.error('No se pudo encontrar el correo electrónico del pagador');
+        return res.sendStatus(400);
+      }
+
+      // Enviar el correo electrónico según el estado del pago
+      await sendStatusResponse(payerEmail, payerName, status);
+      // console.log(`Status response email sent to ${payerEmail} with status ${status}`);
+
       const user = await EntityUsers.findOne({
         where: { DNI: details.external_reference }
       });
@@ -103,9 +117,6 @@ const webhook = async (req, res) => {
         console.log('User not found');
         return res.sendStatus(404);
       }
-
-      // Enviar el correo electrónico según el estado del pago
-      await sendStatusResponse(payer.email, user.name, status);
 
       let accountNumber = '';
       if (details.payment_method_id === 'visa' || details.payment_method_id === 'master') {
@@ -154,6 +165,8 @@ const webhook = async (req, res) => {
       const response = await mercadopago.merchant_orders.get(resourceId);
       details = response.body;
       console.log('Merchant order:', JSON.stringify(details, null, 2)); 
+
+      // Aquí puedes manejar los detalles de la orden del comerciante
     }
 
     if (!details) {
@@ -167,7 +180,6 @@ const webhook = async (req, res) => {
     res.sendStatus(500);
   }
 };
-
 
 const updatePayment = async (req, res) => {
   const { id } = req.params;
