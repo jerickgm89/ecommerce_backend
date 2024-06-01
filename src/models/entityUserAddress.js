@@ -10,27 +10,27 @@ module.exports = (sequelize) => {
         },
         identifierName: {
             type: DataTypes.STRING,
-            // allowNull: false
+            allowNull: true
         },
         numberAddress: {
             type: DataTypes.STRING,
-            // allowNull: false
+            allowNull: true
         },
         addressName: {
             type: DataTypes.STRING,
-            // allowNull: false
+            allowNull: true
         },
         postalCode: {
             type: DataTypes.STRING,
-            // allowNull: false
+            allowNull: true
         },
         provinceAddress:{
             type: DataTypes.STRING,
-            // allowNull: false
+            allowNull: true
         },
         cityAddress:{
             type: DataTypes.STRING,
-            // allowNull: false
+            allowNull: true
         },
         country:{
             type: DataTypes.STRING,

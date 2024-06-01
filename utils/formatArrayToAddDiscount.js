@@ -10,10 +10,10 @@ const formatArrayToAddDiscount = async ( idProduct ) => {
     
     // recibo por ejemplo "Laptops+Celulares"
     const bruteListNames = idProduct.split('+'); //["Laptops","Acer", "MSI","Celulares", ...]
-    
+    // console.log("bruteListNames ->  ", bruteListNames, "idProduct ->>  ", idProduct);
     // ["Laptops","Celulares", ...]
     const fullListCategories = await allCategoryListService();
-
+    
     const allCategoryList = fullListCategories.map((eachCategory, index) =>{
         if(bruteListNames.length >= index){
             if(bruteListNames.includes(eachCategory.nameCategory)){
@@ -24,13 +24,14 @@ const formatArrayToAddDiscount = async ( idProduct ) => {
         return searchedCategory
     })
     const fullListBrands = await allBrandsListService()
+    console.log("bruteListNames ->  ", bruteListNames);
 
     
     const allBrandList = fullListBrands.map((eachBrand, index) =>{
         if(bruteListNames.length >= index){
             if(bruteListNames.includes(eachBrand.nameBrand)){
                 searchedBrand.push(eachBrand.idBrand)
-                bruteListNames.splice(index-1, 1)
+                // bruteListNames.splice(index-1, 1)
             }
         }
         return searchedBrand

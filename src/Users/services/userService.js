@@ -116,8 +116,8 @@ const isActiveUserEmailService = async ( emailToVerify ) => {
     return userIsVerified
 }
 
-const isAdminUserService = async ( idUser ) => {
-    const userIsAdmin = await isAdminUser( idUser )
+const isAdminUserService = async ( emailUser ) => {
+    const userIsAdmin = await isAdminUser( emailUser )
     return userIsAdmin
 }
 module.exports = {

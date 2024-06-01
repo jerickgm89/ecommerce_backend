@@ -4,6 +4,7 @@ const {
     updateAddressesUser,
     deleteAddressesUser
 } = require('../repository/repositoriesAddressUser.js')
+const { logInUserServices } = require('../../Users/services/userService.js')
 
 const formatedResponse = (info) => {
     const arrayList = typeof info !== "string" ? Object.keys(info) : info
@@ -12,28 +13,28 @@ const formatedResponse = (info) => {
     : arrayList[0] + arrayList.slice(1).toLowerCase()
     return toFormat
 } 
-const getPostalCodeServices = ({ province, city }, fullListPostalCode) => {
+const getPostalCodeServices = ({ provincia, departamento, municipio, barrio }, fullListPostalCode) => {
     
     // Retorna la ciudad seleccionada según selecciones de ciudad y provincia
-    if( province && city ){
-        const filterProvinceAndCity = fullListPostalCode[province][city]
-        if(Object.keys(filterProvinceAndCity).length) return formatedResponse(city)
+    if( provincia && departamento ){
+        const filterProvinceAndCity = fullListPostalCode[provincia][departamento]
+        if(Object.keys(filterProvinceAndCity).length) return formatedResponse(departamento)
         else throw new Error ("No se encontró coincidencia")
         
     }
 
     // Retorna el listado de ciudades según la provincia seleccionada
-    if( province && !city ){
-        const filterProvince = fullListPostalCode[province]
+    if( provincia && !departamento ){
+        const filterProvince = fullListPostalCode[provincia]
         const citySelected = formatedResponse(filterProvince)
         return citySelected
     }
 
     // Retorna la ciudad seleccionada
-    if ( !province && city ) {
+    if ( !provincia && departamento ) {
         for(const province in fullListPostalCode){
-            const toString = formatedResponse(fullListPostalCode[province][city])
-            if( toString.length ) return formatedResponse(city)
+            const toString = formatedResponse(fullListPostalCode[province][departamento])
+            if( toString.length ) return formatedResponse(departamento)
         }
     }
     else {
@@ -42,10 +43,24 @@ const getPostalCodeServices = ({ province, city }, fullListPostalCode) => {
     }
 
 }
-const createAddressService = async ( idUser, adressToCreate ) => {
-    const addressToCreate = await createAddressUser(idUser, adressToCreate)
-// const getCityServices = ({ province, city }, fullListPostalCode) => {
-    return addressToCreate
+const createAddressService = async ( idUser, emailUser, adressToCreate ) => {
+    // define el user ID por defecto como el que recibe
+    try {
+        if(emailUser){
+
+            const userInfo = {
+                email: emailUser
+            }
+            const [user, userWasCreated] = await logInUserServices(userInfo)
+            idUser = user?.idUser
+        }
+        // else userID = idUser
+        const [addressInfoUser, createdUserAddress] = await createAddressUser(idUser, adressToCreate)
+        return [addressInfoUser, createdUserAddress]
+    } catch (error) {
+        console.error('Error al llamar a logInUserServices:', error);
+        throw error;
+    }
 }
 const getFullListAddressesServices = async ( idUser ) => {
     const fullAddressesList = await getFullListAddressesUser(idUser)

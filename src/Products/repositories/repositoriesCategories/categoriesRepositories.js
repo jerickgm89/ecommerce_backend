@@ -1,5 +1,5 @@
 const { Op } = require('sequelize')
-const { EntityCategory } = require('../../../db.js')
+const { EntityCategory, EntityProducts, CharacteristicsProducts, EntityDiscounts, EntityReview, EntityUsers, EntityBrand, ProductsDiscounts } = require('../../../db.js');
 
 const createCategoryRepository = async ( categoryToCreate ) => {
     const newCategory = await EntityCategory.create(categoryToCreate);
@@ -42,10 +42,48 @@ const deleteCategoryRepository = async (idCategory) => {
     return !!destoyed
 }
 
+const byIdCategoryRespository = async (idCategory) => {
+    const category = await EntityProducts.findAll({ 
+        where: { 
+            idCategory
+        },
+        include: [ 
+            {
+                model: CharacteristicsProducts,
+                where: {},
+                attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand'],
+                include: [
+                    {
+                        model: EntityBrand,
+                        attributes: ['nameBrand', 'logoBrand'],
+                    }
+                ]
+            },{
+                model: EntityReview,
+                attributes: ['descriptionReview','idReview'],
+                include: [
+                    {
+                        model: EntityUsers,
+                        attributes: ['emailUser']
+                    }
+                ]
+            },{
+                model: EntityDiscounts,
+                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup', 'productsInDiscountGroup' ],
+                through: {
+                    model: ProductsDiscounts,
+                    attributes: []
+                }
+            }
+        ]
+    });
+    return category
+}
 module.exports = {
     createCategoryRepository,
     updateCategoryRepository,
     fullListCategoryRepository,
     byNameCategoryRepository,
-    deleteCategoryRepository
+    deleteCategoryRepository,
+    byIdCategoryRespository
 }

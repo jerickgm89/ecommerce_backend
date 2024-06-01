@@ -1,6 +1,7 @@
 const {EntityProducts, CharacteristicsProducts, EntityReview, EntityUsers, EntityDiscounts, EntityComments, ProductsDiscounts} = require('../../../db');
 const {Op} = require('sequelize');
 const sequelize = require('sequelize')
+const modifyPriceProduct = require('../../../../utils/modifyPriceProduct.js');
 
 //Crear producto
 const createProducts = async (productData, transaction) => {
@@ -13,8 +14,8 @@ const createCharacteristics = async (characteristicsData, transaction) => {
 
 //Repositorios para Modulular la funcion PATCH
 const findProductById = async (id, transaction) => {
-    
-    return EntityProducts.findOne({
+    console.log("id ->>", id);
+    const response = await EntityProducts.findOne({
         where: {
             idProduct: id
         },
@@ -31,6 +32,7 @@ const findProductById = async (id, transaction) => {
         }],
         transaction: transaction
     });
+    return response;
 };
 const findCharacteriscticsProductsById = async (id, transaction) => {
         return CharacteristicsProducts.findOne({where: {idProduct: id}, transaction})
@@ -62,7 +64,7 @@ const getAllProducts = async (where, offset, limit, order ) => {
             attributes: ['descriptionReview','idReview'],
         },{
             model: EntityDiscounts,
-            attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup'],
+            attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup', 'productsInDiscountGroup' ],
             through: {
                 model: ProductsDiscounts,
                 attributes: []
@@ -70,13 +72,22 @@ const getAllProducts = async (where, offset, limit, order ) => {
         }
     ]
 
-    return EntityProducts.findAll({
+    let response = await  EntityProducts.findAll({
         where,
         offset,
         limit,
         order,
         include
     })
+    const modifiedProducts = await Promise.all(
+        response.map(async (product) => {
+            const modifiedProduct = await modifyPriceProduct(product);
+            return modifiedProduct;
+        })
+    );
+    // response.priceProduct = parseFloat(response.priceProduct);
+    return modifiedProducts;
+
 };
 
 //Buscar producto por id
@@ -102,7 +113,11 @@ const getProductById = async (id) => {
             },
             {
                 model: EntityDiscounts,
-                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup' ],
+                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup', 'productsInDiscountGroup' ],
+                through: {
+                    model: ProductsDiscounts,
+                    attributes: []
+                }
             },
             {
             model: EntityComments,
@@ -116,53 +131,69 @@ const getProductById = async (id) => {
         }
         ]
     });
-    return productById;
+    // función que modifica el precio por uno con descuento
+    // Si existen descuentos activos, se modifica el precio del producto
+    // Si existe descuento de grupo y precio específico -> precio específico modifica el precio del producto
+    const modifyPrice = await modifyPriceProduct(productById);
+    return modifyPrice;
 };
 
 
 //buscar por nombre
 const searchProductByName = async (name, offset, limit) => {
-    const searchName =  await EntityProducts.findAll({ 
-        where: {
-            active: true,
-            nameProduct: { 
-                [Op.iLike]: `%${name}%`
+        
+        const searchName =  await EntityProducts.findAll({ 
+            where: {
+                active: true,
+                nameProduct: { 
+                    [Op.iLike]: `%${name}%`
+                },
             },
-        },
-        offset,
-        limit,
-        include: [
+            offset,
+            limit,
+            include: [
+                {
+                    model: CharacteristicsProducts, 
+                    attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']
+                },
+                {
+                    model: EntityReview,
+                    attributes: ['descriptionReview','idReview'],
+                    include: [
+                        {
+                            model: EntityUsers,
+                            attributes: ['emailUser']
+                        }
+                    ]
+                },
+                {
+                    model: EntityDiscounts,
+                    attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup', 'productsInDiscountGroup' ],
+                    through: {
+                        model: ProductsDiscounts,
+                        attributes: []
+                    }
+                },
             {
-                model: CharacteristicsProducts, 
-                attributes: ['idCharacteristicsProducts', 'modelProduct', 'characteristics', 'idBrand']
-            },
-            {
-                model: EntityReview,
-                attributes: ['descriptionReview','idReview'],
+                model: EntityComments,
+                attributtes: ['comments', 'idProduct'],
                 include: [
                     {
                         model: EntityUsers,
                         attributes: ['emailUser']
                     }
                 ]
-            },
-            {
-                model: EntityDiscounts,
-                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup' ],
-            },
-            {
-            model: EntityComments,
-            attributtes: ['comments', 'idProduct'],
-            include: [
-                {
-                    model: EntityUsers,
-                    attributes: ['emailUser']
-                }
-            ]
-        }
+            }
         ]
     })
-    return searchName;
+    const modifiedProducts = await Promise.all(
+        searchName.map(async (product) => {
+            const modifiedProduct = await modifyPriceProduct(product);
+            return modifiedProduct;
+        })
+    );
+    return modifiedProducts;
+
 };
 
 //Desactivar un producto

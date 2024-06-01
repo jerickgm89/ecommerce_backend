@@ -6,10 +6,11 @@ const {
     allCategoryListService,
     byNameCategoryService,
     deleteCategoryService,
+    byIdCategoryService,
 } = require('../../services/servicesCategory/categoryServices.js')
 
 
-const createCategory = async (req, res) => {
+const createCategoryController = async (req, res) => {
     const { nameCategory, descriptionCategory, imageCategory } = req.body;
     const fileImages =  req.file
 
@@ -34,7 +35,7 @@ const createCategory = async (req, res) => {
     //     "deletedCat_at": null
     // }
     
-const updateCategory = async (req, res) => {
+const updateCategoryController = async (req, res) => {
     const { idCategory } = req.params;
     const { nameCategory, descriptionCategory, imageCategory } = req.body;
     const fileImages = req.file  
@@ -59,7 +60,7 @@ const updateCategory = async (req, res) => {
 // }
 
 
-const getAllCategories = async (req, res) => {
+const getAllCategoriesController = async (req, res) => {
     try {
         const categories = await allCategoryListService()
         res.status(200).json(categories);
@@ -68,7 +69,7 @@ const getAllCategories = async (req, res) => {
     }
 };
 
-const getCategoryByName = async (req, res) => {
+const getCategoryByNameController = async (req, res) => {
     const { name } = req.params;
     try {
         const category = await byNameCategoryService(name)
@@ -82,7 +83,7 @@ const getCategoryByName = async (req, res) => {
     }
 };
 
-const deleteCategory = async (req, res) => {
+const deleteCategoryController = async (req, res) => {
     const { idCategory } = req.params;
     try {
         const category = await deleteCategoryService(idCategory)
@@ -99,10 +100,24 @@ const deleteCategory = async (req, res) => {
     }
 };
 
+const getCategoryByIdController = async (req, res) => {
+    const { idCategory } = req.params;
+    try {
+        const category = await byIdCategoryService(idCategory)
+        if (category) {
+            return res.status(200).json(category);
+        }
+        res.status(404).json({ error: 'Category not found', details: error.message  });
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching category', details: error.message  });
+    }
+};
+
 module.exports = {
-    getAllCategories,
-    getCategoryByName,
-    createCategory,
-    updateCategory,
-    deleteCategory
+    getAllCategoriesController,
+    getCategoryByNameController,
+    createCategoryController,
+    updateCategoryController,
+    deleteCategoryController,
+    getCategoryByIdController
 };
