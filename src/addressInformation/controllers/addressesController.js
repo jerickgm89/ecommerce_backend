@@ -1,4 +1,5 @@
 const {
+    getProvincesServices,
     getPostalCodeServices,
     createAddressService,
     getFullListAddressesServices,
@@ -7,15 +8,26 @@ const {
 
 } = require('../services/addressesServices.js')
 
-const fullListPostalCode = require('../../api/dataPostalCode.json')
-// const provincesList = require('../../api/provinciasArgentina.json')
-// const citiesList = require('../../api/ciudadesArgentina.json')
+// const fullListPostalCode = require('../../api/dataPostalCode.json')
+// // const provincesList = require('../../api/provinciasArgentina.json')
+// // const citiesList = require('../../api/ciudadesArgentina.json')
 
-const getControllerAddress = (request, response) => {
-    const { provincia, departamento, municipio, barrio } = request.query;
+const getProvinceControllerAddress = (request, response) => {
+    const { province, department } = request.query;
+    
     try {
-        const address = getPostalCodeServices({ provincia, departamento, municipio, barrio }, fullListPostalCode)
+        const address = getProvincesServices( province, department )
         response.status(200).json(address)
+    } catch (error) {
+        response.status(500).json({error: error.message})
+    }
+}
+const  getPostalCodeControllerAddress = async(request, response) => {
+    const { postalCode } = request.params;
+    try {
+        const shippingPrice = await getPostalCodeServices(postalCode)
+        // console.log('shippingPrice', shippingPrice)
+        response.status(200).json(shippingPrice)
     } catch (error) {
         response.status(500).json({error: error.message})
     }
@@ -112,7 +124,8 @@ const deleteAddressUserControllerAddress = async ( request, response) => {
 }
 
 module.exports ={
-    getControllerAddress,
+    getProvinceControllerAddress,
+    getPostalCodeControllerAddress,
     createControllerAddress,
     getAllByUserControllerAddress,
     updateUserControllerAddress,
