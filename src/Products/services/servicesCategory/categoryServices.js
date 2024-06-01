@@ -3,7 +3,8 @@ const {
     updateCategoryRepository,
     fullListCategoryRepository,
     byNameCategoryRepository,
-    deleteCategoryRepository
+    deleteCategoryRepository,
+    byIdCategoryRespository
 } = require('../../repositories/repositoriesCategories/categoriesRepositories.js')
 const { imageCloudinaryUploader } = require('../../../../utils/imageReception.js')
 
@@ -41,10 +42,16 @@ const deleteCategoryService = async (idCategory) => {
     return category
 }
 
+const byIdCategoryService = async (idCategory) => {
+    const category = await byIdCategoryRespository(idCategory)
+    return category
+}
+
 module.exports = {
     createCategoryService,
     updateCategoryService,
     allCategoryListService,
     byNameCategoryService,
     deleteCategoryService,
+    byIdCategoryService
 }

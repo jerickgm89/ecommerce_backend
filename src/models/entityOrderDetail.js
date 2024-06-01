@@ -16,12 +16,20 @@ module.exports = (sequelize) => {
             type: DataTypes.DECIMAL,
             allowNull: false
         },
+        couponApplied: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        discountedTotal: {
+            type: DataTypes.FLOAT,
+            allowNull: true,
+        },
 
-        idPayment:{
+        idPayment: {
             type: DataTypes.INTEGER
         },
 
-        idUser:{
+        idUser: {
             type: DataTypes.INTEGER
         }
     }, {
