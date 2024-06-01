@@ -12,9 +12,9 @@ const fullListPostalCode = require('../../api/dataPostalCode.json')
 // const citiesList = require('../../api/ciudadesArgentina.json')
 
 const getControllerAddress = (request, response) => {
-    const { province, city,  } = request.query;
+    const { provincia, departamento, municipio, barrio } = request.query;
     try {
-        const address = getPostalCodeServices({ province, city }, fullListPostalCode)
+        const address = getPostalCodeServices({ provincia, departamento, municipio, barrio }, fullListPostalCode)
         response.status(200).json(address)
     } catch (error) {
         response.status(500).json({error: error.message})
@@ -22,7 +22,7 @@ const getControllerAddress = (request, response) => {
 }
 
 const createControllerAddress = async (request, response) => {
-    const { idUser } = request.params;
+    let { idUser } = request.params;
     const {
         identifierName,
         numberAddress,
@@ -38,7 +38,7 @@ const createControllerAddress = async (request, response) => {
     if( !numberAddress || !addressName || !postalCode || !provinceAddress || !cityAddress ){
         response.status(400).json('Por favor entregue todos los datos necesarios realizar la solicitud de creación.')
     }
-    const [addressInfoUser, userWasCreated, createdUserAddress] = await createAddressService(idUser, emailUser, {
+    const [addressInfoUser, createdUserAddress] = await createAddressService(idUser, emailUser, {
         identifierName,
         numberAddress,
         addressName,
@@ -51,10 +51,11 @@ const createControllerAddress = async (request, response) => {
     // if(!createNewAddressUser && !created){
     //     response.status(404).json('No se pudo crear la dirección')
     // }
-    if(userWasCreated){
+
+    if(createdUserAddress){
         return response.status(201).json(addressInfoUser)
     }
-    else if (!userWasCreated) return response.status(200).json(addressInfoUser)
+    else return response.status(200).json(addressInfoUser)
         
     } catch (error) {
         return response.status(500).json({error: error, details:error.message})
