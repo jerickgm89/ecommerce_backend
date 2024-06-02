@@ -102,7 +102,7 @@ const webhook = async (req, res) => {
       const { status, transaction_amount, payer, additional_info, card, id, payment_method_id } = details;
       console.log('status: ', status);
 
-      const payerEmail = payer.email;
+      const payerEmail = lastPayerEmail;
       const payerName = payer.first_name || (additional_info && additional_info.payer && additional_info.payer.first_name) || 'Cliente';
 
       if (!payerEmail) {
