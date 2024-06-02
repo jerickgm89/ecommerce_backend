@@ -1,4 +1,5 @@
 const { EntityOrderItems, EntityOrderDetail, EntityUsers, EntityProducts, EntityPayment } = require('../../db');
+const { sendStatusResponse } = require('../../config/nodeMailer/controllersMailer');
 
 const mercadopago = require('mercadopago');
 const crypto = require('crypto');
@@ -7,24 +8,27 @@ const { MERCADOPAGO_API_KEY, MERCADOPAGO_SECRET } = process.env;
 mercadopago.configure({
   access_token: MERCADOPAGO_API_KEY,
 });   
+let lastPayerEmail = '';
+let  = '';
+
 const createOrder = async (req, res) => {
   try {
-    const body = req.body; 
+    const body = req.body;
 
     if (body.payer && body.payer.phone && typeof body.payer.phone.number === 'string') {
       body.payer.phone.number = Number(body.payer.phone.number);
     }
 
     delete body.shipments;
-
     delete body.payment_methods;
 
     const externalReference = body.payer.identification.number;
+    lastPayerEmail = body.payer.email;  // Guardar el correo electrónico en la variable global
 
     const result = await mercadopago.preferences.create({
       items: body.items,
       payer: body.payer,
-      notification_url: "https://c4ba-181-93-79-163.ngrok-free.app/payment/webhook",
+      notification_url: "https://www.ecommercetech.software/payment/webhook",
       back_urls: {
         success: "https://st2.depositphotos.com/3108485/9725/i/450/depositphotos_97258336-stock-photo-hand-thumb-up.jpg",
         pending: "https://cdn-icons-png.flaticon.com/512/3756/3756719.png",
@@ -40,59 +44,73 @@ const createOrder = async (req, res) => {
     return res.status(500).json({ message: "Something went wrong", error: error.message });
   }
 };
-
 const webhook = async (req, res) => {
-  console.log('Received webhook:', req.body);
-
-  const signature = req.headers['x-signature'];
-  const xRequestId = req.headers['x-request-id'];
-
-  if (!signature || !xRequestId) {
-    console.log('Missing headers');
-    return res.sendStatus(400);
-  }
-
-  const [tsPart, hashPart] = signature.split(',');
-  const ts = tsPart.split('=')[1];
-  const hash = hashPart.split('=')[1];
-  const dataID = req.query['data.id'] || (req.body.data && req.body.data.id);
-
-  if (!dataID) {
-    console.log('Missing data ID');
-    return res.sendStatus(400);
-  }
-
-  const manifest = `id:${dataID};request-id:${xRequestId};ts:${ts};`;
-
-  const computedHash = crypto
-    .createHmac('sha256', MERCADOPAGO_SECRET)
-    .update(manifest)
-    .digest('hex');
-
-  if (computedHash !== hash) {
-    console.log('HMAC verification failed');
-    return res.sendStatus(400);
-  }
-
-  console.log('HMAC verification passed');
-
-  const notificationType = req.body.type;
-  const resourceId = req.body.data && req.body.data.id;
-
-  if (!resourceId) {
-    console.log('Missing resource ID');
-    return res.sendStatus(400);
-  }
-
   try {
+    console.log('Received webhook:', req.body);
+
+    const signature = req.headers['x-signature'];
+    const xRequestId = req.headers['x-request-id'];
+
+    if (!signature || !xRequestId) {
+      console.log('Missing headers');
+      return res.sendStatus(400);
+    }
+
+    const [tsPart, hashPart] = signature.split(',');
+    const ts = tsPart.split('=')[1];
+    const hash = hashPart.split('=')[1];
+    const dataID = req.query['data.id'] || (req.body.data && req.body.data.id) || req.query.id;
+
+    if (!dataID) {
+      console.log('Missing data ID');
+      return res.sendStatus(400);
+    }
+
+    const manifest = `id:${dataID};request-id:${xRequestId};ts:${ts};`;
+
+    console.log('Manifest for HMAC:', manifest);
+
+    const computedHash = crypto
+      .createHmac('sha256', process.env.MERCADOPAGO_SECRET)
+      .update(manifest)
+      .digest('hex');
+
+    console.log('Computed HMAC:', computedHash);
+    console.log('Received HMAC:', hash);
+
+    if (computedHash !== hash) {
+      console.log('HMAC verification failed');
+      return res.sendStatus(400);
+    }
+
+    console.log('HMAC verification passed');
+
+    const notificationType = req.body.type || req.query.topic;
+    const resourceId = req.body.data && req.body.data.id || req.query.id;
+
+    if (!resourceId) {
+      console.log('Missing resource ID');
+      return res.sendStatus(400);
+    }
+
     let details;
     if (notificationType === 'payment') {
       const response = await mercadopago.payment.findById(resourceId);
       details = response.body;
       console.log('Payment details:', JSON.stringify(details, null, 2)); 
 
-      const { status, transaction_amount, payer, additional_info, card } = details;
+      const { status, transaction_amount, payer, additional_info, card, id, payment_method_id } = details;
       console.log('status: ', status);
+
+      const payerEmail = lastPayerEmail;
+      const payerName = payer.first_name || (additional_info && additional_info.payer && additional_info.payer.first_name) || 'Cliente';
+
+      if (!payerEmail) {
+        console.error('No se pudo encontrar el correo electrónico del pagador');
+        return res.sendStatus(400);
+      }
+      await sendStatusResponse(payerEmail, payerName, status);
+      console.log(`Status response email sent to ${payerEmail} with status ${status}`);
 
       const user = await EntityUsers.findOne({
         where: { DNI: details.external_reference }
@@ -104,16 +122,16 @@ const webhook = async (req, res) => {
       }
 
       let accountNumber = '';
-      if (details.payment_method_id === 'visa' || details.payment_method_id === 'master') {
+      if (payment_method_id === 'visa' || payment_method_id === 'master') {
         accountNumber = `${card.first_six_digits}******${card.last_four_digits}`;
-      } else if (details.payment_method_id === 'amex') {
+      } else if (payment_method_id === 'amex') {
         accountNumber = `${card.first_six_digits}*****${card.last_four_digits}`;
       }
 
       const payment = await EntityPayment.create({
         name: card.cardholder.name,
         dni: card.cardholder.identification.number,
-        paymentType: details.payment_method_id,
+        paymentType: payment_method_id,
         accountNumber,
         expiry: new Date(card.expiration_year, card.expiration_month - 1),
         idUser: user.idUser
@@ -123,23 +141,27 @@ const webhook = async (req, res) => {
       const orderDetail = await EntityOrderDetail.create({
         totalOrder: transaction_amount,
         idPayment: payment.idPayment,
-        idUser: user.idUser
+        idUser: user.idUser,
+        operation: id
       });
       console.log('Order detail record created:', orderDetail);
 
-      const items = additional_info.items;
-      for (const item of items) {
+      for (const item of additional_info.items) {
         let product = await EntityProducts.findOne({ where: { idProduct: item.id } });
 
-        await EntityOrderItems.create({
-          idOrder: orderDetail.UUID,
+        if (!product) {
+          console.log('Product not found:', item.id);
+          continue;
+        }
+
+        const orderItem = await EntityOrderItems.create({
+          idOrderDetail: orderDetail.idOrderDetail, // Referencia al idOrderDetail de EntityOrderDetail
           quantity: parseInt(item.quantity),
           idProduct: product.idProduct,
           status: details.status
         });
         console.log('Order item created for product:', product.idProduct);
 
-        // Update stockProduct si el status es 'approved'
         if (status === 'approved') {
           product.stockProduct -= parseInt(item.quantity);
           await product.save();
@@ -163,7 +185,6 @@ const webhook = async (req, res) => {
     res.sendStatus(500);
   }
 };
-
 
 const updatePayment = async (req, res) => {
   const { id } = req.params;

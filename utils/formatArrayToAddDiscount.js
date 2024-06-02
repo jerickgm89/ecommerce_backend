@@ -45,6 +45,7 @@ const formatArrayToAddDiscount = async ( idProduct ) => {
 
     const resultFilterBrand= await filtersProductsServices({properties: properties.brand}, undefined, undefined, undefined);
     const resultsTogether = resultFilterCategory.rows.concat(resultFilterBrand.rows)
+    // console.log("resultsTogether ->  ", resultsTogether, "resultsTogether.length ->  ", resultsTogether.length)
     const idProductListUnduplicates = new Set();
     const filteredResult = resultsTogether.map((eachProduct) => idProductListUnduplicates.add(eachProduct.idProduct))
     const formatedList = Array.from(idProductListUnduplicates)
