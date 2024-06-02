@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
             type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
+            autoIncrement:true,
         },
 
         idOrder: {
@@ -20,6 +21,10 @@ module.exports = (sequelize) => {
 
         idProduct:{
             type: DataTypes.INTEGER
+        },
+        status:{
+            type: DataTypes.STRING,
+            allowNull: false,
         }
     }, {
         paranoid: true,

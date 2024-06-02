@@ -8,19 +8,20 @@ module.exports = (sequelize) => {
             allowNull: false,
             autoIncrement: true
         },
-
+        name: { // Añadido campo DNI asociado a la tarjeta
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        dni: { // Añadido campo DNI asociado a la tarjeta
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         paymentType: {
             type: DataTypes.STRING,
             allowNull: false
         },
-
-        CCV:{
-            type: DataTypes.INTEGER,
-            allowNull: true
-        },
-
         accountNumber:{
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false
         },
 

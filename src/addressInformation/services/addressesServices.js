@@ -1,3 +1,11 @@
+const { 
+    createAddressUser,
+    getFullListAddressesUser,
+    updateAddressesUser,
+    deleteAddressesUser
+} = require('../repository/repositoriesAddressUser.js')
+const { logInUserServices } = require('../../Users/services/userService.js')
+
 const formatedResponse = (info) => {
     const arrayList = typeof info !== "string" ? Object.keys(info) : info
     const toFormat = Array.isArray(arrayList) 
@@ -35,15 +43,44 @@ const getPostalCodeServices = ({ province, city }, fullListPostalCode) => {
     }
 
 }
-const getProvincesServices = ( { province, city }, fullListPostalCode ) => {
-    // province ?
-}
-const getCityServices = ({ province, city }, fullListPostalCode) => {
+const createAddressService = async ( idUser, emailUser, adressToCreate ) => {
+    // let userID;
+    const userInfo = {
+        email: emailUser
+    }
+    try {
+        const [user, userWasCreated] = await logInUserServices(userInfo)
 
+        const userID = user?.idUser || idUser
+        const [addressInfoUser, createdUserAddress] = await createAddressUser(userID, adressToCreate)
+        // const getCityServices = ({ province, city }, fullListPostalCode) => {
+        return [addressInfoUser, userWasCreated, createdUserAddress]
+    } catch (error) {
+        console.error('Error al llamar a logInUserServices:', error);
+        throw error;
+    }
+}
+const getFullListAddressesServices = async ( idUser ) => {
+    const fullAddressesList = await getFullListAddressesUser(idUser)
+// const getCityServices = ({ province, city }, fullListPostalCode) => {
+    return fullAddressesList
+}
+const updateAddressUserServices = async ( idAddress, updateAddressInfo ) => {
+    const fullAddressesList = await updateAddressesUser( idAddress, updateAddressInfo )
+// const getCityServices = ({ province, city }, fullListPostalCode) => {
+    return fullAddressesList
+}
+const deleteAddressUserService = async ( idAddress) => {
+    const deletedAddress = await deleteAddressesUser( idAddress)
+// const getCityServices = ({ province, city }, fullListPostalCode) => {
+    return deletedAddress
 }
 
 module.exports = {
     getPostalCodeServices,
-    getProvincesServices,
-    getCityServices
+    createAddressService,
+    getFullListAddressesServices,
+    updateAddressUserServices,
+    deleteAddressUserService
+    // getCityServices
 }

@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { sendWelcomeEmail } = require('../../config/nodeMailer/controllersMailer.js')
+const { sendWelcomeEmail, sendReviewEmail } = require('../../config/nodeMailer/controllersMailer.js')
 const {
     loginUser,
     getAllUsers,
@@ -7,10 +7,13 @@ const {
     getUserByEmail,
     modifyUser,
     deleteUser,
-    unlockUser,
-    restoreUser,
     verifyEmail,
-    verifyingTokenUser
+    verifyingTokenUser,
+    restoreUser,
+    getDeactiveUser,
+    blockedUser,
+    isActiveUserEmail,
+    isAdminUser
 } = require('../repositories/usersRepository.js')
 
 const logInUserServices = async ( userInfo ) => {
@@ -22,9 +25,13 @@ const logInUserServices = async ( userInfo ) => {
         emailUser: userInfo.email,
         pictureUser: userInfo.picture,
         email_verified : userInfo.email_verified,
+        isAdmin: userInfo.isAdmin ? userInfo.isAdmin : false
     }
     const [ user,create ] = await loginUser( infoUser );
-    await sendWelcomeEmail( infoUser.emailUser, infoUser.emailUser )
+    if(create){
+        // await sendWelcomeEmail( infoUser.emailUser, infoUser.emailUser )
+        // await sendReviewEmail( infoUser.emailUser, infoUser.emailUser )
+    }
     return [user,create]
 }
 
@@ -42,22 +49,21 @@ const getUserByIdServices = async ( idUser ) =>{
     return searchedUser
 }
 const getUserByEmailServices = async ( email ) =>{
-    
     const searchedUser = await getUserByEmail( email )
     // if(!searchedUser){
-    //     throw new Error ('Usuario no fue encontrado')
-    // }
-    return searchedUser
+        //     throw new Error ('Usuario no fue encontrado')
+        // }
+        return searchedUser
 }
 
 
 const modifyUserServices = async ( idUser, infoToEdit ) => {
-
+    
     const modifiedUser = await modifyUser( idUser,  infoToEdit );
     // if(!userExist){
-    //     throw new Error ('Usuario no fue encontrado')
-    // }
-
+        //     throw new Error ('Usuario no fue encontrado')
+        // }
+        // console.log(modifiedUser)
     return modifiedUser
 }
 
@@ -70,23 +76,24 @@ const deleteUserServices = async ( idUser ) => {
 }
 
 
-const unlockUserServices = async (idUser) => {
-    const unlockuser = await unlockUser(idUser);
-    if(!unlockuser) {
+const blockedUserServices = async (idUser) => {
+    const userBlocked = await blockedUser(idUser);
+    if(!userBlocked) {
         throw new Error('No existe usuario para desactivar.')
     }
-    return unlockuser
+    return userBlocked
 }
 
 const restoreUserServices = async (idUser) => {
-    const restoreuser = await restoreUser(idUser)
-    if(!restoreuser) {
+    const userRestore = await restoreUser(idUser)
+    if(!userRestore) {
         throw new Error('No se pudo restaurar el usuario')
-    }
-    return restoreuser
+    }        
+    return userRestore
 }
 
 const serviceGetByEmail = async ( emailToVerify ) => {
+    // console.log("acaaaaaaaaa en servicegetbyEmail")
     const userIsVerified = await verifyEmail( emailToVerify )
     return userIsVerified
 }
@@ -96,6 +103,23 @@ const verifyingTokenService = async ( token ) => {
     return verifyingToken
 }
 
+const getDeactiveUserService = async () => {
+    const deactiveUser = await getDeactiveUser()
+    if(!deactiveUser) {
+        throw new Error('No se pudo encontrar usuarios desactivados')
+    }
+    return deactiveUser
+}
+
+const isActiveUserEmailService = async ( emailToVerify ) => {
+    const userIsVerified = await isActiveUserEmail( emailToVerify )
+    return userIsVerified
+}
+
+const isAdminUserService = async ( emailUser ) => {
+    const userIsAdmin = await isAdminUser( emailUser )
+    return userIsAdmin
+}
 module.exports = {
     logInUserServices,
     getAllUsersServices,
@@ -104,7 +128,10 @@ module.exports = {
     modifyUserServices,
     deleteUserServices,
     serviceGetByEmail,
-    unlockUserServices,
+    blockedUserServices,
     restoreUserServices,
-    verifyingTokenService
+    verifyingTokenService,
+    getDeactiveUserService,
+    isActiveUserEmailService,
+    isAdminUserService
 }
