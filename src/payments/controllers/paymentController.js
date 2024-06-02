@@ -109,7 +109,6 @@ const webhook = async (req, res) => {
         console.error('No se pudo encontrar el correo electrónico del pagador');
         return res.sendStatus(400);
       }
-
       await sendStatusResponse(payerEmail, payerName, status);
       console.log(`Status response email sent to ${payerEmail} with status ${status}`);
 
