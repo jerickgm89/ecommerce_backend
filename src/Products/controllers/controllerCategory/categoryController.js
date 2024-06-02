@@ -6,7 +6,6 @@ const {
     allCategoryListService,
     byNameCategoryService,
     deleteCategoryService,
-    getCategoryByIdService,
     byIdCategoryService,
 } = require('../../services/servicesCategory/categoryServices.js')
 

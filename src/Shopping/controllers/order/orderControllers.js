@@ -1,4 +1,4 @@
-const { EntityOrderItems, EntityProducts } = require('../../../db.js');
+const { EntityOrderItems, EntityProducts, EntityOrderDetail, EntityUsers } = require('../../../db.js');
 const { Op } = require('sequelize');
 
 const updateOrderItems = async (req, res) => {
@@ -103,6 +103,83 @@ const getOrderItemsByStatus = async (req, res) => {
         res.status(500).json({ error: 'Error fetching order items by status' });
     }
 };
+const getOrderDetailsByUser = async (req, res) => {
+    try {
+        const { idUser } = req.params;
+
+        const orders = await EntityOrderDetail.findAll({
+            where: { idUser },
+            include: [{
+                model: EntityOrderItems,
+                include: [EntityProducts]
+            }]
+        });
+
+        if (!orders.length) {
+            return res.status(404).json({ message: 'No orders found for this user' });
+        }
+
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+const getOrderDetailsByOperation = async (req, res) => {
+    try {
+        const { operation } = req.params;
+
+        const orders = await EntityOrderDetail.findAll({
+            where: { operation },
+            include: [{
+                model: EntityOrderItems,
+                include: [EntityProducts]
+            }, {
+                model: EntityUsers,
+                as: 'user',
+                attributes: ['idUser', 'nameUser', 'emailUser']
+            }]
+        });
+
+        if (!orders.length) {
+            return res.status(404).json({ message: 'No orders found for this operation' });
+        }
+
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+const getOrderDetailsByStatus = async (req, res) => {
+    try {
+        const { status } = req.params;
+
+        const orders = await EntityOrderDetail.findAll({
+            include: [{
+                model: EntityOrderItems,
+                where: { status },
+                include: [EntityProducts]
+            }, {
+                model: EntityUsers,
+                as: 'user',
+                attributes: ['idUser', 'nameUser', 'emailUser'] 
+            }]
+        });
+
+        if (!orders.length) {
+            return res.status(404).json({ message: 'No orders found for this status' });
+        }
+
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
 
 module.exports = {
     updateOrderItems,
@@ -110,5 +187,8 @@ module.exports = {
     getOrderItems,
     getOrderItemsByValue,
     getOrderItemsByStatus,
+    getOrderDetailsByUser,
+    getOrderDetailsByOperation,
+    getOrderDetailsByStatus,
 };
 

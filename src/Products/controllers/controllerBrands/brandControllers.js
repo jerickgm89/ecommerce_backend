@@ -4,11 +4,12 @@ const {
     updateBrandService,
     allBrandsListService,
     getBrandByNameService,
-    deleteBrandService
+    deleteBrandService,
+    getBrandByIdService
 } = require('../../services/servicesBrands/brandServices.js')
 
 
-const createBrand = async (req, res) => {
+const createBrandController = async (req, res) => {
     const { nameBrand, logoBrand } = req.body;
     const fileImages = req.file
 
@@ -22,7 +23,7 @@ const createBrand = async (req, res) => {
 };
 
 
-const updateBrand = async (req, res) => {
+const updateBrandController = async (req, res) => {
     const { idBrand } = req.params;
     const { nameBrand, logoBrand } = req.body;
     const fileImages =  req.file;
@@ -39,7 +40,7 @@ const updateBrand = async (req, res) => {
     }
 };
 
-const getAllBrands = async (req, res) => {
+const getAllBrandsController = async (req, res) => {
 
     try {
 
@@ -50,7 +51,7 @@ const getAllBrands = async (req, res) => {
     }
 };
 
-const getBrandByName = async (req, res) => {
+const getBrandByNameController = async (req, res) => {
     const { brandName } = req.params;
     // console.log(brandName);
     try {
@@ -65,24 +66,39 @@ const getBrandByName = async (req, res) => {
     }
 };
 
-const deleteBrand = async (req, res) => {
+const deleteBrandController = async (req, res) => {
     const { idBrand } = req.params;
     try {
         const brand = await deleteBrandService(idBrand)
-        // if (brand) {
-            res.status(200).json(!!brand);
+    // if (brand) {
+        res.status(200).json(!!brand);
         // } else {
-        //     res.status(404).json({ error: 'Brand not found', details: error.message  });
-        // }
+            //     res.status(404).json({ error: 'Brand not found', details: error.message  });
+            // }
     } catch (error) {
         res.status(500).json({ error: 'Error deleting brand', details: error.message  });
     }
 };
 
+const getBrandByIdController = async (req, res) => {
+    const { idBrand } = req.params;
+    // console.log(idBrand);
+    try {
+        const brand = await getBrandByIdService(idBrand)
+        if (brand) {
+            res.status(200).json(brand);
+        } else {
+            res.status(404).json({ error: 'Brand not found', details: error.message  });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching brand', details: error.message  });
+    }
+};
 module.exports = {
-    getAllBrands,
-    getBrandByName,
-    createBrand,
-    updateBrand,
-    deleteBrand
+    getAllBrandsController,
+    getBrandByNameController,
+    createBrandController,
+    updateBrandController,
+    deleteBrandController,
+    getBrandByIdController
 };

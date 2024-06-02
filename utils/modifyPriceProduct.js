@@ -13,11 +13,11 @@ const modifyPriceProduct = async (productById) => {
                     break; // Si encontramos este caso, salimos del bucle
                 }
 
-                // if (!discount.idProduct && discount.discountInGroup && discount.productsInDiscountGroup?.length) {
-                //     newPrice = (1 - discount.quantity) * originalPrice;
-                //     discountQuantity = discount.quantity;
-                //     productById.discountPriceProduct = newPrice.toFixed(2);
-                // }
+                if (!discount.idProduct && discount.discountInGroup && discount.productsInDiscountGroup?.length) {
+                    newPrice = (1 - discount.quantity) * originalPrice;
+                    discountQuantity = discount.quantity;
+                    productById.discountPriceProduct = newPrice.toFixed(2);
+                }
             }
         }
 
