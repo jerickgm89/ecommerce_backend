@@ -2,17 +2,17 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
     return sequelize.define('entityOrderItems', {
-        UUID: {
-            type: DataTypes.INTEGER,
+        
+        idOrder: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
             allowNull: false,
         },
-
-        idOrder: {
-            type: DataTypes.INTEGER,
-            allowNull: false
+        idOrderDetail: {
+            type: DataTypes.INTEGER,  // Cambiamos a STRING para que coincida con el tipo de idOrder
+            allowNull: false,
         },
-
         quantity:{
             type: DataTypes.INTEGER,
             allowNull: false
@@ -20,6 +20,10 @@ module.exports = (sequelize) => {
 
         idProduct:{
             type: DataTypes.INTEGER
+        },
+        status:{
+            type: DataTypes.STRING,
+            allowNull: false,
         }
     }, {
         paranoid: true,
