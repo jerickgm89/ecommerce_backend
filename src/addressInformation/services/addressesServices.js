@@ -37,15 +37,20 @@ const getProvincesServices = ( provincia, departamento ) => {
                 }
             }
             return barrio.reduce((acumulador, objectTownPostal) => {
-                const listBarrio = { ...acumulador, ...objectTownPostal   }
-                let formattedObject = {};
-                for(const city in listBarrio){
-                    const formattedCityKey = formatedResponse(city)
-                    formattedObject[formattedCityKey] = listBarrio[city]
-                }
-                return formattedObject;
-            }, {})
-        }    
+                return { ...acumulador, ...objectTownPostal   }
+            })
+            // return barrio.reduce((acumulador, objectTownPostal) => {
+            //     const listBarrio = { ...acumulador, ...objectTownPostal   }
+            //     let formattedObject = {};
+            //     for(const city in listBarrio){
+            //         const formattedCityKey = formatedResponse(city)
+            //         formattedObject[formattedCityKey] = listBarrio[city]
+            //     }
+            //     return formattedObject;
+            // }, {})
+            // }    
+        }
+            
         if( provincia ){
             const filterProvince = fullListPostalCode[provincia]
             if(Object.keys(filterProvince).length) return formatedResponse(filterProvince)
@@ -59,6 +64,7 @@ const getProvincesServices = ( provincia, departamento ) => {
         console.error('Error al llamar a getProvincesServices:', error);
         throw error;
     }
+
 };
 
 const getPostalCodeServices = async (postalCode) => {
