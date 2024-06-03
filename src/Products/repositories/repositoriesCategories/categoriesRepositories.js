@@ -45,7 +45,8 @@ const deleteCategoryRepository = async (idCategory) => {
 const byIdCategoryRespository = async (idCategory) => {
     const category = await EntityProducts.findAll({ 
         where: { 
-            idCategory
+            idCategory,
+            active: true
         },
         include: [ 
             {
