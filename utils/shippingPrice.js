@@ -11,18 +11,18 @@ const fetchShippingPrice = async (postalCode, provinceCode) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            cpOrigen: '5967',
+            cpOrigen: '2132',
             cpDestino: `${postalCode}`,
-            provinciaOrigen: 'AR-X',
+            provinciaOrigen: 'AR-S',
             provinciaDestino: provinceCode,
-            peso: '5'
+            peso: '10'
         })
     };
 
     try {
         const response = await fetch(url, options);
         const result = await response.json();
-        console.log('result   ->', result);
+        // console.log('result   ->', result);
         return result
     } catch (error) {
         console.error(error);
