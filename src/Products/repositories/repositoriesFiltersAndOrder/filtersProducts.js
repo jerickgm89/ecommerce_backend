@@ -3,7 +3,9 @@ const { Op } = require('sequelize');
 const modifyPriceProduct = require('../../../../utils/modifyPriceProduct.js');
 const filtersProducts = async (properties, limit, offset, order) => {
     const { category, brand, name, price, year, priceMin, priceMax } = properties;
-    const where = {};
+    const where = {
+        active: true
+    };
     // Construye las condiciones de filtrado basadas en los parámetros de consulta.
 
     let include =  [ 
