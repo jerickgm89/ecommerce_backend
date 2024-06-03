@@ -790,3 +790,480 @@ get /users/auth/token → Envía token por header para recibir información del 
 
 </details>
 
+# Ruta 6: /review
+### Maneja Puntuación de productos
+<details>
+<summary>METODO POST</summary>
+<a name="crear-nueva-review"></a>
+### Método POST
+post /products/review → Crear una nueva review
+
+### Respuesta Exitosa (201 OK)
+```json
+{
+  "idReview": 3,
+  "descriptionReview": "Excelente producto, muy satisfecho con mi compra.",
+  "ratingReview": 5,
+  "createdReview_at": "2024-05-16T17:28:23.909Z",
+  "modifiedReview_at": "2024-05-16T17:28:23.909Z",
+  "deletedReview_at": null,
+  "idProduct": 1,
+  "idUser": 1
+}
+```
+<details>
+<summary>JSON EJEMPLO POST</summary>
+```json
+{
+  "descriptionReview": "Excelente producto, muy satisfecho con mi compra.",
+  "ratingReview": 5,
+  "idProduct": 1,
+  "idUser": 1
+}
+  ```
+</details>
+</details>
+<details>
+<summary>METODO GET</summary>
+<a name="todas-las-revisiones"></a>
+### Método GET
+get /products/review → Trae todas las revisiones
+
+### Respuesta Exitosa (200 OK)
+```json
+[
+  {
+    "idReview": 1,
+    "descriptionReview": "Buen producto, cumple con lo esperado.",
+    "ratingReview": 4,
+    "createdReview_at": "2024-05-16T08:37:16.040Z",
+    "modifiedReview_at": "2024-05-16T08:37:16.040Z",
+    "deletedReview_at": null,
+    "idProduct": 1,
+    "idUser": 2,
+    "user": {
+      "idUser": 2,
+      "nameUser": "Jane Smith"
+    },
+    "product": {
+      "idProduct": 1,
+      "nameProduct": "Samsung Galaxy S21"
+    }
+  },
+  {
+    "idReview": 2,
+    "descriptionReview": "No estoy satisfecho, el producto tiene varios problemas.",
+    "ratingReview": 2,
+    "createdReview_at": "2024-05-16T08:37:16.040Z",
+    "modifiedReview_at": "2024-05-16T08:37:16.040Z",
+    "deletedReview_at": null,
+    "idProduct": 2,
+    "idUser": 3,
+    "user": {
+      "idUser": 3,
+      "nameUser": "John Doe"
+    },
+    "product": {
+      "idProduct": 2,
+      "nameProduct": "MacBook Pro"
+    }
+  }
+]
+```
+</details>
+<details>
+<summary>METODO GET ID</summary>
+<a name="revision-segun-id"></a>
+### Método GET ID
+get /products/review/
+→ Busca revisión según id
+
+### Respuesta Exitosa (200 OK)
+Petición a → products/review/1
+
+```json
+{
+  "idReview": 1,
+  "descriptionReview": "Buen producto, cumple con lo esperado.",
+  "ratingReview": 4,
+  "createdReview_at": "2024-05-16T08:37:16.040Z",
+  "modifiedReview_at": "2024-05-16T08:37:16.040Z",
+  "deletedReview_at": null,
+  "idProduct": 1,
+  "idUser": 2,
+  "user": {
+    "idUser": 2,
+    "nameUser": "Jane Smith"
+  },
+  "product": {
+    "idProduct": 1,
+    "nameProduct": "Samsung Galaxy S21"
+  }
+}
+```
+</details>
+<details>
+<summary>METODO PATCH</summary>
+### Método PUT
+patch /products/review/
+→ Modificar una review
+
+### Respuesta Exitosa (200 OK)
+```json
+{
+  "idReview": 1,
+  "descriptionReview": "Producto decente, pero esperaba más.",
+  "ratingReview": 3,
+  "createdReview_at": "2024-05-16T08:37:16.040Z",
+  "modifiedReview_at": "2024-05-16T16:37:12.569Z",
+  "deletedReview_at": null,
+  "idProduct": 1,
+  "idUser": 2
+}
+```
+<details>
+<summary>JSON EJEMPLO PATCH</summary>
+```json
+{
+  "descriptionReview": "Producto decente, pero esperaba más.",
+  "ratingReview": 3
+}
+```
+</details>
+</details>
+<details>
+<summary>METODO DELETE</summary>
+ Método DELETE
+delete /products/review/
+→ "Eliminar" review (paranoid: true)
+
+### Respuesta Exitosa (200 OK)
+```json
+true
+```
+</details>
+
+ <details>
+   
+ <summary>Metodo deactive/Active</summary>
+patch /products/review/deactivate/
+→ Desactivar una revisión (paranoid: true)
+
+### Respuesta Exitosa (200 OK)
+```json
+{
+  "idReview": 1,
+  "activeReview": false,
+  "modifiedReview_at": "2024-05-16T16:37:12.569Z"
+}
+```
+<details>
+<summary>JSON EJEMPLO PATCH</summary>
+```json
+{
+  "activeReview": false
+}
+  ```
+</details>
+ </details>
+
+### Método DELETE
+<details>
+  
+patch /products/review/restore/
+→ Restaurar una review (paranoid: true)
+
+### Respuesta Exitosa (200 OK)
+```json
+{
+  "idReview": 1,
+  "activeReview": true,
+  "modifiedReview_at": "2024-05-16T16:37:12.569Z"
+}
+```
+</details>
+<details>
+<summary>JSON EJEMPLO PATCH</summary>
+```json
+{
+  "activeReview": true
+}
+```
+</details>
+</details>
+
+# Ruta 7: /comments
+### Maneja comentarios
+<details>
+<summary>POST</summary>
+ Método POST
+post /comments → Crear un nuevo comentario
+
+# Respuesta Exitosa (201 Created)
+  ```json
+{
+  "idComment": 1,
+  "comments": "This is a comment",
+  "idProduct": 1,
+  "idUser": 1,
+  "createdComment_at": "2024-05-29T16:37:12.569Z",
+  "modifiedComment_at": "2024-05-29T16:37:12.569Z"
+}
+```
+</details>
+<details>
+<summary>GET</summary>
+Método GET
+get /comments → Lista de comentarios
+
+# Respuesta Exitosa (200 OK)
+```json
+[
+  {
+    "idComment": 1,
+    "comments": "This is a comment",
+    "idProduct": 1,
+    "idUser": 1,
+    "createdComment_at": "2024-05-29T16:37:12.569Z",
+    "modifiedComment_at": "2024-05-29T16:37:12.569Z"
+  }
+]
+```
+get /comments/deactived → Lista de comentarios inactivos
+
+# Respuesta Exitosa (200 OK)
+```json
+[
+  {
+    "idComment": 1,
+    "comments": "This comment is deactivated",
+    "idProduct": 1,
+    "idUser": 1,
+    "createdComment_at": "2024-05-29T16:37:12.569Z",
+    "modifiedComment_at": "2024-05-29T16:37:12.569Z",
+    "activeComment": false
+  }
+]
+```
+get /comments/
+→ Obtener un comentario por ID
+
+# Respuesta Exitosa (200 OK)
+```json
+{
+  "idComment": 1,
+  "comments": "This is a comment",
+  "idProduct": 1,
+  "idUser": 1,
+  "createdComment_at": "2024-05-29T16:37:12.569Z",
+  "modifiedComment_at": "2024-05-29T16:37:12.569Z"
+}
+```
+</details>
+<details>
+<summary>PUT</summary>
+Método PUT
+put /comments/
+→ Actualizar un comentario por ID
+
+# Respuesta Exitosa (200 OK)
+```json
+{
+  "idComment": 1,
+  "comments": "Updated comment",
+  "idProduct": 1,
+  "idUser": 1,
+  "createdComment_at": "2024-05-29T16:37:12.569Z",
+  "modifiedComment_at": "2024-05-29T16:37:12.569Z"
+}
+```
+put /comments/report/
+→ Reportar un comentario
+
+# Respuesta Exitosa (200 OK)
+```json
+{
+  "idComment": 1,
+  "reportComments": 1,
+  "modifiedComment_at": "2024-05-29T16:37:12.569Z"
+}
+```
+</details>
+<details>
+<summary>DELETE</summary>
+Método DELETE
+delete /comments/
+→ Eliminar un comentario por ID
+
+# Respuesta Exitosa (200 OK)
+```json
+{
+  "message": "Comentario eliminado con éxito"
+}
+```
+delete /comments/deactive/
+→ Desactivar un comentario (paranoid: true)
+
+# Respuesta Exitosa (200 OK)
+```json
+{
+  "idComment": 1,
+  "activeComment": false,
+  "modifiedComment_at": "2024-05-29T16:37:12.569Z"
+}
+```
+<details>
+<summary>JSON EJEMPLO DELETE</summary>
+```json
+{
+  "activeComment": false
+}
+```
+</details>
+delete /comments/restore/
+→ Restaurar un comentario (paranoid: true)
+
+# Respuesta Exitosa (200 OK)
+```json
+{
+  "idComment": 1,
+  "activeComment": true,
+  "modifiedComment_at": "2024-05-29T16:37:12.569Z"
+}
+```
+<details>
+<summary>JSON EJEMPLO DELETE</summary>
+```json
+{
+  "activeComment": true
+}
+```
+</details>
+</details>
+
+# Ruta 8: /discounts
+### Maneja descuentos
+<details>
+<summary>POST</summary>
+Método POST
+post /discounts/both/
+→ Crear un nuevo descuento (simple o de grupo)
+
+Respuesta Exitosa (201 Created)
+```json
+{
+  "idDiscount": 1,
+  "nameDiscount": "Black Friday",
+  "descriptionDiscount": "Descuento por Black Friday",
+  "quantity": 20,
+  "activeDiscount": true,
+  "idProduct": 1,
+  "created_at": "2024-05-29T16:37:12.569Z",
+  "updated_at": "2024-05-29T16:37:12.569Z"
+}
+```
+</details>
+<details>
+<summary>GET</summary>
+Método GET
+get /discounts/product/
+→ Obtener todos los descuentos relacionados a un producto por ID
+
+# Respuesta Exitosa (200 OK)
+```json
+[
+  {
+    "idDiscount": 1,
+    "nameDiscount": "Black Friday",
+    "descriptionDiscount": "Descuento por Black Friday",
+    "quantity": 20,
+    "activeDiscount": true,
+    "idProduct": 1,
+    "created_at": "2024-05-29T16:37:12.569Z",
+    "updated_at": "2024-05-29T16:37:12.569Z"
+  }
+]
+```
+get /discounts/both/
+→ Obtener descuentos por nombre (insensible a mayúsculas)
+
+# Respuesta Exitosa (200 OK)
+```json
+[
+  {
+    "idDiscount": 1,
+    "nameDiscount": "Black Friday",
+    "descriptionDiscount": "Descuento por Black Friday",
+    "quantity": 20,
+    "activeDiscount": true,
+    "created_at": "2024-05-29T16:37:12.569Z",
+    "updated_at": "2024-05-29T16:37:12.569Z"
+  }
+]
+```
+get /discounts/group/ → Obtener todos los descuentos de grupo
+
+# Respuesta Exitosa (200 OK)
+```json
+[
+  {
+    "idDiscount": 1,
+    "nameDiscount": "Descuento Grupo A",
+    "descriptionDiscount": "Descuento para el grupo A",
+    "quantity": 15,
+    "activeDiscount": true,
+    "discountInGroup": true,
+    "productsInDiscountGroup": [1, 2, 3],
+    "created_at": "2024-05-29T16:37:12.569Z",
+    "updated_at": "2024-05-29T16:37:12.569Z"
+  }
+]
+```
+get /discounts/both/
+→ Obtener descuento por ID
+
+# Respuesta Exitosa (200 OK)
+```json
+{
+  "idDiscount": 1,
+  "nameDiscount": "Black Friday",
+  "descriptionDiscount": "Descuento por Black Friday",
+  "quantity": 20,
+  "activeDiscount": true,
+  "created_at": "2024-05-29T16:37:12.569Z",
+  "updated_at": "2024-05-29T16:37:12.569Z"
+}
+```
+</details>
+<details>
+<summary>PUT</summary>
+Método PUT
+put /discounts/both/
+→ Actualizar descuento por ID (simple o de grupo)
+
+# Respuesta Exitosa (200 OK)
+```json
+{
+  "idDiscount": 1,
+  "nameDiscount": "Black Friday Updated",
+  "descriptionDiscount": "Descuento por Black Friday actualizado",
+  "quantity": 25,
+  "activeDiscount": true,
+  "created_at": "2024-05-29T16:37:12.569Z",
+  "updated_at": "2024-05-29T16:37:12.569Z"
+}
+```
+</details>
+<details>
+<summary>DELETE</summary>
+Método DELETE
+delete /discounts/both/
+→ Eliminar descuento por ID
+
+# Respuesta Exitosa (200 OK)
+```json
+{
+  "message": "Descuento eliminado con éxito"
+}
+```
+</details>

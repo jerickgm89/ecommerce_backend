@@ -21,6 +21,8 @@ const reviewRoutes = require('../review/routesReview/reviewRutes.js')
 //                                  ----> comments <----
 
 const commentsRoutes = require('../comments/routesComments/commentsRoutes.js')
+//
+const incomeRouter = require('../dashboards/routes/incomeRoutes/incomeRoutes.js');
 
 const router = () => {
     const routers = Router()
@@ -32,6 +34,7 @@ const router = () => {
     routers.use('/address', addressesRoutes)
     routers.use('/reviews', reviewRoutes)
     routers.use('/comments', commentsRoutes)
+    routers.use('/dash', incomeRouter);
     return routers
 }
 

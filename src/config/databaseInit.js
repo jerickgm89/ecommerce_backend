@@ -97,8 +97,8 @@ async function initializeData() {
         for (let item of productData) {
             // console.log(`Processing product: ${item.product.nameProduct}`);
             if (typeof item.product.imageProducts === "string") {
-                // item.product.imageProducts = await imageCloudinaryUploader(false, item.product.imageProducts)
-                item.product.imageProducts = [item.product.imageProducts];
+                item.product.imageProducts = await imageCloudinaryUploader(false, item.product.imageProducts)
+                // item.product.imageProducts = [item.product.imageProducts];
             }
             const newProduct = await EntityProducts.create(item.product);
             await CharacteristicsProducts.create({
