@@ -12,7 +12,7 @@
 // routes/incomeRoutes.js
 
 const express = require('express');
-const incomeControllers = require('../../controllers/incomeControllers/incomeControllers');
+const incomeControllers = require('../../controllers/incomeCOntrollers/incomeControllers');
 const router = express.Router();
 
 router.get('/total_revenue', incomeControllers.getTotalRevenue);
