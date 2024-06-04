@@ -46,12 +46,12 @@ const createGroupDiscount = async ( idProductsList, {
         quantity: parseFloat(quantity),
         activeDiscount,
         discountInGroup: true,
-        productsInDiscountGroup: idProductsList
+        // productsInDiscountGroup: idProductsList
     }
     const [newDiscount, create] = await EntityDiscounts.findOrCreate({        
         where: { 
             idProduct: null,
-            nameDiscount,
+            // nameDiscount,
             discountInGroup: true,
             quantity
         },
@@ -62,24 +62,26 @@ const createGroupDiscount = async ( idProductsList, {
         throw new Error('No fue posible crear el descuento');
 
     }
+    newDiscount.productsInDiscountGroup = idProductsList
+    await newDiscount.save()
+    await newDiscount.reload()
     await Promise.all( 
         idProductsList.map( async ( productID ) => {
             const productFound = await EntityProducts.findOne({
                 where: {
                     idProduct: productID
                 }
-        })
-        if (!productFound) {
-            throw new error(`Producto con ID ${productID} no fue encontrado.`);
-        }
-        !!productFound && await newDiscount.addEntityProduct(productFound);
+            })
+            if (!productFound) {
+                throw new error(`Producto con ID ${productID} no fue encontrado.`)
+            }
+            !!productFound && await newDiscount.addEntityProducts(productFound)
         })
     )
 
     const result = await EntityDiscounts.findOne({
         where:{
             idDiscount: newDiscount.idDiscount,
-    //         // productsInDiscountGroup: idProductsList
         },
     })
     return [result, create]
