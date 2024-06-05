@@ -5,7 +5,8 @@ const createDiscount = async ( idProduct, {
     nameDiscount,
     descriptionDiscount,
     quantity,
-    activeDiscount
+    activeDiscount,
+    expirationDate
 } ) => {
     const product = await EntityProducts.findByPk(idProduct);
 
@@ -23,7 +24,8 @@ const createDiscount = async ( idProduct, {
             nameDiscount,
             descriptionDiscount,
             quantity,
-            activeDiscount
+            activeDiscount,
+            expirationDate
         }
     });
     await product.addEntityDiscount( discount )
@@ -35,7 +37,8 @@ const createGroupDiscount = async ( idProductsList, {
     nameDiscount,
     descriptionDiscount,
     quantity,
-    activeDiscount
+    activeDiscount,
+    expirationDate
 } ) => {
     if (!idProductsList.length) {
         throw new Error('El listado de productos asociados no puede estar vacío.');
@@ -46,6 +49,7 @@ const createGroupDiscount = async ( idProductsList, {
         quantity: parseFloat(quantity),
         activeDiscount,
         discountInGroup: true,
+        // expirationDate
         // productsInDiscountGroup: idProductsList
     }
     const [newDiscount, create] = await EntityDiscounts.findOrCreate({        
@@ -87,7 +91,7 @@ const createGroupDiscount = async ( idProductsList, {
     return [result, create]
 };
 
-const getDiscountByProduct = async ( idProduct ) => {
+const getDiscountByProduct = async (idProduct) => {
     const getListOfDiscounts = await EntityDiscounts.findAndCountAll({
         where: {
             [Op.or]: [
@@ -100,7 +104,17 @@ const getDiscountByProduct = async ( idProduct ) => {
             ]
         }
     });
-    return getListOfDiscounts
+
+    // Recorre la lista de descuentos y verifica la fecha de expiración
+    for (let discount of getListOfDiscounts.rows) {
+        if (new Date(discount?.expirationDate) < new Date()) {
+            discount.activeDiscount = false;
+            await discount.save();
+            await discount.reload();
+        }
+    }
+
+    return getListOfDiscounts;
 };
 
 const getDiscountByName = async ( name ) => {
@@ -139,9 +153,9 @@ const updateDiscount = async ( idDiscount, infoToUploadDiscount ) => {
         infoToUploadDiscount,
         {
             where:{
-            idDiscount,
-            discountInGroup: false,
-            productsInDiscountGroup: []
+                idDiscount,
+                discountInGroup: false,
+                productsInDiscountGroup: []
             }
         }
     )
