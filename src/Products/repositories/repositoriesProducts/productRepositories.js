@@ -64,7 +64,7 @@ const getAllProducts = async (where, offset, limit, order ) => {
             attributes: ['descriptionReview','idReview'],
         },{
             model: EntityDiscounts,
-            attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup', 'productsInDiscountGroup' ],
+            attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup', 'productsInDiscountGroup', 'expirationDate' ],
             through: {
                 model: ProductsDiscounts,
                 attributes: []
@@ -85,7 +85,6 @@ const getAllProducts = async (where, offset, limit, order ) => {
             return modifiedProduct;
         })
     );
-    // response.priceProduct = parseFloat(response.priceProduct);
     return modifiedProducts;
 
 };
@@ -113,7 +112,7 @@ const getProductById = async (id) => {
             },
             {
                 model: EntityDiscounts,
-                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup', 'productsInDiscountGroup' ],
+                attributes: ['nameDiscount', 'descriptionDiscount', 'quantity', 'activeDiscount', 'idProduct', 'discountInGroup', 'productsInDiscountGroup','expirationDate' ],
                 through: {
                     model: ProductsDiscounts,
                     attributes: []
