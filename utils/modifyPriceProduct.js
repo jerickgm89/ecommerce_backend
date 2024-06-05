@@ -1,21 +1,31 @@
+const {EntityDiscounts} = require('../src/db.js');
 const modifyPriceProduct = async (productById) => {
     let newPrice;
-    let discountQuantity;
     const originalPrice = productById.priceProduct;
-
+    
     if (productById.entityDiscounts.length) {
         for (const discount of productById.entityDiscounts) {
             if (discount.activeDiscount) {
-                if (!!discount.idProduct && !discount.discountInGroup) {
+                const discountExpirationDate = new Date(discount.expirationDate);
+                const currentDate = new Date();
+                
+                if (discount.expirationDate && discountExpirationDate < currentDate) {
+                    const discountExpiredUpdadeActiveDiscount = await EntityDiscounts.findByPk(discount?.idDiscount);
+                    if (discountExpiredUpdadeActiveDiscount) {
+                        discountExpiredUpdadeActiveDiscount.activeDiscount = false;
+                        await discountExpiredUpdadeActiveDiscount.save();
+                    } else {
+                        console.log(`No se encontró el descuento con id ${discount?.idDiscount}`);
+                    }
+                    productById.discountPriceProduct = null;
+                    await productById.save();
+                    await productById.reload();
+                    return productById
+                } else if (discount.idProduct && !discount.discountInGroup) {
                     newPrice = (1 - discount.quantity) * originalPrice;
-                    discountQuantity = discount.quantity;
                     productById.discountPriceProduct = newPrice.toFixed(2);
-                    break; // Si encontramos este caso, salimos del bucle
-                }
-
-                if (!discount.idProduct && discount.discountInGroup && discount.productsInDiscountGroup?.length) {
+                } else if (!discount.idProduct && discount.discountInGroup && discount.productsInDiscountGroup?.length) {
                     newPrice = (1 - discount.quantity) * originalPrice;
-                    discountQuantity = discount.quantity;
                     productById.discountPriceProduct = newPrice.toFixed(2);
                 }
             }
@@ -27,9 +37,8 @@ const modifyPriceProduct = async (productById) => {
         }
     }
 
-    const responseModified = productById;
-    responseModified.priceProduct = parseFloat(responseModified.priceProduct).toFixed(2);
-    return responseModified;
+    productById.priceProduct = parseFloat(productById.priceProduct).toFixed(2);
+    return productById;
 };
 
 module.exports = modifyPriceProduct;

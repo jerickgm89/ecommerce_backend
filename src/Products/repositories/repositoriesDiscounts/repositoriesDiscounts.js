@@ -5,7 +5,8 @@ const createDiscount = async ( idProduct, {
     nameDiscount,
     descriptionDiscount,
     quantity,
-    activeDiscount
+    activeDiscount,
+    expirationDate
 } ) => {
     const product = await EntityProducts.findByPk(idProduct);
 
@@ -23,7 +24,8 @@ const createDiscount = async ( idProduct, {
             nameDiscount,
             descriptionDiscount,
             quantity,
-            activeDiscount
+            activeDiscount,
+            expirationDate
         }
     });
     await product.addEntityDiscount( discount )
@@ -35,7 +37,8 @@ const createGroupDiscount = async ( idProductsList, {
     nameDiscount,
     descriptionDiscount,
     quantity,
-    activeDiscount
+    activeDiscount,
+    expirationDate
 } ) => {
     if (!idProductsList.length) {
         throw new Error('El listado de productos asociados no puede estar vacío.');
@@ -46,12 +49,13 @@ const createGroupDiscount = async ( idProductsList, {
         quantity: parseFloat(quantity),
         activeDiscount,
         discountInGroup: true,
-        productsInDiscountGroup: idProductsList
+        // expirationDate
+        // productsInDiscountGroup: idProductsList
     }
     const [newDiscount, create] = await EntityDiscounts.findOrCreate({        
         where: { 
             idProduct: null,
-            nameDiscount,
+            // nameDiscount,
             discountInGroup: true,
             quantity
         },
@@ -62,30 +66,32 @@ const createGroupDiscount = async ( idProductsList, {
         throw new Error('No fue posible crear el descuento');
 
     }
+    newDiscount.productsInDiscountGroup = idProductsList
+    await newDiscount.save()
+    await newDiscount.reload()
     await Promise.all( 
         idProductsList.map( async ( productID ) => {
             const productFound = await EntityProducts.findOne({
                 where: {
                     idProduct: productID
                 }
-        })
-        if (!productFound) {
-            throw new error(`Producto con ID ${productID} no fue encontrado.`);
-        }
-        !!productFound && await newDiscount.addEntityProduct(productFound);
+            })
+            if (!productFound) {
+                throw new error(`Producto con ID ${productID} no fue encontrado.`)
+            }
+            !!productFound && await newDiscount.addEntityProducts(productFound)
         })
     )
 
     const result = await EntityDiscounts.findOne({
         where:{
             idDiscount: newDiscount.idDiscount,
-    //         // productsInDiscountGroup: idProductsList
         },
     })
     return [result, create]
 };
 
-const getDiscountByProduct = async ( idProduct ) => {
+const getDiscountByProduct = async (idProduct) => {
     const getListOfDiscounts = await EntityDiscounts.findAndCountAll({
         where: {
             [Op.or]: [
@@ -98,7 +104,17 @@ const getDiscountByProduct = async ( idProduct ) => {
             ]
         }
     });
-    return getListOfDiscounts
+
+    // Recorre la lista de descuentos y verifica la fecha de expiración
+    for (let discount of getListOfDiscounts.rows) {
+        if (new Date(discount?.expirationDate) < new Date()) {
+            discount.activeDiscount = false;
+            await discount.save();
+            await discount.reload();
+        }
+    }
+
+    return getListOfDiscounts;
 };
 
 const getDiscountByName = async ( name ) => {
@@ -137,9 +153,9 @@ const updateDiscount = async ( idDiscount, infoToUploadDiscount ) => {
         infoToUploadDiscount,
         {
             where:{
-            idDiscount,
-            discountInGroup: false,
-            productsInDiscountGroup: []
+                idDiscount,
+                discountInGroup: false,
+                productsInDiscountGroup: []
             }
         }
     )

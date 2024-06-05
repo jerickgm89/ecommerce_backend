@@ -18,6 +18,7 @@ const createDiscountController = async ( request, response ) => {
         quantity, // decimal
         activeDiscount, // boolean
         // productsInDiscountGroup
+        expirationDate
     } = request.body;
     const { idProduct } = request.params;
     let discount;
@@ -30,6 +31,7 @@ const createDiscountController = async ( request, response ) => {
                 descriptionDiscount,
                 quantity,
                 activeDiscount,
+                expirationDate
             })
         }
         else{
@@ -38,6 +40,7 @@ const createDiscountController = async ( request, response ) => {
             descriptionDiscount,
             quantity: parseFloat(quantity),
             activeDiscount,
+            expirationDate
             })
         }
         const objetoNewDiscount = {
@@ -48,7 +51,8 @@ const createDiscountController = async ( request, response ) => {
             activeDiscount: discount.activeDiscount,
             idProduct: discount.idProduct,
             discountInGroup: discount.discountInGroup,
-            productsInDiscountGroup: discount.productsInDiscountGroup
+            productsInDiscountGroup: discount.productsInDiscountGroup,
+            expirationDate: discount.expirationDate
         }
         if(!created){
             return response.status(200).json(objetoNewDiscount)
@@ -111,7 +115,8 @@ const updateDiscountController = async ( request, response ) => {
             quantity,
             activeDiscount,
             discountInGroup,
-            productsInDiscountGroup
+            productsInDiscountGroup,
+            expirationDate
         } = request.body;
         
         if( discountInGroup && productsInDiscountGroup.length ){
@@ -121,7 +126,8 @@ const updateDiscountController = async ( request, response ) => {
                 quantity,
                 activeDiscount,
                 discountInGroup,
-                productsInDiscountGroup
+                productsInDiscountGroup,
+                expirationDate
             })
             if( !updateGroupDiscount ) {
                 return response.status(400).json({ error: "No fue posible modificar el descuento de grupo"})
@@ -134,6 +140,7 @@ const updateDiscountController = async ( request, response ) => {
             descriptionDiscount,
             quantity,
             activeDiscount,
+            expirationDate
             })
             if( !updateSingleDiscount ) {
                 return response.status(400).json({ error: "No fue posible modificar el descuento simple"})
