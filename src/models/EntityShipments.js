@@ -16,10 +16,9 @@ module.exports = (sequelize) => {
             allowNull: true,
             unique: true
         }
-    },
-        {
-            createdAt: 'createShipments_at',
-            updatedAt: 'modifiedShipments_at',
-            deletedAt: 'deleteShipments_at',
-        })
+    }, {
+        createdAt: 'createShipments_at',
+        updatedAt: 'modifiedShipments_at',
+        deletedAt: 'deleteShipments_at',
+    })
 };
