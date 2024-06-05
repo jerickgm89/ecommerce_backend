@@ -24,6 +24,9 @@ const commentsRoutes = require('../comments/routesComments/commentsRoutes.js')
 //
 const incomeRouter = require('../dashboards/routes/incomeRoutes/incomeRoutes.js');
 
+//                                  ----> Coupons <----
+const couponRoutes = require('../coupons/routes/couponRoutes.js')
+
 const router = () => {
     const routers = Router()
     routers.use('/', readmeEmptyPath)
@@ -34,6 +37,7 @@ const router = () => {
     routers.use('/address', addressesRoutes)
     routers.use('/reviews', reviewRoutes)
     routers.use('/comments', commentsRoutes)
+    routers.use('/coupons', couponRoutes)
     routers.use('/dash', incomeRouter);
     return routers
 }

@@ -27,7 +27,7 @@ const formatedResponse = (info) => {
 } 
 const getProvincesServices = ( provincia, departamento ) => {
     try {
-        departamento = departamento === "null" ? departamento : departamento?.toUpperCase();
+        // departamento = departamento === "null" ? departamento : departamento?.toUpperCase();
         const barrio = []
         if( provincia && departamento ){
             const filterProvinceAndCity = fullListPostalCode[provincia][departamento]
@@ -71,7 +71,13 @@ const getPostalCodeServices = async (postalCode) => {
     try {
         const provinceByPostalCode = findProvinceByPostalCode(fullListPostalCode, postalCode)
         const findCodeProvince = provinceList.find( province => province.name === provinceByPostalCode)
+<<<<<<< HEAD
+        console.log('findCodeProvince ->   ', findCodeProvince)
+        // const shippingPrice = await fetchShippingPrice(postalCode, findCodeProvince?.code31662)
+        console.log('shippingPrice', shippingPrice.paqarClasico)
+=======
         const shippingPrice = await fetchShippingPrice(postalCode, findCodeProvince?.code31662)
+>>>>>>> 066bf7efa23b82b443edc2708eb13b446bb46987
         return shippingPrice.paqarClasico
     } catch (error) {
         console.error('Error al llamar a getPostalCodeServices:', error);
@@ -102,7 +108,7 @@ const createAddressService = async ( idUser, emailUser, adressToCreate ) => {
                 email: emailUser
             }
             const [user, userWasCreated] = await logInUserServices(userInfo)
-            idUser = user?.idUser
+            // idUser = user?.idUser
         }
         // else userID = idUser
         const [addressInfoUser, createdUserAddress] = await createAddressUser(idUser, adressToCreate)

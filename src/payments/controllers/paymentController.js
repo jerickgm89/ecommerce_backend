@@ -1,15 +1,24 @@
-const { EntityOrderItems, EntityOrderDetail, EntityUsers, EntityProducts, EntityPayment } = require('../../db');
-const { sendStatusResponse } = require('../../config/nodeMailer/controllersMailer');
-
 const mercadopago = require('mercadopago');
-const crypto = require('crypto');
 const { MERCADOPAGO_API_KEY, MERCADOPAGO_SECRET } = process.env;
+const crypto = require('crypto');
+const { sendStatusResponse } = require('../../config/nodeMailer/controllersMailer');
+const { EntityOrderItems, 
+  EntityOrderDetail, 
+  EntityUsers, 
+  EntityProducts, 
+  EntityPayment, 
+  Coupon, 
+  CouponUsage, 
+  EntityShipments, 
+  EntityUserAddress 
+} = require('../../db');
 
-mercadopago.configure({
-  access_token: MERCADOPAGO_API_KEY,
-});   
+mercadopago.configure({ access_token: MERCADOPAGO_API_KEY });   
+
 let lastPayerEmail = '';
-let  = '';
+let lastCouponCode = ''; 
+let lastIdUserAddress = ''; 
+const processedTransactions = new Set();
 
 const createOrder = async (req, res) => {
   try {
@@ -23,21 +32,26 @@ const createOrder = async (req, res) => {
     delete body.payment_methods;
 
     const externalReference = body.payer.identification.number;
-    lastPayerEmail = body.payer.email;  // Guardar el correo electrónico en la variable global
+    lastPayerEmail = body.payer.email; 
+    lastCouponCode = body.coupon_code;
+    lastIdUserAddress = body.id_user_address;
 
     const result = await mercadopago.preferences.create({
       items: body.items,
       payer: body.payer,
-      notification_url: "https://www.ecommercetech.software/payment/webhook",
+      notification_url: "https://6d98-152-203-34-160.ngrok-free.app/payment/webhook",
       back_urls: {
         success: "https://st2.depositphotos.com/3108485/9725/i/450/depositphotos_97258336-stock-photo-hand-thumb-up.jpg",
         pending: "https://cdn-icons-png.flaticon.com/512/3756/3756719.png",
         failure: "https://www.publicdomainpictures.net/pictures/180000/nahled/hand-with-thumb-down.jpg",
       },
-      external_reference: externalReference
+      external_reference: externalReference,
+      metadata: {
+        coupon_code: body.coupon_code,
+        id_user_address: body.id_user_address 
+      }
     });
-
-    console.log('Preference created:', result.body);
+    // console.log('Preference created:', result.body);
     res.json(result.body);
   } catch (error) {
     console.error('Error creating order:', error.message);
@@ -46,13 +60,11 @@ const createOrder = async (req, res) => {
 };
 const webhook = async (req, res) => {
   try {
-    console.log('Received webhook:', req.body);
-
     const signature = req.headers['x-signature'];
     const xRequestId = req.headers['x-request-id'];
 
     if (!signature || !xRequestId) {
-      console.log('Missing headers');
+      console.log('Missing signature or xRequestId');
       return res.sendStatus(400);
     }
 
@@ -66,17 +78,16 @@ const webhook = async (req, res) => {
       return res.sendStatus(400);
     }
 
+    if (processedTransactions.has(dataID)) {
+      console.log(`Transaction ${dataID} already processed`);
+      return res.sendStatus(200);
+    }
+
     const manifest = `id:${dataID};request-id:${xRequestId};ts:${ts};`;
-
-    console.log('Manifest for HMAC:', manifest);
-
     const computedHash = crypto
       .createHmac('sha256', process.env.MERCADOPAGO_SECRET)
       .update(manifest)
       .digest('hex');
-
-    console.log('Computed HMAC:', computedHash);
-    console.log('Received HMAC:', hash);
 
     if (computedHash !== hash) {
       console.log('HMAC verification failed');
@@ -88,21 +99,18 @@ const webhook = async (req, res) => {
     const notificationType = req.body.type || req.query.topic;
     const resourceId = req.body.data && req.body.data.id || req.query.id;
 
-    if (!resourceId) {
-      console.log('Missing resource ID');
-      return res.sendStatus(400);
-    }
-
     let details;
     if (notificationType === 'payment') {
+      console.log(`Fetching payment details for resource ID: ${resourceId}`);
       const response = await mercadopago.payment.findById(resourceId);
       details = response.body;
-      console.log('Payment details:', JSON.stringify(details, null, 2)); 
 
-      const { status, transaction_amount, payer, additional_info, card, id, payment_method_id } = details;
-      console.log('status: ', status);
+      const { status, transaction_amount, payer, additional_info, card, id, payment_method_id, metadata } = details;
+      console.log('Payment details:', details);
 
       const payerEmail = lastPayerEmail;
+      const couponCode = metadata ? metadata.coupon_code : null;  // Obtener el código del cupón desde los metadatos
+      const idUserAddress = metadata ? metadata.id_user_address : null; // Obtener idUserAddress desde los metadatos
       const payerName = payer.first_name || (additional_info && additional_info.payer && additional_info.payer.first_name) || 'Cliente';
 
       if (!payerEmail) {
@@ -128,6 +136,7 @@ const webhook = async (req, res) => {
         accountNumber = `${card.first_six_digits}*****${card.last_four_digits}`;
       }
 
+      console.log('Creating payment record');
       const payment = await EntityPayment.create({
         name: card.cardholder.name,
         dni: card.cardholder.identification.number,
@@ -138,11 +147,28 @@ const webhook = async (req, res) => {
       });
       console.log('Payment record created:', payment);
 
+      let idShipment = null;
+
+      if (status === 'approved') {
+        console.log('Creating shipment record');
+        const shipment = await EntityShipments.create({
+          status: 'in_shop',
+          guideNumber: null,
+        });
+
+        idShipment = shipment.idShipments;
+        console.log('Shipment record created:', shipment);
+      }
+
+      console.log('Creating order detail record');
       const orderDetail = await EntityOrderDetail.create({
         totalOrder: transaction_amount,
         idPayment: payment.idPayment,
+        couponApplied: couponCode,
         idUser: user.idUser,
-        operation: id
+        operation: id,
+        idShipment: idShipment,  // Relación con la tabla de envíos
+        idUserAddress: idUserAddress  // Usar idUserAddress desde los metadatos
       });
       console.log('Order detail record created:', orderDetail);
 
@@ -154,8 +180,9 @@ const webhook = async (req, res) => {
           continue;
         }
 
+        console.log('Creating order item record for product:', product.idProduct);
         const orderItem = await EntityOrderItems.create({
-          idOrderDetail: orderDetail.idOrderDetail, // Referencia al idOrderDetail de EntityOrderDetail
+          idOrderDetail: orderDetail.idOrderDetail,
           quantity: parseInt(item.quantity),
           idProduct: product.idProduct,
           status: details.status
@@ -168,10 +195,29 @@ const webhook = async (req, res) => {
           console.log('Stock updated for product:', product.idProduct);
         }
       }
+
+      if (status === 'approved' && couponCode) {
+        console.log(`Marking coupon ${couponCode} as used for user ${user.idUser}`);
+        const coupon = await Coupon.findOne({ where: { code: couponCode } });
+
+        if (coupon) {
+          await CouponUsage.create({ userId: user.idUser, couponId: coupon.idCoupon });
+          console.log(`Coupon ${couponCode} marked as used for user ${user.idUser}`);
+        }
+      }
+
+      // Marcar la transacción como procesada
+      processedTransactions.add(dataID);
+      console.log(`Transaction ${dataID} marked as processed`);
     } else if (notificationType === 'merchant_order') {
+      console.log(`Fetching merchant order details for resource ID: ${resourceId}`);
       const response = await mercadopago.merchant_orders.get(resourceId);
       details = response.body;
-      console.log('Merchant order:', JSON.stringify(details, null, 2)); 
+      console.log('Merchant order details:', details);
+
+      // Marcar la transacción como procesada para merchant_order también
+      processedTransactions.add(dataID);
+      console.log(`Transaction ${dataID} marked as processed (merchant order)`);
     }
 
     if (!details) {
@@ -182,7 +228,7 @@ const webhook = async (req, res) => {
     res.status(200).json(details);
   } catch (error) {
     console.error('Error fetching resource:', error.message);
-    res.sendStatus(500);
+    res.sendStatus(500).json({ error: error.message });
   }
 };
 
@@ -236,7 +282,6 @@ const getPayment = async (req, res) => {
       res.status(500).json({ error: 'Error fetching payments' });
   }
 };
-
 
 module.exports = {
   createOrder,
