@@ -3,7 +3,9 @@ const { Op } = require('sequelize');
 const modifyPriceProduct = require('../../../../utils/modifyPriceProduct.js');
 const filtersProducts = async (properties, limit, offset, order) => {
     const { category, brand, name, price, year, priceMin, priceMax } = properties;
-    const where = {};
+    const where = {
+        active: true
+    };
     // Construye las condiciones de filtrado basadas en los parámetros de consulta.
 
     let include =  [ 
@@ -62,17 +64,21 @@ const filtersProducts = async (properties, limit, offset, order) => {
         }
     }
 
-    if( category ) {
-        const categoryIds = Array.isArray(category) ? category : category.split('+').map(categoryId => parseInt(categoryId))
-        if( Array.isArray(categoryIds)){ 
+    if(category) {
+        console.log('category original:', category); // Añadido para depuración
+        let categoryIds = Array.isArray(category) ? category : (typeof category === 'string' ? category.split(' ').map(categoryId => parseInt(categoryId)) : [category]);
+        console.log('categoryIds:', categoryIds); // Añadido para depuración
+        if(Array.isArray(categoryIds)) { 
             where.idCategory = {[Op.in]: categoryIds};
         }
         else where.idCategory = category
     }
     if(brand) {
-        const brandIds = Array.isArray(brand) ? brand : brand.split('+').map(brandId => parseInt(brandId))
+        console.log('brand original:', brand); // Añadido para depuración
+        let brandIds = Array.isArray(brand) ? brand : (typeof brand === 'string' ? brand.split(' ').map(brandId => parseInt(brandId)) : [brand]);
+        console.log('brandIds:', brandIds); // Añadido para depuración
         include[0].where.idBrand = {[Op.in]: brandIds};
-    }  
+    }
     const resultFilters = await EntityProducts.findAndCountAll({
         where,
         limit,

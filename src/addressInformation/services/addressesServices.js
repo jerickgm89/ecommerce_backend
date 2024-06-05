@@ -8,6 +8,7 @@ const {
 const { logInUserServices } = require('../../Users/services/userService.js')
 /*
 SAN JUAN AR-J no es reconocido por la api
+
 error: 'Provincias invalidas. Los codigos de provincia estan definidos por ISO 3166-2:AR: AR-A, AR-B, AR-C, AR-K, AR-H, AR-U, AR-X, AR-W, AR-E, AR-P, AR-Y, AR-L, AR-F, AR-M, AR-N, AR-Q, AR-R, AR-D, AR-Z, AR-S, AR-G, AR-V, AR-T'  
 shippingPrice undefined
 */
@@ -36,7 +37,18 @@ const getProvincesServices = ( provincia, departamento ) => {
                 }
             }
             return barrio.reduce((acumulador, objectTownPostal) => {
-                return { ...acumulador, ...objectTownPostal }})
+                return { ...acumulador, ...objectTownPostal   }
+            })
+            // return barrio.reduce((acumulador, objectTownPostal) => {
+            //     const listBarrio = { ...acumulador, ...objectTownPostal   }
+            //     let formattedObject = {};
+            //     for(const city in listBarrio){
+            //         const formattedCityKey = formatedResponse(city)
+            //         formattedObject[formattedCityKey] = listBarrio[city]
+            //     }
+            //     return formattedObject;
+            // }, {})
+            // }    
         }
             
         if( provincia ){
@@ -58,11 +70,14 @@ const getProvincesServices = ( provincia, departamento ) => {
 const getPostalCodeServices = async (postalCode) => {
     try {
         const provinceByPostalCode = findProvinceByPostalCode(fullListPostalCode, postalCode)
-        console.log('provinceByPostalCode ->   ', provinceByPostalCode)
         const findCodeProvince = provinceList.find( province => province.name === provinceByPostalCode)
+<<<<<<< HEAD
         console.log('findCodeProvince ->   ', findCodeProvince)
         // const shippingPrice = await fetchShippingPrice(postalCode, findCodeProvince?.code31662)
         console.log('shippingPrice', shippingPrice.paqarClasico)
+=======
+        const shippingPrice = await fetchShippingPrice(postalCode, findCodeProvince?.code31662)
+>>>>>>> 066bf7efa23b82b443edc2708eb13b446bb46987
         return shippingPrice.paqarClasico
     } catch (error) {
         console.error('Error al llamar a getPostalCodeServices:', error);
@@ -71,10 +86,10 @@ const getPostalCodeServices = async (postalCode) => {
 }
 const findProvinceByPostalCode = (data, postalCode) => {
     for (let province in data) {
-        for (let city in data[province]) {
-            for (let district in data[province][city]) {
-                for (let neighborhood in data[province][city][district]) {
-                    if (data[province][city][district][neighborhood] == postalCode) {
+        for (let department in data[province]) {
+            for (let township in data[province][department]) {
+                for (let location in data[province][department][township]) {
+                    if (data[province][department][township][location] == postalCode) {
                         return province
                     }
                 }
