@@ -1,4 +1,4 @@
-const { EntityOrderItems, EntityOrderDetail, EntityUsers, EntityProducts, EntityPayment, Coupon, CouponUsage } = require('../../db');
+const { EntityOrderItems, EntityOrderDetail, EntityUsers, EntityProducts, EntityPayment, Coupon, CouponUsage, EntityShipments } = require('../../db');
 const { sendStatusResponse } = require('../../config/nodeMailer/controllersMailer');
 const mercadopago = require('mercadopago');
 const crypto = require('crypto');
@@ -28,7 +28,7 @@ const createOrder = async (req, res) => {
     const result = await mercadopago.preferences.create({
       items: body.items,
       payer: body.payer,
-      notification_url: "https://89ad-152-201-204-245.ngrok-free.app/payment/webhook",
+      notification_url: "https://6d98-152-203-34-160.ngrok-free.app/payment/webhook",
       back_urls: {
         success: "https://st2.depositphotos.com/3108485/9725/i/450/depositphotos_97258336-stock-photo-hand-thumb-up.jpg",
         pending: "https://cdn-icons-png.flaticon.com/512/3756/3756719.png",
@@ -155,6 +155,11 @@ const webhook = async (req, res) => {
         if (coupon) {
           await CouponUsage.create({ userId: user.idUser, couponId: coupon.idCoupon });
         }
+
+        await EntityShipments.create({
+          status: 'in_shop',
+          guideNumber: null,
+        });
       }
 
       // Marcar la transacción como procesada
@@ -175,7 +180,6 @@ const webhook = async (req, res) => {
     res.sendStatus(500);
   }
 };
-
 
 module.exports = { createOrder, webhook };
 
