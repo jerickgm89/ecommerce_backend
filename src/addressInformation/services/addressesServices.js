@@ -26,7 +26,7 @@ const formatedResponse = (info) => {
 } 
 const getProvincesServices = ( provincia, departamento ) => {
     try {
-        departamento = departamento === "null" ? departamento : departamento?.toUpperCase();
+        // departamento = departamento === "null" ? departamento : departamento?.toUpperCase();
         const barrio = []
         if( provincia && departamento ){
             const filterProvinceAndCity = fullListPostalCode[provincia][departamento]
@@ -61,7 +61,7 @@ const getPostalCodeServices = async (postalCode) => {
         console.log('provinceByPostalCode ->   ', provinceByPostalCode)
         const findCodeProvince = provinceList.find( province => province.name === provinceByPostalCode)
         console.log('findCodeProvince ->   ', findCodeProvince)
-        const shippingPrice = await fetchShippingPrice(postalCode, findCodeProvince?.code31662)
+        // const shippingPrice = await fetchShippingPrice(postalCode, findCodeProvince?.code31662)
         console.log('shippingPrice', shippingPrice.paqarClasico)
         return shippingPrice.paqarClasico
     } catch (error) {
@@ -93,7 +93,7 @@ const createAddressService = async ( idUser, emailUser, adressToCreate ) => {
                 email: emailUser
             }
             const [user, userWasCreated] = await logInUserServices(userInfo)
-            idUser = user?.idUser
+            // idUser = user?.idUser
         }
         // else userID = idUser
         const [addressInfoUser, createdUserAddress] = await createAddressUser(idUser, adressToCreate)

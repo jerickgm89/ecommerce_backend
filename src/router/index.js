@@ -22,6 +22,9 @@ const reviewRoutes = require('../review/routesReview/reviewRutes.js')
 
 const commentsRoutes = require('../comments/routesComments/commentsRoutes.js')
 
+//                                  ----> Coupons <----
+const couponRoutes = require('../coupons/routes/couponRoutes.js')
+
 const router = () => {
     const routers = Router()
     routers.use('/', readmeEmptyPath)
@@ -32,6 +35,7 @@ const router = () => {
     routers.use('/address', addressesRoutes)
     routers.use('/reviews', reviewRoutes)
     routers.use('/comments', commentsRoutes)
+    routers.use('/coupons', couponRoutes)
     return routers
 }
 
