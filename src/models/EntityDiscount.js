@@ -37,7 +37,11 @@ module.exports = (sequelize) => {
             type: DataTypes.ARRAY(DataTypes.INTEGER),
             allowNull: true,
             defaultValue: []            
-        }
+        },
+        expirationDate: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
     }, {
         // paranoid: true,
         timestamps:true,

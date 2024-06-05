@@ -1,55 +1,45 @@
-const { filtersProductsServices } = require('../src/Products/services/servicesFiltersAndOrder/filtersProductsServices.js')
-const { allCategoryListService } = require('../src/Products/services/servicesCategory/categoryServices.js')
-const { allBrandsListService } = require('../src/Products/services/servicesBrands/brandServices.js') // Add this line
-// const { allBrandsListService } = require('../src/Products/services/servicesBrands/brandServices.js')
-const formatArrayToAddDiscount = async ( idProduct ) => {
-    // debo entregar un array de idProduct, ejemplos: [1, 2, 3, 4]
+const { filtersProductsServices } = require('../src/Products/services/servicesFiltersAndOrder/filtersProductsServices.js');
+const { allCategoryListService } = require('../src/Products/services/servicesCategory/categoryServices.js');
+const { allBrandsListService } = require('../src/Products/services/servicesBrands/brandServices.js');
+
+const formatArrayToAddDiscount = async (idProduct) => {
+    let searchedCategory = [];
+    let searchedBrand = [];
     
-    let searchedCategory = []
-    let searchedBrand = []
-    
-    // recibo por ejemplo "Laptops+Celulares"
-    const bruteListNames = idProduct.split('+'); //["Laptops","Acer", "MSI","Celulares", ...]
-    // console.log("bruteListNames ->  ", bruteListNames, "idProduct ->>  ", idProduct);
-    // ["Laptops","Celulares", ...]
+    const bruteListNames = idProduct.split('+'); // Ej: ["Laptops","Acer", "MSI","Celulares"]
+
     const fullListCategories = await allCategoryListService();
-    
-    const allCategoryList = fullListCategories.map((eachCategory, index) =>{
-        if(bruteListNames.length >= index){
-            if(bruteListNames.includes(eachCategory.nameCategory)){
-                searchedCategory.push(eachCategory.idCategory)
-                // bruteListNames.splice(index-1, 1)
+    const fullListBrands = await allBrandsListService();
+
+    bruteListNames.forEach((name) => {
+        const category = fullListCategories.find(cat => cat.nameCategory === name);
+        if (category) {
+            searchedCategory.push(category.idCategory);
+        } else {
+            const brand = fullListBrands.find(br => br.nameBrand === name);
+            if (brand) {
+                searchedBrand.push(brand.idBrand);
             }
         }
-        return searchedCategory
-    })
-    const fullListBrands = await allBrandsListService()
-    console.log("bruteListNames ->  ", bruteListNames);
+    });
 
-    
-    const allBrandList = fullListBrands.map((eachBrand, index) =>{
-        if(bruteListNames.length >= index){
-            if(bruteListNames.includes(eachBrand.nameBrand)){
-                searchedBrand.push(eachBrand.idBrand)
-                // bruteListNames.splice(index-1, 1)
-            }
-        }
-        return searchedBrand
-    })
+    let resultFilterCat = { rows: [] };
+    let resultFilterBr = { rows: [] };
 
-    const properties = {
-        category: searchedCategory,
-        brand: searchedBrand,
+    if (searchedCategory.length) {
+        const properties = { category: searchedCategory };
+        resultFilterCat = await filtersProductsServices(properties, undefined, undefined, undefined);
     }
-    const resultFilterCategory= await filtersProductsServices({properties: properties.category}, undefined, undefined, undefined);
 
-    const resultFilterBrand= await filtersProductsServices({properties: properties.brand}, undefined, undefined, undefined);
-    const resultsTogether = resultFilterCategory.rows.concat(resultFilterBrand.rows)
-    // console.log("resultsTogether ->  ", resultsTogether, "resultsTogether.length ->  ", resultsTogether.length)
-    const idProductListUnduplicates = new Set();
-    const filteredResult = resultsTogether.map((eachProduct) => idProductListUnduplicates.add(eachProduct.idProduct))
-    const formatedList = Array.from(idProductListUnduplicates)
-    return formatedList
+    if (searchedBrand.length) {
+        const properties = { brand: searchedBrand };
+        resultFilterBr = await filtersProductsServices(properties, undefined, undefined, undefined);
+    }
+
+    const resultFilter = [...resultFilterCat.rows, ...resultFilterBr.rows];
+    const filteredResults = resultFilter.map((product) => product.idProduct);
+    console.log("filteredResults", filteredResults)
+    return filteredResults;
 };
 
 module.exports = formatArrayToAddDiscount;
