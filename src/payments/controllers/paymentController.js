@@ -41,9 +41,9 @@ const createOrder = async (req, res) => {
       payer: body.payer,
       notification_url: "https://6d98-152-203-34-160.ngrok-free.app/payment/webhook",
       back_urls: {
-        success: "https://st2.depositphotos.com/3108485/9725/i/450/depositphotos_97258336-stock-photo-hand-thumb-up.jpg",
+        success: "https://main.d1v4o3mt97tf62.amplifyapp.com/user/order",
         pending: "https://cdn-icons-png.flaticon.com/512/3756/3756719.png",
-        failure: "https://www.publicdomainpictures.net/pictures/180000/nahled/hand-with-thumb-down.jpg",
+        failure: "https://main.d1v4o3mt97tf62.amplifyapp.com/",
       },
       external_reference: externalReference,
       metadata: {
