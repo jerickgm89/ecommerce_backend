@@ -1,4 +1,4 @@
-const { EntityComments } = require('../../db')
+const { EntityComments, EntityProducts } = require('../../db')
 
 
 //Crear comentarios
@@ -22,6 +22,12 @@ const getAllComments = async () => {
        where: {
         activeComments: true
        },
+       include: [
+        {
+          model: EntityProducts,
+          attributes: ['imageProducts', 'nameProduct'],
+        },
+      ],
         order: [['idComments', 'ASC']]
     })
     return getCommit;
@@ -34,6 +40,12 @@ const getCommentsById = async (id) => {
                 idComments: id,
                 activeComments: true
                },
+               include: [
+                {
+                  model: EntityProducts,
+                  attributes: ['imageProducts', 'nameProduct'],
+                },
+              ]
         });
     return comment;
 };

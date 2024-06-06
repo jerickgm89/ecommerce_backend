@@ -87,10 +87,10 @@ const filtersProducts = async (properties, limit, offset, order) => {
         order
     });
     const modifiedProducts = await Promise.all(
-        resultFilters.rows?.map(async (product) => {
-            const modifiedProduct = await modifyPriceProduct(product);
-            return modifiedProduct;
-        })
+        // resultFilters.rows?.map(async (product) => {
+        //     const modifiedProduct = await modifyPriceProduct(product);
+        //     return modifiedProduct;
+        // })
     );
     const response = {
         count: resultFilters.count,

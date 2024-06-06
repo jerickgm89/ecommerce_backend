@@ -1,9 +1,21 @@
-const { EntityOrderItems, EntityOrderDetail, EntityUsers, EntityProducts, EntityPayment } = require('../../db');
+
 const { sendStatusResponse } = require('../../config/nodeMailer/controllersMailer');
+const crypto = require('crypto');
 
 const mercadopago = require('mercadopago');
-const crypto = require('crypto');
 const { MERCADOPAGO_API_KEY, MERCADOPAGO_SECRET } = process.env;
+
+
+const { EntityOrderItems, 
+  EntityOrderDetail, 
+  EntityUsers, 
+  EntityProducts, 
+  EntityPayment, 
+  Coupon, 
+  CouponUsage, 
+  EntityShipments, 
+  EntityUserAddress 
+} = require('../../db');
 
 mercadopago.configure({
   access_token: MERCADOPAGO_API_KEY,
