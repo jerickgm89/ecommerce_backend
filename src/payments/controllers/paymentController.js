@@ -283,10 +283,61 @@ const getPayment = async (req, res) => {
   }
 };
 
+const getAllShipments = async (req,res) => {
+  try {
+    const shipment = await EntityShipments.findAll()
+    res.status(200).json(shipment)
+  } catch (error) {
+    console.error('Error fetching shipments: ',error)
+    res.status(500).json({error: 'Error fetching shipments'})
+  }
+};
+const updateShipment = async (req,res) => {
+  const {id} = req.params;
+  const {status, guideNumber} = req.body
+
+  const idShipments = id;
+  if(!status) {
+    return res.status(400).json({error: 'MISSING REQUIRED FIELD: STATUS'})
+  }
+  try {
+    const shipment = await EntityShipments.findByPk(idShipments)
+    if(!shipment) {
+      return res.status(404).json({error: 'Shipment not found'})
+    }
+    shipment.status = status;
+    if(guideNumber) {
+      shipment.guideNumber = guideNumber
+    }
+    await shipment.save()
+    res.json(shipment)
+  } catch (error) {
+    console.error('Error updating shipment:', error);
+    res.status(500).json({ error: 'Error updating shipment' })
+  }
+};
+
+const deleteShipment = async (req,res) => {
+  const {id} = req.params;
+  const idShipments = id
+
+  try {
+    const shipment = await EntityShipments.findByPk(idShipments)
+    if(!shipment) {
+      res.status(404).json({error: 'Shipment delete'})
+    }
+  } catch (error) {
+    console.error('Error deleting shipment:', error);
+    res.status(500).json({ error: 'Error deleting shipment' });
+  }
+}
 module.exports = {
   createOrder,
   webhook,
   updatePayment,
   deletePayment,
-  getPayment
+  getPayment,
+  getAllShipments,
+  updateShipment,
+  deleteShipment
 };

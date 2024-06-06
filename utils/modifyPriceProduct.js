@@ -24,21 +24,10 @@ const modifyPriceProduct = async (productById) => {
                 } else if (discount.idProduct && !discount.discountInGroup) {
                     newPrice = (1 - discount.quantity) * originalPrice;
                     productById.discountPriceProduct = newPrice.toFixed(2);
-<<<<<<< HEAD
-                    break; // Si encontramos este caso, salimos del bucle
-                }
-
-                // if (!discount.idProduct && discount.discountInGroup && discount.productsInDiscountGroup?.length) {
-                //     newPrice = (1 - discount.quantity) * originalPrice;
-                //     discountQuantity = discount.quantity;
-                //     productById.discountPriceProduct = newPrice.toFixed(2);
-                // }
-=======
                 } else if (!discount.idProduct && discount.discountInGroup && discount.productsInDiscountGroup?.length) {
                     newPrice = (1 - discount.quantity) * originalPrice;
                     productById.discountPriceProduct = newPrice.toFixed(2);
                 }
->>>>>>> 066bf7efa23b82b443edc2708eb13b446bb46987
             }
         }
 
