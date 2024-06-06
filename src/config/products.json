@@ -4657,7 +4657,7 @@
           "http://http2.mlstatic.com/D_949926-MLM53035776355_122022-O.jpg"
         ],
         "SKU": "MCO2394087150",
-        "descriptionProduct": "",
+        "descriptionProduct": "La batería recargable Sony NP-BX1 es compatible con las cámaras Serie X, RX, HX400 y CX440. Ofrece una larga duración y rendimiento fiable, perfecta para mantener tus dispositivos listos para usar en cualquier momento. Ideal para fotógrafos y videógrafos que necesitan una fuente de energía confiable para sus equipos.",
         "stockProduct": 50,
         "idCategory": 5
       },
@@ -7662,7 +7662,7 @@
           "http://http2.mlstatic.com/D_913219-MCO73847532525_012024-O.jpg"
         ],
         "SKU": "MCO1378472497",
-        "descriptionProduct": "",
+        "descriptionProduct": "Este Todo En Uno Asus cuenta con un procesador Intel Core i5 1235U, 24GB de RAM y un SSD de 512GB, proporcionando un equilibrio perfecto entre rendimiento y capacidad de almacenamiento. Es ideal para tareas diarias y multitarea, ofreciendo una experiencia de usuario fluida en un diseño elegante y eficiente.",
         "stockProduct": 50,
         "idCategory": 10
       },
@@ -8021,7 +8021,7 @@
           "http://http2.mlstatic.com/D_853470-MCO70111159523_062023-O.jpg"
         ],
         "SKU": "MCO1307975309",
-        "descriptionProduct": "",
+        "descriptionProduct": "Equipada con un procesador Ryzen 5 5600X, 16GB de RAM y una tarjeta de video RX 6600 de 8GB, esta PC Torre Gamer ofrece un rendimiento impresionante para juegos de alta demanda y aplicaciones gráficas. Es la opción ideal para gamers que buscan una experiencia de juego inmersiva y sin interrupciones.",
         "stockProduct": 50,
         "idCategory": 10
       },
@@ -8077,7 +8077,7 @@
           "http://http2.mlstatic.com/D_685369-MCO73825550478_012024-O.jpg"
         ],
         "SKU": "MCO1379720805",
-        "descriptionProduct": "",
+        "descriptionProduct": "El Todo En Uno Asus con procesador Intel Core i5 1235U ofrece un rendimiento rápido y eficiente, ideal para multitarea. Con 24GB de RAM y un SSD de 2TB, este equipo garantiza un almacenamiento amplio y velocidades de operación ultrarrápidas. Su diseño compacto y elegante lo convierte en la solución perfecta para cualquier espacio de trabajo moderno.",
         "stockProduct": 50,
         "idCategory": 10
       },
@@ -8104,7 +8104,7 @@
           "http://http2.mlstatic.com/D_721346-MCO53003819883_122022-O.jpg"
         ],
         "SKU": "MCO654005023",
-        "descriptionProduct": "",
+        "descriptionProduct": "Este computador PC Torre con procesador Intel Core i5 3470 y 8GB de RAM proporciona un rendimiento sólido y confiable para tareas diarias y aplicaciones estándar. Es una solución económica y eficiente para usuarios que necesitan un equipo rápido y fiable.",
         "stockProduct": 50,
         "idCategory": 10
       },
@@ -8192,7 +8192,7 @@
           "http://http2.mlstatic.com/D_785858-MCO73926617793_012024-O.jpg"
         ],
         "SKU": "MCO1379648053",
-        "descriptionProduct": "",
+        "descriptionProduct": "El Todo En Uno Asus con Intel Core i5 1235U es una potente máquina para cualquier tarea intensiva. Con 40GB de RAM y un SSD de 512GB, proporciona un rendimiento excepcional y tiempos de respuesta rápidos. Ideal para profesionales y estudiantes que necesitan una máquina confiable y de alto rendimiento en un formato elegante y compacto.",
         "stockProduct": 50,
         "idCategory": 10
       },
@@ -8272,7 +8272,7 @@
           "http://http2.mlstatic.com/D_839030-MCO54768215494_032023-O.jpg"
         ],
         "SKU": "MCO1277637207",
-        "descriptionProduct": "",
+        "descriptionProduct": "La Torre Gamer con CPU AMD Ryzen 7 5700G y 32GB de RAM está diseñada para ofrecer un rendimiento excepcional en juegos y aplicaciones intensivas. Con gráficos Vega 8 integrados, proporciona una experiencia de juego fluida y de alta calidad. Es la elección perfecta para gamers y creadores de contenido que buscan potencia y eficiencia en un solo equipo.",
         "stockProduct": 50,
         "idCategory": 10
       },
@@ -8440,7 +8440,7 @@
     },
     {
       "product": {
-        "nameProduct": "Computador Hp Compaq 6005 Pro Sff - Super Promo Navidad!!!",
+        "nameProduct": "Computador Dell 6005 Pro Sff",
         "priceProduct": 399900,
         "imageProducts": [
           "http://http2.mlstatic.com/D_813138-MCO75291900317_032024-O.jpg",
