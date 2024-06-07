@@ -6,8 +6,8 @@ const {logInUserServices} = require('../Users/services/userService.js')
 
 const initialCategories = [
     { nameCategory: "Celulares y Teléfonos", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/14673309_6?format=png" },
-    { nameCategory: "Accesorios para Celulares", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/prod16426548?format=png" },
     { nameCategory: "Smartwatches y Accesorios", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/16354229_2?format=png" },
+    { nameCategory: "Accesorios para Celulares", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/prod16426548?format=png" },
     // { nameCategory: "Laptops", descriptionCategory: "Breve descripcion de la categoria" },
     { nameCategory: "Cámaras", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://falabella.scene7.com/is/image/Falabella/gsc_122577138_3386294_1?format=png" },
     { nameCategory: "Accesorios para Cámaras", descriptionCategory: "Breve descripcion de la categoria", imageCategory: "https://rinconfotografico.cl/image/cachewebp/data/productos/easycover/5DMKII/easycover_ecc5d2_easycover_for_the_canon_1407519315000_1070763-370x370.webp" },
