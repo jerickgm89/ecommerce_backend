@@ -16,22 +16,27 @@ module.exports = (sequelize) => {
             type: DataTypes.DECIMAL,
             allowNull: false
         },
+
         couponApplied: {
             type: DataTypes.STRING,
             allowNull: true,
         },
-        discountedTotal: {
-            type: DataTypes.FLOAT,
-            allowNull: true,
-        },
-
         idPayment: {
-            type: DataTypes.INTEGER
+            type: DataTypes.INTEGER,
+            allowNull: false,
         },
 
         idUser: {
             type: DataTypes.INTEGER
-        }
+        },
+        idUserAddress: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        idShipment: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
     }, {
         paranoid: true,
         createdAt: 'createentityOrderDetail',

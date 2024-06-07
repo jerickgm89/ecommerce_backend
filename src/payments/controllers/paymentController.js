@@ -1,15 +1,24 @@
-const { EntityOrderItems, EntityOrderDetail, EntityUsers, EntityProducts, EntityPayment } = require('../../db');
-const { sendStatusResponse } = require('../../config/nodeMailer/controllersMailer');
-
 const mercadopago = require('mercadopago');
-const crypto = require('crypto');
 const { MERCADOPAGO_API_KEY, MERCADOPAGO_SECRET } = process.env;
+const crypto = require('crypto');
+const { sendStatusResponse } = require('../../config/nodeMailer/controllersMailer');
+const { EntityOrderItems, 
+  EntityOrderDetail, 
+  EntityUsers, 
+  EntityProducts, 
+  EntityPayment, 
+  Coupon, 
+  CouponUsage, 
+  EntityShipments, 
+  EntityUserAddress 
+} = require('../../db');
 
-mercadopago.configure({
-  access_token: MERCADOPAGO_API_KEY,
-});   
+mercadopago.configure({ access_token: MERCADOPAGO_API_KEY });   
+
 let lastPayerEmail = '';
-let  = '';
+let lastCouponCode = ''; 
+let lastIdUserAddress = ''; 
+const processedTransactions = new Set();
 
 const createOrder = async (req, res) => {
   try {
@@ -23,21 +32,26 @@ const createOrder = async (req, res) => {
     delete body.payment_methods;
 
     const externalReference = body.payer.identification.number;
-    lastPayerEmail = body.payer.email;  // Guardar el correo electrónico en la variable global
+    lastPayerEmail = body.payer.email; 
+    lastCouponCode = body.coupon_code;
+    lastIdUserAddress = body.id_user_address;
 
     const result = await mercadopago.preferences.create({
       items: body.items,
       payer: body.payer,
       notification_url: "https://www.ecommercetech.software/payment/webhook",
       back_urls: {
-        success: "https://st2.depositphotos.com/3108485/9725/i/450/depositphotos_97258336-stock-photo-hand-thumb-up.jpg",
+        success: "https://main.d1v4o3mt97tf62.amplifyapp.com/user/order",
         pending: "https://cdn-icons-png.flaticon.com/512/3756/3756719.png",
-        failure: "https://www.publicdomainpictures.net/pictures/180000/nahled/hand-with-thumb-down.jpg",
+        failure: "https://main.d1v4o3mt97tf62.amplifyapp.com/",
       },
-      external_reference: externalReference
+      external_reference: externalReference,
+      metadata: {
+        coupon_code: body.coupon_code,
+        id_user_address: body.id_user_address 
+      }
     });
-
-    console.log('Preference created:', result.body);
+    // console.log('Preference created:', result.body);
     res.json(result.body);
   } catch (error) {
     console.error('Error creating order:', error.message);
@@ -46,13 +60,10 @@ const createOrder = async (req, res) => {
 };
 const webhook = async (req, res) => {
   try {
-    console.log('Received webhook:', req.body);
-
     const signature = req.headers['x-signature'];
     const xRequestId = req.headers['x-request-id'];
 
     if (!signature || !xRequestId) {
-      console.log('Missing headers');
       return res.sendStatus(400);
     }
 
@@ -62,63 +73,54 @@ const webhook = async (req, res) => {
     const dataID = req.query['data.id'] || (req.body.data && req.body.data.id) || req.query.id;
 
     if (!dataID) {
-      console.log('Missing data ID');
       return res.sendStatus(400);
     }
 
+    if (processedTransactions.has(dataID)) {
+      return res.sendStatus(200);
+    }
+
     const manifest = `id:${dataID};request-id:${xRequestId};ts:${ts};`;
-
-    console.log('Manifest for HMAC:', manifest);
-
     const computedHash = crypto
       .createHmac('sha256', process.env.MERCADOPAGO_SECRET)
       .update(manifest)
       .digest('hex');
 
-    console.log('Computed HMAC:', computedHash);
-    console.log('Received HMAC:', hash);
-
     if (computedHash !== hash) {
-      console.log('HMAC verification failed');
       return res.sendStatus(400);
     }
-
-    console.log('HMAC verification passed');
 
     const notificationType = req.body.type || req.query.topic;
     const resourceId = req.body.data && req.body.data.id || req.query.id;
-
-    if (!resourceId) {
-      console.log('Missing resource ID');
-      return res.sendStatus(400);
-    }
 
     let details;
     if (notificationType === 'payment') {
       const response = await mercadopago.payment.findById(resourceId);
       details = response.body;
-      console.log('Payment details:', JSON.stringify(details, null, 2)); 
 
-      const { status, transaction_amount, payer, additional_info, card, id, payment_method_id } = details;
-      console.log('status: ', status);
+      const { status, transaction_amount, payer, additional_info, card, id, payment_method_id, metadata } = details;
 
       const payerEmail = lastPayerEmail;
+      const couponCode = metadata ? metadata.coupon_code : null;
+      const idUserAddress = metadata ? metadata.id_user_address : null;
       const payerName = payer.first_name || (additional_info && additional_info.payer && additional_info.payer.first_name) || 'Cliente';
 
       if (!payerEmail) {
-        console.error('No se pudo encontrar el correo electrónico del pagador');
         return res.sendStatus(400);
       }
       await sendStatusResponse(payerEmail, payerName, status);
-      console.log(`Status response email sent to ${payerEmail} with status ${status}`);
 
       const user = await EntityUsers.findOne({
         where: { DNI: details.external_reference }
       });
 
       if (!user) {
-        console.log('User not found');
         return res.sendStatus(404);
+      }
+
+      const userAddress = await EntityUserAddress.findOne({ where: { idUserAddress: idUserAddress, idUser: user.idUser } });
+      if (!userAddress) {
+        return res.sendStatus(400);
       }
 
       let accountNumber = '';
@@ -136,53 +138,74 @@ const webhook = async (req, res) => {
         expiry: new Date(card.expiration_year, card.expiration_month - 1),
         idUser: user.idUser
       });
-      console.log('Payment record created:', payment);
+
+      let idShipment = null;
+
+      if (status === 'approved') {
+        const shipment = await EntityShipments.create({
+          status: 'in_shop',
+          guideNumber: null,
+        });
+
+        idShipment = shipment.idShipments;
+      }
 
       const orderDetail = await EntityOrderDetail.create({
         totalOrder: transaction_amount,
         idPayment: payment.idPayment,
+        couponApplied: couponCode,
         idUser: user.idUser,
-        operation: id
+        operation: id,
+        idShipment: idShipment,
+        idUserAddress: idUserAddress
       });
-      console.log('Order detail record created:', orderDetail);
 
       for (const item of additional_info.items) {
         let product = await EntityProducts.findOne({ where: { idProduct: item.id } });
 
         if (!product) {
-          console.log('Product not found:', item.id);
           continue;
         }
 
         const orderItem = await EntityOrderItems.create({
-          idOrderDetail: orderDetail.idOrderDetail, // Referencia al idOrderDetail de EntityOrderDetail
+          idOrderDetail: orderDetail.idOrderDetail,
           quantity: parseInt(item.quantity),
           idProduct: product.idProduct,
           status: details.status
         });
-        console.log('Order item created for product:', product.idProduct);
 
         if (status === 'approved') {
           product.stockProduct -= parseInt(item.quantity);
           await product.save();
-          console.log('Stock updated for product:', product.idProduct);
         }
       }
+
+      if (status === 'approved' && couponCode) {
+        const coupon = await Coupon.findOne({ where: { code: couponCode } });
+
+        if (coupon) {
+          await CouponUsage.create({ userId: user.idUser, couponId: coupon.idCoupon });
+        }
+      }
+
+      processedTransactions.add(dataID);
     } else if (notificationType === 'merchant_order') {
       const response = await mercadopago.merchant_orders.get(resourceId);
       details = response.body;
-      console.log('Merchant order:', JSON.stringify(details, null, 2)); 
+
+      processedTransactions.add(dataID);
     }
 
     if (!details) {
-      console.log('Resource details not found');
       return res.sendStatus(404);
     }
 
     res.status(200).json(details);
   } catch (error) {
     console.error('Error fetching resource:', error.message);
-    res.sendStatus(500);
+    if (!res.headersSent) {
+      res.status(500).json({ error: error.message });
+    }
   }
 };
 
@@ -236,7 +259,6 @@ const getPayment = async (req, res) => {
       res.status(500).json({ error: 'Error fetching payments' });
   }
 };
-
 
 module.exports = {
   createOrder,

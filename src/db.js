@@ -18,6 +18,9 @@ const EntityUserAddressModels= require('./models/entityUserAddress.js')
 const EntityReviewModels = require('./models/EntityReview.js')
 const EntityDiscountModels= require('./models/EntityDiscount.js')
 const EntityCommentsModels = require('./models/EntityComments.js')
+const EntityCoupon = require('./models/EntityCoupon.js')
+const EntityCouponUsage = require('./models/EntityCouponUsage.js')
+const entityShipments = require('./models/EntityShipments.js')
 
     const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/ecommerce`, {
         logging: false,
@@ -41,6 +44,9 @@ const EntityCommentsModels = require('./models/EntityComments.js')
     EntityReviewModels(sequelize)
     EntityDiscountModels(sequelize) 
     EntityCommentsModels(sequelize)
+    EntityCoupon(sequelize)
+    EntityCouponUsage(sequelize)
+    entityShipments(sequelize)
 
     fs.readdirSync(path.join(__dirname, '/models'))
   .filter((file) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
@@ -54,7 +60,24 @@ const EntityCommentsModels = require('./models/EntityComments.js')
   let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
   sequelize.models = Object.fromEntries(capsEntries);
 
-  const { EntityProducts, EntityCategory, CharacteristicsProducts, EntityBrand, EntityUsers, EntityOrderDetail, EntityOrderItems, EntityPayment, EntityShoppingSession, EntityCartItem, EntityUserAddress, EntityReview, EntityDiscounts, EntityComments } = sequelize.models;
+  const { 
+    EntityProducts, 
+    EntityCategory, 
+    CharacteristicsProducts, 
+    EntityBrand, 
+    EntityUsers, 
+    EntityOrderDetail, 
+    EntityOrderItems, 
+    EntityPayment, 
+    EntityShoppingSession, 
+    EntityCartItem, 
+    EntityUserAddress, 
+    EntityReview, 
+    EntityDiscounts, 
+    EntityShipments, 
+    EntityComments, 
+    CouponUsage, 
+    Coupon } = sequelize.models;
 
 // Relacion Products - Category
 EntityProducts.belongsTo(EntityCategory, { foreignKey: 'idCategory' });
@@ -113,6 +136,17 @@ EntityComments.belongsTo(EntityUsers, { foreignKey: 'idUser' });
 // Relación Product/Comments - comments/product 1:M
 EntityProducts.hasMany(EntityComments, { foreignKey: 'idProduct' });
 EntityComments.belongsTo(EntityProducts, { foreignKey: 'idComments' });
+
+CouponUsage.belongsTo(Coupon, { foreignKey: 'couponId' });
+Coupon.hasMany(CouponUsage, { foreignKey: 'couponId' });
+
+// Relación EntityOrderDetail/EntityShipments
+EntityOrderDetail.belongsTo(EntityShipments, { foreignKey: 'idShipment' });
+EntityShipments.hasMany(EntityOrderDetail, { foreignKey: 'idShipment' });
+
+// Relación EntityOrderDetail/EntityUserAddress
+EntityOrderDetail.belongsTo(EntityUserAddress, { foreignKey: 'idUserAddress' });
+EntityUserAddress.hasMany(EntityOrderDetail, { foreignKey: 'idUserAddress' });
 
 module.exports = {
   ...sequelize.models, 
