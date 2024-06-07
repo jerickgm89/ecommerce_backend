@@ -71,13 +71,7 @@ const getPostalCodeServices = async (postalCode) => {
     try {
         const provinceByPostalCode = findProvinceByPostalCode(fullListPostalCode, postalCode)
         const findCodeProvince = provinceList.find( province => province.name === provinceByPostalCode)
-<<<<<<< HEAD
-        console.log('findCodeProvince ->   ', findCodeProvince)
-        // const shippingPrice = await fetchShippingPrice(postalCode, findCodeProvince?.code31662)
-        console.log('shippingPrice', shippingPrice.paqarClasico)
-=======
         const shippingPrice = await fetchShippingPrice(postalCode, findCodeProvince?.code31662)
->>>>>>> 066bf7efa23b82b443edc2708eb13b446bb46987
         return shippingPrice.paqarClasico
     } catch (error) {
         console.error('Error al llamar a getPostalCodeServices:', error);
