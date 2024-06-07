@@ -41,9 +41,9 @@ const createOrder = async (req, res) => {
       payer: body.payer,
       notification_url: "https://www.ecommercetech.software/payment/webhook",
       back_urls: {
-        success: "https://main.d1v4o3mt97tf62.amplifyapp.com/user/order",
-        pending: "https://cdn-icons-png.flaticon.com/512/3756/3756719.png",
-        failure: "https://main.d1v4o3mt97tf62.amplifyapp.com/",
+        success: "https://main.d1v4o3mt97tf62.amplifyapp.com/user/order?success=true",
+        pending: "https://main.d1v4o3mt97tf62.amplifyapp.com/contact",
+        failure: "https://main.d1v4o3mt97tf62.amplifyapp.com/contact",
       },
       external_reference: externalReference,
       metadata: {
