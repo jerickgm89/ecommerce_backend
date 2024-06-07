@@ -27,7 +27,7 @@ const formatedResponse = (info) => {
 } 
 const getProvincesServices = ( provincia, departamento ) => {
     try {
-        // departamento = departamento === "null" ? departamento : departamento?.toUpperCase();
+        departamento = departamento === "null" ? departamento : departamento?.toUpperCase();
         const barrio = []
         if( provincia && departamento ){
             const filterProvinceAndCity = fullListPostalCode[provincia][departamento]
