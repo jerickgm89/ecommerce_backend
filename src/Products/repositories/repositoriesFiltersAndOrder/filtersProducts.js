@@ -66,7 +66,7 @@ const filtersProducts = async (properties, limit, offset, order) => {
 
     if(category) {
         console.log('category original:', category); // Añadido para depuración
-        let categoryIds = Array.isArray(category) ? category : (typeof category === 'string' ? category.split(' ').map(categoryId => parseInt(categoryId)) : [category]);
+        let categoryIds = Array.isArray(category) ? category : (typeof category === 'string' ? category.split(',').map(categoryId => parseInt(categoryId)) : [category]);
         console.log('categoryIds:', categoryIds); // Añadido para depuración
         if(Array.isArray(categoryIds)) { 
             where.idCategory = {[Op.in]: categoryIds};
@@ -75,9 +75,9 @@ const filtersProducts = async (properties, limit, offset, order) => {
     }
     if(brand) {
         console.log('brand original:', brand); // Añadido para depuración
-        let brandIds = Array.isArray(brand) ? brand : (typeof brand === 'string' ? brand.split(' ').map(brandId => parseInt(brandId)) : [brand]);
-        console.log('brandIds:', brandIds); // Añadido para depuración
+        let brandIds = Array.isArray(brand) ? brand : (typeof brand === 'string' ? brand.split(',').map(brandId => parseInt(brandId)) : [brand]);
         include[0].where.idBrand = {[Op.in]: brandIds};
+        console.log('brandIds:', brandIds); // Añadido para depuración
     }
     const resultFilters = await EntityProducts.findAndCountAll({
         where,
