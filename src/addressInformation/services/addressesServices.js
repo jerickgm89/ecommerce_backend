@@ -102,7 +102,7 @@ const createAddressService = async ( idUser, emailUser, adressToCreate ) => {
                 email: emailUser
             }
             const [user, userWasCreated] = await logInUserServices(userInfo)
-            // idUser = user?.idUser
+            idUser = user?.idUser
         }
         // else userID = idUser
         const [addressInfoUser, createdUserAddress] = await createAddressUser(idUser, adressToCreate)
