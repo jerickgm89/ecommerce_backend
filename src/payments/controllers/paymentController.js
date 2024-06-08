@@ -12,7 +12,6 @@ const { EntityOrderItems,
   EntityShipments, 
   EntityUserAddress 
 } = require('../../db');
-const { json } = require('sequelize');
 
 mercadopago.configure({ access_token: MERCADOPAGO_API_KEY });   
 
@@ -37,12 +36,10 @@ const createOrder = async (req, res) => {
     lastCouponCode = body.coupon_code;
     lastIdUserAddress = body.id_user_address;
 
-    
-
     const result = await mercadopago.preferences.create({
       items: body.items,
       payer: body.payer,
-      notification_url: "https://www.ecommercetech.software/payment/webhook",
+      notification_url: "https://www.ecommercetech.software/payment/webhook",  
       back_urls: {
         success: "https://main.d1v4o3mt97tf62.amplifyapp.com/user/order?success=true",
         pending: "https://main.d1v4o3mt97tf62.amplifyapp.com/contact",
@@ -54,7 +51,7 @@ const createOrder = async (req, res) => {
         id_user_address: body.id_user_address 
       }
     });
-    // console.log('Preference created:', result.body);
+
     res.json(result.body);
   } catch (error) {
     console.error('Error creating order:', error.message);
