@@ -145,8 +145,8 @@ EntityOrderDetail.belongsTo(EntityShipments, { foreignKey: 'idShipment' });
 EntityShipments.hasMany(EntityOrderDetail, { foreignKey: 'idShipment' });
 
 // Relación EntityOrderDetail/EntityUserAddress
-EntityOrderDetail.belongsTo(EntityUserAddress, { foreignKey: 'idUserAddress' });
-EntityUserAddress.hasMany(EntityOrderDetail, { foreignKey: 'idUserAddress' });
+// EntityOrderDetail.belongsTo(EntityUserAddress, { foreignKey: 'idUserAddress' });
+// EntityUserAddress.hasMany(EntityOrderDetail, { foreignKey: 'idUserAddress' });
 
 module.exports = {
   ...sequelize.models, 
