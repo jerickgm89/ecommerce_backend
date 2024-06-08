@@ -34,7 +34,7 @@ const createOrder = async (req, res) => {
     const externalReference = body.payer.identification.number;
     lastPayerEmail = body.payer.email; 
     lastCouponCode = body.coupon_code;
-    lastIdUserAddress = body.id_user_address;
+    // lastIdUserAddress = body.id_user_address;
 
     const result = await mercadopago.preferences.create({
       items: body.items,
@@ -48,7 +48,7 @@ const createOrder = async (req, res) => {
       external_reference: externalReference,
       metadata: {
         coupon_code: body.coupon_code,
-        id_user_address: body.id_user_address 
+        // id_user_address: body.id_user_address 
       }
     });
 
@@ -102,7 +102,7 @@ const webhook = async (req, res) => {
 
       const payerEmail = lastPayerEmail;
       const couponCode = metadata ? metadata.coupon_code : null;
-      const idUserAddress = metadata ? metadata.id_user_address : null;
+      // const idUserAddress = metadata ? metadata.id_user_address : null;
       const payerName = payer.first_name || (additional_info && additional_info.payer && additional_info.payer.first_name) || 'Cliente';
 
       if (!payerEmail) {
@@ -118,10 +118,10 @@ const webhook = async (req, res) => {
         return res.sendStatus(404);
       }
 
-      const userAddress = await EntityUserAddress.findOne({ where: { idUserAddress: idUserAddress, idUser: user.idUser } });
-      if (!userAddress) {
-        return res.sendStatus(400);
-      }
+      // const userAddress = await EntityUserAddress.findOne({ where: { idUserAddress: idUserAddress, idUser: user.idUser } });
+      // if (!userAddress) {
+      //   return res.sendStatus(400);
+      // }
 
       let accountNumber = '';
       if (payment_method_id === 'visa' || payment_method_id === 'master') {

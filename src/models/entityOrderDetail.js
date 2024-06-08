@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
         },
         idUserAddress: {
             type: DataTypes.INTEGER,
-            allowNull: true,
+            // allowNull: true,
         },
         idShipment: {
             type: DataTypes.INTEGER,
