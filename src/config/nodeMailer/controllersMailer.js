@@ -2,19 +2,27 @@ const { transporter } = require('./nodeMailerConfig');
 require('dotenv').config();
 const { GMAIL } = process.env;
 
-const sendWelcomeEmail = async (email, given_name) => {
+const sendWelcomeEmail = async (email, given_name, ) => {
     const mailOptions = {
         from: GMAIL,
         to: email,
         subject: 'Registro de usuario en E-commerce Tech.',
         html: `
-        <h1>Bienvenido a E-commerce Tech, ${given_name}!</h1>
-        <h2>¡Gracias por registrarte en nuestra aplicación!</h2>
-        <p>Nos alegra tenerte con nosotros. Aquí en E-commerce Tech, nos dedicamos a brindarte la mejor experiencia de compra en línea.</p>
-        <p>Aprovecha nuestras ofertas exclusivas y descubre la amplia variedad de productos que tenemos para ti.</p>
-        <p>¡Esperamos que disfrutes de tu experiencia!</p>
-        <p>Atentamente,</p>
-        <p>El equipo de E-commerce Tech</p>
+        <div style="font-family: Arial, sans-serif;">
+            <h1>Bienvenido a E-commerce Tech, ${given_name}!</h1>
+            <h2>¡Gracias por registrarte en nuestra aplicación!</h2>
+            <p>Nos alegra tenerte con nosotros. Aquí en E-commerce Tech, nos dedicamos a brindarte la mejor experiencia de compra en línea.</p>
+            <p>Aprovecha nuestras ofertas exclusivas y descubre la amplia variedad de productos que tenemos para ti.</p>
+            <p>¡Esperamos que disfrutes de tu experiencia!</p>
+            <h3>Tu cupón de descuento</h3>
+            <div style="border: 1px dashed #ccc; padding: 20px; text-align: center; background-color: #f9f9f9;">
+                <p style="font-size: 18px;">Código de Cupón:</p>
+                <p style="font-size: 24px; font-weight: bold; color: #000;">AAAA-3333</p>
+            </div>
+            <p>Utiliza este cupón en tu próxima compra para obtener un descuento exclusivo.</p>
+            <p>Atentamente,</p>
+            <p>El equipo de E-commerce Tech</p>
+        </div>
         `
     };
     try {

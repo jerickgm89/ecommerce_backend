@@ -42,7 +42,7 @@ const createOrder = async (req, res) => {
     const result = await mercadopago.preferences.create({
       items: body.items,
       payer: body.payer,
-      notification_url: "https://www.ecommercetech.software/payment/webhook",
+      notification_url: "https://0ed4-152-203-34-160.ngrok-free.app/payment/webhook",  
       back_urls: {
         success: "https://main.d1v4o3mt97tf62.amplifyapp.com/user/order?success=true",
         pending: "https://main.d1v4o3mt97tf62.amplifyapp.com/contact",
@@ -54,7 +54,7 @@ const createOrder = async (req, res) => {
         id_user_address: body.id_user_address 
       }
     });
-    // console.log('Preference created:', result.body);
+
     res.json(result.body);
   } catch (error) {
     console.error('Error creating order:', error.message);
