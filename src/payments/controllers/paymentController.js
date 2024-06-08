@@ -12,6 +12,7 @@ const { EntityOrderItems,
   EntityShipments, 
   EntityUserAddress 
 } = require('../../db');
+const { json } = require('sequelize');
 
 mercadopago.configure({ access_token: MERCADOPAGO_API_KEY });   
 
@@ -35,6 +36,8 @@ const createOrder = async (req, res) => {
     lastPayerEmail = body.payer.email; 
     lastCouponCode = body.coupon_code;
     lastIdUserAddress = body.id_user_address;
+
+    
 
     const result = await mercadopago.preferences.create({
       items: body.items,
